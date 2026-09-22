@@ -4,8 +4,10 @@ import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { client } from "@/sanity/lib/client";
+
 interface ArticleData {
-  id: number;
+  id: string | number;
   category: string;
   tag: string;
   title: string;
@@ -114,8 +116,55 @@ export default function ArticleDetailPage({
 }) {
   const resolvedParams = use(params);
   const articleId = parseInt(resolvedParams.id, 10);
-  const article = articlesDatabase[articleId] || articlesDatabase[1];
+  const [sanityArticle, setSanityArticle] = useState<ArticleData | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchSanityArticle() {
+      try {
+        const doc = await client.fetch(
+          `*[_type == "article" && (_id == $id || slug.current == $id)][0]`,
+          { id: resolvedParams.id },
+          { useCdn: false }
+        );
+        if (doc) {
+          const extractedContent =
+            doc.content && Array.isArray(doc.content) && doc.content.length > 0
+              ? doc.content
+                  .map((block: any) =>
+                    typeof block === "string"
+                      ? block
+                      : block.children?.map((c: any) => c.text).join("") || ""
+                  )
+                  .filter(Boolean)
+              : doc.desc
+              ? doc.desc.split("\n\n").filter(Boolean)
+              : [doc.title];
+
+          setSanityArticle({
+            id: doc._id,
+            category: doc.category || "Medical Insights",
+            tag: doc.category || "Medical Insights",
+            title: doc.title,
+            readTime: doc.readTime
+              ? (doc.readTime.includes("min") ? doc.readTime : `${doc.readTime} min read`)
+              : "5 min read",
+            date: doc.date || "Sep 22, 2026",
+            desc: doc.desc || "",
+            author: doc.author || "Sayantan Pal",
+            content: extractedContent,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch article from Sanity:", err);
+      }
+    }
+    fetchSanityArticle();
+  }, [resolvedParams.id]);
+
+  const fallbackArticle = articlesDatabase[articleId] || articlesDatabase[1];
+  const article = sanityArticle || fallbackArticle;
+
 
   return (
     <div className="min-h-screen bg-[#0B0B0C] text-[#F8F8F8] relative overflow-hidden flex flex-col">

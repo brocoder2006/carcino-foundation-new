@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { client } from "@/sanity/lib/client";
+import { createSanityAttribute } from "@/sanity/lib/visualEditing";
+import { useLanguage } from "@/context/LanguageContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,8 +18,10 @@ interface ArticlesSectionProps {
 }
 
 export default function ArticlesSection({ isLightMode = false }: ArticlesSectionProps) {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("All");
-  const [hoveredArticleId, setHoveredArticleId] = useState<number | null>(null);
+  const [hoveredArticleId, setHoveredArticleId] = useState<string | number | null>(null);
+  const [sanityArticles, setSanityArticles] = useState<any[]>([]);
   const router = useRouter();
 
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -24,14 +29,14 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
   const cardsRef = useRef<HTMLDivElement>(null);
 
   const categories = [
-    "All",
-    "Medical Insights",
-    "Survivor Stories",
-    "Caregiver Guide",
-    "Wellness & Recovery",
+    t("art_cat_all"),
+    t("art_cat_medical"),
+    t("art_cat_survivor"),
+    t("art_cat_caregiver"),
+    t("art_cat_wellness"),
   ];
 
-  const allArticles = [
+  const defaultArticles = [
     {
       id: 1,
       category: "Medical Insights",
@@ -94,10 +99,55 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
     },
   ];
 
+  useEffect(() => {
+    async function fetchSanityArticles() {
+      try {
+        const docs = await client.fetch(
+          `*[_type == "article" && !(_id in path("drafts.**"))] | order(_createdAt desc)`,
+          {},
+          { useCdn: false }
+        );
+        if (docs && Array.isArray(docs)) {
+          const formatted = docs.map((doc: any) => ({
+            id: doc._id,
+            category: doc.category || "Medical Insights",
+            tag: doc.category || "Medical Insights",
+            title: doc.title || "Untitled Article",
+            readTime: doc.readTime
+              ? (doc.readTime.includes("min") ? doc.readTime : `${doc.readTime} min read`)
+              : "5 min read",
+            date: doc.date || "Sep 22, 2026",
+            desc: doc.desc || "",
+            author: doc.author || "Sayantan Pal",
+          }));
+          setSanityArticles(formatted);
+        }
+      } catch (err) {
+        console.error("Failed to fetch Sanity articles:", err);
+      }
+    }
+
+    fetchSanityArticles();
+
+    // Subscribe to live Sanity mutations to update the gallery instantly when published
+    const subscription = client
+      .listen(`*[_type == "article"]`)
+      .subscribe(() => {
+        fetchSanityArticles();
+      });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const allArticles = [...sanityArticles, ...defaultArticles];
+
   const filteredArticles =
     activeCategory === "All"
       ? allArticles
       : allArticles.filter((art) => art.category === activeCategory);
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -175,11 +225,11 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4 relative min-h-[180px] md:min-h-[220px]">
           <div className="flex flex-col md:flex-row items-center justify-center gap-3">
             <span className="font-winterSolace text-6xl md:text-[100px] leading-tight font-extrabold bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent">
-              Article
+              {t("art_title_1")}
             </span>
             <div className="py-2.5 md:py-4 px-6 md:px-12 rounded-[999px] bg-[#9DAE8B] shadow-lg flex items-center justify-center">
               <span className="text-[#0B0B0C] font-winterSolace text-4xl md:text-[80px] leading-none font-bold">
-                Gallery
+                {t("art_title_2")}
               </span>
             </div>
             <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F4F1E9]">
@@ -195,13 +245,11 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
             }`}
           >
-            Here's the latest collection of articles we offer, tailored to be
-            understandable by everyone, made with love and care by our Writing
-            Team.
+            {t("art_subtitle")}
           </p>
         </div>
 
-        {/* Category Pills */}
+        {/* Category Pills & Explore Button */}
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
           {categories.map((cat) => (
             <button
@@ -218,6 +266,15 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               {cat}
             </button>
           ))}
+          <Link
+            href="/articles"
+            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#CDA8E8] text-[#0B0B0C] hover:bg-[#b88ee0] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
+          >
+            <span>{t("btn_explore_articles")}</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </Link>
         </div>
       </div>
 
@@ -243,6 +300,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
             <div>
               <div className="flex items-center justify-between text-xs font-semibold mb-4">
                 <span
+                  data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "category") : undefined}
                   className={`py-1 px-3 rounded-full font-inter transition-colors ${
                     hoveredArticleId === art.id
                       ? "bg-[#C27AFF] text-white"
@@ -252,6 +310,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                   {art.tag}
                 </span>
                 <span
+                  data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "readTime") : undefined}
                   className={
                     hoveredArticleId === art.id
                       ? "text-purple-900 font-medium"
@@ -264,7 +323,8 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 </span>
               </div>
               <h3
-                className={`font-winterSolace text-xl font-bold mb-3 transition-colors ${
+                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "title") : undefined}
+                className={`font-googleSansFlex text-xl font-bold tracking-tight leading-snug mb-3 transition-colors ${
                   hoveredArticleId === art.id
                     ? "text-[#6B21A8]"
                     : isLightMode
@@ -275,6 +335,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 {art.title}
               </h3>
               <p
+                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "desc") : undefined}
                 className={`font-inter text-sm leading-relaxed mb-6 transition-colors ${
                   hoveredArticleId === art.id
                     ? "text-purple-950 font-medium"
@@ -294,6 +355,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               }`}
             >
               <span
+                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "author") : undefined}
                 className={`font-semibold ${
                   hoveredArticleId === art.id
                     ? "text-[#6B21A8]"
@@ -305,6 +367,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 {art.author}
               </span>
               <span
+                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "date") : undefined}
                 className={
                   hoveredArticleId === art.id
                     ? "text-purple-700"

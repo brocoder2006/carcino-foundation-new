@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { client } from "@/sanity/lib/client";
+import { createSanityAttribute } from "@/sanity/lib/visualEditing";
+import { useLanguage } from "@/context/LanguageContext";
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -24,18 +28,68 @@ interface Episode {
 }
 
 export default function PodcastSection({ isLightMode = false }: PodcastSectionProps) {
+  const { t } = useLanguage();
   const [activeVideoEpisode, setActiveVideoEpisode] = useState<Episode | null>(null);
+  const [sanityPodcasts, setSanityPodcasts] = useState<Episode[]>([]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function fetchSanityPodcasts() {
+      try {
+        const docs = await client.fetch(
+          `*[_type == "podcast" && !(_id in path("drafts.**"))] | order(_createdAt desc) {
+            _id,
+            code,
+            title,
+            desc,
+            cover,
+            videoUrl,
+            "coverImageUrl": coverImage.asset->url,
+            "videoFileUrl": videoFile.asset->url
+          }`,
+          {},
+          { useCdn: false }
+        );
+        if (docs && Array.isArray(docs)) {
+          const formatted = docs.map((doc: any) => ({
+            id: doc._id,
+            code: doc.code || "TCF PODCAST",
+            title: doc.title || "Untitled Episode",
+            desc: doc.desc || "",
+            cover: doc.coverImageUrl || doc.cover || "/Cover.png",
+            videoUrl: doc.videoFileUrl || doc.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            hasPlayIcon: true,
+          }));
+          setSanityPodcasts(formatted);
+        }
+      } catch (err) {
+        console.error("Failed to fetch Sanity podcasts:", err);
+      }
+    }
+
+    fetchSanityPodcasts();
+
+    const subscription = client
+      .listen(`*[_type == "podcast"]`)
+      .subscribe(() => {
+        fetchSanityPodcasts();
+      });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const episodes: Episode[] = [
     {
       id: "ep1",
       code: "TCF 001",
-      title: "Navigating Diagnosis",
-      desc: "A compassionate guide for the first 30 days after receiving a cancer diagnosis.",
+      title: t("pod_ep1_title"),
+      desc: t("pod_ep1_desc"),
       cover: "/Cover.png",
       hasPlayIcon: true,
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -43,8 +97,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     {
       id: "ep2",
       code: "TCF 002",
-      title: "Caregiver Burnout",
-      desc: "Practical strategies for caregivers to maintain their own mental and physical health.",
+      title: t("pod_ep2_title"),
+      desc: t("pod_ep2_desc"),
       cover: "/Cover(1).png",
       hasPlayIcon: true,
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
@@ -52,8 +106,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     {
       id: "ep3",
       code: "TCF 003",
-      title: "Survivorship 101",
-      desc: "Rebuilding life after treatment: finding new normals and managing long-term side effects.",
+      title: t("pod_ep3_title"),
+      desc: t("pod_ep3_desc"),
       cover: "/Cover(2).png",
       hasPlayIcon: true,
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
@@ -88,8 +142,17 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     },
   ];
 
+  const allEpisodes = [...sanityPodcasts, ...episodes];
+
   // Duplicate for seamless infinite loop marquee animation
-  const infiniteEpisodes = [...episodes, ...episodes];
+  const infiniteEpisodes = [...allEpisodes, ...allEpisodes];
+
+  const scrollCarousel = (direction: "prev" | "next") => {
+    if (trackRef.current) {
+      const scrollAmount = direction === "next" ? 340 : -340;
+      trackRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -152,13 +215,13 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         isLightMode ? "bg-[#F7F2FA] text-[#171717]" : "bg-[#050505] text-[#F8F8F8]"
       }`}
     >
-      {/* Center Aligned Title & Header Section */}
+      {/* Center Aligned Title, Subtitle & Navigation Buttons */}
       <div
         ref={headerRef}
-        className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-4 text-center"
+        className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
         <h2 className="font-winterSolace text-6xl md:text-[113px] leading-tight md:leading-[106.88px] bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent w-full text-center">
-          Podcast{" "}
+          {t("pod_title")}{" "}
         </h2>
         <div className="flex flex-col items-center justify-center w-full">
           <p
@@ -166,13 +229,61 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
               isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
             }`}
           >
-            Compassionate conversations on cancer support, patient stories,
-            caregiving, survivorship, and practical guidance.
+            {t("pod_subtitle")}
           </p>
+        </div>
+
+        {/* Navigation Control Buttons */}
+        <div className="flex items-center justify-center gap-4 pt-2 z-30">
+          <button
+            onClick={() => scrollCarousel("prev")}
+            aria-label="Previous podcasts"
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+              isLightMode
+                ? "bg-white/80 text-black border border-black/10 hover:bg-[#CDA8E8] shadow-md hover:scale-110 active:scale-95"
+                : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
+            }`}
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+
+          <button
+            onClick={() => scrollCarousel("next")}
+            aria-label="Next podcasts"
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+              isLightMode
+                ? "bg-white/80 text-black border border-black/10 hover:bg-[#CDA8E8] shadow-md hover:scale-110 active:scale-95"
+                : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
+            }`}
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Infinite Carousel Container */}
+      {/* Carousel Container */}
       <div
         ref={carouselRef}
         className="relative w-full max-w-full overflow-hidden py-4 group/carousel"
@@ -193,8 +304,11 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           }`}
         ></div>
 
-        {/* Marquee Track */}
-        <div className="animate-marquee flex items-start gap-6 px-3">
+        {/* Scrollable Marquee Track */}
+        <div
+          ref={trackRef}
+          className="animate-marquee flex items-start gap-6 px-3 overflow-x-auto scrollbar-none scroll-smooth"
+        >
           {infiniteEpisodes.map((ep, idx) => (
             <div
               key={`${ep.id}-${idx}`}
@@ -207,6 +321,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             >
               <div className="relative w-full h-[180px] rounded-2xl overflow-hidden">
                 <img
+                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "coverImage") : undefined}
                   src={ep.cover}
                   className="flex flex-col items-start rounded-2xl w-full h-[180px] object-cover overflow-hidden max-w-none transition-transform duration-500 group-hover:scale-105"
                   alt="Cover"
@@ -226,7 +341,10 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 </div>
               </div>
               <div className="flex justify-between items-start w-full">
-                <p className="text-[var(--color-violet-78,#CDA8E8)] font-googleSansFlex text-sm font-medium leading-5 w-fit">
+                <p
+                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "code") : undefined}
+                  className="text-[var(--color-violet-78,#CDA8E8)] font-googleSansFlex text-sm font-medium leading-5 w-fit"
+                >
                   {ep.code}
                 </p>
                 <button
@@ -255,6 +373,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 </button>
               </div>
               <p
+                data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
                 className={`font-inter text-3xl font-bold leading-[30px] w-full ${
                   isLightMode ? "text-[#171717]" : "text-[var(--color-surface,#FFF)]"
                 }`}
@@ -262,6 +381,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 {ep.title}
               </p>
               <p
+                data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "desc") : undefined}
                 className={`font-googleSansFlex text-lg font-light leading-[27px] w-full ${
                   ep.descClass
                     ? ep.descClass
@@ -352,6 +472,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     </section>
   );
 }
+
 
 
 

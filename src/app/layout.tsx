@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter, Roboto_Mono, Instrument_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import SanityVisualEditing from "@/components/SanityVisualEditing";
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-inter",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-instrument-serif",
 });
 
 const winterSolace = localFont({
@@ -36,6 +43,8 @@ export const metadata: Metadata = {
   description: "Carcino Foundation helps people navigate the emotional and practical realities of cancer.",
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: {
@@ -44,9 +53,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${winterSolace.variable} ${robotoMono.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable}`}
     >
-      <body className="antialiased min-h-screen bg-[#0B0B0C]">{children}</body>
+      <body className="antialiased min-h-screen bg-[#0B0B0C]">
+        <LanguageProvider>
+          {children}
+          <SanityVisualEditing />
+        </LanguageProvider>
+      </body>
     </html>
   );
 }
+
