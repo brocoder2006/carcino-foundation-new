@@ -10,20 +10,26 @@
     "typegen": "npx sanity @latest schema extract && npx sanity @latest typegen generate"
   },
   "dependencies": {
+    "@hugeicons/core-free-icons": "^4.3.5",
+    "@hugeicons/react": "^1.1.10",
     "@sanity/icons": "^3.8.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^3.99.0",
+    "@supabase/supabase-js": "^2.117.1",
     "gsap": "^3.15.0",
     "next": "16.3.5",
     "next-sanity": "^9.8.7",
+    "nodemailer": "^10.0.10",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sanity": "^3.99.0",
-    "styled-components": "^6.5.3"
+    "styled-components": "^6.5.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

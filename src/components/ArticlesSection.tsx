@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { client } from "@/sanity/lib/client";
 import { createSanityAttribute } from "@/sanity/lib/visualEditing";
 import { useLanguage } from "@/context/LanguageContext";
+import { articlesList } from "@/data/articlesData";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -36,68 +37,16 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
     t("art_cat_wellness"),
   ];
 
-  const defaultArticles = [
-    {
-      id: 1,
-      category: "Medical Insights",
-      tag: "Medical Insights",
-      title: "Understanding Carcinoma Types & Early Detection",
-      readTime: "5 min read",
-      date: "Sep 20, 2026",
-      desc: "A beginner-friendly breakdown of different carcinoma classifications, symptoms, and key screening protocols.",
-      author: "Dr. Sarah Jenkins",
-    },
-    {
-      id: 2,
-      category: "Survivor Stories",
-      tag: "Survivor Stories",
-      title: "Navigating Diagnosis With Mental Resilience",
-      readTime: "7 min read",
-      date: "Sep 18, 2026",
-      desc: "Practical strategies for patients and families to manage anxiety, grief, and build community strength.",
-      author: "Elena Rostova",
-    },
-    {
-      id: 3,
-      category: "Caregiver Guide",
-      tag: "Caregiver Guide",
-      title: "How Care Teams & Local Foundations Collaborate",
-      readTime: "4 min read",
-      date: "Sep 15, 2026",
-      desc: "Exploring how Carcino Foundation connects patients with local care teams for seamless support.",
-      author: "Marcus Vance",
-    },
-    {
-      id: 4,
-      category: "Medical Insights",
-      tag: "Medical Insights",
-      title: "Immunotherapy Breakthroughs in 2026: What You Need to Know",
-      readTime: "6 min read",
-      date: "Sep 12, 2026",
-      desc: "An accessible guide to targeted T-cell therapies, modern clinical trials, and personalized oncology.",
-      author: "Dr. Aris Thorne",
-    },
-    {
-      id: 5,
-      category: "Wellness & Recovery",
-      tag: "Wellness & Recovery",
-      title: "Nutrition & Integrative Care During Treatment",
-      readTime: "8 min read",
-      date: "Sep 10, 2026",
-      desc: "Evidence-backed dietary strategies, hydration practices, and holistic wellness rituals during chemo.",
-      author: "Sophia Lin, RD",
-    },
-    {
-      id: 6,
-      category: "Survivor Stories",
-      tag: "Survivor Stories",
-      title: "Life Beyond Remission: Finding Purpose & Renewed Vitality",
-      readTime: "6 min read",
-      date: "Sep 08, 2026",
-      desc: "Personal reflections on post-treatment transition, long-term health tracking, and peer mentorship.",
-      author: "David K. Miller",
-    },
-  ];
+  const defaultArticles = articlesList.map((art) => ({
+    id: art.id,
+    category: art.category,
+    tag: art.tag,
+    title: art.title,
+    readTime: art.readTime,
+    date: art.date,
+    desc: art.desc,
+    author: art.author,
+  }));
 
   useEffect(() => {
     async function fetchSanityArticles() {
@@ -151,17 +100,18 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header GSAP ScrollTrigger animation
+      // 1. Header ScrollTrigger Timeline
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current.children,
-          { opacity: 0, y: 50, scale: 0.95 },
+          { opacity: 0, y: 50, scale: 0.94, filter: "blur(8px)" },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1,
-            stagger: 0.15,
+            filter: "blur(0px)",
+            duration: 1.1,
+            stagger: 0.16,
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
@@ -172,18 +122,20 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         );
       }
 
-      // Cards Stagger GSAP ScrollTrigger animation
+      // 2. Cards Stagger ScrollTrigger Animation with 3D Perspective
       if (cardsRef.current) {
         gsap.fromTo(
           cardsRef.current.children,
-          { opacity: 0, y: 60, scale: 0.93 },
+          { opacity: 0, y: 70, scale: 0.9, rotateX: 12, filter: "blur(6px)" },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
-            stagger: 0.12,
-            ease: "back.out(1.3)",
+            rotateX: 0,
+            filter: "blur(0px)",
+            duration: 0.95,
+            stagger: 0.14,
+            ease: "back.out(1.4)",
             scrollTrigger: {
               trigger: cardsRef.current,
               start: "top 80%",
@@ -276,10 +228,10 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               onClick={() => setActiveCategory(cat)}
               className={`py-2 px-5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 cursor-pointer ${
                 activeCategory === cat
-                  ? "bg-[#9DAE8B] text-[#0B0B0C] shadow-md scale-105"
+                  ? "bg-[#F6C656] text-[#0B0B0C] shadow-md shadow-[#F6C656]/30 scale-105"
                   : isLightMode
-                  ? "bg-white/80 text-zinc-700 hover:bg-[#9DAE8B]/20 border border-black/5"
-                  : "bg-white/10 text-zinc-300 hover:bg-white/20 border border-white/10"
+                  ? "bg-white/80 text-zinc-700 hover:bg-[#F6C656]/20 hover:border-[#F6C656] hover:text-[#0B0B0C] border border-black/5"
+                  : "bg-white/10 text-zinc-300 hover:bg-[#F6C656]/20 hover:border-[#F6C656] hover:text-[#F6C656] border border-white/10"
               }`}
             >
               {cat}
@@ -287,7 +239,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           ))}
           <Link
             href="/articles"
-            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#CDA8E8] text-[#0B0B0C] hover:bg-[#b88ee0] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
+            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#CDA8E8] text-[#0B0B0C] hover:bg-[#F6C656] hover:text-[#0B0B0C] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
           >
             <span>{t("btn_explore_articles")}</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -310,10 +262,10 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
             onMouseLeave={() => setHoveredArticleId(null)}
             className={`flex flex-col justify-between p-8 rounded-[32px] transition-all duration-500 group cursor-pointer ${
               hoveredArticleId === art.id
-                ? "bg-white/90 border-[#C27AFF] shadow-[0_20px_50px_rgba(194,122,255,0.45)] -translate-y-2 scale-[1.02]"
+                ? "bg-[#181124] border-[#F6C656] shadow-[0_20px_50px_rgba(246,198,86,0.35)] -translate-y-2 scale-[1.02]"
                 : isLightMode
-                ? "bg-white/75 backdrop-blur-md border border-black/5 shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
-                : "glass-card"
+                ? "bg-white/75 backdrop-blur-md border border-black/5 hover:border-[#F6C656] shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+                : "glass-card hover:border-[#F6C656]"
             }`}
           >
             <div>
@@ -322,7 +274,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                   data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "category") : undefined}
                   className={`py-1 px-3 rounded-full font-inter transition-colors ${
                     hoveredArticleId === art.id
-                      ? "bg-[#C27AFF] text-white"
+                      ? "bg-[#F6C656] text-[#0B0B0C] font-bold"
                       : "bg-[#9DAE8B]/20 text-[#9DAE8B]"
                   }`}
                 >
@@ -332,7 +284,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                   data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "readTime") : undefined}
                   className={
                     hoveredArticleId === art.id
-                      ? "text-purple-900 font-medium"
+                      ? "text-[#F6C656] font-medium"
                       : isLightMode
                       ? "text-zinc-500"
                       : "text-zinc-400"
@@ -345,7 +297,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "title") : undefined}
                 className={`font-googleSansFlex text-xl font-bold tracking-tight leading-snug mb-3 transition-colors ${
                   hoveredArticleId === art.id
-                    ? "text-[#6B21A8]"
+                    ? "text-[#F6C656]"
                     : isLightMode
                     ? "text-[#171717]"
                     : "text-white"

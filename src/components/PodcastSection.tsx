@@ -25,6 +25,8 @@ interface Episode {
   hasPlayIcon?: boolean;
   descClass?: string;
   videoUrl?: string;
+  embedUrl?: string;
+  externalUrl?: string;
 }
 
 export default function PodcastSection({ isLightMode = false }: PodcastSectionProps) {
@@ -87,58 +89,36 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
   const episodes: Episode[] = [
     {
       id: "ep1",
-      code: "TCF 001",
+      code: "EPISODE 01",
       title: t("pod_ep1_title"),
       desc: t("pod_ep1_desc"),
-      cover: "/Cover.png",
+      cover: "/podcasts/episode_1_jyotirup_goswami.jpg",
       hasPlayIcon: true,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      videoUrl: "https://www.youtube.com/watch?v=6WDD_M63yHE",
+      embedUrl: "https://www.youtube.com/embed/6WDD_M63yHE?si=FW4e9qOKvOv0boR5&autoplay=1",
+      externalUrl: "https://www.youtube.com/watch?v=6WDD_M63yHE",
     },
     {
       id: "ep2",
-      code: "TCF 002",
+      code: "EPISODE 02",
       title: t("pod_ep2_title"),
       desc: t("pod_ep2_desc"),
-      cover: "/Cover(1).png",
+      cover: "/podcasts/episode_2_soirindhri_banerjee.jpg",
       hasPlayIcon: true,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      videoUrl: "https://www.youtube.com/watch?v=ySNu4Mq91HQ",
+      embedUrl: "https://www.youtube.com/embed/ySNu4Mq91HQ?si=_P_zIZ_Ip6D2CV92&autoplay=1",
+      externalUrl: "https://www.youtube.com/watch?v=ySNu4Mq91HQ",
     },
     {
       id: "ep3",
-      code: "TCF 003",
+      code: "EPISODE 03",
       title: t("pod_ep3_title"),
       desc: t("pod_ep3_desc"),
-      cover: "/Cover(2).png",
+      cover: "/podcasts/episode_3_amelia_corl.jpg",
       hasPlayIcon: true,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    },
-    {
-      id: "ep4",
-      code: "TCF 001",
-      title: "Navigating Diagnosis",
-      desc: "A compassionate guide for the first 30 days after receiving a cancer diagnosis.",
-      cover: "/Cover(3).png",
-      hasPlayIcon: true,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    },
-    {
-      id: "ep5",
-      code: "TCF 002",
-      title: "Caregiver Burnout",
-      desc: "Practical strategies for caregivers to maintain their own mental and physical health.",
-      cover: "/Cover(4).png",
-      hasPlayIcon: true,
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    },
-    {
-      id: "ep6",
-      code: "EP 03",
-      title: "Survivorship 101",
-      desc: "Rebuilding life after treatment: finding new normals and managing long-term side effects.",
-      cover: "/Cover(5).png",
-      hasPlayIcon: true,
-      descClass: "text-[#39C69C]",
-      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoylines.mp4",
+      videoUrl: "https://www.youtube.com/watch?v=q_Uzxgolr-A",
+      embedUrl: "https://www.youtube.com/embed/q_Uzxgolr-A?si=eiFiVQiYjTa4MqYf&autoplay=1",
+      externalUrl: "https://www.youtube.com/watch?v=q_Uzxgolr-A",
     },
   ];
 
@@ -146,6 +126,14 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
 
   // Duplicate for seamless infinite loop marquee animation
   const infiniteEpisodes = [...allEpisodes, ...allEpisodes];
+
+  const handleEpisodeClick = (ep: Episode) => {
+    if (ep.externalUrl) {
+      window.open(ep.externalUrl, "_blank");
+    } else {
+      setActiveVideoEpisode(ep);
+    }
+  };
 
   const scrollCarousel = (direction: "prev" | "next") => {
     if (trackRef.current) {
@@ -166,15 +154,18 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // 1. Header Reveal Timeline
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current.children,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: 45, scale: 0.96, filter: "blur(8px)" },
           {
             opacity: 1,
             y: 0,
-            duration: 1,
-            stagger: 0.15,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.1,
+            stagger: 0.16,
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
@@ -185,15 +176,20 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         );
       }
 
-      if (carouselRef.current) {
+      // 2. Carousel Track & Staggered Cards Reveal
+      if (carouselRef.current && trackRef.current) {
+        const cards = Array.from(trackRef.current.children) as HTMLElement[];
+
         gsap.fromTo(
           carouselRef.current,
-          { opacity: 0, y: 50 },
+          { opacity: 0, y: 60, scale: 0.95, filter: "blur(10px)" },
           {
             opacity: 1,
             y: 0,
-            duration: 0.9,
-            ease: "power2.out",
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1,
+            ease: "power4.out",
             scrollTrigger: {
               trigger: carouselRef.current,
               start: "top 85%",
@@ -201,6 +197,36 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             },
           }
         );
+
+        gsap.fromTo(
+          cards,
+          { opacity: 0, x: 50, scale: 0.94, filter: "blur(6px)" },
+          {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.85,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: trackRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        cards.forEach((card) => {
+          const handleMouseEnter = () => {
+            gsap.to(card, { y: -8, scale: 1.02, duration: 0.35, ease: "power2.out" });
+          };
+          const handleMouseLeave = () => {
+            gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: "power3.out" });
+          };
+          card.addEventListener("mouseenter", handleMouseEnter);
+          card.addEventListener("mouseleave", handleMouseLeave);
+        });
       }
     }, sectionRef);
 
@@ -214,7 +240,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${
         isLightMode
           ? "bg-gradient-to-b from-[#F7F2FA] via-[#FFF1F2]/60 to-[#F7F2FA] text-[#171717]"
-          : "bg-gradient-to-b from-[#050505] via-[#210912] to-[#050505] text-[#F8F8F8]"
+          : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
       }`}
     >
       {/* Section-Specific Ambient Gradient Blur Orbs (Sunset Crimson & Rose Amber Theme) */}
@@ -244,7 +270,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         <div className="flex flex-col items-center justify-center w-full">
           <p
             className={`font-googleSansFlex text-base md:text-lg leading-7 w-full max-w-[480px] text-center ${
-              isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+              isLightMode ? "text-[#581C87]" : "text-[#E9CDF8]"
             }`}
           >
             {t("pod_subtitle")}
@@ -330,19 +356,19 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           {infiniteEpisodes.map((ep, idx) => (
             <div
               key={`${ep.id}-${idx}`}
-              onClick={() => setActiveVideoEpisode(ep)}
+              onClick={() => handleEpisodeClick(ep)}
               className={`flex p-6 flex-col items-start gap-4 rounded-3xl border transition-all duration-300 w-80 shrink-0 group cursor-pointer ${
                 isLightMode
                   ? "bg-white/80 border-black/10 shadow-lg hover:border-[#CDA8E8] hover:shadow-purple-200 hover:-translate-y-2"
                   : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/60 hover:shadow-[0_12px_35px_rgba(205,168,232,0.18)] hover:-translate-y-2"
               }`}
             >
-              <div className="relative w-full h-[180px] rounded-2xl overflow-hidden">
+              <div className="relative w-full h-[340px] rounded-2xl overflow-hidden">
                 <img
                   data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "coverImage") : undefined}
                   src={ep.cover}
-                  className="flex flex-col items-start rounded-2xl w-full h-[180px] object-cover overflow-hidden max-w-none transition-transform duration-500 group-hover:scale-105"
-                  alt="Cover"
+                  className="w-full h-full object-cover overflow-hidden transition-transform duration-500 group-hover:scale-105"
+                  alt={ep.title}
                 />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -368,7 +394,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setActiveVideoEpisode(ep);
+                    handleEpisodeClick(ep);
                   }}
                   aria-label={`Play ${ep.title}`}
                   className="cursor-pointer hover:scale-110 transition-transform"
@@ -458,16 +484,30 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
 
             {/* Video Player */}
             <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
-              <video
-                src={
-                  activeVideoEpisode.videoUrl ||
-                  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                }
-                controls
-                autoPlay
-                poster={activeVideoEpisode.cover}
-                className="w-full h-full object-cover"
-              />
+              {activeVideoEpisode.embedUrl ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={activeVideoEpisode.embedUrl}
+                  title={activeVideoEpisode.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              ) : (
+                <video
+                  src={
+                    activeVideoEpisode.videoUrl ||
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  }
+                  controls
+                  autoPlay
+                  poster={activeVideoEpisode.cover}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
 
             {/* Modal Footer Description */}
@@ -476,6 +516,16 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 {activeVideoEpisode.desc}
               </p>
               <div className="flex items-center gap-3 shrink-0">
+                {activeVideoEpisode.externalUrl && (
+                  <a
+                    href={activeVideoEpisode.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-5 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <span>Watch on YouTube ↗</span>
+                  </a>
+                )}
                 <button
                   onClick={() => setActiveVideoEpisode(null)}
                   className="py-2.5 px-6 rounded-full glass-btn-primary text-xs font-bold text-[#0C2822] cursor-pointer"

@@ -12,8 +12,8 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
   return (
     <footer
       className={`w-full py-16 md:py-24 px-6 md:px-[84px] border-t transition-colors duration-500 relative z-10 overflow-hidden ${isLightMode
-          ? "bg-gradient-to-b from-[#F8F4FA] via-[#F5E6FF]/70 to-[#F8F4FA] border-purple-200/60 text-[#171717]"
-          : "bg-gradient-to-b from-[#050505] via-[#12071a] to-[#050505] border-white/10 text-[#F8F8F8]"
+        ? "bg-gradient-to-b from-[#F8F4FA] via-[#F5E6FF]/70 to-[#F8F4FA] border-purple-200/60 text-[#171717]"
+        : "bg-gradient-to-b from-[#050505] via-[#12071a] to-[#050505] border-white/10 text-[#F8F8F8]"
         }`}
     >
       {/* Section-Specific Glow Refraction & Blur Orbs (Deep Plum Theme) */}
@@ -62,7 +62,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               </div>
             </div>
             <h2
-              className={`font-winterSolace text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-tight max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#B185E5]"
+              className={`font-winterSolace text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-tight max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#9875C1]"
                 }`}
             >
               The Carcino Foundation

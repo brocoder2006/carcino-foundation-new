@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import gsap from "gsap";
 import { client } from "@/sanity/lib/client";
 import { useLanguage } from "@/context/LanguageContext";
+import EditorialMenuPopover from "@/components/EditorialMenuPopover";
+import { articlesList } from "@/data/articlesData";
 
 export default function ArticlesGalleryPage() {
   const { lang, toggleLang, t } = useLanguage();
@@ -21,62 +24,15 @@ export default function ArticlesGalleryPage() {
     "Survivorship",
   ];
 
-  const defaultArticles = [
-    {
-      id: "1",
-      category: "CAREGIVING",
-      tag: "CAREGIVING",
-      readTime: "6 MIN READ",
-      title: "Understanding and Countering Caregiver Burnout",
-      desc: "Practical strategies for maintaining mental stamina and physical well-being while supporting a loved one through intensive treatment paths.",
-      cover: "/Cover.png",
-    },
-    {
-      id: "2",
-      category: "SURVIVORSHIP",
-      tag: "SURVIVORSHIP",
-      readTime: "8 MIN READ",
-      title: "Survivorship 101: Crafting Your New Normal",
-      desc: "Rebuilding your physical routine and clinical tracking schedules after completing primary oncological treatment phases.",
-      cover: "/Cover(1).png",
-    },
-    {
-      id: "3",
-      category: "TREATMENT TECH",
-      tag: "TREATMENT TECH",
-      readTime: "5 MIN READ",
-      title: "Demystifying Modern Clinical Pathway Navigators",
-      desc: "How digital clinical path maps are streamlining patient timelines and lowering anxiety across regional healthcare centers.",
-      cover: "/Cover(2).png",
-    },
-    {
-      id: "4",
-      category: "CLINICAL CARE",
-      tag: "CLINICAL CARE",
-      readTime: "12 MIN READ",
-      title: "Verification Standards in Oncology Networks",
-      desc: "An inside look at how clinicians are vetted and clinical data is reviewed prior to publication in patient databases.",
-      cover: "/Cover(3).png",
-    },
-    {
-      id: "5",
-      category: "COMMUNITY",
-      tag: "COMMUNITY",
-      readTime: "7 MIN READ",
-      title: "The Architecture of Supportive Patient Spaces",
-      desc: "Exploring the psychological benefits of verified peer-to-peer connection circles during chronic care management.",
-      cover: "/Cover(4).png",
-    },
-    {
-      id: "6",
-      category: "CLINICAL CARE",
-      tag: "CLINICAL CARE",
-      readTime: "10 MIN READ",
-      title: "Biomarker Advancements in Carcinoid Diagnosis",
-      desc: "Understanding recent laboratory breakthroughs in tracking hormone secreting tumors with high sensitivity and specificity.",
-      cover: "/Cover(5).png",
-    },
-  ];
+  const defaultArticles = articlesList.map(art => ({
+    id: art.id,
+    category: art.category.toUpperCase(),
+    tag: art.tag.toUpperCase(),
+    readTime: art.readTime.toUpperCase(),
+    title: art.title,
+    desc: art.desc,
+    cover: art.cover,
+  }));
 
   useEffect(() => {
     async function fetchSanityArticles() {
@@ -104,6 +60,98 @@ export default function ArticlesGalleryPage() {
     }
 
     fetchSanityArticles();
+  }, []);
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const heroCardRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      if (headerRef.current) {
+        tl.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 45, filter: "blur(8px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            stagger: 0.14,
+          }
+        );
+      }
+
+      if (heroCardRef.current) {
+        tl.fromTo(
+          heroCardRef.current,
+          { opacity: 0, y: 50, scale: 0.96, filter: "blur(10px)" },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.1,
+          },
+          "-=0.4"
+        );
+      }
+
+      if (gridRef.current) {
+        const cards = Array.from(gridRef.current.children) as HTMLElement[];
+
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 50, scale: 0.93, filter: "blur(6px)" },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        cards.forEach((card) => {
+          const handleMouseMove = (e: MouseEvent) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            gsap.to(card, {
+              rotateX: -y / 20,
+              rotateY: x / 20,
+              scale: 1.02,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          };
+
+          const handleMouseLeave = () => {
+            gsap.to(card, {
+              rotateX: 0,
+              rotateY: 0,
+              scale: 1,
+              duration: 0.5,
+              ease: "power3.out",
+            });
+          };
+
+          card.addEventListener("mousemove", handleMouseMove);
+          card.addEventListener("mouseleave", handleMouseLeave);
+        });
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   const allArticlesList = [...sanityArticles, ...defaultArticles];
@@ -135,16 +183,16 @@ export default function ArticlesGalleryPage() {
   });
 
   return (
-    <div className="flex flex-col items-start bg-gradient-to-b from-[#050505] via-[#091612] via-[#12081f] to-[#050505] min-w-full min-h-screen text-white overflow-x-hidden relative">
+    <div className="flex flex-col items-start bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#160E21] min-w-full min-h-screen text-white overflow-x-hidden relative">
       {/* Specular Ambient Gradient Blur Orbs */}
       <div className="absolute top-10 left-10 w-[600px] h-[600px] bg-[#39C69C]/20 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-[35%] right-0 w-[650px] h-[650px] bg-[#CDA8E8]/18 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-[70%] left-10 w-[550px] h-[550px] bg-[#C9A867]/15 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Top Navbar */}
-      <header className="flex py-6 px-6 md:px-20 justify-between items-center border-b border-b-[rgba(255,255,255,0.10)] bg-[#050505]/80 backdrop-blur-md w-full z-20 sticky top-0">
+      <header className="flex py-3 px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0">
         <Link href="/" className="flex items-center gap-3 w-fit group cursor-pointer">
-          <div className="rounded-lg bg-[#CDA8E8] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
+          <div className="rounded-lg bg-[#9875C1] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
             TCF
           </div>
           <p className="text-[#FFF] font-instrumentSerif text-2xl w-fit tracking-tight">
@@ -246,9 +294,9 @@ export default function ArticlesGalleryPage() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex p-6 md:p-20 flex-col items-start gap-12 w-full max-w-7xl mx-auto">
+      <main className="flex pt-24 pb-6 px-6 md:pt-28 md:pb-20 md:px-20 flex-col items-start gap-12 w-full max-w-7xl mx-auto">
         {/* Banner Title */}
-        <div className="flex flex-col items-center gap-6 w-full text-center">
+        <div ref={headerRef} className="flex flex-col items-center gap-6 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible">
             <span className="font-winterSolace text-6xl md:text-[112px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.25em] pt-4 pb-2 px-2 inline-block">
               Article
@@ -360,8 +408,8 @@ export default function ArticlesGalleryPage() {
               onClick={() => setActiveCategory(cat)}
               className={`py-2.5 px-5 rounded-[99px] font-inter text-sm font-medium transition-all duration-300 cursor-pointer ${
                 activeCategory === cat
-                  ? "bg-[#CDA8E8] text-[#050505] font-semibold shadow-md scale-105"
-                  : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#D5B0FF] hover:border-[#CDA8E8]/40 hover:text-white"
+                  ? "bg-[#F6C656] text-[#050505] font-semibold shadow-md shadow-[#F6C656]/30 scale-105"
+                  : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#E9CDF8] hover:border-[#F6C656] hover:text-[#F6C656] hover:bg-[#F6C656]/10"
               }`}
             >
               {cat}
@@ -371,7 +419,7 @@ export default function ArticlesGalleryPage() {
 
         {/* Featured Study Hero Card (visible when no search query or matches search query) */}
         {!activeSearchQuery && activeCategory === "All Insights" && (
-          <div className="flex flex-col lg:flex-row items-center rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[480px] overflow-hidden group hover:border-[#CDA8E8]/40 transition-colors">
+          <div ref={heroCardRef} className="flex flex-col lg:flex-row items-center rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[480px] overflow-hidden group hover:border-[#F6C656] transition-colors">
             <div className="w-full lg:w-1/2 h-64 lg:h-full relative overflow-hidden shrink-0">
               <img
                 src="/Featuredimage.png"
@@ -381,7 +429,7 @@ export default function ArticlesGalleryPage() {
             </div>
             <div className="flex p-8 md:p-12 flex-col justify-center items-start gap-6 w-full lg:w-1/2">
               <div className="flex items-center gap-3 w-fit">
-                <span className="text-[#CDA8E8] font-inter text-xs font-bold tracking-wider">
+                <span className="text-[#F6C656] font-inter text-xs font-bold tracking-wider">
                   FEATURED STUDY
                 </span>
                 <div className="rounded-full bg-[#ACACAC] w-1.5 h-1.5"></div>
@@ -389,7 +437,7 @@ export default function ArticlesGalleryPage() {
                   10 MIN READ
                 </span>
               </div>
-              <h2 className="text-[#FFF] font-instrumentSerif text-3xl md:text-[40px] leading-[1.2em] w-full group-hover:text-[#CDA8E8] transition-colors">
+              <h2 className="text-[#FFF] font-instrumentSerif text-3xl md:text-[40px] leading-[1.2em] w-full group-hover:text-[#F6C656] transition-colors">
                 The First 30 Days: A Clinical Roadmap for Carcinoid Diagnosis
               </h2>
               <p className="text-[#D5B0FF] font-inter text-sm md:text-[15px] leading-[1.6em] w-full">
@@ -423,7 +471,7 @@ export default function ArticlesGalleryPage() {
               <Link
                 key={art.id}
                 href={`/articles/${art.id}`}
-                className="flex p-6 flex-col items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full transition-all duration-400 group hover:border-[#CDA8E8]/50 hover:shadow-[0_15px_35px_rgba(205,168,232,0.15)] hover:-translate-y-1.5 cursor-pointer"
+                className="flex p-6 flex-col items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full transition-all duration-400 group hover:border-[#F6C656] hover:shadow-[0_15px_35px_rgba(246,198,86,0.25)] hover:-translate-y-1.5 cursor-pointer"
               >
                 <div className="w-full h-[220px] rounded-2xl overflow-hidden relative">
                   <img
@@ -433,14 +481,14 @@ export default function ArticlesGalleryPage() {
                   />
                 </div>
                 <div className="flex justify-between items-center w-full">
-                  <span className="text-[#CDA8E8] font-inter text-xs font-semibold tracking-wider">
+                  <span className="text-[#F6C656] font-inter text-xs font-semibold tracking-wider">
                     {art.tag}
                   </span>
                   <span className="text-[#ACACAC] font-inter text-xs">
                     {art.readTime}
                   </span>
                 </div>
-                <h3 className="line-clamp-2 overflow-hidden text-[#FFF] font-instrumentSerif text-2xl leading-[1.3em] w-full group-hover:text-[#CDA8E8] transition-colors">
+                <h3 className="line-clamp-2 overflow-hidden text-[#FFF] font-instrumentSerif text-2xl leading-[1.3em] w-full group-hover:text-[#F6C656] transition-colors">
                   {art.title}
                 </h3>
                 <p className="line-clamp-3 overflow-hidden text-[#D5B0FF] font-inter text-sm leading-relaxed w-full">

@@ -127,15 +127,17 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // 1. Header Reveal
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current.children,
-          { opacity: 0, y: 45 },
+          { opacity: 0, y: 50, filter: "blur(8px)" },
           {
             opacity: 1,
             y: 0,
-            duration: 0.95,
-            stagger: 0.15,
+            filter: "blur(0px)",
+            duration: 1.05,
+            stagger: 0.16,
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
@@ -146,17 +148,22 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
         );
       }
 
+      // 2. Feature Cards Staggered 3D Reveal & Tilt
       if (cardsRef.current) {
+        const cards = Array.from(cardsRef.current.children) as HTMLElement[];
+
         gsap.fromTo(
-          cardsRef.current.children,
-          { opacity: 0, y: 55, scale: 0.94 },
+          cards,
+          { opacity: 0, y: 65, scale: 0.92, rotateY: -8, filter: "blur(6px)" },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
-            stagger: 0.12,
-            ease: "back.out(1.2)",
+            rotateY: 0,
+            filter: "blur(0px)",
+            duration: 0.95,
+            stagger: 0.14,
+            ease: "back.out(1.4)",
             scrollTrigger: {
               trigger: cardsRef.current,
               start: "top 80%",
@@ -164,6 +171,34 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
             },
           }
         );
+
+        cards.forEach((card) => {
+          const handleMouseMove = (e: MouseEvent) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            gsap.to(card, {
+              rotateX: -y / 18,
+              rotateY: x / 18,
+              scale: 1.02,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          };
+
+          const handleMouseLeave = () => {
+            gsap.to(card, {
+              rotateX: 0,
+              rotateY: 0,
+              scale: 1,
+              duration: 0.5,
+              ease: "power3.out",
+            });
+          };
+
+          card.addEventListener("mousemove", handleMouseMove);
+          card.addEventListener("mouseleave", handleMouseLeave);
+        });
       }
     }, sectionRef);
 
@@ -177,7 +212,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       className={`w-full py-20 md:py-24 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
           ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
-          : "bg-gradient-to-b from-[#050505] via-[#160926] to-[#050505] text-[#F8F8F8]"
+          : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#160E21] text-[#F8F8F8]"
       }`}
     >
       {/* Section-Specific Ambient Gradient Blur Orbs (Deep Violet & Amethyst Theme) */}
@@ -204,7 +239,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
         <div className="flex flex-col items-center w-full">
           <p
             className={`font-googleSansFlex text-base md:text-lg font-light leading-[27px] w-full max-w-[640px] text-center tracking-[0.01em] ${
-              isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+              isLightMode ? "text-[#581C87]" : "text-[#E9CDF8]"
             }`}
           >
             {t("feat_subtitle")}
@@ -259,7 +294,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
               </p>
               <p
                 className={`font-googleSansFlex text-sm font-light leading-[21px] w-full tracking-[0.0129em] ${
-                  isLightMode ? "text-purple-900" : "text-[#D5B0FF]"
+                  isLightMode ? "text-purple-900" : "text-[#E9CDF8]"
                 }`}
               >
                 {item.desc}

@@ -24,12 +24,12 @@ const translations: Record<Language, Record<string, string>> = {
     btn_view_podcasts: "View podcasts",
 
     // Hero
-    hero_headline_1: "Breaking Down",
-    hero_headline_cancer: "Cancer",
-    hero_headline_2: "for",
-    hero_headline_everyone: "Everyone",
-    hero_headline_3: "with pride.",
-    hero_desc: "Carcino Foundation helps people navigate the emotional and practical realities of cancer. We work alongside local care teams and community organizations so support is easier to find and simpler to use.",
+    hero_headline_1: "Know the Why.",
+    hero_headline_cancer: "Find the Gaps.",
+    hero_headline_2: "Change the System.",
+    hero_headline_everyone: "",
+    hero_headline_3: "",
+    hero_desc: "From rural cancer care and veterinary oncology to cancer literacy for better detection and outcomes, we turn knowledge into action.",
 
     // Articles Section
     art_title_1: "Article",
@@ -61,12 +61,12 @@ const translations: Record<Language, Record<string, string>> = {
     // Podcast Section
     pod_title: "Podcast",
     pod_subtitle: "Compassionate conversations on cancer support, patient stories, caregiving, survivorship, and practical guidance.",
-    pod_ep1_title: "Navigating Diagnosis",
-    pod_ep1_desc: "A compassionate guide for the first 30 days after receiving a cancer diagnosis.",
-    pod_ep2_title: "Caregiver Burnout",
-    pod_ep2_desc: "Practical strategies for caregivers to maintain their own mental and physical health.",
-    pod_ep3_title: "Survivorship 101",
-    pod_ep3_desc: "Rebuilding life after treatment: finding new normals and managing long-term side effects.",
+    pod_ep1_title: "Ft. Dr. Jyotirup Goswami",
+    pod_ep1_desc: "Insights into Radiation Oncology & Advanced Tumor Therapeutics with Dr. Jyotirup Goswami.",
+    pod_ep2_title: "Ft. Dr. Soirindhri Banerjee",
+    pod_ep2_desc: "Clinical Care & Patient Advocacy Pathways with Dr. Soirindhri Banerjee.",
+    pod_ep3_title: "Ft. Amelia Corl",
+    pod_ep3_desc: "Youth Cancer Leadership & Community Empowerment with Amelia Corl.",
 
     // Footer
     foot_brand: "THE CARCINO FOUNDATION",
@@ -82,6 +82,11 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_title: "Clinical clarity delivered to your inbox",
     gal_sub_desc: "Stay connected with verified clinical insights, caregiver support strategies, and inspiring survivor stories.",
     gal_sub_btn: "Subscribe",
+
+    // Vision / Mission Section
+    vis_our: "Our",
+    vis_vision: "Mission",
+    vis_desc: "Empowering every patient, caregiver, and clinical ally with compassionate resources and clear pathways to demystify carcinoid care and inspire hope.",
   },
   ES: {
     // Navigation
@@ -100,7 +105,7 @@ const translations: Record<Language, Record<string, string>> = {
     hero_headline_2: "para",
     hero_headline_everyone: "Todos",
     hero_headline_3: "con orgullo.",
-    hero_desc: "Carcino Foundation ayuda a las personas a navegar las realidades emocionales y prácticas del cáncer. Trabajamos junto a equipos de atención local y organizaciones comunitarias para que el apoyo sea más fácil de encontrar y simple de usar.",
+    hero_desc: "Desde la atención del cáncer en zonas rurales y la oncología veterinaria hasta la alfabetización sobre el cáncer para una mejor detección y resultados, transformamos el conocimiento en acción.",
 
     // Articles Section
     art_title_1: "Galería de",
@@ -132,12 +137,12 @@ const translations: Record<Language, Record<string, string>> = {
     // Podcast Section
     pod_title: "Podcast",
     pod_subtitle: "Conversaciones compasivas sobre apoyo al cáncer, historias de pacientes, cuidado, supervivencia y orientación práctica.",
-    pod_ep1_title: "Navegando el Diagnóstico",
-    pod_ep1_desc: "Una guía compasiva para los primeros 30 días después de recibir un diagnóstico de cáncer.",
-    pod_ep2_title: "Agotamiento del Cuidador",
-    pod_ep2_desc: "Estrategias prácticas para que los cuidadores mantengan su propia salud mental y física.",
-    pod_ep3_title: "Supervivencia 101",
-    pod_ep3_desc: "Reconstruyendo la vida después del tratamiento: encontrar nuevas normalidades y manejar efectos a largo plazo.",
+    pod_ep1_title: "Ft. Dr. Jyotirup Goswami",
+    pod_ep1_desc: "Perspectivas sobre Oncología Radioterápica y Terapéutica Tumoral Avanzada con el Dr. Jyotirup Goswami.",
+    pod_ep2_title: "Ft. Dr. Soirindhri Banerjee",
+    pod_ep2_desc: "Atención Clínica y Vías de Defensoría del Paciente con la Dra. Soirindhri Banerjee.",
+    pod_ep3_title: "Ft. Amelia Corl",
+    pod_ep3_desc: "Liderazgo Juvenil contra el Cáncer y Empoderamiento Comunitario con Amelia Corl.",
 
     // Footer
     foot_brand: "LA FUNDACIÓN CARCINO",
@@ -153,6 +158,11 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_title: "Claridad clínica entregada en tu bandeja de entrada",
     gal_sub_desc: "Mantente conectado con perspectivas clínicas verificadas, estrategias de apoyo al cuidador e historias inspiradoras.",
     gal_sub_btn: "Suscribirse",
+
+    // Vision Section
+    vis_our: "Nuestra",
+    vis_vision: "Visión",
+    vis_desc: "Empoderando a cada paciente, cuidador y aliado clínico con recursos compasivos y vías claras para desmitificar la atención carcinoide e inspirar esperanza.",
   },
   FR: {
     // Navigation
@@ -224,6 +234,11 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_title: "La clarté clinique livrée dans votre boîte de réception",
     gal_sub_desc: "Restez connecté avec des informations cliniques vérifiées, des stratégies pour les aidants et des témoignages.",
     gal_sub_btn: "S'abonner",
+
+    // Vision Section
+    vis_our: "Notre",
+    vis_vision: "Vision",
+    vis_desc: "Donner à chaque patient, aidant et allié clinique des ressources compatissantes et des parcours clairs pour démystifier les soins carcinoïdes et inspirer l'espoir.",
   },
 };
 

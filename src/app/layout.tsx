@@ -44,6 +44,8 @@ export const metadata: Metadata = {
 };
 
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
+import AuthModal from "@/components/AuthModal";
 
 export default function RootLayout({
   children,
@@ -56,10 +58,13 @@ export default function RootLayout({
       className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable}`}
     >
       <body className="antialiased min-h-screen bg-[#0B0B0C]">
-        <LanguageProvider>
-          {children}
-          <SanityVisualEditing />
-        </LanguageProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            {children}
+            <AuthModal />
+            <SanityVisualEditing />
+          </LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );
