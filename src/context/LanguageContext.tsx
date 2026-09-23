@@ -72,7 +72,7 @@ const translations: Record<Language, Record<string, string>> = {
     foot_brand: "THE CARCINO FOUNDATION",
     foot_contact: "CONTACT",
     foot_tribute: "Our Tribute",
-    foot_rights: "All Rights Reserved. © 2026 The Carcinoid Foundation.",
+    foot_rights: "All Rights Reserved. © 2026 The Carcino Foundation.",
     foot_privacy: "Privacy Policy",
     foot_terms: "Terms of Service",
 

@@ -135,9 +135,14 @@ export default function ArticlesGalleryPage() {
   });
 
   return (
-    <div className="flex flex-col items-start bg-[#050505] min-w-full min-h-screen text-white overflow-x-hidden">
+    <div className="flex flex-col items-start bg-gradient-to-b from-[#050505] via-[#091612] via-[#12081f] to-[#050505] min-w-full min-h-screen text-white overflow-x-hidden relative">
+      {/* Specular Ambient Gradient Blur Orbs */}
+      <div className="absolute top-10 left-10 w-[600px] h-[600px] bg-[#39C69C]/20 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[35%] right-0 w-[650px] h-[650px] bg-[#CDA8E8]/18 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[70%] left-10 w-[550px] h-[550px] bg-[#C9A867]/15 rounded-full blur-[150px] pointer-events-none" />
+
       {/* Top Navbar */}
-      <header className="flex py-6 px-6 md:px-20 justify-between items-center border-b border-b-[rgba(255,255,255,0.10)] bg-[#050505] w-full z-20">
+      <header className="flex py-6 px-6 md:px-20 justify-between items-center border-b border-b-[rgba(255,255,255,0.10)] bg-[#050505]/80 backdrop-blur-md w-full z-20 sticky top-0">
         <Link href="/" className="flex items-center gap-3 w-fit group cursor-pointer">
           <div className="rounded-lg bg-[#CDA8E8] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
             TCF
@@ -244,16 +249,16 @@ export default function ArticlesGalleryPage() {
       <main className="flex p-6 md:p-20 flex-col items-start gap-12 w-full max-w-7xl mx-auto">
         {/* Banner Title */}
         <div className="flex flex-col items-center gap-6 w-full text-center">
-          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-4">
-            <span className="font-winterSolace text-6xl md:text-[112px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-none">
+          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible">
+            <span className="font-winterSolace text-6xl md:text-[112px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.25em] pt-4 pb-2 px-2 inline-block">
               Article
             </span>
-            <div className="py-3 px-8 md:px-12 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0">
-              <span className="text-[#050505] font-winterSolace text-5xl md:text-[90px] leading-none">
+            <div className="py-4 md:py-6 px-8 md:px-14 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
+              <span className="text-[#050505] font-winterSolace text-5xl md:text-[90px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
                 Gallery
               </span>
             </div>
-            <span className="font-inter text-6xl md:text-[112px] font-bold text-[#F4F1E9] leading-none">
+            <span className="font-inter text-6xl md:text-[112px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
               .
             </span>
           </div>
@@ -559,7 +564,7 @@ export default function ArticlesGalleryPage() {
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 w-full max-w-7xl mx-auto pt-6 border-t border-white/5">
           <p className="text-[#ACACAC] font-inter text-sm text-center sm:text-left">
-            © 2026 The Carcinoid Foundation. All clinical content verified by
+            © 2026 The Carcino Foundation. All clinical content verified by
             our advisory board.
           </p>
           <div className="flex items-center gap-4 w-fit">

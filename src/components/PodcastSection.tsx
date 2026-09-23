@@ -212,9 +212,27 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       id="podcasts-section"
       ref={sectionRef}
       className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${
-        isLightMode ? "bg-[#F7F2FA] text-[#171717]" : "bg-[#050505] text-[#F8F8F8]"
+        isLightMode
+          ? "bg-gradient-to-b from-[#F7F2FA] via-[#FFF1F2]/60 to-[#F7F2FA] text-[#171717]"
+          : "bg-gradient-to-b from-[#050505] via-[#210912] to-[#050505] text-[#F8F8F8]"
       }`}
     >
+      {/* Section-Specific Ambient Gradient Blur Orbs (Sunset Crimson & Rose Amber Theme) */}
+      <div
+        className={`absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#FF5500]/25" : "bg-[#F43F5E]/18"
+        }`}
+      />
+      <div
+        className={`absolute bottom-0 -left-20 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#FB923C]/30" : "bg-[#D97706]/18"
+        }`}
+      />
+      <div
+        className={`absolute top-1/2 left-1/3 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#C27AFF]/15"
+        }`}
+      />
       {/* Center Aligned Title, Subtitle & Navigation Buttons */}
       <div
         ref={headerRef}

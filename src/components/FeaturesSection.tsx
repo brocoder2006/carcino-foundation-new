@@ -175,9 +175,27 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       id="features-section"
       ref={sectionRef}
       className={`w-full py-20 md:py-24 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${
-        isLightMode ? "bg-[#F8F4FA] text-[#171717]" : "bg-[#050505] text-[#F8F8F8]"
+        isLightMode
+          ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
+          : "bg-gradient-to-b from-[#050505] via-[#160926] to-[#050505] text-[#F8F8F8]"
       }`}
     >
+      {/* Section-Specific Ambient Gradient Blur Orbs (Deep Violet & Amethyst Theme) */}
+      <div
+        className={`absolute -top-40 left-1/4 w-[650px] h-[650px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#CDA8E8]/40" : "bg-[#8B5CF6]/20"
+        }`}
+      />
+      <div
+        className={`absolute bottom-0 -left-20 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#A855F7]/30" : "bg-[#C27AFF]/18"
+        }`}
+      />
+      <div
+        className={`absolute top-1/3 -right-20 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#E9D5FF]/50" : "bg-[#6366F1]/18"
+        }`}
+      />
       {/* Header Container */}
       <div ref={headerRef} className="flex flex-col items-center gap-4 w-full text-center max-w-5xl mx-auto">
         <h2 className="font-winterSolace text-6xl md:text-[113px] leading-tight md:leading-[106px] bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] capitalize">

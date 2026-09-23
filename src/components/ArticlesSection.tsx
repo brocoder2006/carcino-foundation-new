@@ -202,9 +202,28 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       id="articles-gallery"
       ref={sectionRef}
       className={`w-full py-20 md:py-[120px] px-6 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
-        isLightMode ? "bg-[#F8F4FA] text-[#171717]" : "bg-[#050505] text-[#F8F8F8]"
+        isLightMode
+          ? "bg-gradient-to-b from-[#F8F4FA] via-[#ECFDF5]/60 to-[#F8F4FA] text-[#171717]"
+          : "bg-gradient-to-b from-[#050505] via-[#071913] to-[#050505] text-[#F8F8F8]"
       }`}
     >
+      {/* Section-Specific Ambient Gradient Blur Orbs (Emerald & Sage Theme) */}
+      <div
+        className={`absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#39C69C]/35" : "bg-[#39C69C]/20"
+        }`}
+      />
+      <div
+        className={`absolute top-1/2 -right-32 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#9DAE8B]/40" : "bg-[#9DAE8B]/20"
+        }`}
+      />
+      <div
+        className={`absolute -bottom-32 left-1/3 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#CDA8E8]/30" : "bg-[#CDA8E8]/15"
+        }`}
+      />
+
       {/* Full Screen Ambient Light Purple Gradient Overlay on Hover */}
       <div
         className={`fixed inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0 ${
@@ -222,17 +241,17 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         className="flex max-w-[960px] flex-col items-center gap-[29px] w-full text-center relative z-10"
       >
         {/* Title Group */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4 relative min-h-[180px] md:min-h-[220px]">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-3">
-            <span className="font-winterSolace text-6xl md:text-[100px] leading-tight font-extrabold bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent">
+        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4 relative min-h-[180px] md:min-h-[220px] overflow-visible">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
+            <span className="font-winterSolace text-6xl md:text-[100px] leading-[1.25em] font-extrabold bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent pt-4 pb-2 px-2 inline-block">
               {t("art_title_1")}
             </span>
-            <div className="py-2.5 md:py-4 px-6 md:px-12 rounded-[999px] bg-[#9DAE8B] shadow-lg flex items-center justify-center">
-              <span className="text-[#0B0B0C] font-winterSolace text-4xl md:text-[80px] leading-none font-bold">
+            <div className="py-3.5 md:py-5 px-8 md:px-14 rounded-[999px] bg-[#9DAE8B] shadow-lg flex items-center justify-center overflow-visible">
+              <span className="text-[#0B0B0C] font-winterSolace text-4xl md:text-[80px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
                 {t("art_title_2")}
               </span>
             </div>
-            <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F4F1E9]">
+            <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
               .
             </span>
           </div>
@@ -278,12 +297,12 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         </div>
       </div>
 
-      {/* Article Cards Grid */}
+      {/* Article Cards Grid - Preview top 3 articles on landing page */}
       <div
         ref={cardsRef}
         className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full mt-12 mx-auto relative z-10"
       >
-        {filteredArticles.map((art) => (
+        {filteredArticles.slice(0, 3).map((art) => (
           <Link
             key={art.id}
             href={`/articles/${art.id}`}
@@ -381,6 +400,19 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
             </div>
           </Link>
         ))}
+      </div>
+
+      {/* View All Articles CTA Button */}
+      <div className="mt-12 text-center relative z-10">
+        <Link
+          href="/articles"
+          className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#CDA8E8] via-[#9DAE8B] to-[#39C69C] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
+        >
+          <span>View All Articles in Full Gallery ({allArticles.length}+)</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.33325 8H12.6666M8.00008 12.6667L12.6666 8L8.00008 3.33334" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </Link>
       </div>
     </section>
   );

@@ -167,10 +167,11 @@ export default function ArticleDetailPage({
 
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-[#F8F8F8] relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-[#0B0B0C] via-[#150a21] to-[#0B0B0C] text-[#F8F8F8] relative overflow-hidden flex flex-col">
       {/* Specular Background Refraction Orbs */}
-      <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#C27AFF]/15 rounded-full blur-[140px] pointer-events-none"></div>
-      <div className="absolute top-[35%] right-[15%] w-[450px] h-[450px] bg-[#FF5500]/15 rounded-full blur-[140px] pointer-events-none"></div>
+      <div className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-[#C27AFF]/20 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute top-[45%] right-[10%] w-[550px] h-[550px] bg-[#39C69C]/18 rounded-full blur-[160px] pointer-events-none"></div>
+      <div className="absolute bottom-[10%] left-[15%] w-[500px] h-[500px] bg-[#9DAE8B]/15 rounded-full blur-[140px] pointer-events-none"></div>
 
       {/* Header Navigation */}
       <header className="w-full py-6 px-6 md:px-16 flex items-center justify-between z-10 border-b border-white/10 glass-navbar">
