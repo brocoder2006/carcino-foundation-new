@@ -512,8 +512,8 @@ export default function CarcinoFoundationLandingPage() {
       )}
 
       {/* Main Hero Section */}
-      <main className="flex pt-12 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 overflow-hidden z-10 relative">
-        <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px] overflow-hidden">
+      <main className="flex pt-12 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
+        <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
           <h1 className="shrink-0 text-4xl md:text-6xl font-winterSolace font-bold tracking-tight leading-tight headline-textured">
             {t("hero_headline_1")} <span className="headline-purple-accent">{t("hero_headline_cancer")}</span>{" "}
             {t("hero_headline_2")} <span className="headline-accent">{t("hero_headline_everyone")}</span> {t("hero_headline_3")}
@@ -524,10 +524,10 @@ export default function CarcinoFoundationLandingPage() {
           >
             {t("hero_desc")}
           </p>
-          <div className="flex items-center gap-4 w-fit overflow-hidden pt-2">
+          <div className="flex items-center gap-4 w-fit pt-2">
             <button
               onClick={scrollToArticles}
-              className="flex py-[15px] px-6 items-center gap-2.5 rounded-[999px] glass-btn-primary w-fit overflow-hidden cursor-pointer"
+              className="flex py-[15px] px-6 items-center gap-2.5 rounded-full glass-btn-primary w-fit cursor-pointer"
             >
               <span className="text-[#0C2822] font-winterSolace text-sm font-bold w-fit">
                 {t("btn_read_articles")}
@@ -538,7 +538,7 @@ export default function CarcinoFoundationLandingPage() {
                 viewBox="0 0 14 14"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-3.5 overflow-hidden relative"
+                className="w-3.5 h-3.5 relative"
               >
                 <path
                   d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626"
@@ -550,7 +550,7 @@ export default function CarcinoFoundationLandingPage() {
             </button>
             <button
               onClick={scrollToPodcasts}
-              className="flex py-[15px] px-6 items-center gap-2.5 rounded-[999px] glass-btn-secondary w-fit overflow-hidden cursor-pointer"
+              className="flex py-[15px] px-6 items-center gap-2.5 rounded-full glass-btn-secondary w-fit cursor-pointer"
             >
               <span
                 className={`font-winterSolace text-sm font-semibold w-fit ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"
@@ -564,7 +564,7 @@ export default function CarcinoFoundationLandingPage() {
                 viewBox="0 0 14 14"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-3.5 overflow-hidden relative"
+                className="w-3.5 h-3.5 relative"
               >
                 <path
                   d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626"
