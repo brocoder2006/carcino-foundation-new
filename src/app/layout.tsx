@@ -38,6 +38,12 @@ const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
+const googleSansFlex = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-google-sans-flex",
+});
+
 export const metadata: Metadata = {
   title: "Carcino Foundation - Breaking Down Cancer for Everyone",
   description: "Carcino Foundation helps people navigate the emotional and practical realities of cancer.",
@@ -55,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${googleSansFlex.variable}`}
     >
       <body className="antialiased min-h-screen bg-[#0B0B0C]">
         <AuthProvider>

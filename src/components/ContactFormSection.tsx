@@ -40,7 +40,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
       if (res.ok && data.success) {
         setStatusMsg({
           type: "success",
-          text: "Thank you! Your message has been sent to the owner, and an Excel report has been dispatched.",
+          text: data.message || "Thank you! Your registration has been saved.",
         });
         setFormData({
           fullName: "",
@@ -182,7 +182,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
               disabled={loading}
               className="w-full py-4 rounded-full glass-btn-primary font-bold text-sm text-white cursor-pointer disabled:opacity-50 transition-all shadow-lg hover:scale-[1.01]"
             >
-              {loading ? "Sending & Generating Excel Report..." : "Submit Message & Send Excel Mail to Owner"}
+              {loading ? "Submitting Registration..." : "Submit Registration"}
             </button>
           </form>
         </div>

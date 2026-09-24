@@ -253,7 +253,7 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       ref={sectionRef}
       className={`flex py-20 md:py-32 px-6 md:px-16 flex-col items-center justify-center w-full relative overflow-hidden transition-colors duration-500 ${
         isLightMode
-          ? "bg-gradient-to-b from-[#F5EAFB]/60 via-[#EFE6F7] to-[#E5D5F5]"
+          ? "bg-gradient-to-b from-[#ECE9E9]/60 via-[#E2DDDD] to-[#ECE9E9]"
           : "bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#1B1324]"
       }`}
     >
@@ -321,7 +321,7 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
                 </div>
                 <h3
                   className={`font-instrumentSerif text-2xl md:text-3xl tracking-wide ${
-                    isLightMode ? "text-[#171717]" : "text-[#E6E6E6]"
+                    isLightMode ? "text-[#163B2E]" : "text-[#E6E6E6]"
                   }`}
                 >
                   {pillar.title}
@@ -330,7 +330,7 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
 
               <p
                 className={`font-inter text-sm md:text-base font-light leading-snug ${
-                  isLightMode ? "text-[#3B2852]" : "text-[#E9CDF8]"
+                  isLightMode ? "text-[#9875C1]" : "text-[#E9CDF8]"
                 }`}
               >
                 {pillar.desc}

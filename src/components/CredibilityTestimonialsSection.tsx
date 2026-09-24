@@ -142,37 +142,33 @@ export default function CredibilityTestimonialsSection({
     <section
       id="survivors-section"
       ref={sectionRef}
-      className={`w-full py-20 md:py-32 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${
-        isLightMode
+      className={`w-full py-20 md:py-32 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
           ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
           : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
-      }`}
+        }`}
     >
       {/* Ambient Gradient Blur Orbs */}
       <div
-        className={`absolute top-1/3 left-10 w-[550px] h-[550px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#8B5CF6]/18"
-        }`}
+        className={`absolute top-1/3 left-10 w-[550px] h-[550px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#8B5CF6]/18"
+          }`}
       />
       <div
-        className={`absolute bottom-10 right-10 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#39C69C]/25" : "bg-[#39C69C]/15"
-        }`}
+        className={`absolute bottom-10 right-10 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#39C69C]/25" : "bg-[#39C69C]/15"
+          }`}
       />
 
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-14 w-full relative z-10">
         {/* Section Header Title & Subtitle */}
         <div ref={headerRef} className="flex flex-col items-center gap-5 w-full text-center">
-          <h2 className="font-winterSolace text-5xl md:text-[96px] leading-[1.05em] bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867] bg-clip-text text-transparent w-full text-center">
+          <h2 className="font-winterSolace text-5xl md:text-[96px] leading-[1.05em] bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#C9A867] bg-clip-text text-transparent w-full text-center">
             trusted paths
           </h2>
           <p
-            className={`font-inter text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${
-              isLightMode ? "text-[#3B2852]" : "text-[#E9CDF8]"
-            }`}
+            className={`font-inter text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
+              }`}
           >
-            Real stories from our community. We are survivors, caregivers, and medical advisors working hand in hand to ensure no one navigates this diagnosis alone.
-          </p>
+            Beyond Our Own Words
+            Hear from the people, platforms, and publications that have encountered The Carcino Foundation and its work.          </p>
         </div>
 
         {/* Testimonial Cards Grid (2x2 Desktop, 1-Col Mobile) */}
@@ -183,11 +179,10 @@ export default function CredibilityTestimonialsSection({
           {testimonials.map((item, idx) => (
             <div
               key={idx}
-              className={`flex p-7 md:p-8 flex-col items-start gap-6 rounded-3xl border transition-all duration-400 w-full relative overflow-hidden shadow-xl ${
-                isLightMode
-                  ? "bg-white/85 border-black/10 shadow-purple-900/5 text-[#171717] hover:border-[#F6C656] hover:shadow-[0_15px_40px_rgba(246,198,86,0.25)]"
-                  : "bg-[#0B0B0C] border-white/10 backdrop-blur-xl text-[#F8F8F8] hover:border-[#F6C656] hover:shadow-[0_15px_40px_rgba(246,198,86,0.25)]"
-              }`}
+              className={`flex p-7 md:p-8 flex-col items-start gap-6 rounded-3xl border transition-all duration-400 w-full relative overflow-hidden shadow-xl cursor-pointer hover:scale-[1.03] hover:-translate-y-2.5 ${isLightMode
+                  ? "bg-white/85 border-black/10 shadow-purple-900/5 text-[#171717] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
+                  : "bg-[#0B0B0C] border-white/10 backdrop-blur-xl text-[#F8F8F8] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
+                }`}
             >
               {/* Badge & Quote Icon Header */}
               <div className="flex justify-between items-center w-full">
@@ -231,13 +226,13 @@ export default function CredibilityTestimonialsSection({
                 >
                   <path
                     d="M10.9393 2.39052C11.2206 2.14048 11.6022 2 12 2H14.25C14.6478 2 15.0294 2.14048 15.3107 2.39052C15.592 2.64057 15.75 2.97971 15.75 3.33333V10C15.75 11.0609 15.2759 12.0783 14.432 12.8284C13.5881 13.5786 12.4435 14 11.25 14C11.0511 14 10.8603 13.9298 10.7197 13.8047C10.579 13.6797 10.5 13.5101 10.5 13.3333V12C10.5 11.8232 10.579 11.6536 10.7197 11.5286C10.8603 11.4036 11.0511 11.3333 11.25 11.3333C11.6478 11.3333 12.0294 11.1929 12.3107 10.9428C12.592 10.6928 12.75 10.3536 12.75 10V9.33333C12.75 9.15652 12.671 8.98695 12.5303 8.86193C12.3897 8.73691 12.1989 8.66667 12 8.66667C11.6022 8.66667 11.2206 8.52619 10.9393 8.27614C10.658 8.02609 10.5 7.68696 10.5 7.33333V3.33333C10.5 2.97971 10.658 2.64057 10.9393 2.39052Z"
-                    stroke={isLightMode ? "#171717" : "white"}
+                    stroke={isLightMode ? "#163B2E" : "white"}
                     strokeWidth="2"
                     strokeLinecap="round"
                   />
                   <path
                     d="M2.68934 2.39052C2.97064 2.14048 3.35218 2 3.75 2H6C6.39782 2 6.77936 2.14048 7.06066 2.39052C7.34196 2.64057 7.5 2.97971 7.5 3.33333V10C7.5 11.0609 7.02589 12.0783 6.18198 12.8284C5.33807 13.5786 4.19347 14 3 14C2.80109 14 2.61032 13.9298 2.46967 13.8047C2.32902 13.6797 2.25 13.5101 2.25 13.3333V12C2.25 11.8232 2.32902 11.6536 2.46967 11.5286C2.61032 11.4036 2.80109 11.3333 3 11.3333C3.39782 11.3333 3.77936 11.1929 4.06066 10.9428C4.34196 10.6928 4.5 10.3536 4.5 10V9.33333C4.5 9.15652 4.42098 8.98695 4.28033 8.86193C4.13968 8.73691 3.94891 8.66667 3.75 8.66667C3.35218 8.66667 2.97064 8.52619 2.68934 8.27614C2.40804 8.02609 2.25 7.68696 2.25 7.33333V3.33333C2.25 2.97971 2.40804 2.64057 2.68934 2.39052Z"
-                    stroke={isLightMode ? "#171717" : "white"}
+                    stroke={isLightMode ? "#163B2E" : "white"}
                     strokeWidth="2"
                     strokeLinecap="round"
                   />
@@ -246,9 +241,8 @@ export default function CredibilityTestimonialsSection({
 
               {/* Quote Statement */}
               <p
-                className={`font-inter text-base md:text-lg font-light leading-relaxed w-full ${
-                  isLightMode ? "text-[#3B2852]" : "text-[#D5B0FF]"
-                }`}
+                className={`font-inter text-base md:text-lg font-light leading-relaxed w-full ${isLightMode ? "text-[#9875C1]" : "text-[#D5B0FF]"
+                  }`}
               >
                 &quot;{item.quote}&quot;
               </p>
@@ -265,9 +259,8 @@ export default function CredibilityTestimonialsSection({
                 <div className="flex flex-col items-start gap-0.5 w-full">
                   <div className="flex items-center gap-1.5 w-full">
                     <span
-                      className={`font-inter text-base font-bold ${
-                        isLightMode ? "text-[#171717]" : "text-white"
-                      }`}
+                      className={`font-inter text-base font-bold ${isLightMode ? "text-[#163B2E]" : "text-white"
+                        }`}
                     >
                       {item.name}
                     </span>
@@ -288,9 +281,8 @@ export default function CredibilityTestimonialsSection({
                     </svg>
                   </div>
                   <p
-                    className={`font-inter text-xs opacity-80 ${
-                      isLightMode ? "text-[#4B3267]" : "text-[#D5B0FF]"
-                    }`}
+                    className={`font-inter text-xs opacity-80 ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
+                      }`}
                   >
                     {item.role}
                   </p>
@@ -307,9 +299,8 @@ export default function CredibilityTestimonialsSection({
             className="flex py-3.5 px-7 items-center gap-2.5 rounded-full glass-btn-secondary w-fit cursor-pointer hover:scale-105 transition-all duration-300 shadow-lg"
           >
             <span
-              className={`font-inter text-sm font-semibold w-fit ${
-                isLightMode ? "text-[#171717]" : "text-[#FFF]"
-              }`}
+              className={`font-inter text-sm font-semibold w-fit ${isLightMode ? "text-[#171717]" : "text-[#FFF]"
+                }`}
             >
               Read more community milestones
             </span>

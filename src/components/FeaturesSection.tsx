@@ -211,7 +211,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       ref={sectionRef}
       className={`w-full py-20 md:py-24 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
+          ? "bg-gradient-to-b from-[#ECE9E9] via-[#E2DDDD]/60 to-[#ECE9E9] text-[#171717]"
           : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#160E21] text-[#F8F8F8]"
       }`}
     >
@@ -239,7 +239,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
         <div className="flex flex-col items-center w-full">
           <p
             className={`font-googleSansFlex text-base md:text-lg font-light leading-[27px] w-full max-w-[640px] text-center tracking-[0.01em] ${
-              isLightMode ? "text-[#581C87]" : "text-[#E9CDF8]"
+              isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >
             {t("feat_subtitle")}
@@ -257,7 +257,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
             key={item.id}
             className={`flex p-6 flex-col items-start gap-4 rounded-3xl border transition-all duration-400 w-full overflow-hidden group cursor-pointer ${
               isLightMode
-                ? "bg-white/80 border-black/10 shadow-lg hover:border-[#CDA8E8] hover:shadow-purple-200 hover:-translate-y-2"
+                ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_12px_35px_rgba(246,198,86,0.25)] hover:-translate-y-2"
                 : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/60 hover:shadow-[0_12px_35px_rgba(205,168,232,0.18)] hover:-translate-y-2"
             }`}
           >
@@ -271,7 +271,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
             <div className="flex justify-between items-center w-full">
               <p
                 className={`font-googleSansFlex text-sm font-medium w-fit tracking-[0.01em] ${
-                  isLightMode ? "text-[#7E22CE]" : "text-[#CDA8E8]"
+                  isLightMode ? "text-[#2E1640]" : "text-[#CDA8E8]"
                 }`}
               >
                 {item.badge}
@@ -287,14 +287,14 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
             <div className="flex flex-col items-start gap-2 w-full">
               <p
                 className={`font-inter text-[22px] font-bold leading-[22px] w-full ${
-                  isLightMode ? "text-[#171717]" : "text-[#FFF]"
+                  isLightMode ? "text-[#163B2E]" : "text-[#FFF]"
                 }`}
               >
                 {item.title}
               </p>
               <p
                 className={`font-googleSansFlex text-sm font-light leading-[21px] w-full tracking-[0.0129em] ${
-                  isLightMode ? "text-purple-900" : "text-[#E9CDF8]"
+                  isLightMode ? "text-[#9875C1]" : "text-[#E9CDF8]"
                 }`}
               >
                 {item.desc}

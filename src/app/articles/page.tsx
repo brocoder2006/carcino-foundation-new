@@ -248,7 +248,7 @@ export default function ArticlesGalleryPage() {
               setSearchInput(e.target.value);
               setActiveSearchQuery(e.target.value);
             }}
-            className="bg-transparent text-[#FFF] placeholder-[#ACACAC] font-inter text-sm outline-none w-full"
+            className="bg-transparent text-white placeholder-[#ACACAC] font-inter text-sm outline-none w-full"
           />
           {searchInput && (
             <button
@@ -536,7 +536,7 @@ export default function ArticlesGalleryPage() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="bg-transparent text-[#FFF] placeholder-[#ACACAC] font-inter text-sm outline-none w-full"
+                className="bg-transparent text-white placeholder-[#ACACAC] font-inter text-sm outline-none w-full"
               />
             </div>
             <button className="flex py-3.5 px-6 justify-center items-center rounded-xl bg-[#39C69C] hover:bg-[#2fb18a] transition-colors w-full sm:w-fit shrink-0 cursor-pointer">

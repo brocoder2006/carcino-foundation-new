@@ -13,13 +13,16 @@ interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
   readArticles: string[];
-  signUp: (email: string, pass: string, fullName: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (email: string, pass: string, fullName: string) => Promise<{ success: boolean; error?: string; requiresEmailConfirmation?: boolean }>;
   signIn: (email: string, pass: string) => Promise<{ success: boolean; error?: string }>;
+  signInWithOAuth: (provider?: "google") => Promise<{ success: boolean; error?: string }>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   markArticleAsRead: (articleId: string, title?: string) => Promise<boolean>;
   isArticleRead: (articleId: string) => boolean;
   isAuthModalOpen: boolean;
   setIsAuthModalOpen: (open: boolean) => void;
+  isSupabaseConnected: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -121,7 +124,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: data.user.email || email,
           fullName: fullName,
         };
-        setUser(u);
+        if (data.session) {
+          setUser(u);
+        }
+        const requiresConfirmation = !data.session && Boolean(data.user);
+        return { success: true, requiresEmailConfirmation: requiresConfirmation };
       }
       return { success: true };
     } else {
@@ -167,6 +174,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       setUser(demoUser);
       localStorage.setItem("carcino_demo_user", JSON.stringify(demoUser));
+      return { success: true };
+    }
+  };
+
+  const signInWithOAuth = async (provider: "google" = "google") => {
+    if (isSupabaseConfigured) {
+      const redirectUrl = typeof window !== "undefined" ? window.location.origin : undefined;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: redirectUrl,
+        },
+      });
+
+      if (error) {
+        if (error.message.includes("not enabled") || error.message.includes("validation_failed")) {
+          return {
+            success: false,
+            error: "Google authentication is not enabled in your Supabase Dashboard yet. Please enable Google in Supabase -> Authentication -> Providers, or sign in with Email & Password below.",
+          };
+        }
+        return { success: false, error: error.message };
+      }
+      return { success: true };
+    } else {
+      // Demo social authentication
+      const demoUser: UserProfile = {
+        id: `demo-google-${Date.now()}`,
+        email: `demo_google@carcino.org`,
+        fullName: "Google User",
+      };
+      setUser(demoUser);
+      localStorage.setItem("carcino_demo_user", JSON.stringify(demoUser));
+      return { success: true };
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    if (isSupabaseConfigured) {
+      const redirectUrl = typeof window !== "undefined" ? `${window.location.origin}/login` : undefined;
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: redirectUrl,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      return { success: true };
+    } else {
       return { success: true };
     }
   };
@@ -229,11 +285,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         readArticles,
         signUp,
         signIn,
+        signInWithOAuth,
+        resetPassword,
         signOut,
         markArticleAsRead,
         isArticleRead,
         isAuthModalOpen,
         setIsAuthModalOpen,
+        isSupabaseConnected: isSupabaseConfigured,
       }}
     >
       {children}

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import OurVisionSection from "@/components/OurVisionSection";
 import CredibilityTestimonialsSection from "@/components/CredibilityTestimonialsSection";
+import Flagshipprogramsection from "@/components/Flagshipprogramsection";
 import FeaturesSection from "@/components/FeaturesSection";
 import PodcastSection from "@/components/PodcastSection";
 import ContactFormSection from "@/components/ContactFormSection";
@@ -149,7 +150,7 @@ export default function CarcinoFoundationLandingPage() {
   return (
     <div
       className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 overflow-x-hidden ${isLightMode
-        ? "bg-gradient-to-r from-[#F5EAFB] via-[#EFE6F7] to-[#E5D5F5] text-[#171717]"
+        ? "bg-gradient-to-r from-[#ECE9E9] via-[#E2DDDD] to-[#ECE9E9] text-[#171717]"
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
     >
@@ -475,7 +476,7 @@ export default function CarcinoFoundationLandingPage() {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>{user ? user.fullName || "Account" : "Log In"}</span>
+            <span>{user ? user.fullName || "Account" : "Get involved"}</span>
           </button>
         </div>
       </header>
@@ -570,6 +571,20 @@ export default function CarcinoFoundationLandingPage() {
                 }}
               />
             </div>
+
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsAuthModalOpen(true);
+              }}
+              className="w-full py-3.5 px-5 rounded-2xl glass-btn-primary font-bold text-sm text-white flex items-center justify-center gap-2 cursor-pointer mt-2"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>{user ? user.fullName || "Account" : "Get involved"}</span>
+            </button>
           </div>
         </div>
       )}
@@ -647,6 +662,9 @@ export default function CarcinoFoundationLandingPage() {
 
       {/* Credibility & Testimonials Section (trusted paths) */}
       <CredibilityTestimonialsSection isLightMode={isLightMode} />
+
+      {/* Flagship Program Section (The Carcino Pathway) */}
+      <Flagshipprogramsection isLightMode={isLightMode} />
 
       {/* Features Section Between Articles and Podcast */}
       <FeaturesSection isLightMode={isLightMode} />

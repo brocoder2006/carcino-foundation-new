@@ -270,7 +270,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         <div className="flex flex-col items-center justify-center w-full">
           <p
             className={`font-googleSansFlex text-base md:text-lg leading-7 w-full max-w-[480px] text-center ${
-              isLightMode ? "text-[#581C87]" : "text-[#E9CDF8]"
+              isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >
             {t("pod_subtitle")}
@@ -284,7 +284,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             aria-label="Previous podcasts"
             className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
               isLightMode
-                ? "bg-white/80 text-black border border-black/10 hover:bg-[#CDA8E8] shadow-md hover:scale-110 active:scale-95"
+                ? "bg-white/80 text-black border border-black/10 hover:bg-[#F6C656] hover:border-[#F6C656] shadow-md hover:scale-110 active:scale-95"
                 : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
             }`}
           >
@@ -307,7 +307,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             aria-label="Next podcasts"
             className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
               isLightMode
-                ? "bg-white/80 text-black border border-black/10 hover:bg-[#CDA8E8] shadow-md hover:scale-110 active:scale-95"
+                ? "bg-white/80 text-black border border-black/10 hover:bg-[#F6C656] hover:border-[#F6C656] shadow-md hover:scale-110 active:scale-95"
                 : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
             }`}
           >
@@ -351,19 +351,19 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         {/* Scrollable Marquee Track */}
         <div
           ref={trackRef}
-          className="animate-marquee flex items-start gap-6 px-3 overflow-x-auto scrollbar-none scroll-smooth"
+          className="animate-marquee flex items-stretch gap-6 px-3 py-4 overflow-x-auto scrollbar-none scroll-smooth"
         >
           {infiniteEpisodes.map((ep, idx) => (
             <div
               key={`${ep.id}-${idx}`}
               onClick={() => handleEpisodeClick(ep)}
-              className={`flex p-6 flex-col items-start gap-4 rounded-3xl border transition-all duration-300 w-80 shrink-0 group cursor-pointer ${
+              className={`flex p-6 flex-col justify-between gap-3 rounded-3xl border transition-all duration-300 w-80 h-[570px] shrink-0 group cursor-pointer hover:scale-[1.04] ${
                 isLightMode
-                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#CDA8E8] hover:shadow-purple-200 hover:-translate-y-2"
-                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/60 hover:shadow-[0_12px_35px_rgba(205,168,232,0.18)] hover:-translate-y-2"
+                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_16px_40px_rgba(246,198,86,0.25)] hover:-translate-y-2"
+                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-2"
               }`}
             >
-              <div className="relative w-full h-[340px] rounded-2xl overflow-hidden">
+              <div className="relative w-full h-[260px] shrink-0 rounded-2xl overflow-hidden">
                 <img
                   data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "coverImage") : undefined}
                   src={ep.cover}
@@ -384,58 +384,65 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-start w-full">
-                <p
-                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "code") : undefined}
-                  className="text-[var(--color-violet-78,#CDA8E8)] font-googleSansFlex text-sm font-medium leading-5 w-fit"
-                >
-                  {ep.code}
-                </p>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEpisodeClick(ep);
-                  }}
-                  aria-label={`Play ${ep.title}`}
-                  className="cursor-pointer hover:scale-110 transition-transform"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 overflow-hidden relative"
+
+              <div className="flex flex-col gap-2.5 flex-1 justify-start overflow-hidden">
+                <div className="flex justify-between items-center w-full shrink-0">
+                  <p
+                    data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "code") : undefined}
+                    className={`font-googleSansFlex text-xs font-semibold uppercase tracking-wider leading-5 w-fit ${
+                      isLightMode ? "text-[#2E1640]" : "text-[#CDA8E8]"
+                    }`}
                   >
-                    <path
-                      d="M5.26806 3.99832C5.0918 4.30289 4.99904 4.64858 4.99915 5.00046V18.9995C4.99904 19.3514 5.0918 19.6971 5.26806 20.0017C5.44432 20.3063 5.69784 20.5589 6.00302 20.7342C6.3082 20.9095 6.65423 21.0012 7.00618 21C7.35813 20.9988 7.70353 20.9048 8.00752 20.7274L20.009 13.7279C20.3115 13.5517 20.5624 13.2992 20.7367 12.9957C20.9111 12.6921 20.0026 12.3482 21.0023 11.9981C21.002 11.6481 20.9099 11.3043 20.735 11.0011C20.5602 10.6978 20.3088 10.4458 20.006 10.2701L8.00752 3.27257C7.70353 3.09523 7.35813 3.00121 7.00618 3.00001C6.65423 2.99882 6.3082 3.09049 6.00302 3.26577C5.69784 3.44105 5.44432 3.69374 5.26806 3.99832Z"
-                      stroke={isLightMode ? "#581C87" : "white"}
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
+                    {ep.code}
+                  </p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEpisodeClick(ep);
+                    }}
+                    aria-label={`Play ${ep.title}`}
+                    className="cursor-pointer hover:scale-110 transition-transform shrink-0"
+                  >
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 h-5 overflow-hidden relative"
+                    >
+                      <path
+                        d="M5.26806 3.99832C5.0918 4.30289 4.99904 4.64858 4.99915 5.00046V18.9995C4.99904 19.3514 5.0918 19.6971 5.26806 20.0017C5.44432 20.3063 5.69784 20.5589 6.00302 20.7342C6.3082 20.9095 6.65423 21.0012 7.00618 21C7.35813 20.9988 7.70353 20.9048 8.00752 20.7274L20.009 13.7279C20.3115 13.5517 20.5624 13.2992 20.7367 12.9957C20.9111 12.6921 20.0026 12.3482 21.0023 11.9981C21.002 11.6481 20.9099 11.3043 20.735 11.0011C20.5602 10.6978 20.3088 10.4458 20.006 10.2701L8.00752 3.27257C7.70353 3.09523 7.35813 3.00121 7.00618 3.00001C6.65423 2.99882 6.3082 3.09049 6.00302 3.26577C5.69784 3.44105 5.44432 3.69374 5.26806 3.99832Z"
+                        stroke={isLightMode ? "#163B2E" : "white"}
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <p
+                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
+                  className={`font-inter text-2xl font-bold leading-snug line-clamp-2 w-full shrink-0 ${
+                    isLightMode ? "text-[#163B2E]" : "text-[var(--color-surface,#FFF)]"
+                  }`}
+                >
+                  {ep.title}
+                </p>
+
+                <p
+                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "desc") : undefined}
+                  className={`font-googleSansFlex text-sm font-light leading-relaxed line-clamp-3 w-full ${
+                    ep.descClass
+                      ? ep.descClass
+                      : isLightMode
+                      ? "text-[#9875C1]"
+                      : "text-[#D5B0FF]"
+                  }`}
+                >
+                  {ep.desc}
+                </p>
               </div>
-              <p
-                data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
-                className={`font-inter text-3xl font-bold leading-[30px] w-full ${
-                  isLightMode ? "text-[#171717]" : "text-[var(--color-surface,#FFF)]"
-                }`}
-              >
-                {ep.title}
-              </p>
-              <p
-                data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "desc") : undefined}
-                className={`font-googleSansFlex text-lg font-light leading-[27px] w-full ${
-                  ep.descClass
-                    ? ep.descClass
-                    : isLightMode
-                    ? "text-purple-900"
-                    : "text-[#D5B0FF]"
-                }`}
-              >
-                {ep.desc}
-              </p>
             </div>
           ))}
         </div>

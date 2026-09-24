@@ -92,8 +92,8 @@ export default function EditorialMenuPopover({
         <div
           className={`absolute top-[calc(100%+14px)] left-1/2 -translate-x-1/2 z-[100] p-5 rounded-2xl glass-navbar border transition-all duration-300 animate-in fade-in zoom-in-95 shadow-2xl ${
             isLightMode
-              ? "bg-white/90 border-white/80 text-[#171717] shadow-purple-900/10"
-              : "bg-[#0B0B0C]/90 border-white/20 text-[#F8F8F8] shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(194,122,255,0.2)]"
+              ? "bg-white/95 border-purple-300/80 text-[#7E22CE] shadow-purple-900/10"
+              : "bg-[#0B0B0C]/95 border-purple-500/35 text-[#E9CDF8] shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(194,122,255,0.25)]"
           }`}
           style={{ width: 280 }}
         >
@@ -109,9 +109,9 @@ export default function EditorialMenuPopover({
               },
             ]}
             defaultOpen={0}
-            color={isLightMode ? "#171717" : "#F8F8F8"}
-            accentColor="#39C69C"
-            lineColor={isLightMode ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.25)"}
+            color={isLightMode ? "#7E22CE" : "#E9CDF8"}
+            accentColor={isLightMode ? "#9333EA" : "#C27AFF"}
+            lineColor={isLightMode ? "rgba(147, 51, 234, 0.35)" : "rgba(194, 122, 255, 0.45)"}
             width={240}
             rowHeight={38}
             indent={42}

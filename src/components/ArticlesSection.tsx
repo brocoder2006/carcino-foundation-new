@@ -213,7 +213,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         <div className="max-w-[600px] mx-auto">
           <p
             className={`font-inter text-base md:text-lg leading-relaxed text-center ${
-              isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+              isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
             }`}
           >
             {t("art_subtitle")}
@@ -230,7 +230,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 activeCategory === cat
                   ? "bg-[#F6C656] text-[#0B0B0C] shadow-md shadow-[#F6C656]/30 scale-105"
                   : isLightMode
-                  ? "bg-white/80 text-zinc-700 hover:bg-[#F6C656]/20 hover:border-[#F6C656] hover:text-[#0B0B0C] border border-black/5"
+                  ? "bg-white/80 text-[#2E1640] hover:bg-[#F6C656]/20 hover:border-[#F6C656] border border-black/5"
                   : "bg-white/10 text-zinc-300 hover:bg-[#F6C656]/20 hover:border-[#F6C656] hover:text-[#F6C656] border border-white/10"
               }`}
             >
@@ -286,7 +286,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                     hoveredArticleId === art.id
                       ? "text-[#F6C656] font-medium"
                       : isLightMode
-                      ? "text-zinc-500"
+                      ? "text-[#2E1640]"
                       : "text-zinc-400"
                   }
                 >
@@ -299,7 +299,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                   hoveredArticleId === art.id
                     ? "text-[#F6C656]"
                     : isLightMode
-                    ? "text-[#171717]"
+                    ? "text-[#163B2E]"
                     : "text-white"
                 }`}
               >
@@ -309,9 +309,9 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "desc") : undefined}
                 className={`font-inter text-sm leading-relaxed mb-6 transition-colors ${
                   hoveredArticleId === art.id
-                    ? "text-purple-950 font-medium"
+                    ? "text-purple-300 font-medium"
                     : isLightMode
-                    ? "text-zinc-600"
+                    ? "text-[#9875C1]"
                     : "text-zinc-300"
                 }`}
               >

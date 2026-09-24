@@ -181,6 +181,8 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
           <div className="flex items-center gap-6">
             <Link
               href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
                 }`}
             >
@@ -188,6 +190,8 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
             </Link>
             <Link
               href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
                 }`}
             >
