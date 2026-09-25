@@ -42,45 +42,45 @@ interface StoredRegistration {
 
 let memoryRegistrations: StoredRegistration[] = [];
 
-/**
- * Saves incoming registration to Supabase DB / memory store in background.
- * No email is dispatched on individual submissions.
- */
 export async function processRegistration(
   input: RegistrationInput
 ): Promise<RegistrationResult> {
+  const adminEmail =
+    process.env.ADMIN_EMAIL ||
+    process.env.OWNER_EMAIL ||
+    "carcinofoundation.contact@gmail.com";
+
   let registrationId: string = "REG-" + Date.now();
   let totalRegistrations: number = 1;
+  let allRegistrations: StoredRegistration[] = [];
 
   if (isSupabaseConfigured) {
     try {
-      // 1. Insert into contact_submissions table if source is CONTACT
-      if (input.source === "CONTACT") {
-        try {
-          const { data: subData } = await supabase
-            .from("contact_submissions")
-            .insert({
-              full_name: input.fullName,
-              email: input.email,
-              phone: input.phone || "",
-              subject: input.category || input.opportunityTitle || "General Inquiry",
-              message: input.message || "",
-              email_sent: false,
-            })
-            .select()
-            .single();
+      // 1. Try inserting into contact_submissions table (has public INSERT policy WITH CHECK true)
+      try {
+        const { data: subData } = await supabase
+          .from("contact_submissions")
+          .insert({
+            full_name: input.fullName,
+            email: input.email,
+            phone: input.phone || "",
+            subject: input.category || input.opportunityTitle || "General Inquiry",
+            message: input.message || "",
+            email_sent: true,
+          })
+          .select()
+          .single();
 
-          if (subData?.id) {
-            registrationId = subData.id;
-          }
-        } catch (e) {
-          console.warn("Notice: contact_submissions table insert skipped:", e);
+        if (subData?.id) {
+          registrationId = subData.id;
         }
+      } catch (e) {
+        console.warn("Notice: contact_submissions table insert skipped:", e);
       }
 
-      // 2. Insert into main registrations table
+      // 2. Try inserting into registrations table (has public INSERT policy WITH CHECK true)
       try {
-        const { data: regData } = await supabase
+        const { data: regData, error: regErr } = await supabase
           .from("registrations")
           .insert({
             source: input.source,
@@ -102,19 +102,52 @@ export async function processRegistration(
         console.warn("Notice: registrations table insert skipped:", e);
       }
 
-      // 3. Count total cumulative registrations
-      const { count } = await supabase
+      // 3. Query all cumulative registrations from database
+      const { data: fetchRegs } = await supabase
         .from("registrations")
-        .select("*", { count: "exact", head: true });
+        .select("*")
+        .order("created_at", { ascending: true });
 
-      if (count !== null && count > 0) {
-        totalRegistrations = count;
+      if (fetchRegs && fetchRegs.length > 0) {
+        allRegistrations = fetchRegs.map((r: any) => ({
+          id: r.id,
+          source: r.source || input.source,
+          full_name: r.full_name || input.fullName,
+          email: r.email || input.email,
+          phone: r.phone || input.phone,
+          opportunity_title: r.opportunity_title || input.opportunityTitle,
+          category: r.category || input.category,
+          message: r.message || input.message,
+          created_at: r.created_at || new Date().toISOString(),
+        }));
+      } else {
+        // If registrations table returns empty, query contact_submissions
+        const { data: fetchContacts } = await supabase
+          .from("contact_submissions")
+          .select("*")
+          .order("created_at", { ascending: true });
+
+        if (fetchContacts && fetchContacts.length > 0) {
+          allRegistrations = fetchContacts.map((c: any) => ({
+            id: c.id,
+            source: "CONTACT",
+            full_name: c.full_name || input.fullName,
+            email: c.email || input.email,
+            phone: c.phone || input.phone,
+            opportunity_title: c.subject || input.opportunityTitle,
+            category: c.subject || input.category,
+            message: c.message || input.message,
+            created_at: c.created_at || new Date().toISOString(),
+          }));
+        }
       }
     } catch (dbErr) {
       console.error("Supabase execution exception:", dbErr);
     }
-  } else {
-    // Memory fallback if Supabase is not configured
+  }
+
+  // 4. Fallback if no database records exist yet
+  if (allRegistrations.length === 0) {
     const memoryItem: StoredRegistration = {
       id: registrationId,
       source: input.source,
@@ -127,101 +160,52 @@ export async function processRegistration(
       created_at: new Date().toISOString(),
     };
     memoryRegistrations.push(memoryItem);
-    totalRegistrations = memoryRegistrations.length;
+    allRegistrations = [...memoryRegistrations];
   }
+
+  totalRegistrations = allRegistrations.length;
+
+  // 5. Send instant email with updated Master Excel spreadsheet on every registration
+  const emailSent = await sendSingleRegistrationEmailWithMasterExcel({
+    latestInput: input,
+    latestRegistrationId: registrationId,
+    totalRegistrations,
+    allItems: allRegistrations,
+    adminEmail,
+  });
 
   return {
     success: true,
     registrationId,
     totalRegistrations,
-    batchId: "DAILY-DIGEST",
+    batchId: "MASTER-BATCH",
     batchNumber: 1,
     sequenceInBatch: totalRegistrations,
-    batchCompleted: false,
-    emailSent: false,
-    message: "Thank you for getting in touch with us! Your response has been recorded. Our team will soon contact you.",
+    batchCompleted: true,
+    emailSent,
+    message: emailSent
+      ? `Registration received! Instant email with updated Master Excel (${totalRegistrations} total records) sent to admin (${adminEmail}).`
+      : `Registration received! Saved to database (${totalRegistrations} total records). Note: Email delivery failed or SMTP credentials not set on server.`,
   };
 }
 
-/**
- * Sends a daily digest email to the Admin containing the single updated Master Excel sheet.
- * Can be triggered via a 1-day interval timer or scheduled Cron API route (`/api/cron/daily-digest`).
- */
-export async function sendDailyMasterExcelDigest(): Promise<{
-  success: boolean;
+// Generate updated Master Excel file buffer and send instant email to Admin via Nodemailer SMTP
+async function sendSingleRegistrationEmailWithMasterExcel({
+  latestInput,
+  latestRegistrationId,
+  totalRegistrations,
+  allItems,
+  adminEmail,
+}: {
+  latestInput: RegistrationInput;
+  latestRegistrationId: string;
   totalRegistrations: number;
-  emailSent: boolean;
-  message: string;
-}> {
-  const adminEmail =
-    process.env.ADMIN_EMAIL ||
-    process.env.OWNER_EMAIL ||
-    "carcinofoundation.contact@gmail.com";
-
-  let allRegistrations: StoredRegistration[] = [];
-
-  if (isSupabaseConfigured) {
-    try {
-      const { data: fetchRegs } = await supabase
-        .from("registrations")
-        .select("*")
-        .order("created_at", { ascending: true });
-
-      if (fetchRegs && fetchRegs.length > 0) {
-        allRegistrations = fetchRegs.map((r: any) => ({
-          id: r.id,
-          source: r.source || "CONTACT",
-          full_name: r.full_name || "N/A",
-          email: r.email || "N/A",
-          phone: r.phone || "N/A",
-          opportunity_title: r.opportunity_title || "N/A",
-          category: r.category || "General",
-          message: r.message || "N/A",
-          created_at: r.created_at || new Date().toISOString(),
-        }));
-      } else {
-        const { data: fetchContacts } = await supabase
-          .from("contact_submissions")
-          .select("*")
-          .order("created_at", { ascending: true });
-
-        if (fetchContacts && fetchContacts.length > 0) {
-          allRegistrations = fetchContacts.map((c: any) => ({
-            id: c.id,
-            source: "CONTACT",
-            full_name: c.full_name || "N/A",
-            email: c.email || "N/A",
-            phone: c.phone || "N/A",
-            opportunity_title: c.subject || "N/A",
-            category: c.subject || "General",
-            message: c.message || "N/A",
-            created_at: c.created_at || new Date().toISOString(),
-          }));
-        }
-      }
-    } catch (e) {
-      console.error("Error fetching registrations for daily digest:", e);
-    }
-  }
-
-  if (allRegistrations.length === 0) {
-    allRegistrations = [...memoryRegistrations];
-  }
-
-  const totalRegistrations = allRegistrations.length;
-
-  if (totalRegistrations === 0) {
-    return {
-      success: true,
-      totalRegistrations: 0,
-      emailSent: false,
-      message: "No registrations recorded yet. Daily digest email skipped.",
-    };
-  }
-
+  allItems: StoredRegistration[];
+  adminEmail: string;
+}): Promise<boolean> {
   try {
     // Generate Master Excel rows with all cumulative records
-    const excelRows = allRegistrations.map((item, index) => ({
+    const excelRows = allItems.map((item, index) => ({
       "S.No": index + 1,
       "Registration ID": item.id || `REG-${index + 1}`,
       "Source": item.source,
@@ -267,14 +251,9 @@ export async function sendDailyMasterExcelDigest(): Promise<{
 
     if (!smtpUser || !smtpPass) {
       console.log(
-        `[Daily Digest Service] Master Excel generated (${totalRegistrations} total records). Configure SMTP_USER & SMTP_PASS in hosting environment variables to deliver email to ${adminEmail}.`
+        `[Registration Service] New registration from ${latestInput.fullName} received! Updated Master Excel generated (${totalRegistrations} records). Configure SMTP_USER & SMTP_PASS in hosting environment variables to deliver email to ${adminEmail}.`
       );
-      return {
-        success: false,
-        totalRegistrations,
-        emailSent: false,
-        message: "Master Excel compiled, but SMTP credentials (SMTP_USER / SMTP_PASS) are missing on server.",
-      };
+      return false;
     }
 
     const transporter = nodemailer.createTransport({
@@ -287,37 +266,43 @@ export async function sendDailyMasterExcelDigest(): Promise<{
       },
     });
 
-    const filename = `Carcino_Master_Registrations_Daily_Report_${new Date()
+    const filename = `Carcino_Master_Registrations_Updated_${new Date()
       .toISOString()
       .slice(0, 10)}.xlsx`;
 
     await transporter.sendMail({
       from: `"Carcino Foundation Platform" <${smtpUser}>`,
       to: adminEmail,
-      subject: `[Daily Digest] Master Registrations Report (${totalRegistrations} Total Records) - Carcino Foundation`,
-      text: `Hello Admin,\n\nHere is your 24-hour daily summary report for The Carcino Foundation platform.\n\nTotal Cumulative Registrations: ${totalRegistrations}\nReport Date: ${new Date().toUTCString()}\n\nAttached is the updated Master Excel spreadsheet containing all ${totalRegistrations} cumulative registrations recorded to date.\n\nBest regards,\nCarcino Foundation Platform`,
+      subject: `[New Registration #${totalRegistrations}] ${latestInput.fullName} (${latestInput.source}) - Carcino Foundation`,
+      text: `Hello Admin,\n\nA new registration has been received!\n\nName: ${latestInput.fullName}\nEmail: ${latestInput.email}\nPhone: ${latestInput.phone || "N/A"}\nSource: ${latestInput.source}\nCategory/Title: ${latestInput.category || latestInput.opportunityTitle || "N/A"}\nMessage: ${latestInput.message || "N/A"}\n\nTotal Master Registrations: ${totalRegistrations}\n\nAttached is the updated Master Excel spreadsheet containing all ${totalRegistrations} cumulative registrations.\n\nBest regards,\nCarcino Foundation Platform`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0b0b0c; color: #f8f8f8; padding: 32px; border-radius: 16px; max-width: 650px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1);">
           <div style="text-align: center; margin-bottom: 24px;">
-            <span style="background-color: rgba(152, 117, 193, 0.15); color: #9875C1; border: 1px solid rgba(152, 117, 193, 0.3); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-block;">
-              📅 Daily Summary Digest (24-Hour Interval)
+            <span style="background-color: rgba(57, 198, 156, 0.15); color: #39C69C; border: 1px solid rgba(57, 198, 156, 0.3); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-block;">
+              🔔 Instant Registration Alert
             </span>
-            <h1 style="color: #ffffff; font-size: 24px; margin-top: 16px;">Master Registrations Report</h1>
-            <p style="color: #e9cdf8; font-size: 14px;">Total Master Registrations in Database: <strong>${totalRegistrations}</strong></p>
+            <h1 style="color: #ffffff; font-size: 24px; margin-top: 16px;">New Registration Received</h1>
+            <p style="color: #e9cdf8; font-size: 14px;">Total Master Registrations to date: <strong>${totalRegistrations}</strong></p>
           </div>
           
           <div style="background-color: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0;">
-            <p style="margin: 6px 0; color: #ffffff;"><strong>Total Registrations Recorded:</strong> ${totalRegistrations}</p>
-            <p style="margin: 6px 0; color: #ffffff;"><strong>Target Admin Email:</strong> ${adminEmail}</p>
-            <p style="margin: 6px 0; color: #a1a1aa; font-size: 12px; margin-top: 12px;"><strong>Report Date:</strong> ${new Date().toUTCString()}</p>
+            <h3 style="color: #9875C1; margin-top: 0; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Applicant Details</h3>
+            <p style="margin: 6px 0; color: #ffffff;"><strong>Full Name:</strong> ${latestInput.fullName}</p>
+            <p style="margin: 6px 0; color: #ffffff;"><strong>Email:</strong> <a href="mailto:${latestInput.email}" style="color: #39C69C;">${latestInput.email}</a></p>
+            <p style="margin: 6px 0; color: #ffffff;"><strong>Phone:</strong> ${latestInput.phone || "N/A"}</p>
+            <p style="margin: 6px 0; color: #ffffff;"><strong>Source:</strong> ${latestInput.source}</p>
+            <p style="margin: 6px 0; color: #ffffff;"><strong>Title / Subject:</strong> ${latestInput.opportunityTitle || latestInput.category || "N/A"}</p>
+            ${latestInput.message ? `<p style="margin: 6px 0; color: #ffffff;"><strong>Message:</strong> ${latestInput.message}</p>` : ""}
+            <p style="margin: 6px 0; color: #a1a1aa; font-size: 12px; margin-top: 12px;"><strong>Registration ID:</strong> ${latestRegistrationId}</p>
+            <p style="margin: 6px 0; color: #a1a1aa; font-size: 12px;"><strong>Received At:</strong> ${new Date().toUTCString()}</p>
           </div>
 
-          <div style="background-color: rgba(57, 198, 156, 0.1); padding: 16px; border-radius: 12px; border: 1px solid rgba(57, 198, 156, 0.2); text-align: center;">
-            <p style="font-size: 13px; color: #39C69C; margin: 0;">
-              📎 Master Excel File Attached: <strong>${filename}</strong>
+          <div style="background-color: rgba(152, 117, 193, 0.1); padding: 16px; border-radius: 12px; border: 1px solid rgba(152, 117, 193, 0.2); text-align: center;">
+            <p style="font-size: 13px; color: #e9cdf8; margin: 0;">
+              📎 Updated Master Excel File Attached: <strong>${filename}</strong>
             </p>
             <p style="font-size: 11px; color: #a1a1aa; margin-top: 4px; margin-bottom: 0;">
-              This single master file contains all ${totalRegistrations} registrations recorded in the system.
+              This single master file contains all ${totalRegistrations} registrations received to date.
             </p>
           </div>
         </div>
@@ -333,21 +318,11 @@ export async function sendDailyMasterExcelDigest(): Promise<{
     });
 
     console.log(
-      `[Daily Digest Service] Daily summary email sent to ${adminEmail}. Master Excel contains ${totalRegistrations} records.`
+      `[Registration Service] Instant email sent to ${adminEmail} for registration from ${latestInput.fullName}. Master Excel contains ${totalRegistrations} records.`
     );
-    return {
-      success: true,
-      totalRegistrations,
-      emailSent: true,
-      message: `Daily digest email with Master Excel (${totalRegistrations} records) sent to ${adminEmail}.`,
-    };
-  } catch (err: any) {
-    console.error("Error generating daily digest email:", err);
-    return {
-      success: false,
-      totalRegistrations,
-      emailSent: false,
-      message: err.message || "Failed to send daily digest email.",
-    };
+    return true;
+  } catch (err) {
+    console.error("Error generating Excel or sending registration email:", err);
+    return false;
   }
 }
