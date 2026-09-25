@@ -55,9 +55,12 @@ CREATE POLICY "Allow users to insert their read articles"
 CREATE POLICY "Allow users to delete their read articles" 
     ON public.user_read_articles FOR DELETE USING (auth.uid() = user_id);
 
--- Contact Submissions Policies (Public Insert allowed)
+-- Contact Submissions Policies (Public Insert & Read allowed for reporting)
 CREATE POLICY "Allow anyone to submit contact form" 
     ON public.contact_submissions FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Allow public read access to contact_submissions" 
+    ON public.contact_submissions FOR SELECT USING (true);
 
 -- Function to handle new user signup automatic profile creation
 CREATE OR REPLACE FUNCTION public.handle_new_user()

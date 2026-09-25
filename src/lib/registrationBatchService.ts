@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 import nodemailer from "nodemailer";
-import { supabase, isSupabaseConfigured } from "./supabaseClient";
+import { supabase, supabaseAdmin, isSupabaseConfigured } from "./supabaseClient";
 
 export interface RegistrationInput {
   source: "CONTACT" | "OPPORTUNITY";
@@ -44,7 +44,7 @@ let memoryRegistrations: StoredRegistration[] = [];
 
 /**
  * Saves incoming registration to database (or memory) in the background.
- * Does NOT send an email per submission to prevent inbox spam.
+ * Always records in contact_submissions and registrations tables.
  */
 export async function processRegistration(
   input: RegistrationInput
@@ -54,31 +54,32 @@ export async function processRegistration(
 
   if (isSupabaseConfigured) {
     try {
-      // 1. Insert into contact_submissions table if source is CONTACT
-      if (input.source === "CONTACT") {
-        try {
-          const { data: subData } = await supabase
-            .from("contact_submissions")
-            .insert({
-              full_name: input.fullName,
-              email: input.email,
-              phone: input.phone || "",
-              subject: input.category || input.opportunityTitle || "General Inquiry",
-              message: input.message || "",
-              email_sent: false,
-            })
-            .select()
-            .single();
+      // 1. Insert into contact_submissions table (always present in schema with public INSERT policy)
+      try {
+        const { data: subData, error: subErr } = await supabase
+          .from("contact_submissions")
+          .insert({
+            full_name: input.fullName,
+            email: input.email,
+            phone: input.phone || "",
+            subject: `[${input.source}] ${input.category || input.opportunityTitle || "General Inquiry"}`,
+            message: input.message || `Registered for ${input.opportunityTitle || "Carcino Program"}`,
+            email_sent: false,
+          })
+          .select()
+          .single();
 
-          if (subData?.id) {
-            registrationId = subData.id;
-          }
-        } catch (e) {
-          console.warn("Notice: contact_submissions table insert skipped:", e);
+        if (subData?.id) {
+          registrationId = subData.id;
         }
+        if (subErr) {
+          console.warn("Notice: contact_submissions table insert warning:", subErr.message);
+        }
+      } catch (e) {
+        console.warn("Notice: contact_submissions table insert skipped:", e);
       }
 
-      // 2. Insert into registrations master table
+      // 2. Insert into registrations master table if present
       try {
         const { data: regData } = await supabase
           .from("registrations")
@@ -102,13 +103,19 @@ export async function processRegistration(
         console.warn("Notice: registrations table insert skipped:", e);
       }
 
-      // 3. Count total cumulative registrations
-      const { count } = await supabase
+      // 3. Count total cumulative registrations using admin client
+      const dbClient = supabaseAdmin || supabase;
+      const { count: countRegs } = await dbClient
         .from("registrations")
         .select("*", { count: "exact", head: true });
 
-      if (count && count > 0) {
-        totalRegistrations = count;
+      const { count: countContacts } = await dbClient
+        .from("contact_submissions")
+        .select("*", { count: "exact", head: true });
+
+      const highestCount = Math.max(countRegs || 0, countContacts || 0);
+      if (highestCount > 0) {
+        totalRegistrations = highestCount;
       }
     } catch (dbErr) {
       console.error("Supabase execution exception:", dbErr);
@@ -144,8 +151,8 @@ export async function processRegistration(
 }
 
 /**
- * Compiles all cumulative registrations into a single updated Master Excel spreadsheet
- * and emails it to the Admin. Called by cron schedule or on-demand.
+ * Compiles all cumulative registrations from contact_submissions and registrations tables
+ * into a single updated Master Excel spreadsheet and emails it to the Admin.
  */
 export async function sendMasterExcelEmail(
   targetEmail?: string
@@ -157,51 +164,65 @@ export async function sendMasterExcelEmail(
     "carcinofoundation.contact@gmail.com";
 
   let allRegistrations: StoredRegistration[] = [];
+  const dbClient = supabaseAdmin || supabase;
 
   if (isSupabaseConfigured) {
     try {
-      const { data: fetchRegs } = await supabase
+      // Fetch from contact_submissions
+      const { data: fetchContacts, error: errContacts } = await dbClient
+        .from("contact_submissions")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (!errContacts && fetchContacts && fetchContacts.length > 0) {
+        fetchContacts.forEach((c: any) => {
+          allRegistrations.push({
+            id: c.id,
+            source: c.subject?.includes("OPPORTUNITY") ? "OPPORTUNITY" : "CONTACT",
+            full_name: c.full_name || "N/A",
+            email: c.email || "N/A",
+            phone: c.phone || "N/A",
+            opportunity_title: c.subject || "General Inquiry",
+            category: c.subject || "General",
+            message: c.message || "N/A",
+            created_at: c.created_at || new Date().toISOString(),
+          });
+        });
+      }
+
+      // Fetch from registrations table if present
+      const { data: fetchRegs, error: errRegs } = await dbClient
         .from("registrations")
         .select("*")
         .order("created_at", { ascending: true });
 
-      if (fetchRegs && fetchRegs.length > 0) {
-        allRegistrations = fetchRegs.map((r: any) => ({
-          id: r.id,
-          source: r.source || "REGISTRATION",
-          full_name: r.full_name,
-          email: r.email,
-          phone: r.phone,
-          opportunity_title: r.opportunity_title,
-          category: r.category,
-          message: r.message,
-          created_at: r.created_at || new Date().toISOString(),
-        }));
-      } else {
-        const { data: fetchContacts } = await supabase
-          .from("contact_submissions")
-          .select("*")
-          .order("created_at", { ascending: true });
-
-        if (fetchContacts && fetchContacts.length > 0) {
-          allRegistrations = fetchContacts.map((c: any) => ({
-            id: c.id,
-            source: "CONTACT",
-            full_name: c.full_name,
-            email: c.email,
-            phone: c.phone,
-            opportunity_title: c.subject,
-            category: c.subject,
-            message: c.message,
-            created_at: c.created_at || new Date().toISOString(),
-          }));
-        }
+      if (!errRegs && fetchRegs && fetchRegs.length > 0) {
+        fetchRegs.forEach((r: any) => {
+          // Avoid duplicate entries if recorded in both tables
+          const alreadyExists = allRegistrations.some(
+            (existing) => existing.email === r.email && existing.full_name === r.full_name
+          );
+          if (!alreadyExists) {
+            allRegistrations.push({
+              id: r.id,
+              source: r.source || "REGISTRATION",
+              full_name: r.full_name || "N/A",
+              email: r.email || "N/A",
+              phone: r.phone || "N/A",
+              opportunity_title: r.opportunity_title || "General",
+              category: r.category || "General",
+              message: r.message || "N/A",
+              created_at: r.created_at || new Date().toISOString(),
+            });
+          }
+        });
       }
     } catch (dbErr) {
       console.error("Error fetching registrations for Master Excel:", dbErr);
     }
   }
 
+  // Fallback to memory store if no database items found
   if (allRegistrations.length === 0) {
     allRegistrations = [...memoryRegistrations];
   }
