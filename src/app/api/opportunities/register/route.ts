@@ -27,14 +27,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       registrationId: result.registrationId,
-      batchId: result.batchId,
-      batchNumber: result.batchNumber,
-      sequenceInBatch: result.sequenceInBatch,
-      batchCompleted: result.batchCompleted,
+      totalRegistrations: result.totalRegistrations,
       emailSent: result.emailSent,
-      message: result.batchCompleted
-        ? "Registration successful! You completed the current batch of 10. The admin has been notified with the compiled Excel sheet."
-        : `Registration successful! Your application has been registered (${result.sequenceInBatch}/10 in current batch).`,
+      message: result.message || "Registration successful! Your application has been saved and the updated Master Excel sheet was emailed to the admin.",
     });
   } catch (error: any) {
     console.error("Opportunity Register API route error:", error);

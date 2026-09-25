@@ -25,14 +25,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       registrationId: result.registrationId,
-      batchId: result.batchId,
-      batchNumber: result.batchNumber,
-      sequenceInBatch: result.sequenceInBatch,
-      batchCompleted: result.batchCompleted,
+      totalRegistrations: result.totalRegistrations,
       emailSent: result.emailSent,
-      message: result.batchCompleted
-        ? "Thank you! You are submission #10 in this batch. The Excel report has been generated and emailed to the admin."
-        : `Thank you! Your contact submission has been saved (Entry ${result.sequenceInBatch}/10 in current batch).`,
+      message: result.message || "Thank you for getting in touch with us! Your response has been recorded. Our team will soon contact you.",
     });
   } catch (error: any) {
     console.error("Contact API route error:", error);
