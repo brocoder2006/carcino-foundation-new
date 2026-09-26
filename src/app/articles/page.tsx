@@ -654,6 +654,16 @@ export default function ArticlesGalleryPage() {
           </div>
         </div>
       </footer>
+
+      {/* Modals for Partnerships and Volunteering */}
+      <PartnershipModal
+        isOpen={isPartnershipModalOpen}
+        onClose={() => setIsPartnershipModalOpen(false)}
+      />
+      <VolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }

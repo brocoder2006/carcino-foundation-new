@@ -399,6 +399,16 @@ export default function Carcinoblogssection() {
 
       {/* Footer Section */}
       <FooterSection isLightMode={false} />
+
+      {/* Modals for Partnerships and Volunteering */}
+      <PartnershipModal
+        isOpen={isPartnershipModalOpen}
+        onClose={() => setIsPartnershipModalOpen(false)}
+      />
+      <VolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }
