@@ -64,12 +64,29 @@ export default function ArticleDetailPage({
     fetchSanityArticle();
   }, [rawId]);
 
-  // Find local article match by id string or numeric id
+  // Find local article match by id string, numeric id, or matching slug
   const localMatch = articlesList.find(
     (item) => item.id === rawId || (item.numericId && item.numericId === numericId)
   );
   const fallbackArticle = localMatch || articlesList[0];
-  const article = sanityArticle || fallbackArticle;
+  
+  // Merge Sanity metadata with complete structured sections, FAQs, and citations
+  const article: ArticleItem = {
+    ...fallbackArticle,
+    ...(sanityArticle || {}),
+    sections: (sanityArticle?.sections && sanityArticle.sections.length > 0)
+      ? sanityArticle.sections
+      : fallbackArticle?.sections,
+    faqs: (sanityArticle?.faqs && sanityArticle.faqs.length > 0)
+      ? sanityArticle.faqs
+      : fallbackArticle?.faqs,
+    citations: (sanityArticle?.citations && sanityArticle.citations.length > 0)
+      ? sanityArticle.citations
+      : fallbackArticle?.citations,
+    content: (sanityArticle?.content && sanityArticle.content.length > 0 && sanityArticle.content[0] !== sanityArticle.title)
+      ? sanityArticle.content
+      : fallbackArticle?.content,
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#160E21] text-[#F8F8F8] relative overflow-hidden flex flex-col">

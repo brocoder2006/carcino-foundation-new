@@ -156,34 +156,29 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       className={`w-full py-20 md:py-[120px] px-6 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
           ? "bg-gradient-to-b from-[#F8F4FA] via-[#ECFDF5]/60 to-[#F8F4FA] text-[#171717]"
-          : "bg-gradient-to-b from-[#050505] via-[#071913] to-[#050505] text-[#F8F8F8]"
+          : "bg-gradient-to-b from-[#050505] via-[#0D0B05] to-[#050505] text-[#F8F8F8]"
       }`}
     >
-      {/* Section-Specific Ambient Gradient Blur Orbs (Emerald & Sage Theme) */}
+      {/* Section-Specific Ambient Gradient Blur Orbs */}
       <div
         className={`absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#39C69C]/35" : "bg-[#39C69C]/20"
+          isLightMode ? "bg-[#F6C656]/25" : "bg-[#F6C656]/15"
         }`}
       />
       <div
         className={`absolute top-1/2 -right-32 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#9DAE8B]/40" : "bg-[#9DAE8B]/20"
-        }`}
-      />
-      <div
-        className={`absolute -bottom-32 left-1/3 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#CDA8E8]/30" : "bg-[#CDA8E8]/15"
+          isLightMode ? "bg-[#D4AF37]/30" : "bg-[#D4AF37]/15"
         }`}
       />
 
-      {/* Full Screen Ambient Light Purple Gradient Overlay on Hover */}
+      {/* Full Screen Ambient Gold Gradient Overlay on Hover */}
       <div
         className={`fixed inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0 ${
           hoveredArticleId !== null ? "opacity-100" : "opacity-0"
         }`}
         style={{
           background:
-            "radial-gradient(120% 120% at 50% 50%, rgba(194, 122, 255, 0.45) 0%, rgba(224, 180, 255, 0.25) 45%, rgba(194, 122, 255, 0.08) 80%, rgba(0, 0, 0, 0) 100%)",
+            "radial-gradient(140% 140% at 50% 50%, rgba(246, 198, 86, 0.55) 0%, rgba(212, 175, 55, 0.35) 45%, rgba(180, 130, 20, 0.15) 75%, rgba(0, 0, 0, 0) 100%)",
         }}
       />
 
@@ -195,15 +190,15 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         {/* Title Group */}
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4 relative min-h-[180px] md:min-h-[220px] overflow-visible">
           <div className="flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
-            <span className="font-winterSolace text-6xl md:text-[100px] leading-[1.25em] font-extrabold bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent pt-4 pb-2 px-2 inline-block">
+            <span className="font-winterSolace text-6xl md:text-[100px] leading-[1.25em] font-extrabold bg-gradient-to-r from-[#F6C656] via-[#E5C158] to-[#C9A867] bg-clip-text text-transparent pt-4 pb-2 px-2 inline-block">
               {t("art_title_1")}
             </span>
-            <div className="py-3.5 md:py-5 px-8 md:px-14 rounded-[999px] bg-[#9DAE8B] shadow-lg flex items-center justify-center overflow-visible">
+            <div className="py-3.5 md:py-5 px-8 md:px-14 rounded-[999px] bg-[#F6C656] shadow-lg flex items-center justify-center overflow-visible">
               <span className="text-[#0B0B0C] font-winterSolace text-4xl md:text-[80px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
                 {t("art_title_2")}
               </span>
             </div>
-            <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
+            <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F6C656] leading-[1.25em] pt-4 inline-block">
               .
             </span>
           </div>
@@ -213,7 +208,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         <div className="max-w-[600px] mx-auto">
           <p
             className={`font-inter text-base md:text-lg leading-relaxed text-center ${
-              isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
+              isLightMode ? "text-[#2E1640]" : "text-[#F6C656]/90"
             }`}
           >
             {t("art_subtitle")}
@@ -239,7 +234,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           ))}
           <Link
             href="/articles"
-            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#CDA8E8] text-[#0B0B0C] hover:bg-[#F6C656] hover:text-[#0B0B0C] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
+            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#F6C656] text-[#0B0B0C] hover:bg-[#E5C158] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
           >
             <span>{t("btn_explore_articles")}</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -249,33 +244,33 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         </div>
       </div>
 
-      {/* Article Cards Grid - Preview top 3 articles on landing page */}
+      {/* Article Cards Grid - Pure Square Tiles */}
       <div
         ref={cardsRef}
         className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full mt-12 mx-auto relative z-10"
       >
-        {filteredArticles.slice(0, 3).map((art) => (
+        {filteredArticles.slice(0, 6).map((art) => (
           <Link
             key={art.id}
             href={`/articles/${art.id}`}
             onMouseEnter={() => setHoveredArticleId(art.id)}
             onMouseLeave={() => setHoveredArticleId(null)}
-            className={`flex flex-col justify-between p-8 rounded-[32px] transition-all duration-500 group cursor-pointer ${
+            className={`aspect-square flex flex-col justify-between p-6 md:p-8 rounded-[32px] transition-all duration-500 group cursor-pointer ${
               hoveredArticleId === art.id
-                ? "bg-[#181124] border-[#F6C656] shadow-[0_20px_50px_rgba(246,198,86,0.35)] -translate-y-2 scale-[1.02]"
+                ? "bg-[#1A1408] border-[#F6C656] shadow-[0_20px_60px_rgba(246,198,86,0.45)] -translate-y-2 scale-[1.03]"
                 : isLightMode
-                ? "bg-white/75 backdrop-blur-md border border-black/5 hover:border-[#F6C656] shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
-                : "glass-card hover:border-[#F6C656]"
+                ? "bg-white/80 backdrop-blur-md border border-black/5 hover:border-[#F6C656] shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+                : "glass-card border border-white/10 hover:border-[#F6C656]"
             }`}
           >
             <div>
-              <div className="flex items-center justify-between text-xs font-semibold mb-4">
+              <div className="flex items-center justify-between text-xs font-semibold mb-3">
                 <span
                   data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "category") : undefined}
-                  className={`py-1 px-3 rounded-full font-inter transition-colors ${
+                  className={`py-1 px-3.5 rounded-full font-inter transition-colors ${
                     hoveredArticleId === art.id
                       ? "bg-[#F6C656] text-[#0B0B0C] font-bold"
-                      : "bg-[#9DAE8B]/20 text-[#9DAE8B]"
+                      : "bg-[#F6C656]/20 text-[#F6C656]"
                   }`}
                 >
                   {art.tag}
@@ -284,7 +279,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                   data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "readTime") : undefined}
                   className={
                     hoveredArticleId === art.id
-                      ? "text-[#F6C656] font-medium"
+                      ? "text-[#F6C656] font-semibold"
                       : isLightMode
                       ? "text-[#2E1640]"
                       : "text-zinc-400"
@@ -295,7 +290,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               </div>
               <h3
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "title") : undefined}
-                className={`font-googleSansFlex text-xl font-bold tracking-tight leading-snug mb-3 transition-colors ${
+                className={`font-googleSansFlex text-lg md:text-xl font-bold tracking-tight leading-snug mb-3 line-clamp-3 transition-colors ${
                   hoveredArticleId === art.id
                     ? "text-[#F6C656]"
                     : isLightMode
@@ -307,11 +302,11 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               </h3>
               <p
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "desc") : undefined}
-                className={`font-inter text-sm leading-relaxed mb-6 transition-colors ${
+                className={`font-inter text-xs md:text-sm leading-relaxed line-clamp-3 transition-colors ${
                   hoveredArticleId === art.id
-                    ? "text-purple-300 font-medium"
+                    ? "text-amber-200 font-medium"
                     : isLightMode
-                    ? "text-[#9875C1]"
+                    ? "text-zinc-600"
                     : "text-zinc-300"
                 }`}
               >
@@ -319,17 +314,17 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               </p>
             </div>
             <div
-              className={`flex items-center justify-between pt-4 border-t text-xs transition-colors ${
+              className={`flex items-center justify-between pt-3 border-t text-xs transition-colors ${
                 hoveredArticleId === art.id
-                  ? "border-purple-300 text-purple-900"
+                  ? "border-[#F6C656]/40 text-amber-300"
                   : "border-white/10"
               }`}
             >
               <span
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "author") : undefined}
-                className={`font-semibold ${
+                className={`font-semibold line-clamp-1 ${
                   hoveredArticleId === art.id
-                    ? "text-[#6B21A8]"
+                    ? "text-[#F6C656]"
                     : isLightMode
                     ? "text-zinc-700"
                     : "text-zinc-300"
@@ -341,7 +336,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "date") : undefined}
                 className={
                   hoveredArticleId === art.id
-                    ? "text-purple-700"
+                    ? "text-amber-400"
                     : isLightMode
                     ? "text-zinc-400"
                     : "text-zinc-500"
@@ -358,9 +353,9 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       <div className="mt-12 text-center relative z-10">
         <Link
           href="/articles"
-          className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#CDA8E8] via-[#9DAE8B] to-[#39C69C] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
+          className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#F6C656] via-[#E5C158] to-[#D4AF37] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
         >
-          <span>View All Articles in Full Gallery ({allArticles.length}+)</span>
+          <span>View All 29 Articles in Full Gallery</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.33325 8H12.6666M8.00008 12.6667L12.6666 8L8.00008 3.33334" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

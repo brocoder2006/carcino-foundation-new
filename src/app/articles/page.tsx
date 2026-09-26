@@ -63,7 +63,7 @@ export default function ArticlesGalleryPage() {
   }, []);
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const heroCardRef = useRef<HTMLDivElement>(null);
+  const heroCardRef = useRef<HTMLAnchorElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -406,11 +406,10 @@ export default function ArticlesGalleryPage() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`py-2.5 px-5 rounded-[99px] font-inter text-sm font-medium transition-all duration-300 cursor-pointer ${
-                activeCategory === cat
+              className={`py-2.5 px-5 rounded-[99px] font-inter text-sm font-medium transition-all duration-300 cursor-pointer ${activeCategory === cat
                   ? "bg-[#F6C656] text-[#050505] font-semibold shadow-md shadow-[#F6C656]/30 scale-105"
                   : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#E9CDF8] hover:border-[#F6C656] hover:text-[#F6C656] hover:bg-[#F6C656]/10"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -419,15 +418,12 @@ export default function ArticlesGalleryPage() {
 
         {/* Featured Study Hero Card (visible when no search query or matches search query) */}
         {!activeSearchQuery && activeCategory === "All Insights" && (
-          <div ref={heroCardRef} className="flex flex-col lg:flex-row items-center rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[480px] overflow-hidden group hover:border-[#F6C656] transition-colors">
-            <div className="w-full lg:w-1/2 h-64 lg:h-full relative overflow-hidden shrink-0">
-              <img
-                src="/Featuredimage.png"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                alt="Featured-Image"
-              />
-            </div>
-            <div className="flex p-8 md:p-12 flex-col justify-center items-start gap-6 w-full lg:w-1/2">
+          <Link
+            href="/articles/anal-cancer"
+            ref={heroCardRef}
+            className="flex flex-col lg:flex-row items-center rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[300px] p-8 md:p-12 overflow-hidden group hover:border-[#F6C656] transition-colors cursor-pointer"
+          >
+            <div className="flex flex-col justify-center items-start gap-6 w-full">
               <div className="flex items-center gap-3 w-fit">
                 <span className="text-[#F6C656] font-inter text-xs font-bold tracking-wider">
                   FEATURED STUDY
@@ -446,11 +442,9 @@ export default function ArticlesGalleryPage() {
                 networks collaborate to construct your personalized care plan.
               </p>
               <div className="flex items-center gap-3 w-full pt-2">
-                <img
-                  src="/Rectangle.png"
-                  className="rounded-[20px] w-10 h-10 object-cover border border-white/10"
-                  alt="Dr. Helen Sterling"
-                />
+                <div className="rounded-full bg-[#CDA8E8] w-10 h-10 flex items-center justify-center font-bold text-[#050505] text-sm shrink-0 border border-white/10">
+                  H
+                </div>
                 <div className="flex flex-col items-start gap-0.5 w-fit">
                   <span className="text-[#FFF] font-inter text-sm font-semibold">
                     Dr. Helen Sterling
@@ -461,7 +455,7 @@ export default function ArticlesGalleryPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         )}
 
         {/* Article Grid & Empty Search Results State */}
@@ -471,15 +465,8 @@ export default function ArticlesGalleryPage() {
               <Link
                 key={art.id}
                 href={`/articles/${art.id}`}
-                className="flex p-6 flex-col items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full transition-all duration-400 group hover:border-[#F6C656] hover:shadow-[0_15px_35px_rgba(246,198,86,0.25)] hover:-translate-y-1.5 cursor-pointer"
+                className="flex p-8 flex-col justify-between items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[260px] transition-all duration-400 group hover:border-[#F6C656] hover:shadow-[0_15px_35px_rgba(246,198,86,0.25)] hover:-translate-y-1.5 cursor-pointer"
               >
-                <div className="w-full h-[220px] rounded-2xl overflow-hidden relative">
-                  <img
-                    src={art.cover}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    alt={art.title}
-                  />
-                </div>
                 <div className="flex justify-between items-center w-full">
                   <span className="text-[#F6C656] font-inter text-xs font-semibold tracking-wider">
                     {art.tag}
