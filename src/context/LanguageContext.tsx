@@ -32,9 +32,9 @@ const translations: Record<Language, Record<string, string>> = {
     hero_desc: "From rural cancer care and veterinary oncology to cancer literacy for better detection and outcomes, we turn knowledge into action.",
 
     // Articles Section
-    art_title_1: "Article",
-    art_title_2: "Gallery",
-    art_subtitle: "Here's the latest collection of articles we offer, tailored to be understandable by everyone, made with love and care by our Writing Team.",
+    art_title_1: "Cancer Knowledge",
+    art_title_2: "Hub",
+    art_subtitle: "Clear, accessible reads that break down cancer, science, and the questions that matter. We turn complex information into something everyone can understand, engage with, and learn from.",
     art_cat_all: "All",
     art_cat_medical: "Medical Insights",
     art_cat_survivor: "Survivor Stories",

@@ -58,7 +58,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         );
         if (docs && Array.isArray(docs)) {
           const formatted = docs.map((doc: any) => ({
-            id: doc._id,
+            id: doc.slug?.current || doc._id,
             category: doc.category || "Medical Insights",
             tag: doc.category || "Medical Insights",
             title: doc.title || "Untitled Article",
@@ -90,7 +90,29 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
     };
   }, []);
 
-  const allArticles = [...sanityArticles, ...defaultArticles];
+  const getKeys = (art: { id?: string; title?: string }) => {
+    const rawId = (art.id || "").toLowerCase().trim();
+    const rawTitle = (art.title || "").toLowerCase().trim();
+    const cleanId = rawId.replace(/[^a-z0-9]/g, "");
+    const cleanTitle = rawTitle.replace(/[^a-z0-9]/g, "");
+    const topicSlug = rawId.split("-")[0] || "";
+    return [rawId, rawTitle, cleanId, cleanTitle, topicSlug].filter(Boolean);
+  };
+
+  const seenKeys = new Set<string>();
+  const allArticles: typeof defaultArticles = [];
+
+  const addUnique = (art: (typeof defaultArticles)[0]) => {
+    const keys = getKeys(art);
+    const isDuplicate = keys.some((k) => seenKeys.has(k));
+    if (!isDuplicate) {
+      keys.forEach((k) => seenKeys.add(k));
+      allArticles.push(art);
+    }
+  };
+
+  sanityArticles.forEach(addUnique);
+  defaultArticles.forEach(addUnique);
 
   const filteredArticles =
     activeCategory === "All"

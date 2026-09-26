@@ -370,19 +370,6 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                   className="w-full h-full object-cover overflow-hidden transition-transform duration-500 group-hover:scale-105"
                   alt={ep.title}
                 />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="white"
-                      className="ml-1"
-                    >
-                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
-                  </div>
-                </div>
               </div>
 
               <div className="flex flex-col gap-2.5 flex-1 justify-start overflow-hidden">
@@ -395,30 +382,6 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                   >
                     {ep.code}
                   </p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEpisodeClick(ep);
-                    }}
-                    aria-label={`Play ${ep.title}`}
-                    className="cursor-pointer hover:scale-110 transition-transform shrink-0"
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-5 h-5 overflow-hidden relative"
-                    >
-                      <path
-                        d="M5.26806 3.99832C5.0918 4.30289 4.99904 4.64858 4.99915 5.00046V18.9995C4.99904 19.3514 5.0918 19.6971 5.26806 20.0017C5.44432 20.3063 5.69784 20.5589 6.00302 20.7342C6.3082 20.9095 6.65423 21.0012 7.00618 21C7.35813 20.9988 7.70353 20.9048 8.00752 20.7274L20.009 13.7279C20.3115 13.5517 20.5624 13.2992 20.7367 12.9957C20.9111 12.6921 20.0026 12.3482 21.0023 11.9981C21.002 11.6481 20.9099 11.3043 20.735 11.0011C20.5602 10.6978 20.3088 10.4458 20.006 10.2701L8.00752 3.27257C7.70353 3.09523 7.35813 3.00121 7.00618 3.00001C6.65423 2.99882 6.3082 3.09049 6.00302 3.26577C5.69784 3.44105 5.44432 3.69374 5.26806 3.99832Z"
-                        stroke={isLightMode ? "#163B2E" : "white"}
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
                 <p

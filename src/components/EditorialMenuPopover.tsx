@@ -36,6 +36,9 @@ export default function EditorialMenuPopover({
     if (value === "articles") {
       if (setActiveNavItem) setActiveNavItem("Articles");
       router.push("/articles");
+    } else if (value === "blogs") {
+      if (setActiveNavItem) setActiveNavItem("Perspective");
+      router.push("/blogs");
     } else if (value === "survivors") {
       if (setActiveNavItem) setActiveNavItem("Survivors");
       const section = document.getElementById("survivors-section");
@@ -52,7 +55,7 @@ export default function EditorialMenuPopover({
   };
 
   const isEditorialActive =
-    activeNavItem === "Articles" || activeNavItem === "Survivors" || activeNavItem === "Podcasts";
+    activeNavItem === "Articles" || activeNavItem === "Perspective" || activeNavItem === "Survivors" || activeNavItem === "Podcasts";
 
   return (
     <div ref={containerRef} className="relative inline-block text-left">
@@ -102,7 +105,8 @@ export default function EditorialMenuPopover({
               {
                 label: "Editorial",
                 children: [
-                  { value: "articles", label: "Articles & Blogs", icon: Book02Icon },
+                  { value: "articles", label: "Knowledge Hub", icon: Book02Icon },
+                  { value: "blogs", label: "Carcino Perspective", icon: Book02Icon },
                   { value: "survivors", label: "Survivor Stories", icon: UserGroupIcon },
                   { value: "podcasts", label: "Podcast Episodes", icon: Music01Icon },
                 ],

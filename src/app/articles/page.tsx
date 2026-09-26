@@ -5,15 +5,21 @@ import Link from "next/link";
 import gsap from "gsap";
 import { client } from "@/sanity/lib/client";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
+import PartnershipModal from "@/components/PartnershipModal";
+import VolunteerModal from "@/components/VolunteerModal";
 import { articlesList } from "@/data/articlesData";
 
 export default function ArticlesGalleryPage() {
   const { lang, toggleLang, t } = useLanguage();
+  const { user } = useAuth();
   const [activeCategory, setActiveCategory] = useState("All Insights");
   const [sanityArticles, setSanityArticles] = useState<any[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [activeSearchQuery, setActiveSearchQuery] = useState("");
+  const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
 
   const categories = [
     "All Insights",
@@ -44,7 +50,7 @@ export default function ArticlesGalleryPage() {
         );
         if (docs && Array.isArray(docs)) {
           const formatted = docs.map((doc: any) => ({
-            id: doc._id,
+            id: doc.slug?.current || doc._id,
             category: (doc.category || "CLINICAL CARE").toUpperCase(),
             tag: (doc.category || "CLINICAL CARE").toUpperCase(),
             title: doc.title || "Untitled Article",
@@ -63,7 +69,6 @@ export default function ArticlesGalleryPage() {
   }, []);
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const heroCardRef = useRef<HTMLAnchorElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -81,21 +86,6 @@ export default function ArticlesGalleryPage() {
             duration: 1,
             stagger: 0.14,
           }
-        );
-      }
-
-      if (heroCardRef.current) {
-        tl.fromTo(
-          heroCardRef.current,
-          { opacity: 0, y: 50, scale: 0.96, filter: "blur(10px)" },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.1,
-          },
-          "-=0.4"
         );
       }
 
@@ -140,8 +130,8 @@ export default function ArticlesGalleryPage() {
               rotateX: 0,
               rotateY: 0,
               scale: 1,
-              duration: 0.5,
-              ease: "power3.out",
+              duration: 0.3,
+              ease: "power2.out",
             });
           };
 
@@ -154,7 +144,29 @@ export default function ArticlesGalleryPage() {
     return () => ctx.revert();
   }, []);
 
-  const allArticlesList = [...sanityArticles, ...defaultArticles];
+  const getKeys = (art: { id?: string; title?: string }) => {
+    const rawId = (art.id || "").toLowerCase().trim();
+    const rawTitle = (art.title || "").toLowerCase().trim();
+    const cleanId = rawId.replace(/[^a-z0-9]/g, "");
+    const cleanTitle = rawTitle.replace(/[^a-z0-9]/g, "");
+    const topicSlug = rawId.split("-")[0] || "";
+    return [rawId, rawTitle, cleanId, cleanTitle, topicSlug].filter(Boolean);
+  };
+
+  const seenKeys = new Set<string>();
+  const allArticlesList: typeof defaultArticles = [];
+
+  const addUnique = (art: (typeof defaultArticles)[0]) => {
+    const keys = getKeys(art);
+    const isDuplicate = keys.some((k) => seenKeys.has(k));
+    if (!isDuplicate) {
+      keys.forEach((k) => seenKeys.add(k));
+      allArticlesList.push(art);
+    }
+  };
+
+  sanityArticles.forEach(addUnique);
+  defaultArticles.forEach(addUnique);
 
   const handleSearchExecute = () => {
     setActiveSearchQuery(searchInput.trim());
@@ -206,15 +218,25 @@ export default function ArticlesGalleryPage() {
           <Link href="/articles" className="text-[#CDA8E8] font-inter text-sm font-semibold w-fit border-b border-[#CDA8E8]">
             {t("nav_articles")}
           </Link>
-          <Link href="/#podcasts-section" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
-            {t("nav_podcasts")}
+          <Link href="/blogs" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
+            Perspective &amp; Blogs
           </Link>
-          <Link href="/#features-section" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
-            {t("nav_features")}
-          </Link>
-          <Link href="/#features-section" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
-            {t("nav_survivors")}
-          </Link>
+          {user && (
+            <>
+              <button
+                onClick={() => setIsPartnershipModalOpen(true)}
+                className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-[#CDA8E8] transition-colors cursor-pointer"
+              >
+                Partnerships
+              </button>
+              <button
+                onClick={() => setIsVolunteerModalOpen(true)}
+                className="py-1.5 px-4 rounded-full bg-gradient-to-r from-[#CDA8E8] to-[#39C69C] hover:brightness-110 text-[#050505] font-inter text-xs font-bold transition-all cursor-pointer shadow-md"
+              >
+                Volunteer
+              </button>
+            </>
+          )}
         </div>
 
         {/* Functional Search Bar with Action Button */}
@@ -297,22 +319,21 @@ export default function ArticlesGalleryPage() {
       <main className="flex pt-24 pb-6 px-6 md:pt-28 md:pb-20 md:px-20 flex-col items-start gap-12 w-full max-w-7xl mx-auto">
         {/* Banner Title */}
         <div ref={headerRef} className="flex flex-col items-center gap-6 w-full text-center">
-          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible">
-            <span className="font-winterSolace text-6xl md:text-[112px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.25em] pt-4 pb-2 px-2 inline-block">
-              Article
+          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible flex-wrap">
+            <span className="font-winterSolace text-5xl md:text-[96px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.25em] pt-4 pb-2 px-2 inline-block">
+              Cancer Knowledge
             </span>
-            <div className="py-4 md:py-6 px-8 md:px-14 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
-              <span className="text-[#050505] font-winterSolace text-5xl md:text-[90px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
-                Gallery
+            <div className="py-3 md:py-5 px-8 md:px-12 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
+              <span className="text-[#050505] font-winterSolace text-4xl md:text-[80px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
+                Hub
               </span>
             </div>
-            <span className="font-inter text-6xl md:text-[112px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
+            <span className="font-inter text-5xl md:text-[96px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
               .
             </span>
           </div>
-          <p className="text-[#D5B0FF] font-inter text-base md:text-lg max-w-[600px] text-center leading-relaxed">
-            A curated look at verified medical updates, structural survivorship
-            protocols, and compassionate guides built to support you.
+          <p className="text-[#D5B0FF] font-inter text-base md:text-lg max-w-[650px] text-center leading-relaxed">
+            Clear, accessible reads that break down cancer, science, and the questions that matter. We turn complex information into something everyone can understand, engage with, and learn from.
           </p>
 
           {/* Dedicated Page Search Bar */}
@@ -416,47 +437,7 @@ export default function ArticlesGalleryPage() {
           ))}
         </div>
 
-        {/* Featured Study Hero Card (visible when no search query or matches search query) */}
-        {!activeSearchQuery && activeCategory === "All Insights" && (
-          <Link
-            href="/articles/anal-cancer"
-            ref={heroCardRef}
-            className="flex flex-col lg:flex-row items-center rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[300px] p-8 md:p-12 overflow-hidden group hover:border-[#F6C656] transition-colors cursor-pointer"
-          >
-            <div className="flex flex-col justify-center items-start gap-6 w-full">
-              <div className="flex items-center gap-3 w-fit">
-                <span className="text-[#F6C656] font-inter text-xs font-bold tracking-wider">
-                  FEATURED STUDY
-                </span>
-                <div className="rounded-full bg-[#ACACAC] w-1.5 h-1.5"></div>
-                <span className="text-[#ACACAC] font-inter text-xs font-medium">
-                  10 MIN READ
-                </span>
-              </div>
-              <h2 className="text-[#FFF] font-instrumentSerif text-3xl md:text-[40px] leading-[1.2em] w-full group-hover:text-[#F6C656] transition-colors">
-                The First 30 Days: A Clinical Roadmap for Carcinoid Diagnosis
-              </h2>
-              <p className="text-[#D5B0FF] font-inter text-sm md:text-[15px] leading-[1.6em] w-full">
-                Unpacking the emotional and medical milestones that define the
-                immediate aftermath of a cancer diagnosis. Learn how oncology
-                networks collaborate to construct your personalized care plan.
-              </p>
-              <div className="flex items-center gap-3 w-full pt-2">
-                <div className="rounded-full bg-[#CDA8E8] w-10 h-10 flex items-center justify-center font-bold text-[#050505] text-sm shrink-0 border border-white/10">
-                  H
-                </div>
-                <div className="flex flex-col items-start gap-0.5 w-fit">
-                  <span className="text-[#FFF] font-inter text-sm font-semibold">
-                    Dr. Helen Sterling
-                  </span>
-                  <span className="text-[#ACACAC] font-inter text-xs">
-                    Oncology Advisory Board
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
-        )}
+
 
         {/* Article Grid & Empty Search Results State */}
         {filteredArticles.length > 0 ? (
@@ -602,24 +583,74 @@ export default function ArticlesGalleryPage() {
             © 2026 The Carcino Foundation. All clinical content verified by
             our advisory board.
           </p>
-          <div className="flex items-center gap-4 w-fit">
-            <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer">
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.8694 8.13075C15.9317 7.19303 14.6598 6.66623 13.3336 6.66623C12.0074 6.66623 10.7356 7.19303 9.7978 8.13075C8.86004 9.06848 8.33322 10.3403 8.33322 11.6664V17.5H11.6668V11.6664C11.6668 11.2244 11.8424 10.8005 12.155 10.4879C12.4676 10.1753 12.8916 9.9997 13.3336 9.9997C13.7757 9.9997 14.1996 10.1753 14.5122 10.4879C14.8248 10.8005 15.0004 11.2244 15.0004 11.6664V17.5H18.334V11.6664C18.334 10.3403 17.8072 9.06848 16.8694 8.13075Z" stroke="#ACACAC" strokeWidth="2" strokeLinecap="round" />
+          <div className="flex items-center gap-3 w-fit">
+            {/* X (Twitter) */}
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X (Twitter)"
+              title="X (Twitter)"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer">
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_201_779_footer)">
-                  <path d="M16.6672 6.16616C17.7506 5.08278 18.334 3.3327 18.334 3.3327C18.334 3.3327 16.7506 4.33275 15.8338 4.33275C13.3336 1.99931 9.24996 3.9994 10 7.49956C7.16646 7.5829 4.3329 6.33284 2.49942 4.16607C0.415916 7.99958 2.49942 12.9165 6.66642 14.1665C5.33298 15.3333 3.4995 15.9166 1.66602 15.8333C8.83326 20.5835 18.0007 14.4999 16.6672 6.16616Z" stroke="#ACACAC" strokeWidth="2" strokeLinecap="round" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_201_779_footer">
-                    <rect width="20" height="20" fill="white" />
-                  </clipPath>
-                </defs>
+            </a>
+            {/* Instagram */}
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Instagram"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
-            </div>
+            </a>
+            {/* LinkedIn */}
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H3.67V10.9h2.79M5.07 6.56a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z"/>
+              </svg>
+            </a>
+            {/* Medium */}
+            <a
+              href="https://medium.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium"
+              title="Medium"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+              </svg>
+            </a>
+            {/* YouTube */}
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              title="YouTube"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
           </div>
         </div>
       </footer>

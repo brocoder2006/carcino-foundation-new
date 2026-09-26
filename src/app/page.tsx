@@ -14,6 +14,8 @@ import BranchedMenu from "@/components/BranchedMenu";
 import { Book02Icon, UserGroupIcon, Music01Icon } from "@hugeicons/core-free-icons";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
+import PartnershipModal from "@/components/PartnershipModal";
+import VolunteerModal from "@/components/VolunteerModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +27,8 @@ export default function CarcinoFoundationLandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState("Home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
@@ -393,6 +397,33 @@ export default function CarcinoFoundationLandingPage() {
                     setActiveNavItem={setActiveNavItem}
                   />
                 </div>
+
+                {/* Partnerships & Volunteer Buttons (Visible Only When Logged In) */}
+                {user && (
+                  <>
+                    <div className="flex pr-0.5 flex-col items-start w-fit">
+                      <button
+                        onClick={() => setIsPartnershipModalOpen(true)}
+                        className={`cursor-pointer text-nowrap flex py-2 px-3.5 justify-center items-center rounded-[999px] transition-all duration-300 w-fit glass-nav-item hover:border-[#CDA8E8]`}
+                      >
+                        <p className={`font-inter text-sm font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`}>
+                          Partnerships
+                        </p>
+                      </button>
+                    </div>
+
+                    <div className="flex pr-0.5 flex-col items-start w-fit">
+                      <button
+                        onClick={() => setIsVolunteerModalOpen(true)}
+                        className="cursor-pointer text-nowrap flex py-2 px-4 justify-center items-center rounded-[999px] transition-all duration-300 w-fit bg-gradient-to-r from-[#CDA8E8] to-[#39C69C] hover:brightness-110 shadow-md scale-100 hover:scale-105"
+                      >
+                        <p className="font-inter text-sm font-bold text-[#050505]">
+                          Volunteer
+                        </p>
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -678,6 +709,16 @@ export default function CarcinoFoundationLandingPage() {
 
       {/* Footer Section */}
       <FooterSection isLightMode={isLightMode} />
+
+      {/* Modals for Partnerships and Volunteering */}
+      <PartnershipModal
+        isOpen={isPartnershipModalOpen}
+        onClose={() => setIsPartnershipModalOpen(false)}
+      />
+      <VolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }
