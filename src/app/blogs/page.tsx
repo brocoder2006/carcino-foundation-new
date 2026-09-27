@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import FooterSection from "@/components/FooterSection";
 import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
+import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 
 export default function Carcinoblogssection() {
   const { t } = useLanguage();
@@ -42,22 +43,13 @@ export default function Carcinoblogssection() {
           <Link href="/blogs" className="text-[#CDA8E8] font-semibold border-b border-[#CDA8E8]">
             Perspective &amp; Blogs
           </Link>
-          {user && (
-            <>
-              <button
-                onClick={() => setIsPartnershipModalOpen(true)}
-                className="text-zinc-300 hover:text-[#CDA8E8] transition-colors font-medium cursor-pointer"
-              >
-                Partnerships
-              </button>
-              <button
-                onClick={() => setIsVolunteerModalOpen(true)}
-                className="py-1.5 px-4 rounded-full bg-gradient-to-r from-[#CDA8E8] to-[#39C69C] hover:brightness-110 text-[#050505] font-inter text-xs font-bold transition-all cursor-pointer shadow-md"
-              >
-                Volunteer
-              </button>
-            </>
-          )}
+          <GetInvolvedDropdown
+            user={user}
+            onOpenAuth={() => setIsPartnershipModalOpen(true)}
+            onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
+            onOpenPartnership={() => setIsPartnershipModalOpen(true)}
+            onSignOut={() => setIsPartnershipModalOpen(true)}
+          />
         </div>
 
         <Link
