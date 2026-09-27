@@ -20,6 +20,50 @@ export interface ArticleItem {
 
 export const articlesList: ArticleItem[] = [
   {
+    id: "cancer-screening",
+    numericId: 0,
+    category: "MEDICAL INSIGHTS",
+    tag: "EARLY DETECTION",
+    title: "Can cancer be detected before you feel it?",
+    readTime: "3 min read",
+    date: "Sep 15, 2026",
+    desc: "The story of Joy Milne's hyperosmia and how volatile organic compounds (VOCs) and early diagnostic biomarkers are revolutionizing pre-symptomatic cancer detection.",
+    author: "Sambit Bhattacharjee and Swapnil Pal",
+    content: [
+      "Firstly, a bit of introductory contextual trivia:",
+      "The well-known story of Joy Milne is one which sounds like nothing short of a superhero story. The 72-year-old from Perth, Scotland, has a rare genetic condition called Hyperosmia, that basically gives her a heightened sense of smell. She noticed that her late husband, Les, developed a different, 'musky' odour when he was 33, 12 years before he was diagnosed with Parkinson's.",
+      "Later, intrigued researchers from Edinburgh University, wanting to test Joy, recruited six people with Parkinson's and six people without the condition, and they asked them to wear a t-shirt for 24 hours. The scientists then collected the t-shirts, cut them into pieces and put two pieces from each shirt into separate bags. Not only did she correctly identify all of the six people with Parkinson's as having Parkinson's just from the 'smell', she also got 5 out of 6 correct for the control group. Neat.",
+      "However, Joy was also adamant that the one 'control' participant that she got wrong also had Parkinson's. According to the individual in question and the researchers, the subject did not have Parkinson's. 8 months later, that participant was diagnosed with Parkinson's.",
+      "This remarkable discovery launched breakthrough research into metabolic Volatile Organic Compounds (VOCs). Much like Parkinson's, malignant tumor proliferation subtly shifts systemic cellular metabolism months or years prior to tangible physical symptoms.",
+      "By detecting these metabolic shifts through liquid biopsy, multi-cancer early detection (MCED) blood tests, and specialized VOC sensing, oncology is entering an era where cancer can be detected long before it can be felt.",
+    ],
+    sections: [
+      {
+        heading: "Contextual Trivia: The Joy Milne Discovery",
+        content: [
+          "The well-known story of Joy Milne is one which sounds like nothing short of a superhero story. The 72-year-old from Perth, Scotland, has a rare genetic condition called Hyperosmia, that basically gives her a heightened sense of smell.",
+          "She noticed that her late husband, Les, developed a different, 'musky' odour when he was 33, 12 years before he was diagnosed with Parkinson's.",
+          "Scientists at Edinburgh University conducted controlled testing with t-shirts worn for 24 hours. Joy correctly identified all 6 Parkinson's patients and insisted a control subject had Parkinson's—8 months later, that participant was clinically diagnosed.",
+        ],
+      },
+      {
+        heading: "Volatile Organic Compounds (VOCs) & Early Biomarkers",
+        content: [
+          "Malignant transformation triggers altered lipid peroxidation and cellular metabolism, releasing distinct volatile compounds in breath, sebum, and sweat.",
+          "Current multi-cancer early detection (MCED) assays utilize cell-free DNA (cfDNA) methylation patterns and VOC profiles to pinpoint nascent tumors at Stage 0 and Stage I.",
+        ],
+      },
+    ],
+    faqs: [
+      { question: "Can cancer really be detected before physical symptoms appear?", answer: "Yes. Advanced multi-cancer early detection (MCED) tests, liquid biopsies, and volatile organic compound (VOC) profiling can identify molecular signatures long before tumors become palpable or symptomatic." },
+      { question: "What is hyperosmia?", answer: "Hyperosmia is a heightened sense of smell capable of detecting minute chemical changes in human sebum and sweat." },
+    ],
+    citations: [
+      { name: "University of Edinburgh Parkinson's & VOC Research", url: "https://www.ed.ac.uk" },
+      { name: "The Carcino Foundation Medium Publication", url: "https://medium.com/@thecarcinofoundation" },
+    ],
+  },
+  {
     id: "anal-cancer",
     numericId: 1,
     category: "CLINICAL CARE",

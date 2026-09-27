@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
 import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
+import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 import { articlesList } from "@/data/articlesData";
 
 export default function ArticlesGalleryPage() {
@@ -194,6 +195,53 @@ export default function ArticlesGalleryPage() {
     return matchesCategory && matchesSearch;
   });
 
+  const getCategoryStyle = (cat: string) => {
+    const c = (cat || "").toLowerCase();
+    if (c.includes("medical") || c.includes("clinical")) {
+      return {
+        glow: "hover:border-[#CDA8E8] hover:shadow-[0_0_50px_rgba(194,122,255,0.55)] group-hover:from-[#26133B] group-hover:to-[#0B0B0C]",
+        tagColor: "text-[#CDA8E8]",
+        badgeBg: "bg-[#CDA8E8]/15 border-[#CDA8E8]/30 text-[#CDA8E8]",
+        titleHover: "group-hover:text-[#CDA8E8]",
+        isMedical: true,
+      };
+    }
+    if (c.includes("patient") || c.includes("survivor story") || c.includes("voices")) {
+      return {
+        glow: "hover:border-[#F6C656] hover:shadow-[0_0_50px_rgba(246,198,86,0.5)] group-hover:from-[#2A1D0B] group-hover:to-[#0B0B0C]",
+        tagColor: "text-[#F6C656]",
+        badgeBg: "bg-[#F6C656]/15 border-[#F6C656]/30 text-[#F6C656]",
+        titleHover: "group-hover:text-[#F6C656]",
+        isMedical: false,
+      };
+    }
+    if (c.includes("care")) {
+      return {
+        glow: "hover:border-[#39C69C] hover:shadow-[0_0_50px_rgba(57,198,156,0.5)] group-hover:from-[#0B2A22] group-hover:to-[#0B0B0C]",
+        tagColor: "text-[#39C69C]",
+        badgeBg: "bg-[#39C69C]/15 border-[#39C69C]/30 text-[#39C69C]",
+        titleHover: "group-hover:text-[#39C69C]",
+        isMedical: false,
+      };
+    }
+    if (c.includes("tech") || c.includes("wellness") || c.includes("treatment")) {
+      return {
+        glow: "hover:border-[#F43F5E] hover:shadow-[0_0_50px_rgba(244,63,94,0.5)] group-hover:from-[#2F0F1B] group-hover:to-[#0B0B0C]",
+        tagColor: "text-[#F43F5E]",
+        badgeBg: "bg-[#F43F5E]/15 border-[#F43F5E]/30 text-[#F43F5E]",
+        titleHover: "group-hover:text-[#F43F5E]",
+        isMedical: false,
+      };
+    }
+    return {
+      glow: "hover:border-[#38BDF8] hover:shadow-[0_0_50px_rgba(56,189,248,0.5)] group-hover:from-[#0A2234] group-hover:to-[#0B0B0C]",
+      tagColor: "text-[#38BDF8]",
+      badgeBg: "bg-[#38BDF8]/15 border-[#38BDF8]/30 text-[#38BDF8]",
+      titleHover: "group-hover:text-[#38BDF8]",
+      isMedical: false,
+    };
+  };
+
   return (
     <div className="flex flex-col items-start bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#160E21] min-w-full min-h-screen text-white overflow-x-hidden relative">
       {/* Specular Ambient Gradient Blur Orbs */}
@@ -207,8 +255,8 @@ export default function ArticlesGalleryPage() {
           <div className="rounded-lg bg-[#9875C1] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
             TCF
           </div>
-          <p className="text-[#FFF] font-instrumentSerif text-2xl w-fit tracking-tight">
-            TCF JOURNAL
+          <p className="text-[#FFF] font-winterSolace text-xl w-fit tracking-tight">
+            The Carcino Foundation
           </p>
         </Link>
         <div className="hidden md:flex items-center gap-8 w-fit">
@@ -221,22 +269,13 @@ export default function ArticlesGalleryPage() {
           <Link href="/blogs" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
             Perspective &amp; Blogs
           </Link>
-          {user && (
-            <>
-              <button
-                onClick={() => setIsPartnershipModalOpen(true)}
-                className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-[#CDA8E8] transition-colors cursor-pointer"
-              >
-                Partnerships
-              </button>
-              <button
-                onClick={() => setIsVolunteerModalOpen(true)}
-                className="py-1.5 px-4 rounded-full bg-gradient-to-r from-[#CDA8E8] to-[#39C69C] hover:brightness-110 text-[#050505] font-inter text-xs font-bold transition-all cursor-pointer shadow-md"
-              >
-                Volunteer
-              </button>
-            </>
-          )}
+          <GetInvolvedDropdown
+            user={user}
+            onOpenAuth={() => setIsPartnershipModalOpen(true)}
+            onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
+            onOpenPartnership={() => setIsPartnershipModalOpen(true)}
+            onSignOut={() => setIsPartnershipModalOpen(true)}
+          />
         </div>
 
         {/* Functional Search Bar with Action Button */}
@@ -428,8 +467,8 @@ export default function ArticlesGalleryPage() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`py-2.5 px-5 rounded-[99px] font-inter text-sm font-medium transition-all duration-300 cursor-pointer ${activeCategory === cat
-                  ? "bg-[#F6C656] text-[#050505] font-semibold shadow-md shadow-[#F6C656]/30 scale-105"
-                  : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#E9CDF8] hover:border-[#F6C656] hover:text-[#F6C656] hover:bg-[#F6C656]/10"
+                ? "bg-[#F6C656] text-[#050505] font-semibold shadow-md shadow-[#F6C656]/30 scale-105"
+                : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#E9CDF8] hover:border-[#F6C656] hover:text-[#F6C656] hover:bg-[#F6C656]/10"
                 }`}
             >
               {cat}
@@ -442,28 +481,37 @@ export default function ArticlesGalleryPage() {
         {/* Article Grid & Empty Search Results State */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {filteredArticles.map((art) => (
-              <Link
-                key={art.id}
-                href={`/articles/${art.id}`}
-                className="flex p-8 flex-col justify-between items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] w-full min-h-[260px] transition-all duration-400 group hover:border-[#F6C656] hover:shadow-[0_15px_35px_rgba(246,198,86,0.25)] hover:-translate-y-1.5 cursor-pointer"
-              >
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-[#F6C656] font-inter text-xs font-semibold tracking-wider">
-                    {art.tag}
-                  </span>
-                  <span className="text-[#ACACAC] font-inter text-xs">
-                    {art.readTime}
-                  </span>
-                </div>
-                <h3 className="line-clamp-2 overflow-hidden text-[#FFF] font-instrumentSerif text-2xl leading-[1.3em] w-full group-hover:text-[#F6C656] transition-colors">
-                  {art.title}
-                </h3>
-                <p className="line-clamp-3 overflow-hidden text-[#D5B0FF] font-inter text-sm leading-relaxed w-full">
-                  {art.desc}
-                </p>
-              </Link>
-            ))}
+            {filteredArticles.map((art) => {
+              const catStyle = getCategoryStyle(art.category || art.tag);
+              return (
+                <Link
+                  key={art.id}
+                  href={`/articles/${art.id}`}
+                  className={`flex p-8 flex-col justify-between items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-gradient-to-b from-[#0B0B0C] to-[#0B0B0C] w-full min-h-[260px] transition-all duration-400 group hover:-translate-y-1.5 cursor-pointer ${catStyle.glow}`}
+                >
+                  <div className="flex justify-between items-center w-full">
+                    {!catStyle.isMedical ? (
+                      <span className={`py-1 px-3.5 rounded-full font-inter text-xs font-semibold tracking-wider ${catStyle.badgeBg}`}>
+                        {art.tag}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-purple-400/80 font-mono font-medium tracking-wide">
+                        ● PURPLE INSIGHT
+                      </span>
+                    )}
+                    <span className="text-[#ACACAC] font-inter text-xs">
+                      {art.readTime}
+                    </span>
+                  </div>
+                  <h3 className={`line-clamp-2 overflow-hidden text-[#FFF] font-instrumentSerif text-2xl leading-[1.3em] w-full transition-colors ${catStyle.titleHover}`}>
+                    {art.title}
+                  </h3>
+                  <p className="line-clamp-3 overflow-hidden text-[#D5B0FF] font-inter text-sm leading-relaxed w-full">
+                    {art.desc}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="flex p-12 flex-col items-center justify-center gap-4 rounded-3xl border border-white/10 bg-[#0B0B0C] w-full text-center py-16">
@@ -524,8 +572,8 @@ export default function ArticlesGalleryPage() {
               <div className="rounded-lg bg-[#CDA8E8] w-8 h-8 flex items-center justify-center font-bold text-[#050505] text-xs">
                 TCF
               </div>
-              <span className="text-[#FFF] font-instrumentSerif text-2xl">
-                TCF JOURNAL
+              <span className="text-[#FFF] font-winterSolace text-xl tracking-tight">
+                The Carcino Foundation
               </span>
             </div>
             <p className="text-[#D5B0FF] font-inter text-sm leading-[1.6em]">
@@ -594,12 +642,12 @@ export default function ArticlesGalleryPage() {
               className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
             </a>
             {/* Instagram */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/thecarcinofoundation/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -614,7 +662,7 @@ export default function ArticlesGalleryPage() {
             </a>
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/thecarcinofoundation/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -622,7 +670,7 @@ export default function ArticlesGalleryPage() {
               className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H3.67V10.9h2.79M5.07 6.56a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z"/>
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H3.67V10.9h2.79M5.07 6.56a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z" />
               </svg>
             </a>
             {/* Medium */}
@@ -635,12 +683,12 @@ export default function ArticlesGalleryPage() {
               className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+                <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42c1.87 0 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
               </svg>
             </a>
             {/* YouTube */}
             <a
-              href="https://youtube.com"
+              href="https://www.youtube.com/@carcinofoundation"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
@@ -648,7 +696,7 @@ export default function ArticlesGalleryPage() {
               className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF] transition-all duration-300 hover:scale-110"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
               </svg>
             </a>
           </div>

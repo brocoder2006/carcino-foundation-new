@@ -143,8 +143,8 @@ export default function CredibilityTestimonialsSection({
       id="survivors-section"
       ref={sectionRef}
       className={`w-full py-20 md:py-32 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
-          ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
-          : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
+        ? "bg-gradient-to-b from-[#F8F4FA] via-[#F3E8FF]/60 to-[#F8F4FA] text-[#171717]"
+        : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
         }`}
     >
       {/* Ambient Gradient Blur Orbs */}
@@ -161,14 +161,14 @@ export default function CredibilityTestimonialsSection({
         {/* Section Header Title & Subtitle */}
         <div ref={headerRef} className="flex flex-col items-center gap-5 w-full text-center">
           <h2 className="font-winterSolace text-5xl md:text-[96px] leading-[1.05em] bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#C9A867] bg-clip-text text-transparent w-full text-center">
-            trusted paths
+            Beyond Our Own Words
+
           </h2>
           <p
             className={`font-inter text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
               }`}
           >
-            Beyond Our Own Words
-            Hear from the people, platforms, and publications that have encountered The Carcino Foundation and its work.          </p>
+            Hear from the people, platforms, and publications that have encountered The Carcino Foundation and its work.   </p>
         </div>
 
         {/* Testimonial Cards Grid (2x2 Desktop, 1-Col Mobile) */}
@@ -180,8 +180,8 @@ export default function CredibilityTestimonialsSection({
             <div
               key={idx}
               className={`flex p-7 md:p-8 flex-col items-start gap-6 rounded-3xl border transition-all duration-400 w-full relative overflow-hidden shadow-xl cursor-pointer hover:scale-[1.03] hover:-translate-y-2.5 ${isLightMode
-                  ? "bg-white/85 border-black/10 shadow-purple-900/5 text-[#171717] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
-                  : "bg-[#0B0B0C] border-white/10 backdrop-blur-xl text-[#F8F8F8] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
+                ? "bg-white/85 border-black/10 shadow-purple-900/5 text-[#171717] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
+                : "bg-[#0B0B0C] border-white/10 backdrop-blur-xl text-[#F8F8F8] hover:border-[#F6C656] hover:shadow-[0_20px_50px_rgba(246,198,86,0.3)]"
                 }`}
             >
               {/* Badge & Quote Icon Header */}

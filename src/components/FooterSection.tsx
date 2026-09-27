@@ -93,7 +93,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
 
               {/* Instagram */}
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/thecarcinofoundation/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -113,7 +113,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
 
               {/* LinkedIn */}
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/thecarcinofoundation/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -149,7 +149,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
 
               {/* YouTube */}
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@carcinofoundation"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"

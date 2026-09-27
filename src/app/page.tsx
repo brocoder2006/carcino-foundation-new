@@ -16,6 +16,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
+import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -497,18 +498,15 @@ export default function CarcinoFoundationLandingPage() {
             </span>
           </button>
 
-          {/* User Account Login / Profile Button */}
-          <button
-            onClick={() => setIsAuthModalOpen(true)}
-            aria-label="User Account"
-            className="flex items-center justify-center px-4 h-10 rounded-full glass-btn-primary cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 font-inter text-xs font-bold text-white gap-1.5 shrink-0"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>{user ? user.fullName || "Account" : "Get involved"}</span>
-          </button>
+          {/* User Account & Get Involved Dropdown Button */}
+          <GetInvolvedDropdown
+            user={user}
+            isLightMode={isLightMode}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+            onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
+            onOpenPartnership={() => setIsPartnershipModalOpen(true)}
+            onSignOut={() => setIsAuthModalOpen(true)}
+          />
         </div>
       </header>
 

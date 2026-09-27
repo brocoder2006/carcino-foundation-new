@@ -69,9 +69,8 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
     <section id="contact-form" className="py-24 px-6 max-w-4xl mx-auto w-full relative z-10">
       <FadeInUp>
         <div className="flex flex-col items-center text-center mb-12">
-          <span className="px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-[#E9CDF8] mb-4 inline-block">
-            ✉️ Contact Owner
-          </span>
+          {/* 
+           */}
           <h2 className="text-4xl md:text-5xl font-bold font-winterSolace text-white tracking-tight mb-4">
             Get in Touch With Us
           </h2>
@@ -86,11 +85,10 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
 
           {statusMsg && (
             <div
-              className={`p-4 mb-6 rounded-2xl border text-sm font-medium ${
-                statusMsg.type === "success"
+              className={`p-4 mb-6 rounded-2xl border text-sm font-medium ${statusMsg.type === "success"
                   ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
                   : "bg-red-500/15 border-red-500/30 text-red-300"
-              }`}
+                }`}
             >
               {statusMsg.text}
             </div>

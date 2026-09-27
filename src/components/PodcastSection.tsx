@@ -89,7 +89,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
   const episodes: Episode[] = [
     {
       id: "ep1",
-      code: "EPISODE 01",
+      code: "TCF 001",
       title: t("pod_ep1_title"),
       desc: t("pod_ep1_desc"),
       cover: "/podcasts/episode_1_jyotirup_goswami.jpg",
@@ -100,7 +100,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     },
     {
       id: "ep2",
-      code: "EPISODE 02",
+      code: "TCF 002",
       title: t("pod_ep2_title"),
       desc: t("pod_ep2_desc"),
       cover: "/podcasts/episode_2_soirindhri_banerjee.jpg",
@@ -111,7 +111,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     },
     {
       id: "ep3",
-      code: "EPISODE 03",
+      code: "TCF 003",
       title: t("pod_ep3_title"),
       desc: t("pod_ep3_desc"),
       cover: "/podcasts/episode_3_amelia_corl.jpg",
@@ -137,7 +137,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
 
   const scrollCarousel = (direction: "prev" | "next") => {
     if (trackRef.current) {
-      const scrollAmount = direction === "next" ? 340 : -340;
+      const scrollAmount = direction === "next" ? 304 : -304;
       trackRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
@@ -237,27 +237,23 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     <section
       id="podcasts-section"
       ref={sectionRef}
-      className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${
-        isLightMode
+      className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${isLightMode
           ? "bg-gradient-to-b from-[#F7F2FA] via-[#FFF1F2]/60 to-[#F7F2FA] text-[#171717]"
           : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
-      }`}
+        }`}
     >
       {/* Section-Specific Ambient Gradient Blur Orbs (Sunset Crimson & Rose Amber Theme) */}
       <div
-        className={`absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#FF5500]/25" : "bg-[#F43F5E]/18"
-        }`}
+        className={`absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#FF5500]/25" : "bg-[#F43F5E]/18"
+          }`}
       />
       <div
-        className={`absolute bottom-0 -left-20 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#FB923C]/30" : "bg-[#D97706]/18"
-        }`}
+        className={`absolute bottom-0 -left-20 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#FB923C]/30" : "bg-[#D97706]/18"
+          }`}
       />
       <div
-        className={`absolute top-1/2 left-1/3 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#C27AFF]/15"
-        }`}
+        className={`absolute top-1/2 left-1/3 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#C27AFF]/15"
+          }`}
       />
       {/* Center Aligned Title, Subtitle & Navigation Buttons */}
       <div
@@ -269,9 +265,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         </h2>
         <div className="flex flex-col items-center justify-center w-full">
           <p
-            className={`font-googleSansFlex text-base md:text-lg leading-7 w-full max-w-[480px] text-center ${
-              isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
-            }`}
+            className={`font-googleSansFlex text-base md:text-lg leading-7 w-full max-w-[480px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
+              }`}
           >
             {t("pod_subtitle")}
           </p>
@@ -282,11 +277,10 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           <button
             onClick={() => scrollCarousel("prev")}
             aria-label="Previous podcasts"
-            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-              isLightMode
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${isLightMode
                 ? "bg-white/80 text-black border border-black/10 hover:bg-[#F6C656] hover:border-[#F6C656] shadow-md hover:scale-110 active:scale-95"
                 : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
-            }`}
+              }`}
           >
             <svg
               width="22"
@@ -305,11 +299,10 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           <button
             onClick={() => scrollCarousel("next")}
             aria-label="Next podcasts"
-            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-              isLightMode
+            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${isLightMode
                 ? "bg-white/80 text-black border border-black/10 hover:bg-[#F6C656] hover:border-[#F6C656] shadow-md hover:scale-110 active:scale-95"
                 : "glass-navbar text-white border border-white/20 hover:border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-black shadow-lg hover:scale-110 active:scale-95"
-            }`}
+              }`}
           >
             <svg
               width="22"
@@ -334,18 +327,16 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       >
         {/* Soft edge gradients for seamless appearance */}
         <div
-          className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${
-            isLightMode
+          className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
               ? "bg-gradient-to-r from-[#F7F2FA] to-transparent"
               : "bg-gradient-to-r from-[#050505] to-transparent"
-          }`}
+            }`}
         ></div>
         <div
-          className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${
-            isLightMode
+          className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
               ? "bg-gradient-to-l from-[#F7F2FA] to-transparent"
               : "bg-gradient-to-l from-[#050505] to-transparent"
-          }`}
+            }`}
         ></div>
 
         {/* Scrollable Marquee Track */}
@@ -357,13 +348,12 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             <div
               key={`${ep.id}-${idx}`}
               onClick={() => handleEpisodeClick(ep)}
-              className={`flex p-6 flex-col justify-between gap-3 rounded-3xl border transition-all duration-300 w-80 h-[570px] shrink-0 group cursor-pointer hover:scale-[1.04] ${
-                isLightMode
-                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_16px_40px_rgba(246,198,86,0.25)] hover:-translate-y-2"
-                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-2"
-              }`}
+              className={`flex p-5 flex-col justify-between gap-2.5 rounded-2xl border transition-all duration-300 w-[280px] h-[450px] shrink-0 group cursor-pointer hover:scale-[1.03] ${isLightMode
+                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_16px_40px_rgba(246,198,86,0.25)] hover:-translate-y-1.5"
+                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-1.5"
+                }`}
             >
-              <div className="relative w-full h-[260px] shrink-0 rounded-2xl overflow-hidden">
+              <div className="relative w-full h-[190px] shrink-0 rounded-xl overflow-hidden">
                 <img
                   data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "coverImage") : undefined}
                   src={ep.cover}
@@ -372,36 +362,54 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                 />
               </div>
 
-              <div className="flex flex-col gap-2.5 flex-1 justify-start overflow-hidden">
+              <div className="flex flex-col gap-2 flex-1 justify-start overflow-hidden">
                 <div className="flex justify-between items-center w-full shrink-0">
                   <p
                     data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "code") : undefined}
-                    className={`font-googleSansFlex text-xs font-semibold uppercase tracking-wider leading-5 w-fit ${
-                      isLightMode ? "text-[#2E1640]" : "text-[#CDA8E8]"
-                    }`}
+                    className={`font-googleSansFlex text-[11px] font-semibold uppercase tracking-wider leading-4 w-fit ${isLightMode ? "text-[#2E1640]" : "text-[#CDA8E8]"
+                      }`}
                   >
                     {ep.code}
                   </p>
                 </div>
 
-                <p
-                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
-                  className={`font-inter text-2xl font-bold leading-snug line-clamp-2 w-full shrink-0 ${
-                    isLightMode ? "text-[#163B2E]" : "text-[var(--color-surface,#FFF)]"
-                  }`}
-                >
-                  {ep.title}
-                </p>
+                <div className="flex items-center justify-between gap-2.5 w-full shrink-0">
+                  <p
+                    data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
+                    className={`font-inter text-lg font-bold leading-snug line-clamp-2 flex-1 ${isLightMode ? "text-[#163B2E]" : "text-[var(--color-surface,#FFF)]"
+                      }`}
+                  >
+                    {ep.title}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEpisodeClick(ep);
+                    }}
+                    aria-label={`Play ${ep.title}`}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 shadow-md group-hover:scale-110 active:scale-95 cursor-pointer ${isLightMode
+                        ? "bg-[#163B2E] text-white group-hover:bg-[#F6C656] group-hover:text-black"
+                        : "bg-[#CDA8E8] text-[#160E21] group-hover:bg-white group-hover:text-black"
+                      }`}
+                  >
+                    <svg
+                      className="w-3.5 h-3.5 fill-current ml-0.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
 
                 <p
                   data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "desc") : undefined}
-                  className={`font-googleSansFlex text-sm font-light leading-relaxed line-clamp-3 w-full ${
-                    ep.descClass
+                  className={`font-googleSansFlex text-xs font-light leading-relaxed line-clamp-3 w-full ${ep.descClass
                       ? ep.descClass
                       : isLightMode
-                      ? "text-[#9875C1]"
-                      : "text-[#D5B0FF]"
-                  }`}
+                        ? "text-[#9875C1]"
+                        : "text-[#D5B0FF]"
+                    }`}
                 >
                   {ep.desc}
                 </p>

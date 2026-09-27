@@ -2,13 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { client } from "@/sanity/lib/client";
-import { createSanityAttribute } from "@/sanity/lib/visualEditing";
 import { useLanguage } from "@/context/LanguageContext";
-import { articlesList } from "@/data/articlesData";
+import { articlesList, ArticleItem } from "@/data/articlesData";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -20,117 +17,49 @@ interface ArticlesSectionProps {
 
 export default function ArticlesSection({ isLightMode = false }: ArticlesSectionProps) {
   const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [hoveredArticleId, setHoveredArticleId] = useState<string | number | null>(null);
-  const [sanityArticles, setSanityArticles] = useState<any[]>([]);
-  const router = useRouter();
+  const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
+  const [claps, setClaps] = useState<Record<string, number>>({
+    "cancer-screening": 52,
+    "anal-cancer": 38,
+    "bone-cancer": 44,
+  });
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const articleCardRef = useRef<HTMLDivElement>(null);
 
-  const categories = [
-    t("art_cat_all"),
-    t("art_cat_medical"),
-    t("art_cat_survivor"),
-    t("art_cat_caregiver"),
-    t("art_cat_wellness"),
-  ];
+  const currentArticle: ArticleItem = articlesList[selectedArticleIndex] || articlesList[0];
+  const currentClapCount = claps[currentArticle.id] || 52;
 
-  const defaultArticles = articlesList.map((art) => ({
-    id: art.id,
-    category: art.category,
-    tag: art.tag,
-    title: art.title,
-    readTime: art.readTime,
-    date: art.date,
-    desc: art.desc,
-    author: art.author,
-  }));
-
-  useEffect(() => {
-    async function fetchSanityArticles() {
-      try {
-        const docs = await client.fetch(
-          `*[_type == "article" && !(_id in path("drafts.**"))] | order(_createdAt desc)`,
-          {},
-          { useCdn: false }
-        );
-        if (docs && Array.isArray(docs)) {
-          const formatted = docs.map((doc: any) => ({
-            id: doc.slug?.current || doc._id,
-            category: doc.category || "Medical Insights",
-            tag: doc.category || "Medical Insights",
-            title: doc.title || "Untitled Article",
-            readTime: doc.readTime
-              ? (doc.readTime.includes("min") ? doc.readTime : `${doc.readTime} min read`)
-              : "5 min read",
-            date: doc.date || "Sep 22, 2026",
-            desc: doc.desc || "",
-            author: doc.author || "Sayantan Pal",
-          }));
-          setSanityArticles(formatted);
-        }
-      } catch (err) {
-        console.error("Failed to fetch Sanity articles:", err);
-      }
-    }
-
-    fetchSanityArticles();
-
-    // Subscribe to live Sanity mutations to update the gallery instantly when published
-    const subscription = client
-      .listen(`*[_type == "article"]`)
-      .subscribe(() => {
-        fetchSanityArticles();
-      });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  const getKeys = (art: { id?: string; title?: string }) => {
-    const rawId = (art.id || "").toLowerCase().trim();
-    const rawTitle = (art.title || "").toLowerCase().trim();
-    const cleanId = rawId.replace(/[^a-z0-9]/g, "");
-    const cleanTitle = rawTitle.replace(/[^a-z0-9]/g, "");
-    const topicSlug = rawId.split("-")[0] || "";
-    return [rawId, rawTitle, cleanId, cleanTitle, topicSlug].filter(Boolean);
+  const handleClap = () => {
+    setClaps((prev) => ({
+      ...prev,
+      [currentArticle.id]: (prev[currentArticle.id] || 50) + 1,
+    }));
   };
 
-  const seenKeys = new Set<string>();
-  const allArticles: typeof defaultArticles = [];
-
-  const addUnique = (art: (typeof defaultArticles)[0]) => {
-    const keys = getKeys(art);
-    const isDuplicate = keys.some((k) => seenKeys.has(k));
-    if (!isDuplicate) {
-      keys.forEach((k) => seenKeys.add(k));
-      allArticles.push(art);
+  const handleShare = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2500);
     }
   };
-
-  sanityArticles.forEach(addUnique);
-  defaultArticles.forEach(addUnique);
-
-  const filteredArticles =
-    activeCategory === "All"
-      ? allArticles
-      : allArticles.filter((art) => art.category === activeCategory);
-
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Header ScrollTrigger Timeline
+      // 1. Header Reveal
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current.children,
-          { opacity: 0, y: 50, scale: 0.94, filter: "blur(8px)" },
+          { opacity: 0, y: 40, filter: "blur(8px)" },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
             filter: "blur(0px)",
             duration: 1.1,
             stagger: 0.16,
@@ -144,23 +73,21 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         );
       }
 
-      // 2. Cards Stagger ScrollTrigger Animation with 3D Perspective
-      if (cardsRef.current) {
+      // 2. Continuous Article Card Reveal
+      if (articleCardRef.current) {
         gsap.fromTo(
-          cardsRef.current.children,
-          { opacity: 0, y: 70, scale: 0.9, rotateX: 12, filter: "blur(6px)" },
+          articleCardRef.current,
+          { opacity: 0, y: 50, scale: 0.96, filter: "blur(8px)" },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            rotateX: 0,
             filter: "blur(0px)",
-            duration: 0.95,
-            stagger: 0.14,
-            ease: "back.out(1.4)",
+            duration: 1,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: cardsRef.current,
-              start: "top 80%",
+              trigger: articleCardRef.current,
+              start: "top 85%",
               toggleActions: "play none none reverse",
             },
           }
@@ -169,217 +96,273 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [activeCategory]);
+  }, [selectedArticleIndex]);
 
   return (
     <section
-      id="articles-gallery"
+      id="articles-section"
       ref={sectionRef}
-      className={`w-full py-20 md:py-[120px] px-6 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
+      className={`w-full py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-gradient-to-b from-[#F8F4FA] via-[#ECFDF5]/60 to-[#F8F4FA] text-[#171717]"
-          : "bg-gradient-to-b from-[#050505] via-[#0D0B05] to-[#050505] text-[#F8F8F8]"
+          ? "bg-gradient-to-b from-[#F7F2FA] via-[#FAFAF9] to-[#F7F2FA] text-[#171717]"
+          : "bg-gradient-to-b from-[#160E21] via-[#21182D] to-[#160E21] text-[#F8F8F8]"
       }`}
     >
-      {/* Section-Specific Ambient Gradient Blur Orbs */}
+      {/* Section Ambient Glow Orbs */}
       <div
-        className={`absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#F6C656]/25" : "bg-[#F6C656]/15"
+        className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#F6C656]/20" : "bg-[#CDA8E8]/12"
         }`}
       />
       <div
-        className={`absolute top-1/2 -right-32 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#D4AF37]/30" : "bg-[#D4AF37]/15"
+        className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
+          isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/10"
         }`}
-      />
-
-      {/* Full Screen Ambient Gold Gradient Overlay on Hover */}
-      <div
-        className={`fixed inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0 ${
-          hoveredArticleId !== null ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          background:
-            "radial-gradient(140% 140% at 50% 50%, rgba(246, 198, 86, 0.55) 0%, rgba(212, 175, 55, 0.35) 45%, rgba(180, 130, 20, 0.15) 75%, rgba(0, 0, 0, 0) 100%)",
-        }}
       />
 
       {/* Header Container */}
       <div
         ref={headerRef}
-        className="flex max-w-[960px] flex-col items-center gap-[29px] w-full text-center relative z-10"
+        className="flex max-w-4xl flex-col items-center gap-6 w-full text-center relative z-10 mb-10"
       >
-        {/* Title Group */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4 relative min-h-[180px] md:min-h-[220px] overflow-visible">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
-            <span className="font-winterSolace text-6xl md:text-[100px] leading-[1.25em] font-extrabold bg-gradient-to-r from-[#F6C656] via-[#E5C158] to-[#C9A867] bg-clip-text text-transparent pt-4 pb-2 px-2 inline-block">
-              {t("art_title_1")}
+        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
+          <span className="font-winterSolace text-5xl md:text-[90px] leading-[1.2em] font-extrabold bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent inline-block">
+            {t("art_title_1")}
+          </span>
+          <div className="py-2.5 md:py-4 px-8 md:px-12 rounded-full bg-[#F6C656] shadow-lg flex items-center justify-center">
+            <span className="text-[#0B0B0C] font-winterSolace text-3xl md:text-[70px] leading-[1.1em] font-bold">
+              {t("art_title_2")}
             </span>
-            <div className="py-3.5 md:py-5 px-8 md:px-14 rounded-[999px] bg-[#F6C656] shadow-lg flex items-center justify-center overflow-visible">
-              <span className="text-[#0B0B0C] font-winterSolace text-4xl md:text-[80px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
-                {t("art_title_2")}
+          </div>
+          <span className="font-inter text-5xl md:text-[90px] font-bold text-[#F6C656] leading-[1.2em] inline-block">
+            .
+          </span>
+        </div>
+
+        <p
+          className={`font-inter text-base md:text-lg max-w-2xl text-center leading-relaxed ${
+            isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]/90"
+          }`}
+        >
+          {t("art_subtitle")}
+        </p>
+
+        {/* Article Switcher Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+          {articlesList.slice(0, 5).map((art, idx) => (
+            <button
+              key={art.id}
+              onClick={() => setSelectedArticleIndex(idx)}
+              className={`py-2 px-4 rounded-full text-xs font-inter font-semibold transition-all duration-300 cursor-pointer ${
+                selectedArticleIndex === idx
+                  ? "bg-[#F6C656] text-[#0B0B0C] shadow-md shadow-[#F6C656]/30 scale-105 font-bold"
+                  : isLightMode
+                  ? "bg-white/80 text-[#2E1640] hover:bg-[#F6C656]/20 border border-black/10"
+                  : "bg-white/10 text-zinc-300 hover:bg-[#CDA8E8]/20 hover:text-[#CDA8E8] border border-white/10"
+              }`}
+            >
+              {art.title.length > 32 ? `${art.title.slice(0, 32)}...` : art.title}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* CONTINUOUS EDITORIAL ARTICLE READER CONTAINER (Medium Style) */}
+      <div
+        ref={articleCardRef}
+        className={`w-full max-w-4xl rounded-3xl p-6 md:p-12 border transition-all duration-500 shadow-2xl relative z-10 ${
+          isLightMode
+            ? "bg-white border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.06)] text-[#171717]"
+            : "bg-[#0E0E10] border-white/15 shadow-[0_25px_70px_rgba(0,0,0,0.6)] text-[#F8F8F8]"
+        }`}
+      >
+        {/* Article Headline */}
+        <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-[1.25] mb-4">
+          {currentArticle.title}
+        </h2>
+
+        {/* Byline */}
+        <p className={`font-inter text-base md:text-lg mb-6 ${isLightMode ? "text-zinc-600" : "text-zinc-400"}`}>
+          by <span className="font-semibold text-emerald-500">{currentArticle.author}</span>
+        </p>
+
+        {/* Publication Badge & Metadata Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-zinc-500/20 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-amber-500 flex items-center justify-center font-bold text-white text-xs shadow-md shrink-0">
+              TCF
+            </div>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm font-inter">The Carcino Foundation</span>
+                <button
+                  onClick={() => setIsFollowing(!isFollowing)}
+                  className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${
+                    isFollowing
+                      ? "bg-emerald-500 text-black font-bold"
+                      : "border border-emerald-500/60 text-emerald-400 hover:bg-emerald-500/20"
+                  }`}
+                >
+                  {isFollowing ? "Following" : "Follow"}
+                </button>
+              </div>
+              <span className={`text-xs font-inter ${isLightMode ? "text-zinc-500" : "text-zinc-400"}`}>
+                {currentArticle.readTime} · {currentArticle.date}
               </span>
             </div>
-            <span className="font-inter text-6xl md:text-[100px] font-bold text-[#F6C656] leading-[1.25em] pt-4 inline-block">
-              .
+          </div>
+
+          {/* Social Action Tools (Claps, Comments, Repost, Bookmark, Audio, Share) */}
+          <div className="flex items-center gap-4 text-xs font-inter">
+            {/* Clap Button */}
+            <button
+              onClick={handleClap}
+              title="Clap for article"
+              className="flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 font-bold transition-all cursor-pointer active:scale-95"
+            >
+              <span className="text-base">👏</span>
+              <span>{currentClapCount}</span>
+            </button>
+
+            {/* Comment Counter */}
+            <span className="flex items-center gap-1 text-zinc-400">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>1</span>
             </span>
+
+            {/* Repost Counter */}
+            <span className="flex items-center gap-1 text-zinc-400">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 1l4 4-4 4"></path>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                <path d="M7 23l-4-4 4-4"></path>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+              </svg>
+              <span>1</span>
+            </span>
+
+            {/* Bookmark Button */}
+            <button
+              onClick={() => setIsBookmarked(!isBookmarked)}
+              title="Bookmark story"
+              className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                isBookmarked ? "text-emerald-400 bg-emerald-500/10" : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+
+            {/* Audio Player Button */}
+            <button
+              onClick={() => setIsPlayingAudio(!isPlayingAudio)}
+              title="Listen to article audio"
+              className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                isPlayingAudio ? "text-purple-400 bg-purple-500/20" : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+
+            {/* Share Link Button */}
+            <button
+              onClick={handleShare}
+              title="Share article"
+              className="p-1.5 rounded-full text-zinc-400 hover:text-white transition-all cursor-pointer relative"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              {copiedLink && (
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 py-1 px-2.5 rounded bg-emerald-500 text-black font-bold text-[10px] whitespace-nowrap shadow-lg">
+                  Link copied!
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Subtitle */}
-        <div className="max-w-[600px] mx-auto">
-          <p
-            className={`font-inter text-base md:text-lg leading-relaxed text-center ${
-              isLightMode ? "text-[#2E1640]" : "text-[#F6C656]/90"
-            }`}
-          >
-            {t("art_subtitle")}
-          </p>
-        </div>
-
-        {/* Category Pills & Explore Button */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`py-2 px-5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                activeCategory === cat
-                  ? "bg-[#F6C656] text-[#0B0B0C] shadow-md shadow-[#F6C656]/30 scale-105"
-                  : isLightMode
-                  ? "bg-white/80 text-[#2E1640] hover:bg-[#F6C656]/20 hover:border-[#F6C656] border border-black/5"
-                  : "bg-white/10 text-zinc-300 hover:bg-[#F6C656]/20 hover:border-[#F6C656] hover:text-[#F6C656] border border-white/10"
+        {/* CONTINUOUS PROSE ARTICLE BODY */}
+        <div className="flex flex-col gap-5 text-base md:text-lg leading-relaxed font-sans opacity-95">
+          {currentArticle.content.map((paragraph, pIdx) => (
+            <p
+              key={pIdx}
+              className={`${
+                pIdx === 0
+                  ? "font-medium text-lg md:text-xl text-amber-500/90 italic border-l-2 border-amber-500 pl-4 py-1"
+                  : ""
               }`}
             >
-              {cat}
-            </button>
+              {paragraph}
+            </p>
           ))}
-          <Link
-            href="/articles"
-            className="py-2 px-5 rounded-full text-xs md:text-sm font-bold bg-[#F6C656] text-[#0B0B0C] hover:bg-[#E5C158] transition-all duration-300 flex items-center gap-1.5 shadow-md cursor-pointer ml-1"
-          >
-            <span>{t("btn_explore_articles")}</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </Link>
+
+          {/* Render article sections continuously if present */}
+          {currentArticle.sections &&
+            currentArticle.sections.map((sec, secIdx) => (
+              <div key={secIdx} className="flex flex-col gap-3 mt-4 pt-4 border-t border-zinc-500/10">
+                <h3 className="font-serif text-xl md:text-2xl font-bold text-emerald-400">
+                  {sec.heading}
+                </h3>
+                {sec.content.map((p, itemIdx) => (
+                  <p key={itemIdx} className="text-base leading-relaxed">
+                    {p}
+                  </p>
+                ))}
+              </div>
+            ))}
+        </div>
+
+        {/* Bottom Editorial Action Footer */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-8 mt-8 border-t border-zinc-500/20">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleClap}
+              className="flex items-center gap-2 py-2 px-4 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 font-bold text-sm transition-all cursor-pointer active:scale-95"
+            >
+              <span>👏 Clap for this story</span>
+              <span className="bg-amber-500/20 py-0.5 px-2 rounded-full text-xs">
+                {currentClapCount}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/articles/${currentArticle.id}`}
+              className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F6C656] to-[#D4AF37] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1.5"
+            >
+              <span>Read Full Article & Citations ↗</span>
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Article Cards Grid - Pure Square Tiles */}
-      <div
-        ref={cardsRef}
-        className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full mt-12 mx-auto relative z-10"
-      >
-        {filteredArticles.slice(0, 6).map((art) => (
-          <Link
-            key={art.id}
-            href={`/articles/${art.id}`}
-            onMouseEnter={() => setHoveredArticleId(art.id)}
-            onMouseLeave={() => setHoveredArticleId(null)}
-            className={`aspect-square flex flex-col justify-between p-6 md:p-8 rounded-[32px] transition-all duration-500 group cursor-pointer ${
-              hoveredArticleId === art.id
-                ? "bg-[#1A1408] border-[#F6C656] shadow-[0_20px_60px_rgba(246,198,86,0.45)] -translate-y-2 scale-[1.03]"
-                : isLightMode
-                ? "bg-white/80 backdrop-blur-md border border-black/5 hover:border-[#F6C656] shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
-                : "glass-card border border-white/10 hover:border-[#F6C656]"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between text-xs font-semibold mb-3">
-                <span
-                  data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "category") : undefined}
-                  className={`py-1 px-3.5 rounded-full font-inter transition-colors ${
-                    hoveredArticleId === art.id
-                      ? "bg-[#F6C656] text-[#0B0B0C] font-bold"
-                      : "bg-[#F6C656]/20 text-[#F6C656]"
-                  }`}
-                >
-                  {art.tag}
-                </span>
-                <span
-                  data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "readTime") : undefined}
-                  className={
-                    hoveredArticleId === art.id
-                      ? "text-[#F6C656] font-semibold"
-                      : isLightMode
-                      ? "text-[#2E1640]"
-                      : "text-zinc-400"
-                  }
-                >
-                  {art.readTime}
-                </span>
-              </div>
-              <h3
-                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "title") : undefined}
-                className={`font-googleSansFlex text-lg md:text-xl font-bold tracking-tight leading-snug mb-3 line-clamp-3 transition-colors ${
-                  hoveredArticleId === art.id
-                    ? "text-[#F6C656]"
-                    : isLightMode
-                    ? "text-[#163B2E]"
-                    : "text-white"
-                }`}
-              >
-                {art.title}
-              </h3>
-              <p
-                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "desc") : undefined}
-                className={`font-inter text-xs md:text-sm leading-relaxed line-clamp-3 transition-colors ${
-                  hoveredArticleId === art.id
-                    ? "text-amber-200 font-medium"
-                    : isLightMode
-                    ? "text-zinc-600"
-                    : "text-zinc-300"
-                }`}
-              >
-                {art.desc}
-              </p>
-            </div>
-            <div
-              className={`flex items-center justify-between pt-3 border-t text-xs transition-colors ${
-                hoveredArticleId === art.id
-                  ? "border-[#F6C656]/40 text-amber-300"
-                  : "border-white/10"
-              }`}
-            >
-              <span
-                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "author") : undefined}
-                className={`font-semibold line-clamp-1 ${
-                  hoveredArticleId === art.id
-                    ? "text-[#F6C656]"
-                    : isLightMode
-                    ? "text-zinc-700"
-                    : "text-zinc-300"
-                }`}
-              >
-                {art.author}
-              </span>
-              <span
-                data-sanity={typeof art.id === "string" ? createSanityAttribute(art.id, "article", "date") : undefined}
-                className={
-                  hoveredArticleId === art.id
-                    ? "text-amber-400"
-                    : isLightMode
-                    ? "text-zinc-400"
-                    : "text-zinc-500"
-                }
-              >
-                {art.date}
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* View All Articles CTA Button */}
+      {/* Explore All Articles CTA Button */}
       <div className="mt-12 text-center relative z-10">
         <Link
           href="/articles"
           className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#F6C656] via-[#E5C158] to-[#D4AF37] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
         >
-          <span>View All 29 Articles in Full Gallery</span>
+          <span>Explore All 29 Articles in Full Gallery</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.33325 8H12.6666M8.00008 12.6667L12.6666 8L8.00008 3.33334" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M3.33325 8H12.6666M8.00008 12.6667L12.6666 8L8.00008 3.33334"
+              stroke="#0B0B0C"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Link>
       </div>
