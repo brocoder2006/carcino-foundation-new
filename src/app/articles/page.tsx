@@ -637,7 +637,7 @@ export default function ArticlesGalleryPage() {
           <div className="flex items-center gap-3 w-fit">
             {/* X (Twitter) */}
             <a
-              href="https://x.com"
+              href="https://x.com/carcinoofficial?s=20"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
@@ -678,7 +678,7 @@ export default function ArticlesGalleryPage() {
             </a>
             {/* Medium */}
             <a
-              href="https://medium.com"
+              href="https://medium.com/@thecarcinofoundation"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Medium"
