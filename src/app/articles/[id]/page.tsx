@@ -36,15 +36,15 @@ export default function ArticleDetailPage({
           const extractedContent =
             doc.content && Array.isArray(doc.content) && doc.content.length > 0
               ? doc.content
-                  .map((block: any) =>
-                    typeof block === "string"
-                      ? block
-                      : block.children?.map((c: any) => c.text).join("") || ""
-                  )
-                  .filter(Boolean)
+                .map((block: any) =>
+                  typeof block === "string"
+                    ? block
+                    : block.children?.map((c: any) => c.text).join("") || ""
+                )
+                .filter(Boolean)
               : doc.desc
-              ? doc.desc.split("\n\n").filter(Boolean)
-              : [doc.title];
+                ? doc.desc.split("\n\n").filter(Boolean)
+                : [doc.title];
 
           setSanityArticle({
             id: doc._id,
@@ -152,11 +152,10 @@ export default function ArticleDetailPage({
 
           <button
             onClick={() => markArticleAsRead(String(article.id), article.title)}
-            className={`py-1.5 px-4 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-              isArticleRead(String(article.id))
+            className={`py-1.5 px-4 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${isArticleRead(String(article.id))
                 ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                 : "bg-white/10 text-gray-300 hover:text-white border border-white/10 hover:border-white/25"
-            }`}
+              }`}
           >
             {isArticleRead(String(article.id)) ? "Marked as Read ✓" : "Mark as Read"}
           </button>
@@ -178,11 +177,10 @@ export default function ArticleDetailPage({
                 <p className="text-base font-bold text-white font-inter">{article.author}</p>
                 <button
                   onClick={() => setIsFollowing(!isFollowing)}
-                  className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${
-                    isFollowing
+                  className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${isFollowing
                       ? "bg-emerald-500 text-black font-bold"
                       : "border border-emerald-500/60 text-emerald-400 hover:bg-emerald-500/20"
-                  }`}
+                    }`}
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </button>
@@ -205,9 +203,8 @@ export default function ArticleDetailPage({
             <button
               onClick={() => setIsBookmarked(!isBookmarked)}
               title="Bookmark story"
-              className={`p-2 rounded-full transition-all cursor-pointer ${
-                isBookmarked ? "text-emerald-400 bg-emerald-500/20" : "text-zinc-400 hover:text-white"
-              }`}
+              className={`p-2 rounded-full transition-all cursor-pointer ${isBookmarked ? "text-emerald-400 bg-emerald-500/20" : "text-zinc-400 hover:text-white"
+                }`}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -217,9 +214,8 @@ export default function ArticleDetailPage({
             <button
               onClick={() => setIsPlayingAudio(!isPlayingAudio)}
               title="Listen to audio"
-              className={`p-2 rounded-full transition-all cursor-pointer ${
-                isPlayingAudio ? "text-purple-400 bg-purple-500/20" : "text-zinc-400 hover:text-white"
-              }`}
+              className={`p-2 rounded-full transition-all cursor-pointer ${isPlayingAudio ? "text-purple-400 bg-purple-500/20" : "text-zinc-400 hover:text-white"
+                }`}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -355,11 +351,10 @@ export default function ArticleDetailPage({
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => markArticleAsRead(String(article.id), article.title)}
-              className={`py-2.5 px-5 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
-                isArticleRead(String(article.id))
+              className={`py-2.5 px-5 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${isArticleRead(String(article.id))
                   ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                   : "bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:bg-purple-500/30"
-              }`}
+                }`}
             >
               {isArticleRead(String(article.id)) ? "Marked as Read ✓" : "Mark as Read"}
             </button>
