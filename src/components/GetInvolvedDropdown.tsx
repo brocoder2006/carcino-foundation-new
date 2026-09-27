@@ -10,6 +10,7 @@ interface GetInvolvedDropdownProps {
   onOpenPartnership: () => void;
   onSignOut: () => void;
   isLightMode?: boolean;
+  align?: "right" | "left" | "center";
 }
 
 export default function GetInvolvedDropdown({
@@ -19,6 +20,7 @@ export default function GetInvolvedDropdown({
   onOpenPartnership,
   onSignOut,
   isLightMode = false,
+  align = "right",
 }: GetInvolvedDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,6 +44,12 @@ export default function GetInvolvedDropdown({
     }
   };
 
+  const getAlignClass = () => {
+    if (align === "left") return "left-0";
+    if (align === "center") return "left-1/2 -translate-x-1/2";
+    return "right-0";
+  };
+
   return (
     <div className="relative inline-block text-left z-50" ref={dropdownRef}>
       {/* Primary Trigger Button */}
@@ -49,7 +57,7 @@ export default function GetInvolvedDropdown({
         type="button"
         onClick={handleButtonClick}
         aria-label="Get involved"
-        className={`flex items-center justify-center px-4 h-10 rounded-full font-inter text-xs font-bold transition-all duration-300 gap-1.5 cursor-pointer shadow-md ${
+        className={`flex items-center justify-center px-3.5 md:px-4 h-9 md:h-10 rounded-full font-inter text-xs font-bold transition-all duration-300 gap-1.5 cursor-pointer shadow-md ${
           isLightMode
             ? "bg-[#163B2E] text-white hover:bg-[#235846] hover:scale-105 active:scale-95"
             : "glass-btn-primary text-white hover:scale-105 active:scale-95"
@@ -69,7 +77,7 @@ export default function GetInvolvedDropdown({
       {/* Logged-In Dropdown Popover */}
       {user && isOpen && (
         <div
-          className={`absolute right-0 mt-2 w-64 rounded-2xl p-2 border shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200 z-50 ${
+          className={`absolute mt-2 w-64 max-w-[calc(100vw-32px)] rounded-2xl p-2 border shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200 z-50 ${getAlignClass()} ${
             isLightMode
               ? "bg-white/95 border-black/10 text-gray-900 shadow-xl"
               : "bg-[#0E0B14]/95 border-white/15 text-white shadow-[0_15px_40px_rgba(0,0,0,0.6)]"

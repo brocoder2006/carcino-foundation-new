@@ -33,31 +33,33 @@ export default function Carcinoblogssection() {
           </p>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 w-fit font-inter text-sm">
-          <Link href="/" className="text-zinc-300 hover:text-white transition-colors font-medium">
-            {t("nav_home")}
-          </Link>
-          <Link href="/articles" className="text-zinc-300 hover:text-white transition-colors font-medium">
-            {t("nav_articles")}
-          </Link>
-          <Link href="/blogs" className="text-[#CDA8E8] font-semibold border-b border-[#CDA8E8]">
-            Perspective &amp; Blogs
-          </Link>
+        <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-8 w-fit font-inter text-sm">
+            <Link href="/" className="text-zinc-300 hover:text-white transition-colors font-medium">
+              {t("nav_home")}
+            </Link>
+            <Link href="/articles" className="text-zinc-300 hover:text-white transition-colors font-medium">
+              {t("nav_articles")}
+            </Link>
+            <Link href="/blogs" className="text-[#CDA8E8] font-semibold border-b border-[#CDA8E8]">
+              Perspective &amp; Blogs
+            </Link>
+          </div>
           <GetInvolvedDropdown
             user={user}
             onOpenAuth={() => setIsPartnershipModalOpen(true)}
             onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
             onOpenPartnership={() => setIsPartnershipModalOpen(true)}
             onSignOut={() => setIsPartnershipModalOpen(true)}
+            align="right"
           />
+          <Link
+            href="/"
+            className="hidden sm:flex py-2 px-5 items-center gap-2 rounded-full border border-white/15 bg-white/5 text-xs font-bold text-white cursor-pointer hover:bg-white/10 hover:scale-105 transition-all shadow-md"
+          >
+            <span>← Back</span>
+          </Link>
         </div>
-
-        <Link
-          href="/"
-          className="flex py-2 px-5 items-center gap-2 rounded-full border border-white/15 bg-white/5 text-xs font-bold text-white cursor-pointer hover:bg-white/10 hover:scale-105 transition-all shadow-md"
-        >
-          <span>← Back to Home</span>
-        </Link>
       </header>
 
       {/* Main Blog Page Content */}

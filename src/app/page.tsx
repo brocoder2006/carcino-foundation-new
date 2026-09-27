@@ -399,115 +399,89 @@ export default function CarcinoFoundationLandingPage() {
                   />
                 </div>
 
-                {/* Partnerships & Volunteer Buttons (Visible Only When Logged In) */}
-                {user && (
-                  <>
-                    <div className="flex pr-0.5 flex-col items-start w-fit">
-                      <button
-                        onClick={() => setIsPartnershipModalOpen(true)}
-                        className={`cursor-pointer text-nowrap flex py-2 px-3.5 justify-center items-center rounded-[999px] transition-all duration-300 w-fit glass-nav-item hover:border-[#CDA8E8]`}
-                      >
-                        <p className={`font-inter text-sm font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`}>
-                          Partnerships
-                        </p>
-                      </button>
-                    </div>
-
-                    <div className="flex pr-0.5 flex-col items-start w-fit">
-                      <button
-                        onClick={() => setIsVolunteerModalOpen(true)}
-                        className="cursor-pointer text-nowrap flex py-2 px-4 justify-center items-center rounded-[999px] transition-all duration-300 w-fit bg-gradient-to-r from-[#CDA8E8] to-[#39C69C] hover:brightness-110 shadow-md scale-100 hover:scale-105"
-                      >
-                        <p className="font-inter text-sm font-bold text-[#050505]">
-                          Volunteer
-                        </p>
-                      </button>
-                    </div>
-                  </>
-                )}
               </div>
             </div>
           </div>
 
-          {/* Desktop Theme Toggle Button */}
-          <button
-            onClick={() => setIsLightMode(!isLightMode)}
-            aria-label="Toggle theme"
-            className="flex items-center justify-center w-10 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300"
-          >
-            {isLightMode ? (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#171717"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>
-            ) : (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#F8F8F8"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </svg>
-            )}
-          </button>
-
-          {/* Desktop Language Toggle Button */}
-          <button
-            onClick={toggleLang}
-            aria-label="Change language"
-            title="Change language"
-            className="flex items-center justify-center px-3.5 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 font-inter text-xs font-bold gap-1.5 shrink-0"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={isLightMode ? "#171717" : "#F8F8F8"}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {/* Desktop Theme Toggle Button */}
+            <button
+              onClick={() => setIsLightMode(!isLightMode)}
+              aria-label="Toggle theme"
+              className="flex items-center justify-center w-10 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            <span className={isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}>
-              {lang}
-            </span>
-          </button>
+              {isLightMode ? (
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#171717"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              ) : (
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#F8F8F8"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+              )}
+            </button>
 
-          {/* User Account & Get Involved Dropdown Button */}
-          <GetInvolvedDropdown
-            user={user}
-            isLightMode={isLightMode}
-            onOpenAuth={() => setIsAuthModalOpen(true)}
-            onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
-            onOpenPartnership={() => setIsPartnershipModalOpen(true)}
-            onSignOut={() => setIsAuthModalOpen(true)}
-          />
-        </div>
+            {/* Desktop Language Toggle Button */}
+            <button
+              onClick={toggleLang}
+              aria-label="Change language"
+              title="Change language"
+              className="flex items-center justify-center px-3.5 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 font-inter text-xs font-bold gap-1.5 shrink-0"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={isLightMode ? "#171717" : "#F8F8F8"}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <span className={isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}>
+                {lang}
+              </span>
+            </button>
+
+            {/* User Account & Get Involved Dropdown Button */}
+            <GetInvolvedDropdown
+              user={user}
+              isLightMode={isLightMode}
+              onOpenAuth={() => setIsAuthModalOpen(true)}
+              onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
+              onOpenPartnership={() => setIsPartnershipModalOpen(true)}
+              onSignOut={() => setIsAuthModalOpen(true)}
+            />
+          </div>
       </header>
 
       {/* Mobile Glassy Dropdown Menu Modal */}

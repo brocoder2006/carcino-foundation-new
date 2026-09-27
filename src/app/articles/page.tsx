@@ -259,22 +259,25 @@ export default function ArticlesGalleryPage() {
             The Carcino Foundation
           </p>
         </Link>
-        <div className="hidden md:flex items-center gap-8 w-fit">
-          <Link href="/" className="text-[#FFF] font-inter text-sm font-medium w-fit hover:text-[#CDA8E8] transition-colors">
-            {t("nav_home")}
-          </Link>
-          <Link href="/articles" className="text-[#CDA8E8] font-inter text-sm font-semibold w-fit border-b border-[#CDA8E8]">
-            {t("nav_articles")}
-          </Link>
-          <Link href="/blogs" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
-            Perspective &amp; Blogs
-          </Link>
+        <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-8 w-fit">
+            <Link href="/" className="text-[#FFF] font-inter text-sm font-medium w-fit hover:text-[#CDA8E8] transition-colors">
+              {t("nav_home")}
+            </Link>
+            <Link href="/articles" className="text-[#CDA8E8] font-inter text-sm font-semibold w-fit border-b border-[#CDA8E8]">
+              {t("nav_articles")}
+            </Link>
+            <Link href="/blogs" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
+              Perspective &amp; Blogs
+            </Link>
+          </div>
           <GetInvolvedDropdown
             user={user}
             onOpenAuth={() => setIsPartnershipModalOpen(true)}
             onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
             onOpenPartnership={() => setIsPartnershipModalOpen(true)}
             onSignOut={() => setIsPartnershipModalOpen(true)}
+            align="right"
           />
         </div>
 
