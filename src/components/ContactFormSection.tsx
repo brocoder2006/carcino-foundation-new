@@ -86,8 +86,8 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
           {statusMsg && (
             <div
               className={`p-4 mb-6 rounded-2xl border text-sm font-medium ${statusMsg.type === "success"
-                  ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
-                  : "bg-red-500/15 border-red-500/30 text-red-300"
+                ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
+                : "bg-red-500/15 border-red-500/30 text-red-300"
                 }`}
             >
               {statusMsg.text}
@@ -137,7 +137,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+91xxxxxxxx"
                   className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 transition-colors"
                 />
               </div>
