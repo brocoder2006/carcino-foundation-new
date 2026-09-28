@@ -254,6 +254,16 @@ export default function CarcinoFoundationLandingPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <GetInvolvedDropdown
+              user={user}
+              isLightMode={isLightMode}
+              onOpenAuth={() => setIsAuthModalOpen(true)}
+              onOpenVolunteer={() => setIsVolunteerModalOpen(true)}
+              onOpenPartnership={() => setIsPartnershipModalOpen(true)}
+              onSignOut={() => setIsAuthModalOpen(true)}
+              align="right"
+            />
+
             <button
               onClick={() => setIsLightMode(!isLightMode)}
               aria-label="Toggle theme"
@@ -575,19 +585,57 @@ export default function CarcinoFoundationLandingPage() {
               />
             </div>
 
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setIsAuthModalOpen(true);
-              }}
-              className="w-full py-3.5 px-5 rounded-2xl glass-btn-primary font-bold text-sm text-white flex items-center justify-center gap-2 cursor-pointer mt-2"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <span>{user ? user.fullName || "Account" : "Get involved"}</span>
-            </button>
+            {/* Get Involved Options Section in Mobile Drawer */}
+            <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#CDA8E8] px-1">Get Involved</span>
+              
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsVolunteerModalOpen(true);
+                }}
+                className="w-full py-3 px-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 font-bold text-xs flex items-center justify-between cursor-pointer transition-all"
+              >
+                <span>Volunteer Form</span>
+                <span>→</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsPartnershipModalOpen(true);
+                }}
+                className="w-full py-3 px-4 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-300 font-bold text-xs flex items-center justify-between cursor-pointer transition-all"
+              >
+                <span>Partnership Form</span>
+                <span>→</span>
+              </button>
+
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfhPy9AsGU5N1UrBstZeTpLd1jJ1ClJaESrq-P8ZrsRCXTVJw/viewform?usp=dialog"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3 px-4 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-300 font-bold text-xs flex items-center justify-between cursor-pointer transition-all"
+              >
+                <span>Join the Team</span>
+                <span>↗</span>
+              </a>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsAuthModalOpen(true);
+                }}
+                className="w-full py-3 px-4 rounded-xl glass-btn-primary font-bold text-xs text-white flex items-center justify-center gap-2 cursor-pointer mt-1"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>{user ? (user.fullName || user.email || "Account") : "Sign In / Register"}</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -99,11 +99,7 @@ export default function GetInvolvedDropdown({
               type="button"
               onClick={() => {
                 setIsOpen(false);
-                if (!user) {
-                  onOpenAuth();
-                } else {
-                  onOpenVolunteer();
-                }
+                onOpenVolunteer();
               }}
               className={`w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                 isLightMode
@@ -125,11 +121,7 @@ export default function GetInvolvedDropdown({
               type="button"
               onClick={() => {
                 setIsOpen(false);
-                if (!user) {
-                  onOpenAuth();
-                } else {
-                  onOpenPartnership();
-                }
+                onOpenPartnership();
               }}
               className={`w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                 isLightMode
