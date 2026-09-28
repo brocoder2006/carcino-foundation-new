@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { BookOpen, Building2, PawPrint, GraduationCap } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -102,148 +103,32 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
   const visionPillars = [
     {
       id: "rural-care",
-      title: "Rural Care",
-      desc: "We aim to contribute toward a more decentralized and equitable rural cancer support infrastructure.",
+      title: "Cancer Literacy",
+      desc: "Understand the why. Turning knowledge into earlier action and better outcomes.",
       accent: "#9DAE8B",
-      icon: (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-        >
-          <path
-            d="M15.7912 1.66699L18.3162 15.877C18.3444 16.0443 18.321 16.2163 18.2489 16.3699C18.1768 16.5235 18.0595 16.6515 17.9127 16.7367C17.7659 16.8218 17.5967 16.8601 17.4275 16.8465C17.2584 16.8329 17.0974 16.7679 16.9662 16.6603L10.9995 12.182C10.7115 11.9668 10.3615 11.8505 10.002 11.8505C9.64245 11.8505 9.29254 11.9668 9.0045 12.182L3.02783 16.6587C2.8967 16.7661 2.73594 16.8309 2.56699 16.8446C2.39805 16.8582 2.22896 16.82 2.08227 16.7351C1.93559 16.6502 1.81829 16.5225 1.74603 16.3692C1.67377 16.2159 1.64998 16.0442 1.67783 15.877L4.20117 1.66699"
-            stroke={isLightMode ? "#2A1A3F" : "#E6E6E6"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M11.6665 21.6665C17.1894 21.6665 21.6665 17.1894 21.6665 11.6665C21.6665 6.14366 17.1894 1.6665 11.6665 1.6665C6.14366 1.6665 1.6665 6.14366 1.6665 11.6665C1.6665 17.1894 6.14366 21.6665 11.6665 21.6665Z"
-            stroke={isLightMode ? "#9DAE8B" : "#9DAE8B"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
+      icon: <BookOpen className="w-5 h-5 text-[#9DAE8B]" />,
     },
     {
       id: "healthcare-equity",
-      title: "Healthcare Equity",
-      desc: "No individual should progress to advanced-stage cancer due to delayed diagnosis, financial unawareness, or limited access to healthcare resources.",
+      title: "Rural Cancer Care Infrastructure",
+      desc: "Identify gaps in rural cancer care and build practical pathways to close them.",
       accent: "#CDA8E8",
-      icon: (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 32 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-        >
-          <path
-            d="M30.286 14.9998L16.9527 1.6665L2.61936 15.9998C2.0086 16.6229 1.6665 17.4607 1.6665 18.3332C1.6665 19.2057 2.0086 20.0434 2.61936 20.6665L11.286 29.3332C12.6194 30.6665 14.6194 30.6665 15.9527 29.3332L30.286 14.9998Z"
-            stroke={isLightMode ? "#2A1A3F" : "#E6E6E6"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M1.6665 1.6665L9.99984 9.99984"
-            stroke={isLightMode ? "#CDA8E8" : "#CDA8E8"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M1.6665 16.6665H26.6665"
-            stroke={isLightMode ? "#CDA8E8" : "#CDA8E8"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
+      icon: <Building2 className="w-5 h-5 text-[#CDA8E8]" />,
     },
     {
       id: "run-by-students",
-      title: "Run by Students",
-      desc: "We believe that our generation can redefine cancer. And we try our best to educate our community.",
+      title: "Veterinary Cancer Care",
+      desc: "Extend cancer literacy, love and support to the animals who are part of our families..",
       accent: "#C9A867",
-      icon: (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 27 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-        >
-          <path
-            d="M24.9998 16.6665V13.3332C24.9998 11.5651 24.2975 9.86937 23.0472 8.61913C21.797 7.36888 20.1013 6.6665 18.3332 6.6665H8.33317C6.56506 6.6665 4.86937 7.36888 3.61913 8.61913C2.36888 9.86937 1.6665 11.5651 1.6665 13.3332V16.6665"
-            stroke={isLightMode ? "#2A1A3F" : "#E6E6E6"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8.33317 14.9998C12.0151 14.9998 14.9998 12.0151 14.9998 8.33317C14.9998 4.65127 12.0151 1.6665 8.33317 1.6665C4.65127 1.6665 1.6665 4.65127 1.6665 8.33317C1.6665 12.0151 4.65127 14.9998 8.33317 14.9998Z"
-            stroke={isLightMode ? "#C9A867" : "#C9A867"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M1.6665 12.9998L4.99984 16.3332L11.6665 9.6665"
-            stroke={isLightMode ? "#C9A867" : "#C9A867"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
+      icon: <PawPrint className="w-5 h-5 text-[#C9A867]" />,
+
     },
     {
       id: "early-detection",
-      title: "Early Detection",
-      desc: "It is the strongest defense against cancer, and we work to ensure that no life is lost simply because the signs were missed too late.",
+      title: "Youth & Medical Community",
+      desc: "Upskilling the youth to build stronger communities.",
       accent: "#39C69C",
-      icon: (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 34 34"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-        >
-          <path
-            d="M28.3332 1.6665H4.99984C3.15889 1.6665 1.6665 3.15889 1.6665 4.99984V28.3332C1.6665 30.1741 3.15889 31.6665 4.99984 31.6665H28.3332C30.1741 31.6665 31.6665 30.1741 31.6665 28.3332V4.99984C31.6665 3.15889 30.1741 1.6665 28.3332 1.6665Z"
-            stroke={isLightMode ? "#2A1A3F" : "#E6E6E6"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M1.6665 11.6665H31.6665"
-            stroke={isLightMode ? "#2A1A3F" : "#E6E6E6"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8.6665 20.9998L13.9998 25.3332L24.6665 16.6665"
-            stroke={isLightMode ? "#39C69C" : "#39C69C"}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
+      icon: <GraduationCap className="w-5 h-5 text-[#39C69C]" />,
     },
   ];
 
