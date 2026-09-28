@@ -104,7 +104,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       ref={sectionRef}
       className={`w-full py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-gradient-to-b from-[#F7F2FA] via-[#FAFAF9] to-[#F7F2FA] text-[#171717]"
+          ? "bg-[#ECE9E9] text-[#163B2E]"
           : "bg-gradient-to-b from-[#160E21] via-[#21182D] to-[#160E21] text-[#F8F8F8]"
       }`}
     >
@@ -126,15 +126,23 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         className="flex max-w-4xl flex-col items-center gap-6 w-full text-center relative z-10 mb-10"
       >
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
-          <span className="font-winterSolace text-5xl md:text-[90px] leading-[1.2em] font-extrabold bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent inline-block">
+          <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${
+            isLightMode
+              ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
+              : "bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C]"
+          }`}>
             {t("art_title_1")}
           </span>
-          <div className="py-2.5 md:py-4 px-8 md:px-12 rounded-full bg-[#F6C656] shadow-lg flex items-center justify-center">
-            <span className="text-[#0B0B0C] font-winterSolace text-3xl md:text-[70px] leading-[1.1em] font-bold">
+          <div className={`py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center ${
+            isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#F6C656]"
+          }`}>
+            <span className={`font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-bold ${
+              isLightMode ? "text-white" : "text-[#0B0B0C]"
+            }`}>
               {t("art_title_2")}
             </span>
           </div>
-          <span className="font-inter text-5xl md:text-[90px] font-bold text-[#F6C656] leading-[1.2em] inline-block">
+          <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-[#F6C656] leading-[1.15em] inline-block">
             .
           </span>
         </div>
@@ -340,7 +348,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           <div className="flex items-center gap-3">
             <Link
               href={`/articles/${currentArticle.id}`}
-              className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F6C656] to-[#D4AF37] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1.5"
+              className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1.5"
             >
               <span>Read Full Article & Citations ↗</span>
             </Link>
@@ -352,7 +360,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       <div className="mt-12 text-center relative z-10">
         <Link
           href="/articles"
-          className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#F6C656] via-[#E5C158] to-[#D4AF37] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
+          className="inline-flex py-4 px-8 rounded-full bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] hover:brightness-110 text-[#0B0B0C] font-inter text-sm font-bold shadow-lg shadow-[#F15E51]/25 hover:scale-105 active:scale-95 transition-all duration-300 items-center gap-2 cursor-pointer"
         >
           <span>Explore All 29 Articles in Full Gallery</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

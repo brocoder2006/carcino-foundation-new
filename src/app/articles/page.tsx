@@ -281,56 +281,6 @@ export default function ArticlesGalleryPage() {
           />
         </div>
 
-        {/* Functional Search Bar with Action Button */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSearchExecute();
-          }}
-          className="flex py-1.5 pl-4 pr-1.5 items-center gap-2 rounded-[20px] border border-[rgba(255,255,255,0.15)] bg-[#0B0B0C] w-full max-w-[320px] focus-within:border-[#CDA8E8] transition-all shadow-md"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="shrink-0 w-4 h-4 overflow-hidden relative"
-          >
-            <path
-              d="M14.0001 14.0001L11.1068 11.1068M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z"
-              stroke="#CDA8E8"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search articles..."
-            value={searchInput}
-            onChange={(e) => {
-              setSearchInput(e.target.value);
-              setActiveSearchQuery(e.target.value);
-            }}
-            className="bg-transparent text-white placeholder-[#ACACAC] font-inter text-sm outline-none w-full"
-          />
-          {searchInput && (
-            <button
-              type="button"
-              onClick={handleClearSearch}
-              className="text-zinc-400 hover:text-white px-1 text-xs font-bold cursor-pointer"
-              title="Clear search"
-            >
-              ✕
-            </button>
-          )}
-          <button
-            type="submit"
-            className="py-1 px-3.5 rounded-full bg-[#CDA8E8] hover:bg-[#39C69C] text-[#050505] font-inter text-xs font-semibold shrink-0 transition-colors cursor-pointer"
-          >
-            Search
-          </button>
-        </form>
 
         {/* Language Toggle Button */}
         <button
@@ -362,15 +312,15 @@ export default function ArticlesGalleryPage() {
         {/* Banner Title */}
         <div ref={headerRef} className="flex flex-col items-center gap-6 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible flex-wrap">
-            <span className="font-winterSolace text-5xl md:text-[96px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.25em] pt-4 pb-2 px-2 inline-block">
+            <span className="font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[76px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.15em] pt-2 pb-2 px-2 inline-block">
               Cancer Knowledge
             </span>
-            <div className="py-3 md:py-5 px-8 md:px-12 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
-              <span className="text-[#050505] font-winterSolace text-4xl md:text-[80px] leading-[1.15em] font-bold pt-1 pb-1 inline-block">
+            <div className="py-2.5 md:py-4 px-6 md:px-10 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
+              <span className="text-[#050505] font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[64px] leading-[1.1em] font-bold pt-1 pb-1 inline-block">
                 Hub
               </span>
             </div>
-            <span className="font-inter text-5xl md:text-[96px] font-bold text-[#F4F1E9] leading-[1.25em] pt-4 inline-block">
+            <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold text-[#F4F1E9] leading-[1.15em] pt-2 inline-block">
               .
             </span>
           </div>

@@ -66,7 +66,7 @@ export default function Carcinoblogssection() {
       <main className="flex py-[120px] px-6 md:px-[84px] flex-col items-start gap-14 bg-[#050505] w-full max-w-7xl mx-auto pt-32">
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <h1
-            className="font-winterSolace text-5xl md:text-[113px] md:leading-[106px] w-full text-center tracking-[-0.0356em] bg-clip-text text-transparent pb-2"
+            className="font-winterSolace text-3xl sm:text-5xl md:text-7xl lg:text-[84px] leading-tight w-full text-center tracking-[-0.0356em] bg-clip-text text-transparent pb-2"
             style={{
               backgroundImage:
                 "linear-gradient(91deg, #C08A6E 0.02%, #B3A9C6 29.99%, #9DAE8B 54.96%, #C9A867 79.93%)",

@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import OurVisionSection from "@/components/OurVisionSection";
+import HeroCarouselSection from "@/components/HeroCarouselSection";
+import ImpactStatsSection from "@/components/ImpactStatsSection";
 import CredibilityTestimonialsSection from "@/components/CredibilityTestimonialsSection";
 import Flagshipprogramsection from "@/components/Flagshipprogramsection";
-import FeaturesSection from "@/components/FeaturesSection";
 import PodcastSection from "@/components/PodcastSection";
 import ContactFormSection from "@/components/ContactFormSection";
 import FooterSection from "@/components/FooterSection";
@@ -128,15 +129,6 @@ export default function CarcinoFoundationLandingPage() {
     }
   };
 
-  const scrollToFeatures = () => {
-    setIsMobileMenuOpen(false);
-    setActiveNavItem("Features");
-    const section = document.getElementById("features-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const scrollToPodcasts = () => {
     setIsMobileMenuOpen(false);
     setActiveNavItem("Podcasts");
@@ -155,7 +147,7 @@ export default function CarcinoFoundationLandingPage() {
   return (
     <div
       className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 overflow-x-hidden ${isLightMode
-        ? "bg-gradient-to-r from-[#ECE9E9] via-[#E2DDDD] to-[#ECE9E9] text-[#171717]"
+        ? "bg-[#ECE9E9] text-[#163B2E]"
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
     >
@@ -384,22 +376,6 @@ export default function CarcinoFoundationLandingPage() {
                     </p>
                   </button>
                 </div>
-                <div className="flex pr-0.5 flex-col items-start w-fit">
-                  <button
-                    onClick={scrollToFeatures}
-                    className={`cursor-pointer text-nowrap flex py-2 px-4 justify-center items-center rounded-[999px] transition-all duration-300 w-fit ${activeNavItem === "Features" ? "glass-btn-primary" : "glass-nav-item"
-                      }`}
-                  >
-                    <p
-                      className={`font-inter text-sm w-fit ${activeNavItem === "Features"
-                        ? "text-[#0C2822] font-bold"
-                        : `font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`
-                        }`}
-                    >
-                      {t("nav_features")}
-                    </p>
-                  </button>
-                </div>
                 {/* Editorial Branched Menu Button */}
                 <div className="flex pr-0.5 flex-col items-start w-fit">
                   <EditorialMenuPopover
@@ -537,16 +513,6 @@ export default function CarcinoFoundationLandingPage() {
               About
             </button>
 
-            <button
-              onClick={scrollToFeatures}
-              className={`py-3 px-5 rounded-2xl text-left transition-all duration-300 cursor-pointer ${activeNavItem === "Features"
-                ? "glass-btn-primary font-bold text-[#0C2822]"
-                : "glass-nav-item font-medium"
-                }`}
-            >
-              Features
-            </button>
-
             {/* Mobile Branched Menu for Editorial */}
             <div className="p-3 rounded-2xl border border-white/10 bg-white/5">
               <BranchedMenu
@@ -643,18 +609,24 @@ export default function CarcinoFoundationLandingPage() {
       {/* Main Hero Section */}
       <main className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
         <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
-          <h1 className="shrink-0 text-4xl md:text-6xl lg:text-[76px] font-winterSolace font-bold tracking-tight leading-[1.1] headline-textured">
-            {t("hero_headline_1")}{" "}
-            <span className="headline-purple-accent">{t("hero_headline_cancer")}</span>{" "}
-            <span className="headline-accent">{t("hero_headline_2")}</span>
+          <h1 className="shrink-0 text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.1]">
+            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-textured"}>
+              {t("hero_headline_1")}
+            </span>{" "}
+            <span className={isLightMode ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-purple-accent"}>
+              {t("hero_headline_cancer")}
+            </span>{" "}
+            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-accent"}>
+              {t("hero_headline_2")}
+            </span>
           </h1>
           <p
-            className={`font-robotoMono text-lg md:text-xl leading-[1.55em] w-full transition-colors duration-400 ${isLightMode ? "text-[#18181B]" : "text-[#E9CDF8]"
+            className={`font-robotoMono text-lg md:text-xl leading-[1.55em] w-full transition-colors duration-400 ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
               }`}
           >
             {t("hero_desc")}
           </p>
-          <div className="flex items-center gap-4 w-fit pt-2">
+          {/* <div className="flex items-center gap-4 w-fit pt-2">
             <Link
               href="/articles"
               className="flex py-[15px] px-6 items-center gap-2.5 rounded-full glass-btn-primary w-fit cursor-pointer"
@@ -704,12 +676,18 @@ export default function CarcinoFoundationLandingPage() {
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
       </main>
 
+      {/* Infinite Stylish Carousel Ticker Just After Hero */}
+      <HeroCarouselSection isLightMode={isLightMode} />
+
       {/* Our Vision Section Just Beneath Hero Landing */}
       <OurVisionSection isLightMode={isLightMode} />
+
+      {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
+      <ImpactStatsSection isLightMode={isLightMode} />
 
       {/* Credibility & Testimonials Section (trusted paths) */}
       <CredibilityTestimonialsSection isLightMode={isLightMode} />
@@ -717,10 +695,7 @@ export default function CarcinoFoundationLandingPage() {
       {/* Flagship Program Section (The Carcino Pathway) */}
       <Flagshipprogramsection isLightMode={isLightMode} />
 
-      {/* Features Section Between Articles and Podcast */}
-      <FeaturesSection isLightMode={isLightMode} />
-
-      {/* Podcast Section Just Beneath Features Section */}
+      {/* Podcast Section Just Beneath Flagship Program Section */}
       <PodcastSection isLightMode={isLightMode} />
 
 

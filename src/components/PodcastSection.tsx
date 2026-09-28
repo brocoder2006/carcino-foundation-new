@@ -238,7 +238,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       id="podcasts-section"
       ref={sectionRef}
       className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${isLightMode
-          ? "bg-gradient-to-b from-[#F7F2FA] via-[#FFF1F2]/60 to-[#F7F2FA] text-[#171717]"
+          ? "bg-[#ECE9E9] text-[#163B2E]"
           : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
         }`}
     >
@@ -260,7 +260,11 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         ref={headerRef}
         className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
-        <h2 className="font-winterSolace text-6xl md:text-[113px] leading-tight md:leading-[106.88px] bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B] bg-clip-text text-transparent w-full text-center">
+        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-clip-text text-transparent w-full text-center pb-1 ${
+          isLightMode
+            ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
+            : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"
+        }`}>
           {t("pod_title")}{" "}
         </h2>
         <div className="flex flex-col items-center justify-center w-full">
@@ -407,7 +411,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
                   className={`font-googleSansFlex text-xs font-light leading-relaxed line-clamp-3 w-full ${ep.descClass
                       ? ep.descClass
                       : isLightMode
-                        ? "text-[#9875C1]"
+                        ? "text-[#2E1640]"
                         : "text-[#D5B0FF]"
                     }`}
                 >

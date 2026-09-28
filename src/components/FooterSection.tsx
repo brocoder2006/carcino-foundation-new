@@ -12,7 +12,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
   return (
     <footer
       className={`w-full py-16 md:py-24 px-6 md:px-[84px] border-t transition-colors duration-500 relative z-10 overflow-hidden ${isLightMode
-        ? "bg-gradient-to-b from-[#F8F4FA] via-[#F5E6FF]/70 to-[#F8F4FA] border-purple-200/60 text-[#171717]"
+        ? "bg-[#ECE9E9] border-black/10 text-[#163B2E]"
         : "bg-gradient-to-b from-[#050505] via-[#12071a] to-[#050505] border-white/10 text-[#F8F8F8]"
         }`}
     >
@@ -173,14 +173,14 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               </span>
               <a
                 href="mailto:carcinofoundation.contact@gmail.com"
-                className={`text-base hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+                className={`text-base hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                   }`}
               >
                 carcinofoundation.contact@gmail.com
               </a>
               <a
                 href="tel:+918777429831"
-                className={`text-base hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+                className={`text-base hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                   }`}
               >
                 +91 87774 29831
@@ -193,7 +193,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
         <div className="flex items-center justify-start w-full">
           <Link
             href="/#about"
-            className={`font-googleSansFlex text-base hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+            className={`font-googleSansFlex text-base hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
               }`}
           >
             {t("foot_tribute")}
@@ -211,7 +211,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               href="/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              className={`hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+              className={`hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                 }`}
             >
               {t("foot_privacy")}
@@ -220,7 +220,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               href="/terms"
               target="_blank"
               rel="noopener noreferrer"
-              className={`hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#D5B0FF]"
+              className={`hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                 }`}
             >
               {t("foot_terms")}

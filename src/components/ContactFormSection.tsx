@@ -71,10 +71,14 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
         <div className="flex flex-col items-center text-center mb-12">
           {/* 
            */}
-          <h2 className="text-4xl md:text-5xl font-bold font-winterSolace text-white tracking-tight mb-4">
+          <h2 className={`text-4xl md:text-5xl font-bold font-winterSolace tracking-tight mb-4 ${
+            isLightMode
+              ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C] bg-clip-text text-transparent"
+              : "text-white"
+          }`}>
             Get in Touch With Us
           </h2>
-          <p className="text-[#E9CDF8] text-base max-w-xl">
+          <p className={`text-base max-w-xl ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"}`}>
             Have questions about clinical research, survivor resources, or partnerships? Send us a message and the foundation owner will receive your details automatically via email with an Excel report attached.
           </p>
         </div>
