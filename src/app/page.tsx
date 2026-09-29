@@ -152,6 +152,8 @@ export default function CarcinoFoundationLandingPage() {
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
     >
+      {/* Sliding Door Entrance Loader Animation (Inspired by huyml.co) */}
+      <DoorEntranceAnimation />
       {/* Specular Background Refraction Orbs - Subtler Visibility */}
       <div
         ref={orb1Ref}

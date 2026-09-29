@@ -9,14 +9,12 @@ interface DoorEntranceAnimationProps {
 
 export default function DoorEntranceAnimation({ onComplete }: DoorEntranceAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const leftDoorRef = useRef<HTMLDivElement>(null);
-  const rightDoorRef = useRef<HTMLDivElement>(null);
-  const boyFigureRef = useRef<HTMLDivElement>(null);
-  const centerSeamRef = useRef<HTMLDivElement>(null);
+  const slidingPanelRef = useRef<HTMLDivElement>(null);
+  const characterRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Prevent scrolling while doors are opening
+    // Lock scrolling during entrance push sequence
     document.body.style.overflow = "hidden";
 
     const tl = gsap.timeline({
@@ -27,50 +25,39 @@ export default function DoorEntranceAnimation({ onComplete }: DoorEntranceAnimat
       },
     });
 
-    // 1. Initial State
-    tl.set(leftDoorRef.current, { xPercent: 0 })
-      .set(rightDoorRef.current, { xPercent: 0 })
-      .set(boyFigureRef.current, { x: 0, opacity: 0, scale: 0.9 })
-      .set(centerSeamRef.current, { opacity: 1, scaleY: 1 });
+    // 1. Initial positions
+    tl.set(slidingPanelRef.current, { xPercent: 0 })
+      .set(characterRef.current, { x: 0, opacity: 1 });
 
-    // 2. Boy Figure entrance slide in at center door seam
-    tl.to(boyFigureRef.current, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.5,
-      ease: "back.out(1.7)",
-    })
-    // 3. Boy figure slides rightward, pulling and opening the sliding doors!
-    .to(boyFigureRef.current, {
-      x: 180,
-      duration: 0.9,
-      ease: "power3.inOut",
-    }, "+=0.15")
-    // 4. Center seam glow fades
-    .to(centerSeamRef.current, {
-      opacity: 0,
-      scaleY: 0,
-      duration: 0.4,
-      ease: "power2.in",
-    }, "-=0.85")
-    // 5. Left door slides out to left (-100%), Right door slides out to right (+100%)
-    .to(leftDoorRef.current, {
-      xPercent: -100,
-      duration: 1.1,
-      ease: "power4.inOut",
-    }, "-=0.8")
-    .to(rightDoorRef.current, {
+    // 2. Walking & Pushing step wiggle effect while moving across the screen
+    const pushDuration = 1.8;
+
+    // Leg/body exertion bobbing effect
+    tl.to(characterRef.current, {
+      y: -6,
+      repeat: 7,
+      yoyo: true,
+      duration: 0.12,
+      ease: "sine.inOut",
+    }, 0);
+
+    // 3. Boy pushes the door panel from left to right (0% -> 100% of viewport width)
+    tl.to(slidingPanelRef.current, {
       xPercent: 100,
-      duration: 1.1,
-      ease: "power4.inOut",
-    }, "-=1.1")
-    // 6. Boy figure fades out into background as doors fully reveal
-    .to(boyFigureRef.current, {
+      duration: pushDuration,
+      ease: "power2.inOut",
+    }, 0)
+    .to(characterRef.current, {
+      x: () => window.innerWidth || 1400,
+      duration: pushDuration,
+      ease: "power2.inOut",
+    }, 0)
+    // 4. Fade out character as door finishes sliding open
+    .to(containerRef.current, {
       opacity: 0,
-      scale: 0.8,
       duration: 0.4,
-      ease: "power2.in",
-    }, "-=0.4");
+      ease: "power2.out",
+    }, "-=0.3");
 
   }, [onComplete]);
 
@@ -79,79 +66,248 @@ export default function DoorEntranceAnimation({ onComplete }: DoorEntranceAnimat
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[99999] pointer-events-none overflow-hidden bg-transparent"
     >
-      {/* Left Sliding Door Panel */}
+      {/* Sliding Door Cover Panel (Pushed by the boy) */}
       <div
-        ref={leftDoorRef}
-        className="absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-[#07050A] via-[#120B1A] to-[#1B1224] border-r border-[#CDA8E8]/30 shadow-2xl flex items-center justify-end pr-8"
+        ref={slidingPanelRef}
+        className="absolute inset-0 w-full h-full bg-[#ECE9E9] text-[#050505] shadow-[20px_0_60px_rgba(0,0,0,0.5)] z-20 flex items-center justify-center border-r-4 border-[#171717]"
       >
-        <div className="w-1.5 h-32 rounded-full bg-gradient-to-b from-[#39C69C] via-[#CDA8E8] to-[#F6C656] opacity-70 shadow-[0_0_15px_#CDA8E8]" />
+        {/* Subdued branding watermark on the door panel being pushed */}
+        <div className="flex flex-col items-center gap-4 opacity-15 select-none pointer-events-none">
+          <span className="font-winterSolace text-6xl md:text-9xl font-bold tracking-tight text-[#171717]">
+            CARCINO
+          </span>
+          <span className="font-spaceGrotesk text-xl font-bold tracking-[0.3em] uppercase text-[#171717]">
+            FOUNDATION
+          </span>
+        </div>
       </div>
 
-      {/* Right Sliding Door Panel */}
+      {/* Pushing Boy Character Assembly */}
       <div
-        ref={rightDoorRef}
-        className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-[#07050A] via-[#120B1A] to-[#1B1224] border-l border-[#CDA8E8]/30 shadow-2xl flex items-center justify-start pl-8"
+        ref={characterRef}
+        className="absolute top-1/2 -translate-y-1/2 left-[-260px] md:left-[-320px] z-30 flex items-center pointer-events-none"
       >
-        <div className="w-1.5 h-32 rounded-full bg-gradient-to-b from-[#39C69C] via-[#CDA8E8] to-[#F6C656] opacity-70 shadow-[0_0_15px_#CDA8E8]" />
-      </div>
-
-      {/* Center Seam Glow Line */}
-      <div
-        ref={centerSeamRef}
-        className="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#CDA8E8] to-transparent z-10 shadow-[0_0_20px_#CDA8E8]"
-      />
-
-      {/* Boy Figure Sliding the Door */}
-      <div
-        ref={boyFigureRef}
-        className="relative z-20 flex flex-col items-center gap-3 pointer-events-auto bg-[#1B1224]/90 backdrop-blur-xl border border-[#CDA8E8]/40 p-5 rounded-3xl shadow-[0_20px_60px_rgba(205,168,232,0.35)]"
-      >
-        <div className="relative w-20 h-20 flex items-center justify-center">
-          {/* Animated Boy Vector Character Graphic */}
+        {/* Illustrated Boy Character (Matching huyml.co Pushing Pose) */}
+        <div className="relative w-[280px] md:w-[340px] h-[360px] flex items-center justify-center">
           <svg
-            width="72"
-            height="72"
-            viewBox="0 0 64 64"
+            width="340"
+            height="360"
+            viewBox="0 0 340 360"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-16 h-16 transform -scale-x-100"
+            className="w-full h-full filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.3)]"
           >
-            {/* Character Head & Hair */}
-            <circle cx="32" cy="18" r="10" fill="#CDA8E8" />
-            <path d="M22 18C22 12 42 12 42 18" stroke="#39C69C" strokeWidth="3" strokeLinecap="round" />
-            {/* Character Torso */}
+            {/* Exertion / Sweat & Motion Lines */}
+            <g opacity="0.85">
+              {/* Motion Accent Lines behind character */}
+              <path d="M40 120 C 25 120, 15 110, 10 100" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M30 160 C 18 160, 10 150, 5 140" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M45 200 C 30 200, 20 190, 12 180" stroke="#171717" strokeWidth="2.5" strokeLinecap="round" />
+              
+              {/* Sweat Droplets near head */}
+              <path d="M185 85 Q 182 78 186 74 Q 190 78 185 85 Z" fill="#171717" />
+              <path d="M198 100 Q 195 93 199 89 Q 203 93 198 100 Z" fill="#171717" />
+            </g>
+
+            {/* Back Leg (Left Leg Extended Back for pushing stance) */}
+            <g id="back-leg">
+              {/* Thigh & Calf */}
+              <path
+                d="M125 240 L70 290"
+                stroke="#171717"
+                strokeWidth="24"
+                strokeLinecap="round"
+              />
+              <path
+                d="M70 290 L90 325"
+                stroke="#171717"
+                strokeWidth="20"
+                strokeLinecap="round"
+              />
+              {/* Sock with Stripes */}
+              <rect x="78" y="305" width="22" height="20" rx="3" fill="#FFFFFF" stroke="#171717" strokeWidth="2.5" />
+              <line x1="78" y1="311" x2="100" y2="311" stroke="#171717" strokeWidth="2" />
+              <line x1="78" y1="316" x2="100" y2="316" stroke="#171717" strokeWidth="2" />
+              {/* Nike-Style Sneaker */}
+              <path
+                d="M70 325 L120 325 C125 325 128 328 128 333 L128 338 C128 343 124 345 118 345 L62 345 C58 345 55 340 57 334 L70 325 Z"
+                fill="#FFFFFF"
+                stroke="#171717"
+                strokeWidth="3.5"
+                strokeLinejoin="round"
+              />
+              {/* Swoosh Logo */}
+              <path d="M78 334 Q 92 338 112 330 Q 98 341 82 338 Z" fill="#171717" />
+            </g>
+
+            {/* Front Leg (Right Leg Bent Forward Pushing Stance) */}
+            <g id="front-leg">
+              {/* Thigh */}
+              <path
+                d="M150 240 L175 285"
+                stroke="#171717"
+                strokeWidth="26"
+                strokeLinecap="round"
+              />
+              {/* Calf */}
+              <path
+                d="M175 285 L165 330"
+                stroke="#171717"
+                strokeWidth="22"
+                strokeLinecap="round"
+              />
+              {/* Sock with Stripes */}
+              <rect x="154" y="308" width="22" height="20" rx="3" fill="#FFFFFF" stroke="#171717" strokeWidth="2.5" />
+              <line x1="154" y1="314" x2="176" y2="314" stroke="#171717" strokeWidth="2" />
+              <line x1="154" y1="319" x2="176" y2="319" stroke="#171717" strokeWidth="2" />
+              {/* Sneaker */}
+              <path
+                d="M148 330 L198 330 C204 330 208 333 208 338 L208 343 C208 348 204 350 198 350 L140 350 C136 350 134 344 137 339 L148 330 Z"
+                fill="#FFFFFF"
+                stroke="#171717"
+                strokeWidth="3.5"
+                strokeLinejoin="round"
+              />
+              {/* Swoosh Logo */}
+              <path d="M158 339 Q 172 343 192 335 Q 178 346 162 343 Z" fill="#171717" />
+            </g>
+
+            {/* Shorts */}
             <path
-              d="M20 40C20 28 44 28 44 40V56H20V40Z"
-              fill="#9875C1"
-              rx="6"
+              d="M115 190 L175 190 L190 245 L145 245 L135 210 L105 245 L85 245 Z"
+              fill="#FFFFFF"
+              stroke="#171717"
+              strokeWidth="3.5"
+              strokeLinejoin="round"
             />
-            {/* Extended Arm Sliding/Pulling the Door */}
-            <path
-              d="M40 32L58 26"
-              stroke="#F6C656"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
-            {/* Hand grasping the door handle */}
-            <circle cx="58" cy="26" r="3.5" fill="#39C69C" />
-            {/* Legs */}
-            <path d="M26 56V64" stroke="#CDA8E8" strokeWidth="4" strokeLinecap="round" />
-            <path d="M38 56V64" stroke="#CDA8E8" strokeWidth="4" strokeLinecap="round" />
+
+            {/* Torso & Floral Short-Sleeve Shirt (Tilted Pushing Leaning Forward) */}
+            <g id="torso">
+              {/* Main Shirt Body */}
+              <path
+                d="M120 130 L210 150 L185 205 L105 185 Z"
+                fill="#737373"
+                stroke="#171717"
+                strokeWidth="3.5"
+                strokeLinejoin="round"
+              />
+
+              {/* Shirt Floral Pattern Flowers */}
+              {/* Flower 1 */}
+              <g transform="translate(135, 145) scale(0.7)">
+                <circle cx="0" cy="-6" r="4" fill="#FFFFFF" />
+                <circle cx="6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="6" r="4" fill="#FFFFFF" />
+                <circle cx="-6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="0" r="3" fill="#171717" />
+              </g>
+              {/* Flower 2 */}
+              <g transform="translate(165, 160) scale(0.75)">
+                <circle cx="0" cy="-6" r="4" fill="#FFFFFF" />
+                <circle cx="6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="6" r="4" fill="#FFFFFF" />
+                <circle cx="-6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="0" r="3" fill="#171717" />
+              </g>
+              {/* Flower 3 */}
+              <g transform="translate(140, 175) scale(0.65)">
+                <circle cx="0" cy="-6" r="4" fill="#FFFFFF" />
+                <circle cx="6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="6" r="4" fill="#FFFFFF" />
+                <circle cx="-6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="0" r="3" fill="#171717" />
+              </g>
+              {/* Flower 4 */}
+              <g transform="translate(185, 175) scale(0.7)">
+                <circle cx="0" cy="-6" r="4" fill="#FFFFFF" />
+                <circle cx="6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="6" r="4" fill="#FFFFFF" />
+                <circle cx="-6" cy="0" r="4" fill="#FFFFFF" />
+                <circle cx="0" cy="0" r="3" fill="#171717" />
+              </g>
+
+              {/* Sleeve */}
+              <path
+                d="M190 145 L225 160 L210 185 L180 170 Z"
+                fill="#737373"
+                stroke="#171717"
+                strokeWidth="3"
+                strokeLinejoin="round"
+              />
+            </g>
+
+            {/* Head & Backwards Cap Facing Left */}
+            <g id="head">
+              {/* Head Profile */}
+              <circle cx="170" cy="100" r="28" fill="#FFFFFF" stroke="#171717" strokeWidth="3.5" />
+
+              {/* Glasses & Eye */}
+              <circle cx="184" cy="98" r="8" fill="#FFFFFF" stroke="#171717" strokeWidth="3" />
+              <circle cx="186" cy="98" r="3" fill="#171717" />
+              {/* Ear */}
+              <path d="M152 100 C 148 95, 148 107, 153 105" stroke="#171717" strokeWidth="2.5" fill="#FFFFFF" />
+
+              {/* Focused Exertion Mouth */}
+              <path d="M188 112 Q 194 114 186 117" stroke="#171717" strokeWidth="3" strokeLinecap="round" />
+
+              {/* Backwards Cap (Visor pointing back to the left) */}
+              <path
+                d="M142 92 C 145 66, 195 66, 198 92 Z"
+                fill="#525252"
+                stroke="#171717"
+                strokeWidth="3.5"
+              />
+              {/* Cap Visor pointing backward left */}
+              <path
+                d="M145 92 Q 115 95 125 106 Q 142 102 148 94 Z"
+                fill="#171717"
+                stroke="#171717"
+                strokeWidth="2"
+              />
+              {/* Cap Top Button */}
+              <circle cx="170" cy="70" r="4" fill="#171717" />
+            </g>
+
+            {/* Both Arms Extended Forward Pressed Against the Door Edge */}
+            <g id="pushing-arms">
+              {/* Wristwatch on Left Arm */}
+              <rect x="228" y="152" width="8" height="14" rx="2" fill="#171717" />
+
+              {/* Arm 1 (Under Arm) */}
+              <path
+                d="M205 162 L250 162 L275 160"
+                stroke="#171717"
+                strokeWidth="16"
+                strokeLinecap="round"
+              />
+
+              {/* Arm 2 (Over Arm Pressed Hard against Door Edge) */}
+              <path
+                d="M210 152 L260 152 L280 150"
+                stroke="#171717"
+                strokeWidth="18"
+                strokeLinecap="round"
+              />
+
+              {/* Hands & Palms Pressed Flat against the Door Boundary Line */}
+              {/* Palm 1 */}
+              <path
+                d="M275 142 C275 138, 285 138, 285 152 C285 162, 275 162, 275 142 Z"
+                fill="#FFFFFF"
+                stroke="#171717"
+                strokeWidth="3"
+              />
+              {/* Palm 2 */}
+              <path
+                d="M280 148 C280 144, 290 144, 290 158 C290 168, 280 168, 280 148 Z"
+                fill="#FFFFFF"
+                stroke="#171717"
+                strokeWidth="3"
+              />
+            </g>
           </svg>
-
-          {/* Sliding Motion Particles */}
-          <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#39C69C] animate-ping" />
-        </div>
-
-        <div className="flex flex-col items-center text-center">
-          <span className="font-winterSolace text-lg font-bold bg-gradient-to-r from-[#CDA8E8] via-[#39C69C] to-[#F6C656] bg-clip-text text-transparent">
-            Welcome to Carcino
-          </span>
-          <span className="font-spaceGrotesk text-[11px] font-medium text-[#E9CDF8]/80 tracking-wider uppercase">
-            Opening Doors to Care
-          </span>
         </div>
       </div>
     </div>
