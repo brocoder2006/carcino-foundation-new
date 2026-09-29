@@ -155,25 +155,25 @@ export default function CarcinoFoundationLandingPage() {
     >
       {/* Sliding Door Entrance Loader Animation (Inspired by huyml.co) */}
       <DoorEntranceAnimation />
-      {/* Specular Background Refraction Orbs - Subtler Visibility */}
+      {/* Specular Background Refraction Orbs - Optimized Blur */}
       <div
         ref={orb1Ref}
-        className={`absolute top-[10%] left-[20%] w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none transition-all duration-500 ${isLightMode ? "bg-[#C27AFF]/15" : "bg-[#C27AFF]/08"
+        className={`absolute top-[10%] left-[20%] w-[400px] h-[400px] rounded-full blur-[60px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#C27AFF]/15" : "bg-[#C27AFF]/08"
           }`}
       ></div>
       <div
         ref={orb2Ref}
-        className={`absolute top-[35%] right-[15%] w-[450px] h-[450px] rounded-full blur-[160px] pointer-events-none transition-all duration-500 ${isLightMode ? "bg-[#FF7A00]/10" : "bg-[#FF5500]/08"
+        className={`absolute top-[35%] right-[15%] w-[380px] h-[380px] rounded-full blur-[60px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#FF7A00]/10" : "bg-[#FF5500]/08"
           }`}
       ></div>
 
-      {/* Dynamic Background Video Refraction Overlay - Subtler Visibility */}
+      {/* Dynamic Background Video Refraction Overlay - Optimized without real-time blur filter */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 blur-md scale-102 ${isLightMode ? "opacity-10 brightness-105" : "opacity-15 contrast-110"
+        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 ${isLightMode ? "opacity-10 brightness-105" : "opacity-12 contrast-110"
           }`}
       >
         <source
@@ -182,8 +182,8 @@ export default function CarcinoFoundationLandingPage() {
         />
       </video>
 
-      {/* Dynamic Animated Liquid Wave Gradient Mesh - Subtler Visibility */}
-      <div className="absolute top-[160px] left-0 w-full h-[550px] overflow-hidden pointer-events-none opacity-20 z-0">
+      {/* Dynamic Animated Liquid Wave Gradient Mesh */}
+      <div className="absolute top-[160px] left-0 w-full h-[550px] overflow-hidden pointer-events-none opacity-15 z-0">
         <svg
           className="w-[200%] h-full animate-wave-flow"
           viewBox="0 0 1440 320"
@@ -204,10 +204,10 @@ export default function CarcinoFoundationLandingPage() {
         </svg>
       </div>
 
-      {/* Dynamic Background Image Layer - Subtler Visibility */}
+      {/* Dynamic Background Image Layer */}
       <img
         src={isLightMode ? "/LightBackgroundImage.jpg" : "/DynamicBackgroundImage.png"}
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 blur-md scale-102 ${isLightMode ? "opacity-35 brightness-100 contrast-100" : "opacity-20"
+        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 ${isLightMode ? "opacity-25 brightness-100 contrast-100" : "opacity-15"
           }`}
         alt="Background image"
       />
@@ -613,14 +613,14 @@ export default function CarcinoFoundationLandingPage() {
       {/* Main Hero Section */}
       <main className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
         <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
-          <h1 className="shrink-0 text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.1]">
-            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-textured"}>
+          <h1 className="w-full text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
+            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-textured inline-block pb-1"}>
               {t("hero_headline_1")}
             </span>{" "}
-            <span className={isLightMode ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-purple-accent"}>
+            <span className={isLightMode ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-purple-accent inline-block pb-1"}>
               {t("hero_headline_cancer")}
             </span>{" "}
-            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent" : "headline-accent"}>
+            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-accent inline-block pb-1"}>
               {t("hero_headline_2")}
             </span>
           </h1>

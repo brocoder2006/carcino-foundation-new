@@ -16,13 +16,13 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
         : "bg-gradient-to-b from-[#050505] via-[#12071a] to-[#050505] border-white/10 text-[#F8F8F8]"
         }`}
     >
-      {/* Section-Specific Glow Refraction & Blur Orbs (Deep Plum Theme) */}
+      {/* Section-Specific Glow Refraction & Blur Orbs (Optimized Blur) */}
       <div
-        className={`absolute bottom-0 right-10 w-[600px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#C27AFF]/35" : "bg-[#B185E5]/20"
+        className={`absolute bottom-0 right-10 w-[450px] h-[400px] rounded-full blur-[60px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#C27AFF]/35" : "bg-[#B185E5]/20"
           }`}
       />
       <div
-        className={`absolute top-0 -left-20 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#E9D5FF]/60" : "bg-[#6B21A8]/25"
+        className={`absolute top-0 -left-20 w-[350px] h-[350px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#E9D5FF]/60" : "bg-[#6B21A8]/25"
           }`}
       />
 
@@ -62,7 +62,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               </div>
             </div>
             <h2
-              className={`font-winterSolace text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-tight max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#9875C1]"
+              className={`font-winterSolace text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-[1.2em] py-2 overflow-visible max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#9875C1]"
                 }`}
             >
               The Carcino Foundation
@@ -189,8 +189,15 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
           </div>
         </div>
 
-        {/* Middle Section: Tribute */}
-        <div className="flex items-center justify-start w-full">
+        {/* Middle Section: Quick Navigation */}
+        <div className="flex flex-wrap items-center justify-start gap-8 w-full">
+          <Link
+            href="/team"
+            className={`font-spaceGrotesk text-base font-semibold hover:underline transition-colors ${isLightMode ? "text-[#581C87]" : "text-[#CDA8E8]"
+              }`}
+          >
+            Our Team
+          </Link>
           <Link
             href="/#about"
             className={`font-googleSansFlex text-base hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"

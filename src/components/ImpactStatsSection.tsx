@@ -149,14 +149,14 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
           : "bg-gradient-to-b from-[#1B1324] via-[#261A34] to-[#1B1324] text-white"
       }`}
     >
-      {/* Specular Glow Orbs */}
+      {/* Specular Glow Orbs (Optimized Blur) */}
       <div
-        className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 pulse-glow ${
+        className={`absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full blur-[60px] pointer-events-none transition-all duration-700 will-change-transform ${
           isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/12"
         }`}
       />
       <div
-        className={`absolute bottom-10 right-1/4 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 pulse-glow ${
+        className={`absolute bottom-10 right-1/4 w-[400px] h-[400px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${
           isLightMode ? "bg-[#CDA8E8]/30" : "bg-[#CDA8E8]/15"
         }`}
       />
@@ -164,9 +164,9 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-14 relative z-10">
         {/* Section Header */}
         <div ref={headerRef} className="flex flex-col items-center gap-4 w-full text-center">
-          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
+          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible py-2">
             <span
-              className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${
+              className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${
                 isLightMode
                   ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
                   : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#39C69C]"
@@ -174,12 +174,12 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
             >
               Real World
             </span>
-            <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#39C69C] transform hover:scale-105 transition-transform duration-300">
-              <span className="font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-bold text-[#050505]">
+            <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#39C69C] transform hover:scale-105 transition-transform duration-300 overflow-visible">
+              <span className="font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold text-[#050505] inline-block pb-1">
                 Impact
               </span>
             </div>
-            <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-[#39C69C] leading-[1.15em] inline-block">
+            <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-[#39C69C] leading-[1.2em] inline-block pb-1">
               .
             </span>
           </div>

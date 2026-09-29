@@ -278,24 +278,44 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     trackRef.current.scrollLeft = scrollLeftRef.current - walk;
   };
 
-  // Gentle auto-drift loop that pauses smoothly on hover or drag
+  // Gentle auto-drift loop using IntersectionObserver for maximum performance
   useEffect(() => {
     let animFrame: number;
+    let isVisible = false;
     const track = trackRef.current;
     if (!track) return;
 
-    const drift = () => {
-      if (!isMouseDownRef.current && !isHoveredRef.current) {
-        track.scrollLeft += 0.6;
-        if (track.scrollLeft >= track.scrollWidth / 2) {
-          track.scrollLeft = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    let lastTime = performance.now();
+    const drift = (now: number) => {
+      if (isVisible && !isMouseDownRef.current && !isHoveredRef.current && track) {
+        const delta = (now - lastTime) / 1000;
+        if (delta < 0.1) {
+          track.scrollLeft += 30 * delta;
+          if (track.scrollLeft >= track.scrollWidth / 2) {
+            track.scrollLeft = 0;
+          }
         }
       }
+      lastTime = now;
       animFrame = requestAnimationFrame(drift);
     };
 
     animFrame = requestAnimationFrame(drift);
-    return () => cancelAnimationFrame(animFrame);
+    return () => {
+      cancelAnimationFrame(animFrame);
+      observer.disconnect();
+    };
   }, []);
 
   /* Scrollable Marquee Track */
@@ -308,17 +328,17 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
         }`}
     >
-      {/* Section-Specific Ambient Gradient Blur Orbs (Sunset Crimson & Rose Amber Theme) */}
+      {/* Section-Specific Ambient Gradient Blur Orbs (Optimized) */}
       <div
-        className={`absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#FF5500]/25" : "bg-[#F43F5E]/18"
+        className={`absolute -top-20 -right-20 w-[450px] h-[450px] rounded-full blur-[60px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#FF5500]/25" : "bg-[#F43F5E]/18"
           }`}
       />
       <div
-        className={`absolute bottom-0 -left-20 w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#FB923C]/30" : "bg-[#D97706]/18"
+        className={`absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#FB923C]/30" : "bg-[#D97706]/18"
           }`}
       />
       <div
-        className={`absolute top-1/2 left-1/3 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#C27AFF]/15"
+        className={`absolute top-1/2 left-1/3 -translate-y-1/2 w-[350px] h-[350px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#CDA8E8]/35" : "bg-[#C27AFF]/15"
           }`}
       />
       {/* Center Aligned Title, Subtitle & Navigation Buttons */}
@@ -326,7 +346,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         ref={headerRef}
         className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
-        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-clip-text text-transparent w-full text-center pb-1 ${
+        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center py-2 overflow-visible ${
           isLightMode
             ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
             : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"

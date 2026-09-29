@@ -135,31 +135,27 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       }
     });
 
-    // 3D Tilt Hover interaction
+    // 3D Tilt Hover interaction using quickTo for maximum performance
     if (cardsRef.current) {
       const cards = Array.from(cardsRef.current.children) as HTMLElement[];
       cards.forEach((card) => {
+        const rotateXTo = gsap.quickTo(card, "rotateX", { duration: 0.3, ease: "power2.out" });
+        const rotateYTo = gsap.quickTo(card, "rotateY", { duration: 0.3, ease: "power2.out" });
+        const scaleTo = gsap.quickTo(card, "scale", { duration: 0.3, ease: "power2.out" });
+
         const handleMouseMove = (e: MouseEvent) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width / 2;
           const y = e.clientY - rect.top - rect.height / 2;
-          gsap.to(card, {
-            rotateX: -y / 18,
-            rotateY: x / 18,
-            scale: 1.02,
-            duration: 0.3,
-            ease: "power2.out",
-          });
+          rotateXTo(-y / 18);
+          rotateYTo(x / 18);
+          scaleTo(1.02);
         };
 
         const handleMouseLeave = () => {
-          gsap.to(card, {
-            rotateX: 0,
-            rotateY: 0,
-            scale: 1,
-            duration: 0.5,
-            ease: "power3.out",
-          });
+          rotateXTo(0);
+          rotateYTo(0);
+          scaleTo(1);
         };
 
         card.addEventListener("mousemove", handleMouseMove);
@@ -283,34 +279,34 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
           : "bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#1B1324]"
       }`}
     >
-      {/* Specular Ambient Refraction Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#9DAE8B]/18 rounded-full blur-[170px] pointer-events-none pulse-glow" />
-      <div className="absolute top-10 right-10 w-[450px] h-[450px] bg-[#CDA8E8]/15 rounded-full blur-[150px] pointer-events-none pulse-glow" />
+      {/* Specular Ambient Refraction Orbs (Optimized Blur) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#9DAE8B]/18 rounded-full blur-[60px] pointer-events-none will-change-transform" />
+      <div className="absolute top-10 right-10 w-[380px] h-[380px] bg-[#CDA8E8]/15 rounded-full blur-[50px] pointer-events-none will-change-transform" />
 
       <div className="flex max-w-5xl flex-col items-center gap-10 w-full z-10 relative">
-        {/* Main Title Heading: Our Mission . */}
+        {/* Main Title Heading: What We Are Building . */}
         <div
           ref={titleRef}
-          className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-2 overflow-visible"
+          className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-3 overflow-visible"
         >
-          <span className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] bg-clip-text text-transparent leading-[1.15em] pt-2 pb-2 px-2 inline-block ${
+          <span className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] bg-clip-text text-transparent leading-[1.2em] pt-2 pb-3 px-2 inline-block ${
             isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867]"
           }`}>
             {t("vis_our")}
           </span>
-          <div className={`py-2.5 md:py-4 px-6 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-2 md:my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 ${
+          <div className={`py-3 md:py-4 px-6 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-2 md:my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 ${
             isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#9875C1]"
           }`}>
-            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.1em] font-bold pt-1 pb-1 inline-block ${
+            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-bold pt-1 pb-2 inline-block ${
               isLightMode ? "text-white" : "text-[#0B0B0C]"
             }`}>
               {t("vis_vision")}
             </span>
           </div>
           <span
-            className={`font-inter text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold leading-[1.15em] pt-2 inline-block ${
+            className={`font-inter text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold leading-[1.2em] pt-2 pb-2 inline-block ${
               isLightMode ? "text-[#171717]" : "text-[#F4F1E9]"
             }`}
           >

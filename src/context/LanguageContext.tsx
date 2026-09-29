@@ -84,8 +84,8 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_btn: "Subscribe",
 
     // Vision / Mission Section
-    vis_our: "Our",
-    vis_vision: "Mission",
+    vis_our: "What We Are",
+    vis_vision: "Building",
     vis_desc: "Empowering every patient, caregiver, and clinical ally with compassionate resources and clear pathways to demystify carcinoid care and inspire hope.",
   },
   ES: {
@@ -160,8 +160,8 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_btn: "Suscribirse",
 
     // Vision Section
-    vis_our: "Nuestra",
-    vis_vision: "Visión",
+    vis_our: "Lo Que Estamos",
+    vis_vision: "Construyendo",
     vis_desc: "Empoderando a cada paciente, cuidador y aliado clínico con recursos compasivos y vías claras para desmitificar la atención carcinoide e inspirar esperanza.",
   },
   FR: {
@@ -236,8 +236,8 @@ const translations: Record<Language, Record<string, string>> = {
     gal_sub_btn: "S'abonner",
 
     // Vision Section
-    vis_our: "Notre",
-    vis_vision: "Vision",
+    vis_our: "Ce Que Nous",
+    vis_vision: "Construisons",
     vis_desc: "Donner à chaque patient, aidant et allié clinique des ressources compatissantes et des parcours clairs pour démystifier les soins carcinoïdes et inspirer l'espoir.",
   },
 };

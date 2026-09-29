@@ -33,7 +33,10 @@ export default function EditorialMenuPopover({
 
   const handleSelect = (value: string) => {
     setIsOpen(false);
-    if (value === "articles") {
+    if (value === "team") {
+      if (setActiveNavItem) setActiveNavItem("Team");
+      router.push("/team");
+    } else if (value === "articles") {
       if (setActiveNavItem) setActiveNavItem("Articles");
       router.push("/articles");
     } else if (value === "blogs") {
@@ -55,7 +58,7 @@ export default function EditorialMenuPopover({
   };
 
   const isEditorialActive =
-    activeNavItem === "Articles" || activeNavItem === "Perspective" || activeNavItem === "Survivors" || activeNavItem === "Podcasts";
+    activeNavItem === "Team" || activeNavItem === "Articles" || activeNavItem === "Perspective" || activeNavItem === "Survivors" || activeNavItem === "Podcasts";
 
   return (
     <div ref={containerRef} className="relative inline-block text-left">
@@ -105,6 +108,7 @@ export default function EditorialMenuPopover({
               {
                 label: "Editorial",
                 children: [
+                  { value: "team", label: "Our Team", icon: UserGroupIcon },
                   { value: "articles", label: "Knowledge Hub", icon: Book02Icon },
                   { value: "blogs", label: "Carcino Perspective", icon: Book02Icon },
                   { value: "survivors", label: "Survivor Stories", icon: UserGroupIcon },

@@ -185,7 +185,7 @@ export default function Flagshipprogramsection({
     >
       {/* Title & Subtitle */}
       <div ref={headerRef} className="flex flex-col items-center gap-4 w-full">
-        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] font-normal pb-1 ${
+        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] font-normal py-2 overflow-visible ${
           isLightMode
             ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
             : "bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)]"

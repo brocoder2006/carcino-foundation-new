@@ -71,7 +71,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
         <div className="flex flex-col items-center text-center mb-12">
           {/* 
            */}
-          <h2 className={`text-4xl md:text-5xl font-bold font-winterSolace tracking-tight mb-4 ${
+          <h2 className={`text-4xl md:text-5xl font-bold font-winterSolace tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${
             isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C] bg-clip-text text-transparent"
               : "text-white"
