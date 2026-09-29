@@ -201,7 +201,7 @@ export default function CredibilityTestimonialsSection({
             </span>
           </div>
           <p
-            className={`font-inter text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${
+            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${
               isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >

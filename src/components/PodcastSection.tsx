@@ -233,6 +233,72 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     return () => ctx.revert();
   }, []);
 
+  const [isDraggingState, setIsDraggingState] = useState(false);
+  const isMouseDownRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const isHoveredRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!trackRef.current) return;
+    isMouseDownRef.current = true;
+    isDraggingRef.current = false;
+    setIsDraggingState(false);
+    startXRef.current = e.pageX - trackRef.current.offsetLeft;
+    scrollLeftRef.current = trackRef.current.scrollLeft;
+  };
+
+  const handleMouseLeave = () => {
+    isMouseDownRef.current = false;
+    isHoveredRef.current = false;
+    setTimeout(() => {
+      isDraggingRef.current = false;
+      setIsDraggingState(false);
+    }, 80);
+  };
+
+  const handleMouseUp = () => {
+    isMouseDownRef.current = false;
+    setTimeout(() => {
+      isDraggingRef.current = false;
+      setIsDraggingState(false);
+    }, 80);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMouseDownRef.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    if (Math.abs(walk) > 4) {
+      isDraggingRef.current = true;
+      setIsDraggingState(true);
+    }
+    trackRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  // Gentle auto-drift loop that pauses smoothly on hover or drag
+  useEffect(() => {
+    let animFrame: number;
+    const track = trackRef.current;
+    if (!track) return;
+
+    const drift = () => {
+      if (!isMouseDownRef.current && !isHoveredRef.current) {
+        track.scrollLeft += 0.6;
+        if (track.scrollLeft >= track.scrollWidth / 2) {
+          track.scrollLeft = 0;
+        }
+      }
+      animFrame = requestAnimationFrame(drift);
+    };
+
+    animFrame = requestAnimationFrame(drift);
+    return () => cancelAnimationFrame(animFrame);
+  }, []);
+
+  /* Scrollable Marquee Track */
   return (
     <section
       id="podcasts-section"
@@ -343,15 +409,30 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             }`}
         ></div>
 
-        {/* Scrollable Marquee Track */}
+        {/* Scrollable & Draggable Track */}
         <div
           ref={trackRef}
-          className="animate-marquee flex items-stretch gap-6 px-3 py-4 overflow-x-auto scrollbar-none scroll-smooth"
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={() => {
+            isHoveredRef.current = true;
+          }}
+          className={`flex items-stretch gap-6 px-6 md:px-16 py-4 overflow-x-auto scrollbar-none select-none active:cursor-grabbing cursor-grab ${
+            isDraggingState ? "scroll-auto" : "scroll-smooth"
+          }`}
         >
           {infiniteEpisodes.map((ep, idx) => (
             <div
               key={`${ep.id}-${idx}`}
-              onClick={() => handleEpisodeClick(ep)}
+              onClick={(e) => {
+                if (isDraggingRef.current) {
+                  e.stopPropagation();
+                  return;
+                }
+                handleEpisodeClick(ep);
+              }}
               className={`flex p-5 flex-col justify-between gap-2.5 rounded-2xl border transition-all duration-300 w-[280px] h-[450px] shrink-0 group cursor-pointer hover:scale-[1.03] ${isLightMode
                   ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_16px_40px_rgba(246,198,86,0.25)] hover:-translate-y-1.5"
                   : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-1.5"

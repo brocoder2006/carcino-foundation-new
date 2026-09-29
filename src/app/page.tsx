@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import DoorEntranceAnimation from "@/components/DoorEntranceAnimation";
 import OurVisionSection from "@/components/OurVisionSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
 import ImpactStatsSection from "@/components/ImpactStatsSection";

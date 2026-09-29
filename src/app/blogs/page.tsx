@@ -66,6 +66,7 @@ export default function Carcinoblogssection() {
       <main className="flex py-[120px] px-6 md:px-[84px] flex-col items-start gap-14 bg-[#050505] w-full max-w-7xl mx-auto pt-32">
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <h1
+            suppressHydrationWarning
             className="font-winterSolace text-3xl sm:text-5xl md:text-7xl lg:text-[84px] leading-tight w-full text-center tracking-[-0.0356em] bg-clip-text text-transparent pb-2"
             style={{
               backgroundImage:
@@ -75,7 +76,10 @@ export default function Carcinoblogssection() {
             The Carcino Perspective
           </h1>
           <div className="flex flex-col items-center w-full">
-            <p className="text-[#D5B0FF] font-googleSansFlex text-base md:text-lg font-light leading-[27px] max-w-[640px] text-center tracking-[0.01em]">
+            <p
+              suppressHydrationWarning
+              className="text-[#D5B0FF] font-googleSansFlex text-base md:text-lg font-light leading-[27px] max-w-[640px] text-center tracking-[0.01em]"
+            >
               Thoughts, insights, and conversations that go beyond the facts. Our
               blogs explore the social, emotional, scientific, and everyday
               realities of cancer — and encourage you to look at the bigger

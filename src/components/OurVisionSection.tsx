@@ -284,8 +284,8 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       }`}
     >
       {/* Specular Ambient Refraction Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#9DAE8B]/18 rounded-full blur-[170px] pointer-events-none" />
-      <div className="absolute top-10 right-10 w-[450px] h-[450px] bg-[#CDA8E8]/15 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#9DAE8B]/18 rounded-full blur-[170px] pointer-events-none pulse-glow" />
+      <div className="absolute top-10 right-10 w-[450px] h-[450px] bg-[#CDA8E8]/15 rounded-full blur-[150px] pointer-events-none pulse-glow" />
 
       <div className="flex max-w-5xl flex-col items-center gap-10 w-full z-10 relative">
         {/* Main Title Heading: Our Mission . */}
@@ -350,7 +350,7 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
               </div>
 
               <p
-                className={`font-inter text-sm md:text-base font-light leading-snug ${
+                className={`font-spaceGrotesk text-sm md:text-base font-light leading-snug ${
                   isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
                 }`}
               >

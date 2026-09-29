@@ -151,12 +151,12 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
     >
       {/* Specular Glow Orbs */}
       <div
-        className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 ${
+        className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 pulse-glow ${
           isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/12"
         }`}
       />
       <div
-        className={`absolute bottom-10 right-1/4 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
+        className={`absolute bottom-10 right-1/4 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 pulse-glow ${
           isLightMode ? "bg-[#CDA8E8]/30" : "bg-[#CDA8E8]/15"
         }`}
       />
@@ -185,7 +185,7 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
           </div>
 
           <p
-            className={`font-inter text-base md:text-xl font-light leading-relaxed max-w-[680px] text-center ${
+            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[680px] text-center ${
               isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >

@@ -25,7 +25,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
 
   return (
     <section
-      className={`w-full py-4 md:py-4.5 relative z-20 overflow-hidden border-y transition-colors duration-500 ${
+      className={`w-full py-4 md:py-4.5 relative z-20 overflow-hidden border-y transition-colors duration-500 shimmer ${
         isLightMode
           ? "bg-[#ECE9E9] border-black/10 text-[#163B2E]"
           : "bg-[#0A070D]/90 border-white/10 text-white backdrop-blur-xl"

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Instrument_Serif } from "next/font/google";
+import { Inter, Roboto_Mono, Instrument_Serif, Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SanityVisualEditing from "@/components/SanityVisualEditing";
@@ -38,10 +38,10 @@ const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
-const googleSansFlex = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-google-sans-flex",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -61,9 +61,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${googleSansFlex.variable}`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="antialiased min-h-screen bg-[#0B0B0C]">
+      <body suppressHydrationWarning className="antialiased min-h-screen bg-[#0B0B0C]">
         <AuthProvider>
           <LanguageProvider>
             {children}
