@@ -108,7 +108,6 @@ export default function EditorialMenuPopover({
               {
                 label: "Editorial",
                 children: [
-                  { value: "team", label: "Our Team", icon: UserGroupIcon },
                   { value: "articles", label: "Knowledge Hub", icon: Book02Icon },
                   { value: "blogs", label: "Carcino Perspective", icon: Book02Icon },
                   { value: "survivors", label: "Survivor Stories", icon: UserGroupIcon },

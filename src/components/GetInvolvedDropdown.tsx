@@ -56,7 +56,7 @@ export default function GetInvolvedDropdown({
         type="button"
         onClick={handleButtonClick}
         aria-label="Get involved"
-        className={`flex items-center justify-center px-3.5 md:px-4 h-9 md:h-10 rounded-full font-inter text-xs font-bold transition-all duration-300 gap-1.5 cursor-pointer shadow-md ${
+        className={`flex items-center justify-center px-2.5 sm:px-3.5 md:px-4 h-8 md:h-10 rounded-full font-spaceGrotesk text-[11px] sm:text-xs font-bold transition-all duration-300 gap-1 sm:gap-1.5 cursor-pointer shadow-md ${
           isLightMode
             ? "bg-[#163B2E] text-white hover:bg-[#235846] hover:scale-105 active:scale-95"
             : "glass-btn-primary text-white hover:scale-105 active:scale-95"

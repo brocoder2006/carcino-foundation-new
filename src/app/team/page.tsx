@@ -89,14 +89,14 @@ export default function OurTeamPage() {
       />
 
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex py-3 px-4 md:px-[84px] justify-between items-center w-full max-w-7xl mx-auto transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-50 flex py-2 sm:py-3 px-3 sm:px-4 md:px-[84px] justify-between items-center w-full max-w-7xl mx-auto transition-all duration-300">
         <Link
           href="/"
-          className="flex items-center gap-2 py-2 px-4 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all"
+          className="flex items-center gap-1.5 py-1.5 px-3 sm:px-4 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all shrink-0"
         >
           <svg
-            width="16"
-            height="16"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -106,25 +106,25 @@ export default function OurTeamPage() {
           >
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          <span className="font-spaceGrotesk text-sm font-bold">Home</span>
+          <span className="font-spaceGrotesk text-xs sm:text-sm font-bold">Home</span>
         </Link>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button
             onClick={() => setIsLightMode(!isLightMode)}
             aria-label="Toggle theme"
-            className="flex items-center justify-center w-10 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all"
+            className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all shrink-0"
           >
             {isLightMode ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171717" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171717" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F8F8F8" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F8F8F8" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
             )}
           </button>
 
           <button
             onClick={toggleLang}
-            className="flex items-center justify-center px-3.5 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all font-spaceGrotesk text-xs font-bold gap-1.5"
+            className="flex items-center justify-center px-2.5 sm:px-3.5 h-8 sm:h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all font-spaceGrotesk text-xs font-bold gap-1 shrink-0"
           >
             <span>{lang}</span>
           </button>
