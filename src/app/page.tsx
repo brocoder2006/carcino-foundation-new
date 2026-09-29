@@ -7,6 +7,7 @@ import OurVisionSection from "@/components/OurVisionSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
 import ImpactStatsSection from "@/components/ImpactStatsSection";
 import CredibilityTestimonialsSection from "@/components/CredibilityTestimonialsSection";
+import FounderQuoteSection from "@/components/FounderQuoteSection";
 import Flagshipprogramsection from "@/components/Flagshipprogramsection";
 import PodcastSection from "@/components/PodcastSection";
 import ContactFormSection from "@/components/ContactFormSection";
@@ -694,6 +695,9 @@ export default function CarcinoFoundationLandingPage() {
 
       {/* Credibility & Testimonials Section (trusted paths) */}
       <CredibilityTestimonialsSection isLightMode={isLightMode} />
+
+      {/* Founder's Quote Glassmorphic Section */}
+      <FounderQuoteSection isLightMode={isLightMode} />
 
       {/* Flagship Program Section (The Carcino Pathway) */}
       <Flagshipprogramsection isLightMode={isLightMode} />

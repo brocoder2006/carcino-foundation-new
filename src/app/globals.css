@@ -11,6 +11,7 @@ html {
   --font-instrumentSerif: var(--font-instrument-serif);
   --font-googleSansFlex: var(--font-space-grotesk);
   --font-spaceGrotesk: var(--font-space-grotesk);
+  --font-syne: var(--font-syne);
 }
 
 body {

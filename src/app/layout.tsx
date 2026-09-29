@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Instrument_Serif, Space_Grotesk } from "next/font/google";
+import { Inter, Roboto_Mono, Instrument_Serif, Space_Grotesk, Syne } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SanityVisualEditing from "@/components/SanityVisualEditing";
@@ -44,6 +44,12 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-syne",
+});
+
 export const metadata: Metadata = {
   title: "Carcino Foundation - Breaking Down Cancer for Everyone",
   description: "Carcino Foundation helps people navigate the emotional and practical realities of cancer.",
@@ -62,7 +68,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${spaceGrotesk.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${spaceGrotesk.variable} ${syne.variable}`}
     >
       <body suppressHydrationWarning className="antialiased min-h-screen bg-[#0B0B0C]">
         <AuthProvider>
