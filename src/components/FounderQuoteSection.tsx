@@ -129,9 +129,9 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
           {/* Founder Portrait Avatar Graphic Container */}
           <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-tl-[36px] rounded-br-[36px] rounded-tr-[12px] rounded-bl-[12px] overflow-hidden border-2 border-[#39C69C]/60 shadow-xl mb-6 group-hover:scale-105 transition-transform duration-500">
             <img
-              src="/UserPortrait.png"
+              src="/ceo.jpeg"
               alt="Rajannya Das - Founder & CEO"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           </div>
