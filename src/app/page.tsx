@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import DoorEntranceAnimation from "@/components/DoorEntranceAnimation";
+import EditorialHeroSection from "@/components/EditorialHeroSection";
 import OurVisionSection from "@/components/OurVisionSection";
 import MissionStatementSection from "@/components/MissionStatementSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
@@ -37,8 +38,8 @@ export default function CarcinoFoundationLandingPage() {
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
-  const heroBgImageRef = useRef<HTMLImageElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const heroLightVideoRef = useRef<HTMLVideoElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -137,10 +138,9 @@ export default function CarcinoFoundationLandingPage() {
             },
           });
         }
-        if (heroBgImageRef.current) {
-          gsap.to(heroBgImageRef.current, {
-            yPercent: 30,
-            scale: 1.12,
+        if (heroVideoRef.current) {
+          gsap.to(heroVideoRef.current, {
+            yPercent: 20,
             ease: "none",
             scrollTrigger: {
               trigger: heroSectionRef.current,
@@ -150,8 +150,8 @@ export default function CarcinoFoundationLandingPage() {
             },
           });
         }
-        if (heroVideoRef.current) {
-          gsap.to(heroVideoRef.current, {
+        if (heroLightVideoRef.current) {
+          gsap.to(heroLightVideoRef.current, {
             yPercent: 20,
             ease: "none",
             scrollTrigger: {
@@ -201,75 +201,90 @@ export default function CarcinoFoundationLandingPage() {
     >
       {/* Sliding Door Entrance Loader Animation (Inspired by huyml.co) */}
       <DoorEntranceAnimation />
-      {/* Specular Background Refraction Orbs - Optimized Blur */}
+      {/* Specular Background Refraction Orbs - Velorah Specular Ambient Glow */}
       <div
         ref={orb1Ref}
-        className={`absolute top-[10%] left-[20%] w-[400px] h-[400px] rounded-full blur-[60px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#C27AFF]/15" : "bg-[#C27AFF]/08"
+        className={`absolute top-[5%] left-[15%] w-[500px] h-[500px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#C27AFF]/25" : "bg-[#9875C1]/30"
           }`}
       ></div>
       <div
         ref={orb2Ref}
-        className={`absolute top-[35%] right-[15%] w-[380px] h-[380px] rounded-full blur-[60px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#FF7A00]/10" : "bg-[#FF5500]/08"
+        className={`absolute top-[30%] right-[10%] w-[450px] h-[450px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#FF7A00]/20" : "bg-[#39C69C]/25"
           }`}
       ></div>
 
-      {/* Dynamic Background Video Refraction Overlay - Optimized with Parallax */}
-      <video
-        ref={heroVideoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "opacity-10 brightness-105" : "opacity-12 contrast-110"
-          }`}
-      >
-        <source
-          src="https://cdn.sceneai.art/Hero%20Section%20Video/50b4f304-cdca-4e12-8735-580d225834be.mp4"
-          type="video/mp4"
-        />
-      </video>
-
-      {/* Dynamic Animated Liquid Wave Gradient Mesh */}
-      <div className="absolute top-[160px] left-0 w-full h-[550px] overflow-hidden pointer-events-none opacity-15 z-0">
-        <svg
-          className="w-[200%] h-full animate-wave-flow"
-          viewBox="0 0 1440 320"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      {/* Hero Full-Screen Ambient Video Layer (Botanical Blooming Flowers for Light Mode + Velorah for Dark Mode) */}
+      <div className="absolute top-0 left-0 w-full h-screen overflow-hidden pointer-events-none z-0">
+        {/* Light Mode Animating Botanical Flowers Video Background */}
+        <video
+          ref={heroLightVideoRef}
+          key="light-floral-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 will-change-transform scale-105 ${isLightMode ? "opacity-75 brightness-105 contrast-110 saturate-125" : "opacity-0 pointer-events-none"
+            }`}
         >
-          <path
-            d="M0,192L48,197.3C96,203,192,213,288,197.3C384,181,480,139,576,144C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            fill="url(#carcino-wave-gradient)"
+          <source
+            src="https://cdn.sceneai.art/Hero%20Section%20Video/b42aa08b-868a-4c92-8e5b-973c6be6c534.mp4"
+            type="video/mp4"
           />
-          <defs>
-            <linearGradient id="carcino-wave-gradient" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#C27AFF" stopOpacity="0.3" />
-              <stop offset="0.5" stopColor="#39C69C" stopOpacity="0.2" />
-              <stop offset="1" stopColor="#CDA8E8" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+        </video>
 
-      {/* Dynamic Background Image Layer with Parallax Ref */}
-      <img
-        ref={heroBgImageRef}
-        src={isLightMode ? "/LightBackgroundImage.jpg" : "/DynamicBackgroundImage.png"}
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "opacity-25 brightness-100 contrast-100" : "opacity-15"
-          }`}
-        alt="Background image"
-      />
-      {/* Dark Overlay Vignette to tone down background intensity */}
-      <div
-        className={`absolute top-0 left-0 w-full h-screen pointer-events-none transition-all duration-500 ${isLightMode ? "bg-white/40" : "bg-black/50"
-          }`}
-      ></div>
-      <div
-        className={`absolute top-[200px] w-full h-[620px] pointer-events-none transition-all duration-500 ${isLightMode
-          ? "bg-gradient-to-t from-[#f02938]/05 via-transparent to-transparent"
-          : "bg-gradient-to-t from-[#cc0d1f]/15 via-transparent to-transparent"
-          }`}
-      ></div>
+        {/* Dark Mode Velorah Ambient Video Background */}
+        <video
+          ref={heroVideoRef}
+          key="dark-velorah-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 will-change-transform scale-105 ${!isLightMode ? "opacity-45 brightness-95 contrast-115 saturate-125" : "opacity-0 pointer-events-none"
+            }`}
+        >
+          <source
+            src="https://cdn.sceneai.art/Hero%20Section%20Video/50b4f304-cdca-4e12-8735-580d225834be.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Ethereal Floating Botanical Spores / Golden Dandelion Particles Overlay for Light Mode */}
+        {isLightMode && (
+          <div className="absolute inset-0 pointer-events-none z-[1] overflow-hidden opacity-70">
+            <div className="absolute top-[18%] left-[12%] w-2 h-2 rounded-full bg-[#FCC8DF] blur-[1px] animate-pulse"></div>
+            <div className="absolute top-[38%] left-[68%] w-2.5 h-2.5 rounded-full bg-[#9875C1] blur-[1px] animate-bounce duration-[4000ms]"></div>
+            <div className="absolute top-[62%] left-[22%] w-2 h-2 rounded-full bg-[#F6C656] blur-[1px] animate-pulse duration-[3000ms]"></div>
+            <div className="absolute top-[28%] right-[18%] w-3 h-3 rounded-full bg-[#39C69C]/80 blur-[1px] animate-ping duration-[5000ms]"></div>
+            <div className="absolute top-[72%] right-[32%] w-2.5 h-2.5 rounded-full bg-[#FCC8DF] blur-[1px] animate-pulse duration-[3500ms]"></div>
+            <div className="absolute top-[45%] left-[45%] w-1.5 h-1.5 rounded-full bg-white blur-[0.5px] animate-pulse duration-[2500ms]"></div>
+          </div>
+        )}
+
+        {/* Velorah Liquid Vignette Overlay - Top Dark-Glass Fade for Navigation */}
+        <div
+          className={`absolute top-0 left-0 right-0 h-56 pointer-events-none transition-all duration-500 z-[2] ${isLightMode
+            ? "bg-gradient-to-b from-[#ECE9E9]/90 via-[#ECE9E9]/45 to-transparent"
+            : "bg-gradient-to-b from-black/85 via-black/45 to-transparent"
+            }`}
+        ></div>
+
+        {/* Center Specular Radial Highlight */}
+        <div
+          className={`absolute inset-0 pointer-events-none transition-all duration-500 z-[2] ${isLightMode
+            ? "bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.25)_0%,rgba(152,117,193,0.12)_55%,rgba(236,233,233,0.45)_100%)]"
+            : "bg-[radial-gradient(ellipse_at_center,rgba(152,117,193,0.15)_0%,rgba(27,19,36,0.65)_100%)]"
+            }`}
+        ></div>
+
+        {/* Velorah Liquid Vignette Overlay - Bottom Seamless Fade to Carousel */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-64 pointer-events-none transition-all duration-500 z-[2] ${isLightMode
+            ? "bg-gradient-to-t from-[#ECE9E9] via-[#ECE9E9]/70 to-transparent"
+            : "bg-gradient-to-t from-[#1B1324] via-[#1B1324]/80 to-transparent"
+            }`}
+        ></div>
+      </div>
 
       {/* Navigation Header */}
       <header
@@ -677,78 +692,28 @@ export default function CarcinoFoundationLandingPage() {
       )}
 
       {/* Main Hero Section */}
-      <main ref={heroSectionRef} className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
-        <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
-          <h1 className="w-full text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
-            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-textured inline-block pb-1"}>
-              {t("hero_headline_1")}
-            </span>{" "}
-            <span className={isLightMode ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-purple-accent inline-block pb-1"}>
-              {t("hero_headline_cancer")}
-            </span>{" "}
-            <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-accent inline-block pb-1"}>
-              {t("hero_headline_2")}
-            </span>
-          </h1>
-          <p
-            className={`font-robotoMono text-lg md:text-xl leading-[1.55em] w-full transition-colors duration-400 ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
-              }`}
-          >
-            {t("hero_desc")}
-          </p>
-          {/* <div className="flex items-center gap-4 w-fit pt-2">
-            <Link
-              href="/articles"
-              className="flex py-[15px] px-6 items-center gap-2.5 rounded-full glass-btn-primary w-fit cursor-pointer"
-            >
-              <span className="text-white font-winterSolace text-sm font-bold w-fit">
-                {t("btn_read_articles")}
+      {isLightMode ? (
+        <EditorialHeroSection />
+      ) : (
+        <main ref={heroSectionRef} className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
+          <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
+            <h1 className="w-full text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
+              <span className="headline-textured inline-block pb-1">
+                {t("hero_headline_1")}
+              </span>{" "}
+              <span className="headline-purple-accent inline-block pb-1">
+                {t("hero_headline_cancer")}
+              </span>{" "}
+              <span className="headline-accent inline-block pb-1">
+                {t("hero_headline_2")}
               </span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-3.5 relative"
-              >
-                <path
-                  d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </Link>
-            <button
-              onClick={scrollToPodcasts}
-              className="flex py-[15px] px-6 items-center gap-2.5 rounded-full glass-btn-secondary w-fit cursor-pointer"
-            >
-              <span
-                className={`font-winterSolace text-sm font-semibold w-fit ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"
-                  }`}
-              >
-                {t("btn_view_podcasts")}
-              </span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-3.5 relative"
-              >
-                <path
-                  d="M2.91626 7.00006H11.0839M7.00006 11.0839L11.0839 7.00006L7.00006 2.91626"
-                  stroke={isLightMode ? "#171717" : "#F8F8F8"}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </div> */}
-        </div>
-      </main>
+            </h1>
+            <p className="font-robotoMono text-lg md:text-xl leading-[1.55em] w-full text-[#E9CDF8] transition-colors duration-400">
+              {t("hero_desc")}
+            </p>
+          </div>
+        </main>
+      )}
 
       {/* Infinite Stylish Carousel Ticker Just After Hero */}
       <HeroCarouselSection isLightMode={isLightMode} />
