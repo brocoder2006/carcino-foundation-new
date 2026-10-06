@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import DoorEntranceAnimation from "@/components/DoorEntranceAnimation";
 import OurVisionSection from "@/components/OurVisionSection";
+import MissionStatementSection from "@/components/MissionStatementSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
 import ImpactStatsSection from "@/components/ImpactStatsSection";
 import ParallaxShowcaseSection from "@/components/ParallaxShowcaseSection";
@@ -754,6 +755,9 @@ export default function CarcinoFoundationLandingPage() {
 
       {/* Our Vision Section Just Beneath Hero Landing */}
       <OurVisionSection isLightMode={isLightMode} />
+
+      {/* Mission Statement Section with Scroll Word Color Reveal */}
+      <MissionStatementSection isLightMode={isLightMode} />
 
       {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
       <ImpactStatsSection isLightMode={isLightMode} />
