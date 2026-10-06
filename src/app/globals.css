@@ -24,7 +24,7 @@ body {
 }
 
 body.light {
-  background: linear-gradient(135deg, #9875C1 30%, #FCC8DF 100%);
+  background: linear-gradient(135deg, #9875C1 10%, #ad597e 100%);
   background-attachment: fixed;
   color: #163B2E;
 }

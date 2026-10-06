@@ -324,7 +324,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       id="podcasts-section"
       ref={sectionRef}
       className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${isLightMode
-          ? "bg-[#ECE9E9] text-[#163B2E]"
+          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
           : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
         }`}
     >
