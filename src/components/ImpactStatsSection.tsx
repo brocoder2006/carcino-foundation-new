@@ -145,7 +145,7 @@ export default function ImpactStatsSection({ isLightMode = false }: ImpactStatsS
       ref={sectionRef}
       className={`w-full py-20 md:py-32 px-6 md:px-[84px] relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-[#ECE9E9] text-[#163B2E]"
+          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
           : "bg-gradient-to-b from-[#1B1324] via-[#261A34] to-[#1B1324] text-white"
       }`}
     >

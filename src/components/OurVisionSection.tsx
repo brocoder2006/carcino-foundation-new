@@ -275,7 +275,7 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       ref={sectionRef}
       className={`flex py-20 md:py-32 px-6 md:px-16 flex-col items-center justify-center w-full relative overflow-hidden transition-colors duration-500 ${
         isLightMode
-          ? "bg-[#ECE9E9] text-[#163B2E]"
+          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
           : "bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#1B1324]"
       }`}
     >

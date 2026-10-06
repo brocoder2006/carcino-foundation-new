@@ -103,7 +103,7 @@ export default function MissionStatementSection({
       id="mission-section"
       className={`w-full min-h-[140vh] relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-[#ECE9E9] text-[#163B2E]"
+          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
           : "bg-gradient-to-b from-[#1B1324] via-[#261A34] to-[#1B1324] text-white"
       }`}
       aria-labelledby="mission-heading"

@@ -180,7 +180,7 @@ export default function Flagshipprogramsection({
     <section
       ref={sectionRef}
       className={`flex py-[120px] px-6 md:px-[84px] flex-col items-start gap-14 min-w-full overflow-hidden transition-colors duration-400 ${
-        isLightMode ? "bg-[#ECE9E9] text-[#171717]" : "bg-[#050505] text-white"
+        isLightMode ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#171717]" : "bg-[#050505] text-white"
       }`}
     >
       {/* Title & Subtitle */}
