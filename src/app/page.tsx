@@ -6,6 +6,7 @@ import DoorEntranceAnimation from "@/components/DoorEntranceAnimation";
 import OurVisionSection from "@/components/OurVisionSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
 import ImpactStatsSection from "@/components/ImpactStatsSection";
+import ParallaxShowcaseSection from "@/components/ParallaxShowcaseSection";
 import CredibilityTestimonialsSection from "@/components/CredibilityTestimonialsSection";
 import FounderQuoteSection from "@/components/FounderQuoteSection";
 import Flagshipprogramsection from "@/components/Flagshipprogramsection";
@@ -34,6 +35,9 @@ export default function CarcinoFoundationLandingPage() {
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const heroBgImageRef = useRef<HTMLImageElement>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -117,6 +121,47 @@ export default function CarcinoFoundationLandingPage() {
           0.3
         );
       }
+
+      // 4. Real-time Hero Parallax Scroll Effect
+      if (heroSectionRef.current) {
+        if (heroRef.current) {
+          gsap.to(heroRef.current, {
+            y: -75,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+        if (heroBgImageRef.current) {
+          gsap.to(heroBgImageRef.current, {
+            yPercent: 30,
+            scale: 1.12,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+        if (heroVideoRef.current) {
+          gsap.to(heroVideoRef.current, {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+      }
     });
 
     return () => ctx.revert();
@@ -167,13 +212,14 @@ export default function CarcinoFoundationLandingPage() {
           }`}
       ></div>
 
-      {/* Dynamic Background Video Refraction Overlay - Optimized without real-time blur filter */}
+      {/* Dynamic Background Video Refraction Overlay - Optimized with Parallax */}
       <video
+        ref={heroVideoRef}
         autoPlay
         loop
         muted
         playsInline
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 ${isLightMode ? "opacity-10 brightness-105" : "opacity-12 contrast-110"
+        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "opacity-10 brightness-105" : "opacity-12 contrast-110"
           }`}
       >
         <source
@@ -204,10 +250,11 @@ export default function CarcinoFoundationLandingPage() {
         </svg>
       </div>
 
-      {/* Dynamic Background Image Layer */}
+      {/* Dynamic Background Image Layer with Parallax Ref */}
       <img
+        ref={heroBgImageRef}
         src={isLightMode ? "/LightBackgroundImage.jpg" : "/DynamicBackgroundImage.png"}
-        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 ${isLightMode ? "opacity-25 brightness-100 contrast-100" : "opacity-15"
+        className={`absolute top-0 left-0 w-full h-screen object-cover pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "opacity-25 brightness-100 contrast-100" : "opacity-15"
           }`}
         alt="Background image"
       />
@@ -629,7 +676,7 @@ export default function CarcinoFoundationLandingPage() {
       )}
 
       {/* Main Hero Section */}
-      <main className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
+      <main ref={heroSectionRef} className="flex pt-20 md:pt-28 pr-6 md:pr-[84px] pb-[72px] pl-6 md:pl-[84px] items-center justify-center gap-16 w-full max-w-7xl mx-auto my-8 z-10 relative">
         <div ref={heroRef} className="flex flex-col items-start gap-7 w-full max-w-[960px]">
           <h1 className="w-full text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
             <span className={isLightMode ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent inline-block pb-1" : "headline-textured inline-block pb-1"}>
@@ -710,6 +757,9 @@ export default function CarcinoFoundationLandingPage() {
 
       {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
       <ImpactStatsSection isLightMode={isLightMode} />
+
+      {/* Parallax Showcase Section featuring 1.jpeg, 2.jpg, 3.jpg */}
+      <ParallaxShowcaseSection isLightMode={isLightMode} />
 
       {/* Credibility & Testimonials Section (trusted paths) */}
       <CredibilityTestimonialsSection isLightMode={isLightMode} />

@@ -123,7 +123,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           height: 2
         }}
       />
-      
+
       <div>
         {/* Top Header Badge */}
         <div className="flex items-center justify-between gap-2 mb-4">
@@ -220,33 +220,29 @@ export default function CredibilityTestimonialsSection({
   return (
     <section
       id="survivors-section"
-      className={`w-full py-20 md:py-28 px-4 sm:px-6 md:px-[84px] flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-hidden ${
-        isLightMode
+      className={`w-full py-20 md:py-28 px-4 sm:px-6 md:px-[84px] flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
           ? "bg-[#ECE9E9] text-[#163B2E]"
           : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
-      }`}
+        }`}
     >
       {/* Ambient Orbs (Optimized Blur) */}
       <div
-        className={`absolute top-1/4 left-10 w-[450px] h-[450px] rounded-full blur-[60px] pointer-events-none transition-all duration-700 will-change-transform ${
-          isLightMode ? "bg-[#F6C656]/20" : "bg-[#F6C656]/15"
-        }`}
+        className={`absolute top-1/4 left-10 w-[450px] h-[450px] rounded-full blur-[60px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#F6C656]/20" : "bg-[#F6C656]/15"
+          }`}
       />
       <div
-        className={`absolute bottom-10 right-10 w-[400px] h-[400px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${
-          isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/15"
-        }`}
+        className={`absolute bottom-10 right-10 w-[400px] h-[400px] rounded-full blur-[50px] pointer-events-none transition-all duration-700 will-change-transform ${isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/15"
+          }`}
       />
 
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-10 w-full relative z-10">
         {/* Header Title */}
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible py-2">
-            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${
-              isLightMode
+            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${isLightMode
                 ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
                 : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#C9A867]"
-            }`}>
+              }`}>
               Beyond Our
             </span>
             <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#F6C656] transform hover:scale-105 transition-transform duration-300 overflow-visible">
@@ -259,9 +255,8 @@ export default function CredibilityTestimonialsSection({
             </span>
           </div>
           <p
-            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${
-              isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
-            }`}
+            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
+              }`}
           >
             Hear from the clinical leaders, researchers, and supporters who have joined hands with The Carcino Foundation.
           </p>
@@ -326,9 +321,8 @@ export default function CredibilityTestimonialsSection({
             className="flex py-3.5 px-7 items-center gap-2.5 rounded-full glass-btn-secondary w-fit cursor-pointer hover:scale-105 transition-all duration-300 shadow-lg"
           >
             <span
-              className={`font-spaceGrotesk text-sm font-semibold w-fit ${
-                isLightMode ? "text-[#171717]" : "text-[#FFF]"
-              }`}
+              className={`font-spaceGrotesk text-sm font-semibold w-fit ${isLightMode ? "text-[#171717]" : "text-[#FFF]"
+                }`}
             >
               Read more community milestones
             </span>

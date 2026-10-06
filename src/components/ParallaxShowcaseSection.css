@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+.opposing-gallery-wrapper {
+    color: inherit;
+    background: transparent;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-header {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem clamp(1.5rem, 4vw, 4.5rem);
+    border-bottom: 1px solid rgba(238, 233, 223, 0.14);
+    color: rgba(238, 233, 223, 0.85);
+    text-transform: uppercase;
+}
+
+.wordmark {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.header-note {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+}
+
+.intro {
+    display: flex;
+    min-height: auto;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem clamp(1rem, 5vw, 5rem) 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.eyebrow {
+    margin: 0 0 1rem;
+    color: #39C69C;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.intro h1 {
+    max-width: 900px;
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+}
+
+.intro h1 em {
+    color: #CDA8E8;
+    font-weight: 400;
+}
+
+.intro-footer {
+    display: flex;
+    width: min(100%, 900px);
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: clamp(1.5rem, 3vh, 2.5rem);
+    margin-left: auto;
+}
+
+.intro-footer>p {
+    max-width: 24rem;
+    margin: 0;
+    color: rgba(238, 233, 223, 0.7);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    line-height: 1.5;
+}
+
+.scroll-cue {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(238, 233, 223, 0.8);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.scroll-line {
+    display: inline-block;
+    width: 3rem;
+    height: 1px;
+    background: #39C69C;
+    transform-origin: left;
+    transition: transform 300ms ease;
+}
+
+.scroll-cue:hover .scroll-line {
+    transform: scaleX(1.3);
+}
+
+.opposing-gallery {
+    position: relative;
+    height: 90vh;
+    padding: 0 clamp(1rem, 3vw, 3rem);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.opposing-frame {
+    position: sticky;
+    top: 12vh;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2.5rem minmax(0, 1fr);
+    width: 100%;
+    height: 70svh;
+    overflow: hidden;
+    padding: 1rem 0;
+    background: transparent;
+}
+
+.gallery-column {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.gallery-track {
+    width: 100%;
+    will-change: transform;
+}
+
+.gallery-card {
+    position: relative;
+    height: 22rem;
+    min-height: 18rem;
+    margin: 0 0 1.25rem;
+    overflow: hidden;
+    background: transparent;
+    border-radius: 1.25rem;
+}
+
+.gallery-card:last-child {
+    margin-bottom: 0;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    transform: scale(1.015);
+}
+
+.gallery-card-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+    pointer-events: none;
+    border-radius: 1.25rem;
+}
+
+.gallery-card figcaption {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.gallery-card figcaption>span {
+    padding-top: 0.2rem;
+    color: #39C69C;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.gallery-card h2 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #ffffff;
+}
+
+.gallery-card p {
+    margin: 0.4rem 0 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(0.55rem, 0.7vw, 0.65rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gallery-axis {
+    z-index: 2;
+    display: flex;
+    height: 22rem;
+    min-height: 18rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(238, 233, 223, 0.45);
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+}
+
+.axis-line {
+    width: 1px;
+    flex: 1;
+    background: rgba(238, 233, 223, 0.18);
+}
+
+.gallery-column--right .gallery-card figcaption {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.gallery-column--right .gallery-card-shade {
+    transform: scaleX(-1);
+}
+
+.gallery-track,
+.gallery-card img {
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(238, 233, 223, 0.14);
+    color: rgba(238, 233, 223, 0.55);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+.site-footer a {
+    color: #39C69C;
+}
+
+@media (max-width: 700px) {
+    .header-note {
+        display: none;
+    }
+
+    .intro {
+        justify-content: flex-end;
+        padding-bottom: 1.5rem;
+    }
+
+    .intro-footer {
+        display: block;
+    }
+
+    .scroll-cue {
+        margin-top: 1rem;
+    }
+
+    .opposing-gallery {
+        height: 75vh;
+        padding: 0 0.5rem;
+    }
+
+    .opposing-frame {
+        top: 10vh;
+        height: 65vh;
+        grid-template-columns: minmax(0, 1fr) 0.75rem minmax(0, 1fr);
+        padding: 0.5rem 0;
+    }
+
+    .gallery-card {
+        height: 16rem;
+        min-height: 14rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .gallery-axis {
+        height: 16rem;
+        min-height: 14rem;
+        gap: 0.3rem;
+        font-size: 0;
+    }
+
+    .gallery-card figcaption {
+        right: 0.5rem;
+        bottom: 0.75rem;
+        left: 0.5rem;
+        display: block;
+    }
+
+    .gallery-column--right .gallery-card figcaption {
+        text-align: right;
+    }
+
+    .gallery-card figcaption>span,
+    .gallery-card p {
+        display: none;
+    }
+
+    .gallery-card h2 {
+        font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .gallery-track {
+        transform: none;
+        will-change: auto;
+    }
+
+    .opposing-gallery {
+        height: auto;
+    }
+
+    .opposing-frame {
+        position: relative;
+        height: auto;
+        overflow: visible;
+    }
+
+    .scroll-line {
+        transition: none;
+    }
+}
