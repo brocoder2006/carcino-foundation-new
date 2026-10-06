@@ -102,22 +102,19 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
     <section
       id="articles-section"
       ref={sectionRef}
-      className={`w-full py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${
-        isLightMode
+      className={`w-full py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
           ? "bg-[#ECE9E9] text-[#163B2E]"
           : "bg-gradient-to-b from-[#160E21] via-[#21182D] to-[#160E21] text-[#F8F8F8]"
-      }`}
+        }`}
     >
       {/* Section Ambient Glow Orbs */}
       <div
-        className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#F6C656]/20" : "bg-[#CDA8E8]/12"
-        }`}
+        className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#F6C656]/20" : "bg-[#CDA8E8]/12"
+          }`}
       />
       <div
-        className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${
-          isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/10"
-        }`}
+        className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none transition-all duration-700 ${isLightMode ? "bg-[#39C69C]/20" : "bg-[#39C69C]/10"
+          }`}
       />
 
       {/* Header Container */}
@@ -126,19 +123,16 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         className="flex max-w-4xl flex-col items-center gap-6 w-full text-center relative z-10 mb-10"
       >
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
-          <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${
-            isLightMode
+          <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C]"
-          }`}>
+            }`}>
             {t("art_title_1")}
           </span>
-          <div className={`py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center ${
-            isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#F6C656]"
-          }`}>
-            <span className={`font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-bold ${
-              isLightMode ? "text-white" : "text-[#0B0B0C]"
+          <div className={`py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center ${isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#F6C656]"
             }`}>
+            <span className={`font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-bold ${isLightMode ? "text-white" : "text-[#0B0B0C]"
+              }`}>
               {t("art_title_2")}
             </span>
           </div>
@@ -148,9 +142,8 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         </div>
 
         <p
-          className={`font-inter text-base md:text-lg max-w-2xl text-center leading-relaxed ${
-            isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]/90"
-          }`}
+          className={`font-inter text-base md:text-lg max-w-2xl text-center leading-relaxed ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]/90"
+            }`}
         >
           {t("art_subtitle")}
         </p>
@@ -161,13 +154,12 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
             <button
               key={art.id}
               onClick={() => setSelectedArticleIndex(idx)}
-              className={`py-2 px-4 rounded-full text-xs font-inter font-semibold transition-all duration-300 cursor-pointer ${
-                selectedArticleIndex === idx
+              className={`py-2 px-4 rounded-full text-xs font-inter font-semibold transition-all duration-300 cursor-pointer ${selectedArticleIndex === idx
                   ? "bg-[#F6C656] text-[#0B0B0C] shadow-md shadow-[#F6C656]/30 scale-105 font-bold"
                   : isLightMode
-                  ? "bg-white/80 text-[#2E1640] hover:bg-[#F6C656]/20 border border-black/10"
-                  : "bg-white/10 text-zinc-300 hover:bg-[#CDA8E8]/20 hover:text-[#CDA8E8] border border-white/10"
-              }`}
+                    ? "bg-white/80 text-[#2E1640] hover:bg-[#F6C656]/20 border border-black/10"
+                    : "bg-white/10 text-zinc-300 hover:bg-[#CDA8E8]/20 hover:text-[#CDA8E8] border border-white/10"
+                }`}
             >
               {art.title.length > 32 ? `${art.title.slice(0, 32)}...` : art.title}
             </button>
@@ -178,11 +170,10 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
       {/* CONTINUOUS EDITORIAL ARTICLE READER CONTAINER (Medium Style) */}
       <div
         ref={articleCardRef}
-        className={`w-full max-w-4xl rounded-3xl p-6 md:p-12 border transition-all duration-500 shadow-2xl relative z-10 ${
-          isLightMode
+        className={`w-full max-w-4xl rounded-3xl p-6 md:p-12 border transition-all duration-500 shadow-2xl relative z-10 ${isLightMode
             ? "bg-white border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.06)] text-[#171717]"
             : "bg-[#0E0E10] border-white/15 shadow-[0_25px_70px_rgba(0,0,0,0.6)] text-[#F8F8F8]"
-        }`}
+          }`}
       >
         {/* Article Headline */}
         <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-[1.25] mb-4">
@@ -205,11 +196,10 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
                 <span className="font-semibold text-sm font-inter">The Carcino Foundation</span>
                 <button
                   onClick={() => setIsFollowing(!isFollowing)}
-                  className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${
-                    isFollowing
+                  className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${isFollowing
                       ? "bg-emerald-500 text-black font-bold"
                       : "border border-emerald-500/60 text-emerald-400 hover:bg-emerald-500/20"
-                  }`}
+                    }`}
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </button>
@@ -219,98 +209,12 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               </span>
             </div>
           </div>
-
-          {/* Social Action Tools (Claps, Comments, Repost, Bookmark, Audio, Share) */}
-          <div className="flex items-center gap-4 text-xs font-inter">
-            {/* Clap Button */}
-            <button
-              onClick={handleClap}
-              title="Clap for article"
-              className="flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 font-bold transition-all cursor-pointer active:scale-95"
-            >
-              <span className="text-base">👏</span>
-              <span>{currentClapCount}</span>
-            </button>
-
-            {/* Comment Counter */}
-            <span className="flex items-center gap-1 text-zinc-400">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
-              <span>1</span>
-            </span>
-
-            {/* Repost Counter */}
-            <span className="flex items-center gap-1 text-zinc-400">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M17 1l4 4-4 4"></path>
-                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-                <path d="M7 23l-4-4 4-4"></path>
-                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-              </svg>
-              <span>1</span>
-            </span>
-
-            {/* Bookmark Button */}
-            <button
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              title="Bookmark story"
-              className={`p-1.5 rounded-full transition-all cursor-pointer ${
-                isBookmarked ? "text-emerald-400 bg-emerald-500/10" : "text-zinc-400 hover:text-white"
-              }`}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </button>
-
-            {/* Audio Player Button */}
-            <button
-              onClick={() => setIsPlayingAudio(!isPlayingAudio)}
-              title="Listen to article audio"
-              className={`p-1.5 rounded-full transition-all cursor-pointer ${
-                isPlayingAudio ? "text-purple-400 bg-purple-500/20" : "text-zinc-400 hover:text-white"
-              }`}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              </svg>
-            </button>
-
-            {/* Share Link Button */}
-            <button
-              onClick={handleShare}
-              title="Share article"
-              className="p-1.5 rounded-full text-zinc-400 hover:text-white transition-all cursor-pointer relative"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
-              {copiedLink && (
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 py-1 px-2.5 rounded bg-emerald-500 text-black font-bold text-[10px] whitespace-nowrap shadow-lg">
-                  Link copied!
-                </span>
-              )}
-            </button>
-          </div>
         </div>
 
         {/* CONTINUOUS PROSE ARTICLE BODY */}
         <div className="flex flex-col gap-5 text-base md:text-lg leading-relaxed font-sans opacity-95">
           {currentArticle.content.map((paragraph, pIdx) => (
-            <p
-              key={pIdx}
-              className={`${
-                pIdx === 0
-                  ? "font-medium text-lg md:text-xl text-amber-500/90 italic border-l-2 border-amber-500 pl-4 py-1"
-                  : ""
-              }`}
-            >
+            <p key={pIdx}>
               {paragraph}
             </p>
           ))}
@@ -319,7 +223,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           {currentArticle.sections &&
             currentArticle.sections.map((sec, secIdx) => (
               <div key={secIdx} className="flex flex-col gap-3 mt-4 pt-4 border-t border-zinc-500/10">
-                <h3 className="font-serif text-xl md:text-2xl font-bold text-emerald-400">
+                <h3 className="font-horizon text-xl md:text-2xl font-bold text-emerald-400">
                   {sec.heading}
                 </h3>
                 {sec.content.map((p, itemIdx) => (
@@ -332,27 +236,13 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         </div>
 
         {/* Bottom Editorial Action Footer */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-8 mt-8 border-t border-zinc-500/20">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleClap}
-              className="flex items-center gap-2 py-2 px-4 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 font-bold text-sm transition-all cursor-pointer active:scale-95"
-            >
-              <span>👏 Clap for this story</span>
-              <span className="bg-amber-500/20 py-0.5 px-2 rounded-full text-xs">
-                {currentClapCount}
-              </span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/articles/${currentArticle.id}`}
-              className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1.5"
-            >
-              <span>Read Full Article & Citations ↗</span>
-            </Link>
-          </div>
+        <div className="flex items-center justify-end pt-8 mt-8 border-t border-zinc-500/20">
+          <Link
+            href={`/articles/${currentArticle.id}`}
+            className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1.5"
+          >
+            <span>Read Full Article & Citations ↗</span>
+          </Link>
         </div>
       </div>
 

@@ -211,7 +211,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       ref={sectionRef}
       className={`w-full py-20 md:py-24 px-6 md:px-[84px] flex flex-col items-center justify-center gap-14 relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-gradient-to-b from-[#ECE9E9] via-[#E2DDDD]/60 to-[#ECE9E9] text-[#171717]"
+          ? "bg-[#ECE9E9] text-[#163B2E]"
           : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#160E21] text-[#F8F8F8]"
       }`}
     >

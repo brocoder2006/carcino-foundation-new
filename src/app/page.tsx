@@ -226,10 +226,10 @@ export default function CarcinoFoundationLandingPage() {
       {/* Navigation Header */}
       <header
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 flex py-2 md:py-3 px-4 md:px-[84px] justify-center items-center w-full max-w-7xl mx-auto transition-all duration-300 pointer-events-none"
+        className="fixed top-0 left-0 right-0 z-50 flex py-2 md:py-3 px-2 sm:px-4 md:px-[84px] justify-center items-center w-full max-w-7xl mx-auto transition-all duration-300 pointer-events-none"
       >
         {/* Mobile View Top Bar (Logo + Theme Toggle + Mobile Menu Trigger) */}
-        <div className="flex items-center justify-between w-full md:hidden px-3 sm:px-4 py-1.5 sm:py-2 rounded-full glass-navbar border border-white/20 pointer-events-auto max-w-[calc(100vw-16px)]">
+        <div className="flex items-center justify-between w-full md:hidden px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full glass-navbar border border-white/20 pointer-events-auto max-w-full overflow-hidden">
           <div className="flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" onClick={scrollToTop}>
             <div className="flex items-center justify-center w-6 h-6">
               <svg

@@ -136,33 +136,21 @@ export default function ArticleDetailPage({
       {/* SINGLE UNIFIED CONTINUOUS ARTICLE CONTAINER */}
       <main className="max-w-4xl mx-auto px-6 pt-24 pb-16 md:pt-28 md:pb-24 flex-1 z-10 w-full">
         {/* Article Metadata Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <div className="flex items-center gap-3">
-            <span className="py-1 px-4 rounded-full bg-[#CDA8E8]/20 text-[#CDA8E8] text-xs font-semibold font-inter border border-[#CDA8E8]/30">
-              {article.tag}
-            </span>
-            <span className="text-xs text-zinc-400 font-medium">
-              {article.readTime}
-            </span>
-            <span className="text-xs text-zinc-500">•</span>
-            <span className="text-xs text-zinc-400 font-medium">
-              {article.date}
-            </span>
-          </div>
-
-          <button
-            onClick={() => markArticleAsRead(String(article.id), article.title)}
-            className={`py-1.5 px-4 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${isArticleRead(String(article.id))
-                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                : "bg-white/10 text-gray-300 hover:text-white border border-white/10 hover:border-white/25"
-              }`}
-          >
-            {isArticleRead(String(article.id)) ? "Marked as Read ✓" : "Mark as Read"}
-          </button>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="py-1 px-4 rounded-full bg-[#CDA8E8]/20 text-[#CDA8E8] text-xs font-semibold font-inter border border-[#CDA8E8]/30">
+            {article.tag}
+          </span>
+          <span className="text-xs text-zinc-400 font-medium">
+            {article.readTime}
+          </span>
+          <span className="text-xs text-zinc-500">•</span>
+          <span className="text-xs text-zinc-400 font-medium">
+            {article.date}
+          </span>
         </div>
 
         {/* Title */}
-        <h1 className="font-winterSolace text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.2] mb-6 tracking-tight bg-gradient-to-r from-white via-[#E9CDF8] to-[#CDA8E8] bg-clip-text text-transparent">
+        <h1 className="font-horizon text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.2] mb-6 tracking-tight bg-gradient-to-r from-white via-[#E9CDF8] to-[#CDA8E8] bg-clip-text text-transparent">
           {article.title}
         </h1>
 
@@ -188,68 +176,7 @@ export default function ArticleDetailPage({
               <p className="text-xs text-zinc-400 font-inter">Carcino Research &amp; Clinical Advisory</p>
             </div>
           </div>
-
-          {/* Medium-style Social Action Bar */}
-          <div className="flex items-center gap-4 text-xs font-inter">
-            <button
-              onClick={() => setClaps((c) => c + 1)}
-              title="Clap for article"
-              className="flex items-center gap-1.5 py-1.5 px-3.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 font-bold transition-all cursor-pointer active:scale-95"
-            >
-              <span className="text-base">👏</span>
-              <span>{claps}</span>
-            </button>
-
-            <button
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              title="Bookmark story"
-              className={`p-2 rounded-full transition-all cursor-pointer ${isBookmarked ? "text-emerald-400 bg-emerald-500/20" : "text-zinc-400 hover:text-white"
-                }`}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill={isBookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-            </button>
-
-            <button
-              onClick={() => setIsPlayingAudio(!isPlayingAudio)}
-              title="Listen to audio"
-              className={`p-2 rounded-full transition-all cursor-pointer ${isPlayingAudio ? "text-purple-400 bg-purple-500/20" : "text-zinc-400 hover:text-white"
-                }`}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              </svg>
-            </button>
-
-            <button
-              onClick={handleShare}
-              title="Share link"
-              className="p-2 rounded-full text-zinc-400 hover:text-white transition-all cursor-pointer relative"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
-              {copiedLink && (
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 py-1 px-2.5 rounded bg-emerald-500 text-black font-bold text-[10px] whitespace-nowrap shadow-lg">
-                  Link copied!
-                </span>
-              )}
-            </button>
-          </div>
         </div>
-
-        {/* Lead Quote Summary (Continuous Blockquote) */}
-        {article.desc && (
-          <blockquote className="border-l-4 border-[#CDA8E8] pl-6 py-2 my-8 text-xl md:text-2xl font-serif text-[#E9CDF8]/90 italic leading-relaxed">
-            "{article.desc}"
-          </blockquote>
-        )}
 
         {/* CONTINUOUS EDITORIAL PROSE DOCUMENT STREAM */}
         <article className="flex flex-col gap-6 text-lg md:text-xl leading-[1.85] font-sans text-zinc-200 selection:bg-[#CDA8E8]/30">
@@ -265,7 +192,7 @@ export default function ArticleDetailPage({
             <div className="flex flex-col gap-10 mt-6 pt-6">
               {article.sections.map((section, sIdx) => (
                 <section key={sIdx} className="flex flex-col gap-4">
-                  <h2 className="font-winterSolace text-2xl md:text-4xl font-bold text-white tracking-tight pb-3 border-b border-white/10 mt-4">
+                  <h2 className="font-horizon text-2xl md:text-3xl font-bold text-white tracking-tight pb-3 border-b border-white/10 mt-4">
                     {section.heading}
                   </h2>
                   <div className="flex flex-col gap-4 text-base md:text-lg text-zinc-300 leading-relaxed">
@@ -284,7 +211,7 @@ export default function ArticleDetailPage({
         {/* FAQs Section */}
         {article.faqs && article.faqs.length > 0 && (
           <section className="mt-16 pt-10 border-t border-white/15">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-winterSolace">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-horizon">
               Frequently Asked Questions (FAQs)
             </h3>
             <div className="flex flex-col gap-4">
@@ -335,37 +262,13 @@ export default function ArticleDetailPage({
         )}
 
         {/* Footer Editorial Action Bar */}
-        <div className="mt-14 pt-8 border-t border-white/15 flex flex-wrap items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setClaps((c) => c + 1)}
-              className="flex items-center gap-2 py-2.5 px-5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 font-bold text-sm transition-all cursor-pointer active:scale-95"
-            >
-              <span>👏 Clap for this article</span>
-              <span className="bg-amber-500/20 py-0.5 px-2.5 rounded-full text-xs">
-                {claps}
-              </span>
-            </button>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => markArticleAsRead(String(article.id), article.title)}
-              className={`py-2.5 px-5 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${isArticleRead(String(article.id))
-                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                  : "bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:bg-purple-500/30"
-                }`}
-            >
-              {isArticleRead(String(article.id)) ? "Marked as Read ✓" : "Mark as Read"}
-            </button>
-
-            <Link
-              href="/articles"
-              className="py-2.5 px-6 rounded-full bg-gradient-to-r from-[#F6C656] to-[#D4AF37] text-[#0B0B0C] font-inter text-xs font-bold hover:brightness-110 transition-all shadow-md"
-            >
-              Explore More Articles ↗
-            </Link>
-          </div>
+        <div className="mt-14 pt-8 border-t border-white/15 flex items-center justify-center">
+          <Link
+            href="/articles"
+            className="py-3 px-8 rounded-full bg-gradient-to-r from-[#F6C656] to-[#D4AF37] text-[#0B0B0C] font-inter text-sm font-bold hover:brightness-110 transition-all shadow-md"
+          >
+            Explore More Articles ↗
+          </Link>
         </div>
       </main>
     </div>

@@ -84,7 +84,11 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
         </div>
 
         {/* Form Container */}
-        <div className="bg-[#150a21]/90 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
+        <div className={`backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden transition-colors duration-400 ${
+          isLightMode
+            ? "bg-white/85 border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]"
+            : "bg-[#150a21]/90 border border-white/10"
+        }`}>
           <div className="absolute top-0 right-0 w-60 h-60 bg-[#C27AFF]/15 rounded-full blur-[100px] pointer-events-none"></div>
 
           {statusMsg && (
@@ -101,7 +105,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
           <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-semibold text-[#E9CDF8]/90 mb-2">
+                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
                   Full Name <span className="text-purple-400">*</span>
                 </label>
                 <input
@@ -111,12 +115,16 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Jane Smith"
-                  className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 transition-colors"
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
+                    isLightMode
+                      ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                      : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#E9CDF8]/90 mb-2">
+                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
                   Email Address <span className="text-purple-400">*</span>
                 </label>
                 <input
@@ -126,14 +134,18 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="jane@example.com"
-                  className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 transition-colors"
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
+                    isLightMode
+                      ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                      : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                  }`}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-semibold text-[#E9CDF8]/90 mb-2">
+                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
                   Phone Number
                 </label>
                 <input
@@ -142,19 +154,27 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91xxxxxxxx"
-                  className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 transition-colors"
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
+                    isLightMode
+                      ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                      : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#E9CDF8]/90 mb-2">
+                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
                   Subject
                 </label>
                 <select
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3.5 rounded-xl bg-[#120a1c] border border-white/15 text-white text-sm focus:outline-none focus:border-purple-400 transition-colors"
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
+                    isLightMode
+                      ? "bg-[#ECE9E9]/80 border border-black/15 text-[#163B2E]"
+                      : "bg-[#120a1c] border border-white/15 text-white"
+                  }`}
                 >
                   <option value="General Inquiry">General Inquiry</option>
                   <option value="Research & Clinical Data">Research & Clinical Data</option>
@@ -165,7 +185,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#E9CDF8]/90 mb-2">
+              <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
                 Message <span className="text-purple-400">*</span>
               </label>
               <textarea
@@ -175,7 +195,11 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Write your message here..."
-                className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-purple-400 transition-colors"
+                className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
+                  isLightMode
+                    ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                    : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                }`}
               />
             </div>
 

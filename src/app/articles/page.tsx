@@ -250,13 +250,14 @@ export default function ArticlesGalleryPage() {
       <div className="absolute top-[70%] left-10 w-[550px] h-[550px] bg-[#C9A867]/15 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Top Navbar */}
-      <header className="flex py-3 px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0">
-        <Link href="/" className="flex items-center gap-3 w-fit group cursor-pointer">
-          <div className="rounded-lg bg-[#9875C1] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
+      <header className="flex py-3 px-3 sm:px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 w-fit group cursor-pointer shrink-0">
+          <div className="rounded-lg bg-[#9875C1] w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
             TCF
           </div>
-          <p className="text-[#FFF] font-winterSolace text-xl w-fit tracking-tight">
-            The Carcino Foundation
+          <p className="text-[#FFF] font-winterSolace text-sm sm:text-xl w-fit tracking-tight">
+            <span className="hidden sm:inline">The Carcino Foundation</span>
+            <span className="sm:hidden">Carcino</span>
           </p>
         </Link>
         <div className="flex items-center gap-3">
