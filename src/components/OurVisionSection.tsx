@@ -172,17 +172,18 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       title: "Cancer Literacy",
       desc: "Understand the why. Turning knowledge into earlier action and better outcomes.",
       accent: "#9DAE8B",
-      icon: (
+      lightAccent: "#047857",
+      icon: (isLight: boolean) => (
         <svg
           width="32"
           height="32"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#9DAE8B"
-          strokeWidth="1.8"
+          stroke={isLight ? "#047857" : "#9DAE8B"}
+          strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+          className="w-7 h-7 transition-transform duration-300 group-hover:scale-110"
         >
           <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
           <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -198,17 +199,18 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       title: "Rural Cancer Care Infrastructure",
       desc: "Identify gaps in rural cancer care and build practical pathways to close them.",
       accent: "#CDA8E8",
-      icon: (
+      lightAccent: "#6D28D9",
+      icon: (isLight: boolean) => (
         <svg
           width="32"
           height="32"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#CDA8E8"
-          strokeWidth="1.8"
+          stroke={isLight ? "#6D28D9" : "#CDA8E8"}
+          strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+          className="w-7 h-7 transition-transform duration-300 group-hover:scale-110"
         >
           <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
           <path d="M6 12H4a2 2 0 0 0-2 2v8" />
@@ -226,17 +228,18 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       title: "Veterinary Cancer Care",
       desc: "Extend cancer literacy, love and support to the animals who are part of our families..",
       accent: "#C9A867",
-      icon: (
+      lightAccent: "#D97706",
+      icon: (isLight: boolean) => (
         <svg
           width="32"
           height="32"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#C9A867"
-          strokeWidth="1.8"
+          stroke={isLight ? "#D97706" : "#C9A867"}
+          strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+          className="w-7 h-7 transition-transform duration-300 group-hover:scale-110"
         >
           <circle cx="11" cy="4" r="2" />
           <circle cx="18" cy="8" r="2" />
@@ -250,17 +253,18 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
       title: "Youth & Medical Community",
       desc: "Upskilling the youth to build stronger communities.",
       accent: "#39C69C",
-      icon: (
+      lightAccent: "#0284C7",
+      icon: (isLight: boolean) => (
         <svg
           width="32"
           height="32"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#39C69C"
-          strokeWidth="1.8"
+          stroke={isLight ? "#0284C7" : "#39C69C"}
+          strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+          className="w-7 h-7 transition-transform duration-300 group-hover:scale-110"
         >
           <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
           <path d="M6 12v5c3 3 9 3 12 0v-5" />
@@ -332,8 +336,20 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
             >
               <div className="flex flex-col items-start gap-3.5 w-full">
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-10 h-10 bg-transparent flex items-center justify-center shrink-0">
-                    {pillar.icon}
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 group-hover:scale-110 shadow-md ${
+                      isLightMode
+                        ? "bg-white/90 shadow-[0_4px_15px_rgba(0,0,0,0.12)] border-black/10"
+                        : "bg-white/5 border-white/15"
+                    }`}
+                    style={{
+                      borderColor: isLightMode ? pillar.lightAccent : "rgba(255, 255, 255, 0.2)",
+                      boxShadow: isLightMode
+                        ? `0 6px 20px ${pillar.lightAccent}40`
+                        : `0 6px 20px ${pillar.accent}25`,
+                    }}
+                  >
+                    {pillar.icon(isLightMode)}
                   </div>
                 </div>
                 <h3
