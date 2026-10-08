@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import firstImage from "../../public/1.jpeg";
 import secondImage from "../../public/2.jpg";
 import thirdImage from "../../public/3.jpg";
+import fourthImage from "../../public/img.jpeg";
 import "./ParallaxShowcaseSection.css";
 
 interface ParallaxShowcaseSectionProps {
@@ -33,6 +34,14 @@ const photographs = [
     title: "The day’s work",
     detail: "Light spills into the market",
     alt: "A market worker standing among sacks and newspapers",
+    position: "50% 50%",
+  },
+  {
+    src: fourthImage,
+    number: "04",
+    title: "Hope & Resilience",
+    detail: "Courage held in every step",
+    alt: "Portrait of courage and hope",
     position: "50% 50%",
   },
 ];

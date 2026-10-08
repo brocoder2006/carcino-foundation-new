@@ -26,6 +26,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sanity": "^3.99.0",
+    "stagger-text-reveal-animation": "^1.0.0",
     "styled-components": "^6.5.3",
     "xlsx": "^0.18.5"
   },
