@@ -146,6 +146,9 @@ if os.getenv("CSRF_TRUSTED_ORIGINS"):
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 
+# Reverse proxy HTTPS header setting for Render
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # Cloudinary Storage Configuration
 CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
 CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
