@@ -291,31 +291,36 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
         {/* Main Title Heading: What We Are Building . */}
         <div
           ref={titleRef}
-          className="w-full flex flex-row flex-nowrap items-center justify-center gap-1.5 sm:gap-3 py-3 overflow-visible whitespace-nowrap"
+          className="w-full flex flex-col items-center justify-center gap-2 sm:gap-4 py-3 text-center overflow-visible"
         >
-          <span className={`font-syne font-extrabold text-2xl sm:text-5xl md:text-6xl lg:text-[76px] bg-clip-text text-transparent leading-[1.2em] pt-2 pb-3 px-1 sm:px-2 inline-block shrink-0 ${
+          {/* Line 1: What We Are */}
+          <span className={`font-syne font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[76px] bg-clip-text text-transparent leading-[1.2em] py-1 px-2 inline-block whitespace-nowrap ${
             isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867]"
           }`}>
             {t("vis_our")}
           </span>
-          <div className={`py-1.5 px-4 sm:py-3 sm:px-8 md:py-4 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 shrink-0 ${
-            isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#9875C1]"
-          }`}>
-            <span className={`font-syne font-extrabold text-xl sm:text-4xl md:text-5xl lg:text-[66px] leading-[1.2em] pt-0.5 pb-1 inline-block ${
-              isLightMode ? "text-white" : "text-[#0B0B0C]"
+
+          {/* Line 2: Building . */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 overflow-visible whitespace-nowrap">
+            <div className={`py-2 px-5 sm:py-3.5 sm:px-9 md:py-4 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 ${
+              isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#9875C1]"
             }`}>
-              {t("vis_vision")}
+              <span className={`font-syne font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[66px] leading-[1.2em] pt-0.5 pb-1 inline-block ${
+                isLightMode ? "text-white" : "text-[#0B0B0C]"
+              }`}>
+                {t("vis_vision")}
+              </span>
+            </div>
+            <span
+              className={`font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold leading-[1.2em] py-1 inline-block ${
+                isLightMode ? "text-[#171717]" : "text-[#F4F1E9]"
+              }`}
+            >
+              .
             </span>
           </div>
-          <span
-            className={`font-inter text-2xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold leading-[1.2em] pt-2 pb-2 inline-block shrink-0 ${
-              isLightMode ? "text-[#171717]" : "text-[#F4F1E9]"
-            }`}
-          >
-            .
-          </span>
         </div>
 
         {/* Continuous Single Row Structure of Our Mission Cards with Stylish Dividers */}
