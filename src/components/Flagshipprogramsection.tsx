@@ -4,9 +4,10 @@ import React, { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useAuth } from "@/context/AuthContext";
-import { client } from "@/sanity/lib/client";
+import { fetchDjangoCampaigns } from "@/lib/djangoApi";
 import { ExternalLink } from "lucide-react";
 import { motion, Variants } from "framer-motion";
+
 
 const cardVariants: Variants = {
   offscreen: {
@@ -63,63 +64,42 @@ export default function Flagshipprogramsection({
   const [sanityCampaigns, setSanityCampaigns] = useState<CampaignCardItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch campaigns live from Sanity Studio & listen for real-time updates
+  // Fetch campaigns live from Django REST API
   useEffect(() => {
     async function fetchCampaigns() {
       try {
-        const docs = await client.fetch(
-          `*[_type == "campaign" && !(_id in path("drafts.**"))] | order(startDate desc) {
-            _id,
-            title,
-            pathwayStage,
-            status,
-            summary,
-            "bannerUrl": bannerImage.asset->url,
-            actionUrl
-          }`,
-          {},
-          { useCdn: false }
-        );
+        const docs = await fetchDjangoCampaigns();
 
-        if (docs && Array.isArray(docs)) {
+        if (docs && Array.isArray(docs) && docs.length > 0) {
           const formatted: CampaignCardItem[] = docs.map((doc: any, index: number) => {
-            const stageInfo = STAGE_TAG_MAP[doc.pathwayStage] || {
+            const stageInfo = STAGE_TAG_MAP[doc.pathway_stage] || {
               code: `0${(index % 4) + 1}`,
               tag: "TCF PATHWAY",
             };
             return {
-              id: doc._id,
+              id: doc.id,
               code: stageInfo.code,
               tag: stageInfo.tag,
-              pathwayStage: doc.pathwayStage,
+              pathwayStage: doc.pathway_stage,
               title: doc.title || "Pathway Campaign",
               desc: doc.summary || "Explore active initiatives in the Carcino Pathway.",
-              cover: doc.bannerUrl || "/CoverImage.png",
-              actionUrl: doc.actionUrl,
+              cover: doc.banner_image || "/CoverImage.png",
+              actionUrl: doc.action_url,
               status: doc.status,
             };
           });
           setSanityCampaigns(formatted);
         }
       } catch (err) {
-        console.error("Failed to fetch Sanity campaigns:", err);
+        console.error("Failed to fetch Django campaigns:", err);
       } finally {
         setLoading(false);
       }
     }
 
     fetchCampaigns();
-
-    const subscription = client
-      .listen(`*[_type == "campaign"]`)
-      .subscribe(() => {
-        fetchCampaigns();
-      });
-
-    return () => {
-      subscription.unsubscribe();
-    };
   }, []);
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -179,28 +159,23 @@ export default function Flagshipprogramsection({
   return (
     <section
       ref={sectionRef}
-      className={`flex py-[120px] px-6 md:px-[84px] flex-col items-start gap-14 min-w-full overflow-hidden transition-colors duration-400 ${
-        isLightMode ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#171717]" : "bg-[#050505] text-white"
-      }`}
+      className={`flex py-[120px] px-6 md:px-[84px] flex-col items-start gap-14 min-w-full overflow-hidden transition-colors duration-400 ${isLightMode ? "bg-[#E5F2F0] text-[#163B2E]" : "bg-[#050505] text-white"
+        }`}
     >
       {/* Title & Subtitle */}
       <div ref={headerRef} className="flex flex-col items-center gap-4 w-full">
-        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] py-2 overflow-visible ${
-          isLightMode
-            ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
-            : "bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)]"
-        }`}>
-          the carcino pathway
+        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] w-full text-center tracking-[-0.0356em] py-2 overflow-visible ${isLightMode
+            ? "text-[#163B2E]"
+            : "bg-clip-text text-transparent bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)]"
+          }`}>
+          happening now
         </h2>
         <div className="flex flex-col items-center w-full">
           <p
-            className={`font-googleSansFlex text-base sm:text-lg font-light leading-[27px] w-full max-w-[640px] text-center tracking-[0.01em] ${
-              isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
-            }`}
+            className={`font-googleSansFlex text-base sm:text-lg font-light leading-[27px] w-full max-w-[640px] text-center tracking-[0.01em] ${isLightMode ? "text-[#2D5A4C]" : "text-[#D5B0FF]"
+              }`}
           >
-            A flagship, four-stage integration model designed specifically to
-            empower patients, caregivers, and clinical teams navigating
-            neuroendocrine cancer.
+            Featured campaigns, events and current opportunities.
           </p>
         </div>
       </div>
@@ -211,114 +186,136 @@ export default function Flagshipprogramsection({
         className="flex flex-wrap lg:flex-nowrap justify-center items-stretch gap-6 w-full min-h-[100px]"
       >
         {sanityCampaigns.length > 0 ? (
-          sanityCampaigns.map((card) => (
-            <motion.div
-              key={card.id}
-              initial="offscreen"
-              whileInView="onscreen"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardVariants}
-              onClick={() => handleCardClick(card)}
-              className={`flex p-6 flex-col items-start gap-4 rounded-3xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl w-full sm:w-[280px] lg:w-[300px] overflow-hidden cursor-pointer group ${
-                isLightMode
-                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#7E22CE]"
-                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70"
-              }`}
-            >
-              <div className="relative w-full h-[180px] rounded-2xl overflow-hidden shrink-0">
-                <img
-                  src={card.cover}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  alt={card.title}
-                />
-                {card.status && (
-                  <span className="absolute top-3 left-3 bg-[#39C69C] text-black text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md">
-                    {card.status}
-                  </span>
-                )}
-              </div>
+          sanityCampaigns.map((card, idx) => {
+            const blockThemes = [
+              {
+                bg: "bg-[#E6DEC9]",
+                tag: "text-[#5C5243]",
+                title: "text-[#1C2925]",
+                code: "text-[#5C5243]",
+                desc: "text-[#3D3528]",
+                actionBtn: "bg-[#1C2925] text-white",
+              },
+              {
+                bg: "bg-[#F2BA36]",
+                tag: "text-[#4A3600]",
+                title: "text-[#1C1800]",
+                code: "text-[#4A3600]",
+                desc: "text-[#3B2E00]",
+                actionBtn: "bg-[#1C1800] text-white",
+              },
+              {
+                bg: "bg-[#E05333]",
+                tag: "text-[#FFD6CC]",
+                title: "text-white",
+                code: "text-[#FFC2B3]",
+                desc: "text-[#FFF5F2]",
+                actionBtn: "bg-white text-[#E05333]",
+              },
+            ];
+            const theme = blockThemes[idx % blockThemes.length];
 
-              <div className="flex justify-between items-center w-full">
-                <div className="flex items-center gap-2 w-fit">
-                  <p
-                    className={`font-inter text-xs font-bold w-fit ${
-                      isLightMode
-                        ? "text-gray-400"
-                        : "text-[rgba(255,255,255,0.30)]"
-                    }`}
-                  >
-                    {card.code}
-                  </p>
-                  <p
-                    className={`font-googleSansFlex text-sm font-medium w-fit tracking-[0.01em] ${
-                      isLightMode ? "text-[#7E22CE]" : "text-[#CDA8E8]"
-                    }`}
-                  >
-                    {card.tag}
-                  </p>
-                </div>
-
-                <div
-                  className={`flex flex-col justify-center items-center rounded-2xl w-8 h-8 transition-colors ${
-                    isLightMode
-                      ? "bg-gray-100 group-hover:bg-[#7E22CE] group-hover:text-white text-[#171717]"
-                      : "bg-[rgba(255,255,255,0.04)] group-hover:bg-[#CDA8E8] group-hover:text-black text-white"
-                  }`}
-                >
-                  {card.actionUrl ? (
-                    <ExternalLink className="w-4 h-4" />
-                  ) : (
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="shrink-0 w-4 h-4 overflow-hidden relative"
-                    >
-                      <g clipPath="url(#clip0_247_1273)">
-                        <path
-                          d="M8.00021 14.6672C11.6824 14.6672 14.6674 11.6822 14.6674 7.99996C14.6674 4.31777 11.6824 1.33276 8.00021 1.33276C4.31801 1.33276 1.33301 4.31777 1.33301 7.99996C1.33301 11.6822 4.31801 14.6672 8.00021 14.6672Z"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_247_1273">
-                          <rect width="16" height="16" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
+            return (
+              <motion.div
+                key={card.id}
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={cardVariants}
+                onClick={() => handleCardClick(card)}
+                className={`flex p-5 flex-col items-start gap-4 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 w-full sm:w-[280px] lg:w-[300px] overflow-hidden cursor-pointer group shadow-lg ${
+                  isLightMode
+                    ? `${theme.bg} border-none`
+                    : "bg-[#0B0B0C] border border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70"
+                }`}
+              >
+                <div className="relative w-full h-[180px] rounded-2xl overflow-hidden shrink-0">
+                  <img
+                    src={card.cover}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    alt={card.title}
+                  />
+                  {card.status && (
+                    <span className={`absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md ${
+                      isLightMode ? "bg-[#1C2925] text-white" : "bg-[#2BA986] text-white"
+                    }`}>
+                      {card.status}
+                    </span>
                   )}
                 </div>
-              </div>
 
-              <div className="flex flex-col items-start gap-2 w-full flex-1">
-                <p
-                  className={`font-inter text-[22px] font-bold leading-7 w-full ${
-                    isLightMode ? "text-[#171717]" : "text-[#FFF]"
-                  }`}
-                >
-                  {card.title}
-                </p>
-                <p
-                  className={`font-googleSansFlex text-sm font-light leading-[21px] w-full tracking-[0.0129em] line-clamp-3 ${
-                    isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
-                  }`}
-                >
-                  {card.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex items-center gap-2 w-fit">
+                    <p
+                      className={`font-inter text-xs font-bold w-fit ${isLightMode ? theme.code : "text-[rgba(255,255,255,0.30)]"}`}
+                    >
+                      {card.code}
+                    </p>
+                    <p
+                      className={`font-googleSansFlex text-xs font-bold uppercase tracking-wider w-fit ${isLightMode ? theme.tag : "text-[#CDA8E8]"}`}
+                    >
+                      {card.tag}
+                    </p>
+                  </div>
+
+                  <div
+                    className={`flex flex-col justify-center items-center rounded-xl w-8 h-8 transition-colors ${
+                      isLightMode
+                        ? theme.actionBtn
+                        : "bg-[rgba(255,255,255,0.04)] group-hover:bg-[#CDA8E8] group-hover:text-black text-white"
+                    }`}
+                  >
+                    {card.actionUrl ? (
+                      <ExternalLink className="w-4 h-4" />
+                    ) : (
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="shrink-0 w-4 h-4 overflow-hidden relative"
+                      >
+                        <g clipPath="url(#clip0_247_1273)">
+                          <path
+                            d="M8.00021 14.6672C11.6824 14.6672 14.6674 11.6822 14.6674 7.99996C14.6674 4.31777 11.6824 1.33276 8.00021 1.33276C4.31801 1.33276 1.33301 4.31777 1.33301 7.99996C1.33301 11.6822 4.31801 14.6672 8.00021 14.6672Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_247_1273">
+                            <rect width="16" height="16" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2 w-full flex-1">
+                  <p
+                    className={`font-inter text-[20px] font-extrabold leading-6 w-full ${isLightMode ? theme.title : "text-[#FFF]"}`}
+                  >
+                    {card.title}
+                  </p>
+                  <p
+                    className={`font-googleSansFlex text-xs font-normal leading-[19px] w-full tracking-[0.0129em] line-clamp-3 ${isLightMode ? theme.desc : "text-[#D5B0FF]"}`}
+                  >
+                    {card.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })
         ) : !loading ? (
-          <div className="flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed border-white/20 text-center max-w-md my-4">
-            <p className="font-googleSansFlex text-sm text-[#CDA8E8] font-medium">
+          <div className="flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed border-[#CBE6E1] text-center max-w-md my-4 bg-white/60">
+            <p className="font-googleSansFlex text-sm text-[#0D7A5F] font-medium">
               No active campaigns published in Sanity Studio yet.
             </p>
-            <p className="font-inter text-xs text-gray-400 mt-1">
-              Publish campaigns in <code className="text-[#39C69C]">/studio</code> under Pathway Campaigns to display them here live.
+            <p className="font-inter text-xs text-[#5B8C7E] mt-1">
+              Publish campaigns in <code className="text-[#2BA986]">/studio</code> under Pathway Campaigns to display them here live.
             </p>
           </div>
         ) : null}
@@ -328,9 +325,13 @@ export default function Flagshipprogramsection({
       <div className="flex flex-col items-center w-full">
         <button
           onClick={() => setIsAuthModalOpen(true)}
-          className="cursor-pointer text-nowrap flex py-3.5 px-8 justify-center items-center gap-2 rounded-[999px] bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-300 w-fit shadow-lg shadow-[#F15E51]/25"
+          className={`cursor-pointer text-nowrap flex py-3.5 px-8 justify-center items-center gap-2 rounded-[999px] hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-300 w-fit shadow-lg ${
+            isLightMode
+              ? "bg-[#163B2E] text-white hover:bg-[#0E281F] shadow-[#163B2E]/20"
+              : "bg-gradient-to-r from-[#F15E51] to-[#FCC8DF] text-[#050505] shadow-[#F15E51]/25"
+          }`}
         >
-          <p className="text-[#050505] font-googleSansFlex text-sm font-bold leading-5 w-fit">
+          <p className={`font-googleSansFlex text-sm font-bold leading-5 w-fit ${isLightMode ? "text-white" : "text-[#050505]"}`}>
             Begin Your Pathway Navigation
           </p>
           <svg
@@ -343,7 +344,7 @@ export default function Flagshipprogramsection({
           >
             <path
               d="M3.33301 7.99996H12.6674M8.00021 12.6672L12.6674 7.99996L8.00021 3.33276"
-              stroke="#050505"
+              stroke={isLightMode ? "#FFFFFF" : "#050505"}
               strokeWidth="2"
               strokeLinecap="round"
             />

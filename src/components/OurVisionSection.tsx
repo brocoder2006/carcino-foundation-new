@@ -277,50 +277,40 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
     <section
       id="vision-section"
       ref={sectionRef}
-      className={`flex pt-4 md:pt-8 pb-20 md:pb-28 px-6 md:px-16 flex-col items-center justify-center w-full relative overflow-hidden transition-colors duration-500 ${
-        isLightMode
-          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
+      className={`flex pt-4 md:pt-8 pb-20 md:pb-28 px-6 md:px-16 flex-col items-center justify-center w-full relative overflow-hidden transition-colors duration-500 ${isLightMode
+          ? "bg-[#F0EAF8] text-[#281034]"
           : "bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#1B1324]"
-      }`}
+        }`}
     >
       {/* Specular Ambient Refraction Orbs (Optimized Blur) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#9DAE8B]/18 rounded-full blur-[60px] pointer-events-none will-change-transform" />
-      <div className="absolute top-10 right-10 w-[380px] h-[380px] bg-[#CDA8E8]/15 rounded-full blur-[50px] pointer-events-none will-change-transform" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#CDA8E8]/12 rounded-full blur-[60px] pointer-events-none will-change-transform" />
+      <div className="absolute top-10 right-10 w-[380px] h-[380px] bg-[#8A65B6]/10 rounded-full blur-[50px] pointer-events-none will-change-transform" />
 
       <div className="flex max-w-5xl flex-col items-center gap-10 w-full z-10 relative">
         {/* Main Title Heading: What We Are Building . */}
         <div
           ref={titleRef}
-          className="w-full flex flex-col items-center justify-center gap-2 sm:gap-4 py-3 text-center overflow-visible"
+          className="w-full flex flex-row flex-nowrap items-center justify-center gap-1.5 sm:gap-3 py-3 overflow-visible whitespace-nowrap"
         >
-          {/* Line 1: What We Are */}
-          <span className={`font-syne font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[76px] bg-clip-text text-transparent leading-[1.2em] py-1 px-2 inline-block whitespace-nowrap ${
-            isLightMode
-              ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
-              : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867]"
-          }`}>
+          <span className={`font-syne font-extrabold text-2xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[1.2em] pt-2 pb-3 px-1 sm:px-2 inline-block shrink-0 ${isLightMode
+              ? "text-[#281034]"
+              : "bg-clip-text text-transparent bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867]"
+            }`}>
             {t("vis_our")}
           </span>
-
-          {/* Line 2: Building . */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 overflow-visible whitespace-nowrap">
-            <div className={`py-2 px-5 sm:py-3.5 sm:px-9 md:py-4 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 ${
-              isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#9875C1]"
+          <div className={`py-1.5 px-4 sm:py-3 sm:px-8 md:py-4 md:px-10 rounded-[999px] shadow-xl flex items-center justify-center my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 shrink-0 ${isLightMode ? "bg-[#8A65B6]" : "bg-[#9875C1]"
             }`}>
-              <span className={`font-syne font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[66px] leading-[1.2em] pt-0.5 pb-1 inline-block ${
-                isLightMode ? "text-white" : "text-[#0B0B0C]"
+            <span className={`font-syne font-extrabold text-xl sm:text-4xl md:text-5xl lg:text-[66px] leading-[1.2em] pt-0.5 pb-1 inline-block ${isLightMode ? "text-white" : "text-[#0B0B0C]"
               }`}>
-                {t("vis_vision")}
-              </span>
-            </div>
-            <span
-              className={`font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold leading-[1.2em] py-1 inline-block ${
-                isLightMode ? "text-[#171717]" : "text-[#F4F1E9]"
-              }`}
-            >
-              .
+              {t("vis_vision")}
             </span>
           </div>
+          <span
+            className={`font-inter text-2xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold leading-[1.2em] pt-2 pb-2 inline-block shrink-0 ${isLightMode ? "text-[#281034]" : "text-[#F4F1E9]"
+              }`}
+          >
+            .
+          </span>
         </div>
 
         {/* Continuous Single Row Structure of Our Mission Cards with Stylish Dividers */}
@@ -335,22 +325,20 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
               whileInView="onscreen"
               viewport={{ once: true, amount: 0.2 }}
               variants={cardVariants}
-              className={`p-6 md:p-7 rounded-2xl transition-all duration-400 flex flex-col justify-between items-start gap-6 min-h-[250px] relative overflow-visible bg-transparent shadow-none border-none group ${
-                isLightMode ? "text-[#171717]" : "text-[#E6E6E6]"
-              }`}
+              className={`p-6 md:p-7 rounded-2xl transition-all duration-400 flex flex-col justify-between items-start gap-6 min-h-[250px] relative overflow-visible bg-transparent shadow-none border-none group ${isLightMode ? "text-[#281034]" : "text-[#E6E6E6]"
+                }`}
             >
               <div className="flex flex-col items-start gap-3.5 w-full">
                 <div className="flex items-center justify-between w-full">
                   <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 group-hover:scale-110 shadow-md ${
-                      isLightMode
-                        ? "bg-white/90 shadow-[0_4px_15px_rgba(0,0,0,0.12)] border-black/10"
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 group-hover:scale-110 shadow-md ${isLightMode
+                        ? "bg-white/90 shadow-[0_4px_15px_rgba(138,101,182,0.15)] border-[#8A65B6]/20"
                         : "bg-white/5 border-white/15"
-                    }`}
+                      }`}
                     style={{
                       borderColor: isLightMode ? pillar.lightAccent : "rgba(255, 255, 255, 0.2)",
                       boxShadow: isLightMode
-                        ? `0 6px 20px ${pillar.lightAccent}40`
+                        ? `0 6px 20px ${pillar.lightAccent}30`
                         : `0 6px 20px ${pillar.accent}25`,
                     }}
                   >
@@ -358,18 +346,16 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
                   </div>
                 </div>
                 <h3
-                  className={`font-instrumentSerif text-2xl md:text-3xl tracking-wide ${
-                    isLightMode ? "text-[#163B2E]" : "text-[#E6E6E6]"
-                  }`}
+                  className={`font-instrumentSerif text-2xl md:text-3xl tracking-wide ${isLightMode ? "text-[#281034]" : "text-[#E6E6E6]"
+                    }`}
                 >
                   {pillar.title}
                 </h3>
               </div>
 
               <p
-                className={`font-spaceGrotesk text-sm md:text-base font-light leading-snug ${
-                  isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
-                }`}
+                className={`font-spaceGrotesk text-sm md:text-base font-light leading-snug ${isLightMode ? "text-[#5A456C]" : "text-[#E9CDF8]"
+                  }`}
               >
                 {pillar.desc}
               </p>
@@ -377,16 +363,14 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
               {/* Stylish Vertical Divider Line between tiles (Desktop) */}
               {idx < visionPillars.length - 1 && (
                 <div
-                  className={`hidden lg:block absolute -right-3 md:-right-4 top-1/2 -translate-y-1/2 h-[75%] w-[1px] pointer-events-none transition-all duration-400 ${
-                    isLightMode
-                      ? "bg-gradient-to-b from-transparent via-[#163B2E]/30 to-transparent"
+                  className={`hidden lg:block absolute -right-3 md:-right-4 top-1/2 -translate-y-1/2 h-[75%] w-[1px] pointer-events-none transition-all duration-400 ${isLightMode
+                      ? "bg-gradient-to-b from-transparent via-[#8A65B6]/30 to-transparent"
                       : "bg-gradient-to-b from-transparent via-[#CDA8E8]/40 to-transparent"
-                  }`}
+                    }`}
                 >
                   <div
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${
-                      isLightMode ? "bg-[#0B3E4C]/50" : "bg-[#CDA8E8]/70 shadow-[0_0_8px_#CDA8E8]"
-                    }`}
+                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${isLightMode ? "bg-[#8A65B6]/50" : "bg-[#CDA8E8]/70 shadow-[0_0_8px_#CDA8E8]"
+                      }`}
                   />
                 </div>
               )}
@@ -394,16 +378,14 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
               {/* Stylish Horizontal Divider Line between tiles (Mobile) */}
               {idx < visionPillars.length - 1 && (
                 <div
-                  className={`lg:hidden absolute -bottom-3 left-1/2 -translate-x-1/2 w-[80%] h-[1px] pointer-events-none transition-all duration-400 ${
-                    isLightMode
+                  className={`lg:hidden absolute -bottom-3 left-1/2 -translate-x-1/2 w-[80%] h-[1px] pointer-events-none transition-all duration-400 ${isLightMode
                       ? "bg-gradient-to-r from-transparent via-[#163B2E]/25 to-transparent"
                       : "bg-gradient-to-r from-transparent via-[#CDA8E8]/30 to-transparent"
-                  }`}
+                    }`}
                 >
                   <div
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${
-                      isLightMode ? "bg-[#0B3E4C]/50" : "bg-[#CDA8E8]/70 shadow-[0_0_8px_#CDA8E8]"
-                    }`}
+                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${isLightMode ? "bg-[#0B3E4C]/50" : "bg-[#CDA8E8]/70 shadow-[0_0_8px_#CDA8E8]"
+                      }`}
                   />
                 </div>
               )}

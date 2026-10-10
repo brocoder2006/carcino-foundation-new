@@ -413,6 +413,22 @@ export default function CarcinoFoundationLandingPage() {
                     </p>
                   </button>
                 </div>
+                <div className="flex pr-0.5 flex-col items-start w-fit">
+                  <button
+                    onClick={scrollToVision}
+                    className={`cursor-pointer text-nowrap flex py-2 px-4 justify-center items-center rounded-[999px] transition-all duration-300 w-fit ${activeNavItem === "About" ? "glass-btn-primary" : "glass-nav-item"
+                      }`}
+                  >
+                    <p
+                      className={`font-inter text-sm w-fit ${activeNavItem === "About"
+                        ? "text-[#0C2822] font-bold"
+                        : `font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`
+                        }`}
+                    >
+                      {t("nav_about")}
+                    </p>
+                  </button>
+                </div>
                 {/* Standalone Our Team Navigation Button */}
                 <div className="flex pr-0.5 flex-col items-start w-fit">
                   <Link
@@ -556,6 +572,16 @@ export default function CarcinoFoundationLandingPage() {
                 }`}
             >
               Home
+            </button>
+
+            <button
+              onClick={scrollToVision}
+              className={`py-3 px-5 rounded-2xl text-left transition-all duration-300 cursor-pointer ${activeNavItem === "About"
+                ? "glass-btn-primary font-bold text-[#0C2822]"
+                : "glass-nav-item font-medium"
+                }`}
+            >
+              About
             </button>
 
             <Link

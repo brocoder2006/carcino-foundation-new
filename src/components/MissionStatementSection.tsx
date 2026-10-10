@@ -26,8 +26,8 @@ export default function MissionStatementSection({
     ).matches;
 
     // Resting & Active colors based on theme
-    const restingColor = isLightMode ? [170, 160, 185] : [75, 62, 95];
-    const activeColor = isLightMode ? [126, 34, 206] : [194, 122, 255]; // Glowing Purple
+    const restingColor = isLightMode ? [150, 135, 170] : [75, 62, 95];
+    const activeColor = isLightMode ? [40, 16, 52] : [194, 122, 255]; // Deep Aubergine (#281034) in light mode
     let frame = 0;
 
     const render = () => {
@@ -103,7 +103,7 @@ export default function MissionStatementSection({
       id="mission-section"
       className={`w-full min-h-[140vh] relative z-10 transition-colors duration-500 overflow-hidden ${
         isLightMode
-          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
+          ? "bg-[#F0EAF8] text-[#281034]"
           : "bg-gradient-to-b from-[#1B1324] via-[#261A34] to-[#1B1324] text-white"
       }`}
       aria-labelledby="mission-heading"
@@ -111,11 +111,19 @@ export default function MissionStatementSection({
       <div className="sticky top-0 h-screen flex flex-col justify-center items-center px-6 md:px-[84px] max-w-6xl mx-auto py-12 pointer-events-none relative z-10">
         <div className="w-full flex flex-col items-start gap-8 pointer-events-auto relative z-10">
           {/* Mission Kicker Badge */}
-          <div className="flex items-center gap-3 py-1.5 px-4 rounded-full border border-[#CDA8E8]/30 bg-[#CDA8E8]/10 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-[#CDA8E8] animate-pulse" />
+          <div className={`flex items-center gap-3 py-1.5 px-4 rounded-full border backdrop-blur-md ${
+            isLightMode
+              ? "border-[#8A65B6]/30 bg-[#8A65B6]/10"
+              : "border-[#CDA8E8]/30 bg-[#CDA8E8]/10"
+          }`}>
+            <span className={`w-2 h-2 rounded-full animate-pulse ${
+              isLightMode ? "bg-[#8A65B6]" : "bg-[#CDA8E8]"
+            }`} />
             <p
               id="mission-heading"
-              className="font-robotoMono text-xs font-bold uppercase tracking-[0.2em] text-[#CDA8E8]"
+              className={`font-robotoMono text-xs font-bold uppercase tracking-[0.2em] ${
+                isLightMode ? "text-[#8A65B6]" : "text-[#CDA8E8]"
+              }`}
             >
               ( Carcino / Our Mission )
             </p>

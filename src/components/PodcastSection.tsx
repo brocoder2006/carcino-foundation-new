@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { client } from "@/sanity/lib/client";
-import { createSanityAttribute } from "@/sanity/lib/visualEditing";
+import { fetchDjangoPodcasts } from "@/lib/djangoApi";
 import { useLanguage } from "@/context/LanguageContext";
+
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -40,51 +40,30 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function fetchSanityPodcasts() {
+    async function fetchCarcinoCmsPodcasts() {
       try {
-        const docs = await client.fetch(
-          `*[_type == "podcast" && !(_id in path("drafts.**"))] | order(_createdAt desc) {
-            _id,
-            code,
-            title,
-            desc,
-            cover,
-            videoUrl,
-            "coverImageUrl": coverImage.asset->url,
-            "videoFileUrl": videoFile.asset->url
-          }`,
-          {},
-          { useCdn: false }
-        );
-        if (docs && Array.isArray(docs)) {
+        const docs = await fetchDjangoPodcasts();
+        if (docs && Array.isArray(docs) && docs.length > 0) {
           const formatted = docs.map((doc: any) => ({
-            id: doc._id,
+            id: doc.id,
             code: doc.code || "TCF PODCAST",
             title: doc.title || "Untitled Episode",
-            desc: doc.desc || "",
-            cover: doc.coverImageUrl || doc.cover || "/Cover.png",
-            videoUrl: doc.videoFileUrl || doc.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            desc: doc.description || "",
+            cover: doc.cover_image || "/Cover.png",
+            videoUrl: doc.external_url || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            externalUrl: doc.external_url,
             hasPlayIcon: true,
           }));
           setSanityPodcasts(formatted);
         }
       } catch (err) {
-        console.error("Failed to fetch Sanity podcasts:", err);
+        console.error("Failed to fetch Django podcasts:", err);
       }
     }
 
-    fetchSanityPodcasts();
-
-    const subscription = client
-      .listen(`*[_type == "podcast"]`)
-      .subscribe(() => {
-        fetchSanityPodcasts();
-      });
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    fetchCarcinoCmsPodcasts();
   }, []);
+
 
   const episodes: Episode[] = [
     {
@@ -443,84 +422,107 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             isDraggingState ? "scroll-auto" : "scroll-smooth"
           }`}
         >
-          {infiniteEpisodes.map((ep, idx) => (
-            <div
-              key={`${ep.id}-${idx}`}
-              onClick={(e) => {
-                if (isDraggingRef.current) {
-                  e.stopPropagation();
-                  return;
-                }
-                handleEpisodeClick(ep);
-              }}
-              className={`flex p-5 flex-col justify-between gap-2.5 rounded-2xl border transition-all duration-300 w-[280px] h-[450px] shrink-0 group cursor-pointer hover:scale-[1.03] ${isLightMode
-                  ? "bg-white/80 border-black/10 shadow-lg hover:border-[#F6C656] hover:shadow-[0_16px_40px_rgba(246,198,86,0.25)] hover:-translate-y-1.5"
-                  : "bg-[#0B0B0C] border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-1.5"
-                }`}
-            >
-              <div className="relative w-full h-[190px] shrink-0 rounded-xl overflow-hidden">
-                <img
-                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "coverImage") : undefined}
-                  src={ep.cover}
-                  className="w-full h-full object-cover overflow-hidden transition-transform duration-500 group-hover:scale-105"
-                  alt={ep.title}
-                />
-              </div>
+          {infiniteEpisodes.map((ep, idx) => {
+            const blockThemes = [
+              {
+                bg: "bg-[#E6DEC9]",
+                tag: "text-[#5C5243]",
+                title: "text-[#1C2925]",
+                desc: "text-[#3D3528]",
+                btn: "bg-[#1C2925] text-white hover:bg-black",
+              },
+              {
+                bg: "bg-[#F2BA36]",
+                tag: "text-[#4A3600]",
+                title: "text-[#1C1800]",
+                desc: "text-[#3B2E00]",
+                btn: "bg-[#1C1800] text-white hover:bg-black",
+              },
+              {
+                bg: "bg-[#E05333]",
+                tag: "text-[#FFD6CC]",
+                title: "text-white",
+                desc: "text-[#FFF5F2]",
+                btn: "bg-white text-[#E05333] hover:bg-[#FFF5F2]",
+              },
+            ];
+            const theme = blockThemes[idx % blockThemes.length];
 
-              <div className="flex flex-col gap-2 flex-1 justify-start overflow-hidden">
-                <div className="flex justify-between items-center w-full shrink-0">
-                  <p
-                    data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "code") : undefined}
-                    className={`font-googleSansFlex text-[11px] font-semibold uppercase tracking-wider leading-4 w-fit ${isLightMode ? "text-[#2E1640]" : "text-[#CDA8E8]"
-                      }`}
-                  >
-                    {ep.code}
-                  </p>
+            return (
+              <div
+                key={`${ep.id}-${idx}`}
+                onClick={(e) => {
+                  if (isDraggingRef.current) {
+                    e.stopPropagation();
+                    return;
+                  }
+                  handleEpisodeClick(ep);
+                }}
+                className={`flex p-5 flex-col justify-between gap-3 rounded-3xl transition-all duration-300 w-[280px] h-[450px] shrink-0 group cursor-pointer hover:scale-[1.03] shadow-lg ${isLightMode
+                    ? `${theme.bg} border-none hover:-translate-y-1.5`
+                    : "bg-[#0B0B0C] border border-[rgba(255,255,255,0.10)] hover:border-[#CDA8E8]/70 hover:shadow-[0_16px_40px_rgba(205,168,232,0.25)] hover:-translate-y-1.5"
+                  }`}
+              >
+                <div className="relative w-full h-[190px] shrink-0 rounded-2xl overflow-hidden">
+                  <img
+                    src={ep.cover}
+                    className="w-full h-full object-cover overflow-hidden transition-transform duration-500 group-hover:scale-105"
+                    alt={ep.title}
+                  />
                 </div>
 
-                <div className="flex items-center justify-between gap-2.5 w-full shrink-0">
-                  <p
-                    data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "title") : undefined}
-                    className={`font-inter text-lg font-bold leading-snug line-clamp-2 flex-1 ${isLightMode ? "text-[#163B2E]" : "text-[var(--color-surface,#FFF)]"
-                      }`}
-                  >
-                    {ep.title}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEpisodeClick(ep);
-                    }}
-                    aria-label={`Play ${ep.title}`}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 shadow-md group-hover:scale-110 active:scale-95 cursor-pointer ${isLightMode
-                        ? "bg-[#163B2E] text-white group-hover:bg-[#F6C656] group-hover:text-black"
-                        : "bg-[#CDA8E8] text-[#160E21] group-hover:bg-white group-hover:text-black"
-                      }`}
-                  >
-                    <svg
-                      className="w-3.5 h-3.5 fill-current ml-0.5"
-                      viewBox="0 0 24 24"
+                <div className="flex flex-col gap-2 flex-1 justify-start overflow-hidden">
+                  <div className="flex justify-between items-center w-full shrink-0">
+                    <p
+                      className={`font-googleSansFlex text-[11px] font-extrabold uppercase tracking-wider leading-4 w-fit ${isLightMode ? theme.tag : "text-[#CDA8E8]"
+                        }`}
                     >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </button>
-                </div>
+                      {ep.code}
+                    </p>
+                  </div>
 
-                <p
-                  data-sanity={typeof ep.id === "string" ? createSanityAttribute(ep.id, "podcast", "desc") : undefined}
-                  className={`font-googleSansFlex text-xs font-light leading-relaxed line-clamp-3 w-full ${ep.descClass
-                      ? ep.descClass
-                      : isLightMode
-                        ? "text-[#2E1640]"
-                        : "text-[#D5B0FF]"
-                    }`}
-                >
-                  {ep.desc}
-                </p>
+                  <div className="flex items-center justify-between gap-2.5 w-full shrink-0">
+                    <p
+                      className={`font-inter text-lg font-extrabold leading-snug line-clamp-2 flex-1 ${isLightMode ? theme.title : "text-[var(--color-surface,#FFF)]"
+                        }`}
+                    >
+                      {ep.title}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEpisodeClick(ep);
+                      }}
+                      aria-label={`Play ${ep.title}`}
+                      className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 shadow-md group-hover:scale-110 active:scale-95 cursor-pointer ${isLightMode
+                          ? theme.btn
+                          : "bg-[#CDA8E8] text-[#160E21] group-hover:bg-white group-hover:text-black"
+                        }`}
+                    >
+                      <svg
+                        className="w-3.5 h-3.5 fill-current ml-0.5"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <p
+                    className={`font-googleSansFlex text-xs font-normal leading-relaxed line-clamp-3 w-full ${ep.descClass
+                        ? ep.descClass
+                        : isLightMode
+                          ? theme.desc
+                          : "text-[#D5B0FF]"
+                      }`}
+                  >
+                    {ep.desc}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

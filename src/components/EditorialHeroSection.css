@@ -99,6 +99,11 @@
   white-space: nowrap;
 }
 
+body.light .editorial-title {
+  font-size: clamp(26px, 4.5vw, 72px);
+  color: #163B2E;
+}
+
 .editorial-title span {
   display: block;
   transform: translateX(calc((var(--progress) * 5vw) - 2.5vw));

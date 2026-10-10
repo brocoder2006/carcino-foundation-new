@@ -9,13 +9,11 @@ interface HeroCarouselSectionProps {
 const marqueeItems = [
   "HEALTHCARE EQUITY",
   "RUN BY STUDENTS",
-  "PRIDE & DIGNITY",
   "RESEARCH & ADVOCACY",
   "CANCER LITERACY",
   "EARLY DETECTION",
   "RURAL CANCER CARE",
   "VETERINARY CARE",
-  "NEUROENDOCRINE PATHWAY",
   "COMMUNITY EMPOWERMENT",
 ];
 
@@ -27,7 +25,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
     <section
       className={`w-full py-3 md:py-3.5 mb-0 relative z-20 overflow-hidden border-y transition-colors duration-500 shimmer ${
         isLightMode
-          ? "bg-gradient-to-r from-[#9875C1] to-[#FCC8DF] border-black/10 text-[#163B2E]"
+          ? "bg-[#E5F2F0] border-[#CBE6E1] text-[#163B2E]"
           : "bg-[#0A070D]/90 border-white/10 text-white backdrop-blur-xl"
       }`}
     >
@@ -35,14 +33,14 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
       <div
         className={`absolute left-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
-            ? "bg-gradient-to-r from-[#ECE9E9] to-transparent"
+            ? "bg-gradient-to-r from-[#E5F2F0] to-transparent"
             : "bg-gradient-to-r from-[#1B1324] to-transparent"
         }`}
       />
       <div
         className={`absolute right-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
-            ? "bg-gradient-to-l from-[#ECE9E9] to-transparent"
+            ? "bg-gradient-to-l from-[#E5F2F0] to-transparent"
             : "bg-gradient-to-l from-[#1B1324] to-transparent"
         }`}
       />
@@ -59,7 +57,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className={`shrink-0 transition-transform duration-300 hover:scale-125 ${
-                isLightMode ? "text-[#0B3E4C]" : "text-[#CDA8E8]"
+                isLightMode ? "text-[#0D7A5F]" : "text-[#CDA8E8]"
               }`}
             >
               <path
@@ -72,7 +70,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
             <span
               className={`font-inter text-base sm:text-lg md:text-xl font-extrabold tracking-[0.13em] uppercase transition-colors duration-300 ${
                 isLightMode
-                  ? "text-[#163B2E] hover:text-[#0B3E4C]"
+                  ? "text-[#163B2E] hover:text-[#0D7A5F]"
                   : "text-white hover:text-[#CDA8E8]"
               }`}
             >

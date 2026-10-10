@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
-import { client } from "@/sanity/lib/client";
+import { fetchDjangoPosts } from "@/lib/djangoApi";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
@@ -11,6 +11,7 @@ import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
 import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 import { articlesList } from "@/data/articlesData";
+
 
 export default function ArticlesGalleryPage() {
   const { lang, toggleLang, t } = useLanguage();
@@ -42,32 +43,29 @@ export default function ArticlesGalleryPage() {
   }));
 
   useEffect(() => {
-    async function fetchSanityArticles() {
+    async function fetchCarcinoCmsArticles() {
       try {
-        const docs = await client.fetch(
-          `*[_type == "article" && !(_id in path("drafts.**"))] | order(_createdAt desc)`,
-          {},
-          { useCdn: false }
-        );
-        if (docs && Array.isArray(docs)) {
+        const docs = await fetchDjangoPosts();
+        if (docs && Array.isArray(docs) && docs.length > 0) {
           const formatted = docs.map((doc: any) => ({
-            id: doc.slug?.current || doc._id,
-            category: (doc.category || "CLINICAL CARE").toUpperCase(),
-            tag: (doc.category || "CLINICAL CARE").toUpperCase(),
+            id: doc.slug || doc.id,
+            category: (doc.category?.name || "CLINICAL CARE").toUpperCase(),
+            tag: (doc.category?.name || "CLINICAL CARE").toUpperCase(),
             title: doc.title || "Untitled Article",
-            readTime: doc.readTime ? doc.readTime.toUpperCase() : "5 MIN READ",
-            desc: doc.desc || "",
-            cover: doc.mainImage?.asset?.url || "/Cover.png",
+            readTime: doc.read_time ? doc.read_time.toUpperCase() : "5 MIN READ",
+            desc: doc.excerpt || "",
+            cover: doc.cover_image || "/Cover.png",
           }));
           setSanityArticles(formatted);
         }
       } catch (err) {
-        console.error("Failed to fetch Sanity articles:", err);
+        console.error("Failed to fetch Django CMS articles:", err);
       }
     }
 
-    fetchSanityArticles();
+    fetchCarcinoCmsArticles();
   }, []);
+
 
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -435,8 +433,33 @@ export default function ArticlesGalleryPage() {
         {/* Article Grid & Empty Search Results State */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {filteredArticles.map((art) => {
+            {filteredArticles.map((art, idx) => {
               const catStyle = getCategoryStyle(art.category || art.tag);
+              const blockThemes = [
+                {
+                  bg: "bg-[#E6DEC9]",
+                  tag: "text-[#5C5243]",
+                  title: "text-[#1C2925]",
+                  readTime: "text-[#6E6454]",
+                  desc: "text-[#3D3528]",
+                },
+                {
+                  bg: "bg-[#F2BA36]",
+                  tag: "text-[#4A3600]",
+                  title: "text-[#1C1800]",
+                  readTime: "text-[#594500]",
+                  desc: "text-[#3B2E00]",
+                },
+                {
+                  bg: "bg-[#E05333]",
+                  tag: "text-[#FFD6CC]",
+                  title: "text-white",
+                  readTime: "text-[#FFC2B3]",
+                  desc: "text-[#FFF5F2]",
+                },
+              ];
+              const theme = blockThemes[idx % blockThemes.length];
+
               return (
                 <Link
                   key={art.id}

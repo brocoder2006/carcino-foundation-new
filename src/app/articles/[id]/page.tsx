@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { client } from "@/sanity/lib/client";
+import { fetchDjangoPostBySlug } from "@/lib/djangoApi";
 import { articlesList, ArticleItem } from "@/data/articlesData";
 import { useAuth } from "@/context/AuthContext";
 
@@ -25,48 +25,53 @@ export default function ArticleDetailPage({
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    async function fetchSanityArticle() {
+    async function fetchCarcinoCmsArticle() {
+
       try {
-        const doc = await client.fetch(
-          `*[_type == "article" && (_id == $id || slug.current == $id)][0]`,
-          { id: rawId },
-          { useCdn: false }
-        );
+        const doc = await fetchDjangoPostBySlug(rawId);
         if (doc) {
-          const extractedContent =
-            doc.content && Array.isArray(doc.content) && doc.content.length > 0
-              ? doc.content
-                .map((block: any) =>
-                  typeof block === "string"
-                    ? block
-                    : block.children?.map((c: any) => c.text).join("") || ""
-                )
-                .filter(Boolean)
-              : doc.desc
-                ? doc.desc.split("\n\n").filter(Boolean)
-                : [doc.title];
+          let extractedContent: string[] = [];
+          if (typeof doc.content === "string") {
+            extractedContent = [doc.content];
+          } else if (doc.content?.content && Array.isArray(doc.content.content)) {
+            extractedContent = doc.content.content.map((block: any) => {
+              if (block.content && Array.isArray(block.content)) {
+                return block.content.map((child: any) => child.text || "").join("");
+              }
+              return block.text || "";
+            }).filter(Boolean);
+          } else if (doc.excerpt) {
+            extractedContent = [doc.excerpt];
+          } else {
+            extractedContent = [doc.title];
+          }
 
           setSanityArticle({
-            id: doc._id,
-            category: doc.category || "CLINICAL CARE",
-            tag: doc.category || "CLINICAL CARE",
+            id: doc.slug || doc.id,
+            category: doc.category?.name || "CLINICAL CARE",
+            tag: doc.category?.name || "CLINICAL CARE",
             title: doc.title,
-            readTime: doc.readTime
-              ? (doc.readTime.includes("min") ? doc.readTime : `${doc.readTime} min read`)
-              : "5 min read",
-            date: doc.date || "Sep 23, 2026",
-            desc: doc.desc || "",
-            author: doc.author || "Suditi Saha | Researcher",
-            cover: doc.mainImage?.asset?.url || "/Cover.png",
+            readTime: doc.read_time || "5 min read",
+            date: doc.publication_date
+              ? new Date(doc.publication_date).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "Oct 10, 2026",
+            desc: doc.excerpt || "",
+            author: doc.author?.username || "Carcino Research Team",
+            cover: doc.cover_image || "/Cover.png",
             content: extractedContent,
           });
         }
       } catch (err) {
-        console.error("Failed to fetch article from Sanity:", err);
+        console.error("Failed to fetch article from Django API:", err);
       }
     }
-    fetchSanityArticle();
+    fetchCarcinoCmsArticle();
   }, [rawId]);
+
 
   // Find local article match by id string, numeric id, or matching slug
   const localMatch = articlesList.find(
