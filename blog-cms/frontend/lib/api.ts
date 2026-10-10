@@ -78,39 +78,69 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
 // ==========================================
 
 export async function getPublicPosts(params: { page?: number; category?: string; tag?: string; q?: string } = {}): Promise<PaginatedResponse<Post>> {
-  const query = new URLSearchParams();
-  if (params.page) query.append("page", params.page.toString());
-  if (params.category) query.append("category", params.category);
-  if (params.tag) query.append("tag", params.tag);
-  if (params.q) query.append("q", params.q);
+  try {
+    const query = new URLSearchParams();
+    if (params.page) query.append("page", params.page.toString());
+    if (params.category) query.append("category", params.category);
+    if (params.tag) query.append("tag", params.tag);
+    if (params.q) query.append("q", params.q);
 
-  return apiFetch<PaginatedResponse<Post>>(`/api/v1/posts/?${query.toString()}`, {
-    next: { revalidate: 60 },
-  });
+    return await apiFetch<PaginatedResponse<Post>>(`/api/v1/posts/?${query.toString()}`, {
+      next: { revalidate: 60 },
+    });
+  } catch (err) {
+    console.error("Failed to fetch public posts:", err);
+    return { count: 0, next: null, previous: null, results: [] };
+  }
 }
 
 export async function getPublicPostBySlug(slug: string): Promise<Post> {
-  return apiFetch<Post>(`/api/v1/posts/${slug}/`, {
-    next: { revalidate: 60 },
-  });
+  try {
+    return await apiFetch<Post>(`/api/v1/posts/${slug}/`, {
+      next: { revalidate: 60 },
+    });
+  } catch (err) {
+    console.error(`Failed to fetch post for slug ${slug}:`, err);
+    return null as any;
+  }
 }
 
 export async function getPublicCategories(): Promise<Category[]> {
-  return apiFetch<Category[]>(`/api/v1/categories/`, {
-    next: { revalidate: 300 },
-  });
+  try {
+    return await apiFetch<Category[]>(`/api/v1/categories/`, {
+      next: { revalidate: 300 },
+    });
+  } catch (err) {
+    console.error("Failed to fetch public categories:", err);
+    return [];
+  }
 }
 
 export async function getPublicCategoryBySlug(slug: string): Promise<Category> {
-  return apiFetch<Category>(`/api/v1/categories/${slug}/`);
+  try {
+    return await apiFetch<Category>(`/api/v1/categories/${slug}/`);
+  } catch (err) {
+    console.error(`Failed to fetch category ${slug}:`, err);
+    return null as any;
+  }
 }
 
 export async function getPublicTags(): Promise<Tag[]> {
-  return apiFetch<Tag[]>(`/api/v1/tags/`);
+  try {
+    return await apiFetch<Tag[]>(`/api/v1/tags/`);
+  } catch (err) {
+    console.error("Failed to fetch public tags:", err);
+    return [];
+  }
 }
 
 export async function searchPublicPosts(q: string): Promise<PaginatedResponse<Post>> {
-  return apiFetch<PaginatedResponse<Post>>(`/api/v1/search/?q=${encodeURIComponent(q)}`);
+  try {
+    return await apiFetch<PaginatedResponse<Post>>(`/api/v1/search/?q=${encodeURIComponent(q)}`);
+  } catch (err) {
+    console.error("Failed to search public posts:", err);
+    return { count: 0, next: null, previous: null, results: [] };
+  }
 }
 
 // ==========================================

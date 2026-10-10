@@ -41,7 +41,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     <div className="space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight">All Articles</h1>
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Oncology Articles & Clinical Insights</h1>
         <p className="text-slate-500 text-sm mt-1">
           Showing {posts.length} of {totalCount} published article{totalCount === 1 ? "" : "s"}
         </p>

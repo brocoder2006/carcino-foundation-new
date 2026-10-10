@@ -55,7 +55,7 @@ export const Sidebar: React.FC = () => {
           <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shadow-md">
             <BookOpen className="w-5 h-5" />
           </div>
-          <span>ApexPulse <span className="text-blue-500 font-medium">CMS</span></span>
+          <span>Carcino <span className="text-blue-500 font-medium">CMS</span></span>
         </Link>
       </div>
 

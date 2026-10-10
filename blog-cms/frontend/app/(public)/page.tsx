@@ -29,13 +29,13 @@ export default async function HomePage() {
         <div className="max-w-2xl relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-semibold px-3 py-1 rounded-full">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Headless Django + Next.js Engine</span>
+            <span>The Carcino Foundation Publishing Engine</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            Curated Insights for Modern Engineering & Design
+            Oncology Insights, Clinical Guidance & Cancer Research
           </h1>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
-            Explore articles, technical deep dives, and architectural patterns published cleanly through our custom Django REST CMS.
+            Explore peer-reviewed articles, patient stories, treatment pathways, and cancer care insights published cleanly through our custom Headless CMS.
           </p>
           <div className="pt-2 flex flex-wrap items-center gap-4">
             <Link

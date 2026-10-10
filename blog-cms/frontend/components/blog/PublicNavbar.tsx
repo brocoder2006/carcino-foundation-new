@@ -26,7 +26,7 @@ export const PublicNavbar: React.FC = () => {
           <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-lg shadow-sm">
             <BookOpen className="w-5 h-5" />
           </div>
-          <span>ApexPulse <span className="text-blue-600 font-normal">Journal</span></span>
+          <span>The Carcino <span className="text-blue-600 font-normal">Foundation</span></span>
         </Link>
 
         {/* Search Bar */}
@@ -34,7 +34,7 @@ export const PublicNavbar: React.FC = () => {
           <Search className="w-4 h-4 absolute left-3 text-slate-400" />
           <input
             type="text"
-            placeholder="Search published articles..."
+            placeholder="Search oncology articles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-slate-100 border-none rounded-full pl-9 pr-4 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"

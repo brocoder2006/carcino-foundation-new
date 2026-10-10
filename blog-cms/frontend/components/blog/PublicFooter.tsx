@@ -10,11 +10,11 @@ export const PublicFooter: React.FC = () => {
           <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
             <BookOpen className="w-4 h-4" />
           </div>
-          <span>ApexPulse CMS</span>
+          <span>The Carcino Foundation CMS</span>
         </div>
 
         <p className="text-sm text-slate-500">
-          © {new Date().getFullYear()} ApexPulse Headless Blog Engine. Built with Django REST & Next.js.
+          © {new Date().getFullYear()} The Carcino Foundation. Oncology Insights & Headless Publishing Platform.
         </p>
 
         <div className="flex items-center gap-6 text-sm font-medium">
