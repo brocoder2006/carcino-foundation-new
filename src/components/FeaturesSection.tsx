@@ -233,7 +233,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       />
       {/* Header Container */}
       <div ref={headerRef} className="flex flex-col items-center gap-4 w-full text-center max-w-5xl mx-auto">
-        <h2 className="font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] capitalize pb-1">
+        <h2 className="font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] capitalize pb-1">
           {t("feat_title")}
         </h2>
         <div className="flex flex-col items-center w-full">

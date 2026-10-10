@@ -313,11 +313,11 @@ export default function ArticlesGalleryPage() {
         {/* Banner Title */}
         <div ref={headerRef} className="flex flex-col items-center gap-6 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-6 overflow-visible flex-wrap">
-            <span className="font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[76px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.15em] pt-2 pb-2 px-2 inline-block">
+            <span className="font-syne font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[76px] bg-gradient-to-r from-[#C9A867] via-[#CDA8E8] to-[#39C69C] bg-clip-text text-transparent leading-[1.15em] pt-2 pb-2 px-2 inline-block">
               Cancer Knowledge
             </span>
             <div className="py-2.5 md:py-4 px-6 md:px-10 rounded-[999px] bg-[#39C69C] shadow-lg flex items-center justify-center my-2 md:my-0 overflow-visible">
-              <span className="text-[#050505] font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[64px] leading-[1.1em] font-bold pt-1 pb-1 inline-block">
+              <span className="text-[#050505] font-syne font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[64px] leading-[1.1em] pt-1 pb-1 inline-block">
                 Hub
               </span>
             </div>

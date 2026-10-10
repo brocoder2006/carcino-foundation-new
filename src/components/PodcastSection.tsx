@@ -346,7 +346,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         ref={headerRef}
         className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
-        <h2 className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center py-2 overflow-visible ${
+        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center py-2 overflow-visible ${
           isLightMode
             ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
             : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"

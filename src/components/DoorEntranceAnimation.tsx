@@ -75,7 +75,7 @@ export default function DoorEntranceAnimation({ onComplete }: DoorEntranceAnimat
       >
         {/* Subdued branding watermark on the door panel being pushed */}
         <div className="flex flex-col items-center gap-4 opacity-15 select-none pointer-events-none">
-          <span className="font-winterSolace text-6xl md:text-9xl font-bold tracking-tight text-[#171717]">
+          <span className="font-syne text-6xl md:text-9xl font-extrabold tracking-tight text-[#171717]">
             CARCINO
           </span>
           <span className="font-spaceGrotesk text-xl font-bold tracking-[0.3em] uppercase text-[#171717]">

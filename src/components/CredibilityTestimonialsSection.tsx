@@ -47,7 +47,8 @@ const credibilityTestimonials = [
     by: "OncoDaily, Global Oncology Publication",
     imgSrc: "/podcasts/episode_2_soirindhri_banerjee.jpg",
     badge: "ONCODAILY FEATURE",
-    badgeColor: "#39C69C"
+    badgeColor: "#39C69C",
+    externalUrl: "https://oncodaily.com/voices/soirindhri-banerjee-563365"
   },
   {
     tempId: 5,
@@ -69,7 +70,7 @@ const credibilityTestimonials = [
 
 interface TestimonialCardProps {
   position: number;
-  testimonial: typeof credibilityTestimonials[0];
+  testimonial: typeof credibilityTestimonials[0] & { externalUrl?: string };
   handleMove: (steps: number) => void;
   cardSize: number;
   isLightMode?: boolean;
@@ -84,11 +85,19 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
   const isCenter = position === 0;
 
+  const handleClick = () => {
+    if (isCenter && testimonial.externalUrl) {
+      window.open(testimonial.externalUrl, "_blank", "noopener,noreferrer");
+    } else {
+      handleMove(position);
+    }
+  };
+
   return (
     <div
-      onClick={() => handleMove(position)}
+      onClick={handleClick}
       className={cn(
-        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-7 sm:p-8 transition-all duration-500 ease-in-out select-none flex flex-col justify-between overflow-hidden backdrop-blur-xl",
+        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-7 sm:p-8 transition-all duration-500 ease-in-out select-none flex flex-col justify-between overflow-hidden backdrop-blur-xl group",
         isCenter
           ? isLightMode
             ? "z-20 bg-[#163B2E] text-white border-[#39C69C] shadow-2xl"
@@ -164,14 +173,27 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </h3>
       </div>
 
-      {/* Author information */}
-      <div className="pt-3 border-t border-white/10 mt-2">
+      {/* Author information & Direct Link */}
+      <div className="pt-3 border-t border-white/10 mt-2 flex items-center justify-between gap-2">
         <p className={cn(
-          "font-spaceGrotesk text-xs sm:text-sm font-bold truncate",
+          "font-spaceGrotesk text-xs sm:text-sm font-bold truncate flex-1",
           isCenter ? "text-[#F6C656]" : "text-muted-foreground"
         )}>
           {testimonial.by}
         </p>
+        {testimonial.externalUrl && (
+          <a
+            href={testimonial.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="text-xs font-bold text-[#39C69C] hover:text-[#52e4b6] transition-colors flex items-center gap-1 shrink-0 underline decoration-[#39C69C]/50 underline-offset-2"
+          >
+            Read Feature ↗
+          </a>
+        )}
       </div>
     </div>
   );
@@ -239,14 +261,14 @@ export default function CredibilityTestimonialsSection({
         {/* Header Title */}
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible py-2">
-            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${isLightMode
+            <span className={`font-syne text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${isLightMode
                 ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
                 : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#C9A867]"
               }`}>
               Beyond Our
             </span>
             <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#F6C656] transform hover:scale-105 transition-transform duration-300 overflow-visible">
-              <span className="font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold text-[#0B0B0C] inline-block pb-1">
+              <span className="font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold text-[#0B0B0C] inline-block pb-1">
                 Own Words
               </span>
             </div>
@@ -312,36 +334,6 @@ export default function CredibilityTestimonialsSection({
               <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
           </div>
-        </div>
-
-        {/* Read More Milestones Button */}
-        <div className="flex justify-center items-center w-full mt-2">
-          <Link
-            href="/articles"
-            className="flex py-3.5 px-7 items-center gap-2.5 rounded-full glass-btn-secondary w-fit cursor-pointer hover:scale-105 transition-all duration-300 shadow-lg"
-          >
-            <span
-              className={`font-spaceGrotesk text-sm font-semibold w-fit ${isLightMode ? "text-[#171717]" : "text-[#FFF]"
-                }`}
-            >
-              Read more community milestones
-            </span>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-3.5 h-3.5 shrink-0"
-            >
-              <path
-                d="M2.91602 7.00006H11.0836M6.99982 11.0839L11.0836 7.00006L6.99982 2.91626"
-                stroke={isLightMode ? "#171717" : "#CDA8E8"}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Link>
         </div>
       </div>
     </section>

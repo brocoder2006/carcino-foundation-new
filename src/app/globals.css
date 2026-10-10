@@ -4,6 +4,11 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --font-winter-solace: var(--font-syne), sans-serif !important;
+  --font-instrument-serif: var(--font-syne), sans-serif !important;
+}
+
 @theme inline {
   --font-inter: var(--font-inter);
   --font-winterSolace: var(--font-syne), sans-serif;
@@ -17,10 +22,16 @@ html {
 h1, h2, h3, h4, h5, h6,
 .font-winterSolace,
 .font-instrumentSerif,
+.font-googleSansFlex,
+.font-serif,
 .headline-textured,
 .headline-accent,
 .headline-purple-accent {
   font-family: var(--font-syne), sans-serif !important;
+}
+
+.font-spaceGrotesk {
+  font-family: var(--font-space-grotesk), sans-serif !important;
 }
 
 body {

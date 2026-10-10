@@ -62,7 +62,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               </div>
             </div>
             <h2
-              className={`font-winterSolace text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-[1.2em] py-2 overflow-visible max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#9875C1]"
+              className={`font-syne text-4xl sm:text-6xl lg:text-[72px] font-extrabold tracking-tight leading-[1.2em] py-2 overflow-visible max-w-xl ${isLightMode ? "text-[#581C87]" : "text-[#9875C1]"
                 }`}
             >
               The Carcino Foundation

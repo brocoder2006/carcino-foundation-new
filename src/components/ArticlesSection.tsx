@@ -123,7 +123,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
         className="flex max-w-4xl flex-col items-center gap-6 w-full text-center relative z-10 mb-10"
       >
         <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible">
-          <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${isLightMode
+          <span className={`font-syne text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.15em] font-extrabold bg-clip-text text-transparent inline-block ${isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C]"
             }`}>
@@ -131,7 +131,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           </span>
           <div className={`py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center ${isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#F6C656]"
             }`}>
-            <span className={`font-winterSolace text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-bold ${isLightMode ? "text-white" : "text-[#0B0B0C]"
+            <span className={`font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-extrabold ${isLightMode ? "text-white" : "text-[#0B0B0C]"
               }`}>
               {t("art_title_2")}
             </span>

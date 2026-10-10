@@ -291,26 +291,26 @@ export default function OurVisionSection({ isLightMode = false }: OurVisionSecti
         {/* Main Title Heading: What We Are Building . */}
         <div
           ref={titleRef}
-          className="w-full flex flex-col md:flex-row items-center justify-center gap-3 py-3 overflow-visible"
+          className="w-full flex flex-row flex-nowrap items-center justify-center gap-1.5 sm:gap-3 py-3 overflow-visible whitespace-nowrap"
         >
-          <span className={`font-winterSolace text-4xl sm:text-6xl md:text-7xl lg:text-[84px] bg-clip-text text-transparent leading-[1.2em] pt-2 pb-3 px-2 inline-block ${
+          <span className={`font-syne font-extrabold text-2xl sm:text-5xl md:text-6xl lg:text-[76px] bg-clip-text text-transparent leading-[1.2em] pt-2 pb-3 px-1 sm:px-2 inline-block shrink-0 ${
             isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] via-[#9DAE8B] to-[#C9A867]"
           }`}>
             {t("vis_our")}
           </span>
-          <div className={`py-3 md:py-4 px-6 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-2 md:my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 ${
+          <div className={`py-1.5 px-4 sm:py-3 sm:px-8 md:py-4 md:px-10 rounded-[999px] shadow-2xl flex items-center justify-center my-0 overflow-visible transform hover:scale-105 transition-transform duration-300 shrink-0 ${
             isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#9875C1]"
           }`}>
-            <span className={`font-winterSolace text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-bold pt-1 pb-2 inline-block ${
+            <span className={`font-syne font-extrabold text-xl sm:text-4xl md:text-5xl lg:text-[66px] leading-[1.2em] pt-0.5 pb-1 inline-block ${
               isLightMode ? "text-white" : "text-[#0B0B0C]"
             }`}>
               {t("vis_vision")}
             </span>
           </div>
           <span
-            className={`font-inter text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold leading-[1.2em] pt-2 pb-2 inline-block ${
+            className={`font-inter text-2xl sm:text-5xl md:text-6xl lg:text-[76px] font-bold leading-[1.2em] pt-2 pb-2 inline-block shrink-0 ${
               isLightMode ? "text-[#171717]" : "text-[#F4F1E9]"
             }`}
           >

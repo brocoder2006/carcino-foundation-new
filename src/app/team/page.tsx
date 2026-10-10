@@ -93,22 +93,24 @@ export default function OurTeamPage() {
       <main className="flex flex-col items-center justify-center w-full max-w-7xl mx-auto pt-32 pb-24 px-6 md:px-[84px] gap-10 md:gap-14 relative z-10">
         {/* Section Title Header */}
         <div className="flex flex-col items-center text-center w-full max-w-3xl">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-spaceGrotesk font-bold tracking-tight leading-[1.2em] py-2 overflow-visible">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-spaceGrotesk font-bold tracking-tight leading-[1.2em] py-2 overflow-visible" style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}>
             <span
               className={
                 isLightMode
-                  ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent"
-                  : "headline-textured"
+                  ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-spaceGrotesk font-bold"
+                  : "headline-textured font-spaceGrotesk font-bold"
               }
+              style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}
             >
               People Behind
             </span>{" "}
             <span
               className={
                 isLightMode
-                  ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent"
-                  : "headline-accent"
+                  ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-spaceGrotesk font-bold"
+                  : "headline-accent font-spaceGrotesk font-bold"
               }
+              style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}
             >
               Carcino
             </span>
