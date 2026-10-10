@@ -6,10 +6,10 @@ html {
 
 @theme inline {
   --font-inter: var(--font-inter);
-  --font-winterSolace: var(--font-space-grotesk), var(--font-syne), sans-serif;
+  --font-winterSolace: var(--font-syne), sans-serif;
   --font-robotoMono: var(--font-roboto-mono);
-  --font-instrumentSerif: var(--font-space-grotesk), var(--font-syne), sans-serif;
-  --font-googleSansFlex: var(--font-space-grotesk);
+  --font-instrumentSerif: var(--font-syne), sans-serif;
+  --font-googleSansFlex: var(--font-syne), sans-serif;
   --font-spaceGrotesk: var(--font-space-grotesk);
   --font-syne: var(--font-syne);
 }
@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6,
 .headline-textured,
 .headline-accent,
 .headline-purple-accent {
-  font-family: var(--font-space-grotesk), var(--font-syne), "Inter", sans-serif !important;
+  font-family: var(--font-syne), sans-serif !important;
 }
 
 body {
