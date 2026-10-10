@@ -6,12 +6,21 @@ html {
 
 @theme inline {
   --font-inter: var(--font-inter);
-  --font-winterSolace: var(--font-winter-solace);
+  --font-winterSolace: var(--font-space-grotesk), var(--font-syne), sans-serif;
   --font-robotoMono: var(--font-roboto-mono);
-  --font-instrumentSerif: var(--font-instrument-serif);
+  --font-instrumentSerif: var(--font-space-grotesk), var(--font-syne), sans-serif;
   --font-googleSansFlex: var(--font-space-grotesk);
   --font-spaceGrotesk: var(--font-space-grotesk);
   --font-syne: var(--font-syne);
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-winterSolace,
+.font-instrumentSerif,
+.headline-textured,
+.headline-accent,
+.headline-purple-accent {
+  font-family: var(--font-space-grotesk), var(--font-syne), "Inter", sans-serif !important;
 }
 
 body {
