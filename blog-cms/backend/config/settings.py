@@ -134,14 +134,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 if os.getenv("CORS_ALLOWED_ORIGINS"):
-    CORS_ALLOWED_ORIGINS += [o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if o.strip()]
+    CORS_ALLOWED_ORIGINS += [o.strip().rstrip("/") for o in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if o.strip()]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
 if os.getenv("CSRF_TRUSTED_ORIGINS"):
-    CSRF_TRUSTED_ORIGINS += [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS").split(",") if o.strip()]
+    CSRF_TRUSTED_ORIGINS += [o.strip().rstrip("/") for o in os.getenv("CSRF_TRUSTED_ORIGINS").split(",") if o.strip()]
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
