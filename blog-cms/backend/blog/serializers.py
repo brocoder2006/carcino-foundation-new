@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.utils import timezone
+from accounts.models import User
 from accounts.serializers import UserSerializer
 from .models import (
     Category,
