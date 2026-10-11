@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono, Instrument_Serif, Space_Grotesk, Syne } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import SanityVisualEditing from "@/components/SanityVisualEditing";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -75,7 +74,6 @@ export default function RootLayout({
           <LanguageProvider>
             {children}
             <AuthModal />
-            <SanityVisualEditing />
           </LanguageProvider>
         </AuthProvider>
       </body>

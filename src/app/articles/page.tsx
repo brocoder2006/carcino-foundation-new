@@ -17,7 +17,7 @@ export default function ArticlesGalleryPage() {
   const { lang, toggleLang, t } = useLanguage();
   const { user } = useAuth();
   const [activeCategory, setActiveCategory] = useState("All Insights");
-  const [sanityArticles, setSanityArticles] = useState<any[]>([]);
+  const [cmsArticles, setCmsArticles] = useState<any[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [activeSearchQuery, setActiveSearchQuery] = useState("");
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
@@ -56,7 +56,7 @@ export default function ArticlesGalleryPage() {
             desc: doc.excerpt || "",
             cover: doc.cover_image || "/Cover.png",
           }));
-          setSanityArticles(formatted);
+          setCmsArticles(formatted);
         }
       } catch (err) {
         console.error("Failed to fetch Django CMS articles:", err);
@@ -164,7 +164,7 @@ export default function ArticlesGalleryPage() {
     }
   };
 
-  sanityArticles.forEach(addUnique);
+  cmsArticles.forEach(addUnique);
   defaultArticles.forEach(addUnique);
 
   const handleSearchExecute = () => {

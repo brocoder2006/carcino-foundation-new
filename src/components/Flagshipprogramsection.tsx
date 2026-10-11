@@ -61,7 +61,7 @@ export default function Flagshipprogramsection({
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
-  const [sanityCampaigns, setSanityCampaigns] = useState<CampaignCardItem[]>([]);
+  const [campaigns, setCampaigns] = useState<CampaignCardItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch campaigns live from Django REST API
@@ -88,7 +88,7 @@ export default function Flagshipprogramsection({
               status: doc.status,
             };
           });
-          setSanityCampaigns(formatted);
+          setCampaigns(formatted);
         }
       } catch (err) {
         console.error("Failed to fetch Django campaigns:", err);
@@ -146,7 +146,7 @@ export default function Flagshipprogramsection({
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [sanityCampaigns.length]);
+  }, [campaigns.length]);
 
   const handleCardClick = (card: CampaignCardItem) => {
     if (card.actionUrl) {
@@ -180,13 +180,13 @@ export default function Flagshipprogramsection({
         </div>
       </div>
 
-      {/* Flagship Sanity Campaign Cards Grid */}
+      {/* Flagship Campaign Cards Grid */}
       <div
         ref={cardsRef}
         className="flex flex-wrap lg:flex-nowrap justify-center items-stretch gap-6 w-full min-h-[100px]"
       >
-        {sanityCampaigns.length > 0 ? (
-          sanityCampaigns.map((card, idx) => {
+        {campaigns.length > 0 ? (
+          campaigns.map((card, idx) => {
             const blockThemes = [
               {
                 bg: "bg-[#E6DEC9]",
@@ -312,10 +312,10 @@ export default function Flagshipprogramsection({
         ) : !loading ? (
           <div className="flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed border-[#CBE6E1] text-center max-w-md my-4 bg-white/60">
             <p className="font-googleSansFlex text-sm text-[#0D7A5F] font-medium">
-              No active campaigns published in Sanity Studio yet.
+              No active campaigns published yet.
             </p>
             <p className="font-inter text-xs text-[#5B8C7E] mt-1">
-              Publish campaigns in <code className="text-[#2BA986]">/studio</code> under Pathway Campaigns to display them here live.
+              Publish campaigns in the CMS dashboard to display them here live.
             </p>
           </div>
         ) : null}

@@ -6,26 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "typegen": "npx sanity @latest schema extract && npx sanity @latest typegen generate"
+    "lint": "eslint"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.5",
     "@hugeicons/react": "^1.1.10",
-    "@sanity/icons": "^3.8.0",
-    "@sanity/image-url": "^2.1.1",
-    "@sanity/vision": "^3.99.0",
     "@studio-freight/lenis": "^1.0.42",
     "@supabase/supabase-js": "^2.117.1",
     "framer-motion": "^13.5.1",
     "gsap": "^3.15.0",
     "lucide-react": "^1.48.0",
     "next": "16.3.5",
-    "next-sanity": "^9.8.7",
     "nodemailer": "^10.0.10",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sanity": "^3.99.0",
     "stagger-text-reveal-animation": "^1.0.0",
     "styled-components": "^6.5.3",
     "xlsx": "^0.18.5"
@@ -40,13 +34,5 @@
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "overrides": {
-    "@sanity/visual-editing": {
-      "next": "$next"
-    },
-    "next-sanity": {
-      "next": "$next"
-    }
   }
 }

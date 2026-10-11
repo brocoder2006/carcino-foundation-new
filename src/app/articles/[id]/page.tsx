@@ -16,7 +16,7 @@ export default function ArticleDetailPage({
   const numericId = parseInt(rawId, 10);
 
   const { isArticleRead, markArticleAsRead, user } = useAuth();
-  const [sanityArticle, setSanityArticle] = useState<ArticleItem | null>(null);
+  const [cmsArticle, setCmsArticle] = useState<ArticleItem | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [claps, setClaps] = useState(64);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -46,7 +46,7 @@ export default function ArticleDetailPage({
             extractedContent = [doc.title];
           }
 
-          setSanityArticle({
+          setCmsArticle({
             id: doc.slug || doc.id,
             category: doc.category?.name || "CLINICAL CARE",
             tag: doc.category?.name || "CLINICAL CARE",
@@ -79,21 +79,21 @@ export default function ArticleDetailPage({
   );
   const fallbackArticle = localMatch || articlesList[0];
 
-  // Merge Sanity metadata with structured sections, FAQs, and citations
+  // Merge CMS article metadata with structured sections, FAQs, and citations
   const article: ArticleItem = {
     ...fallbackArticle,
-    ...(sanityArticle || {}),
-    sections: (sanityArticle?.sections && sanityArticle.sections.length > 0)
-      ? sanityArticle.sections
+    ...(cmsArticle || {}),
+    sections: (cmsArticle?.sections && cmsArticle.sections.length > 0)
+      ? cmsArticle.sections
       : fallbackArticle?.sections,
-    faqs: (sanityArticle?.faqs && sanityArticle.faqs.length > 0)
-      ? sanityArticle.faqs
+    faqs: (cmsArticle?.faqs && cmsArticle.faqs.length > 0)
+      ? cmsArticle.faqs
       : fallbackArticle?.faqs,
-    citations: (sanityArticle?.citations && sanityArticle.citations.length > 0)
-      ? sanityArticle.citations
+    citations: (cmsArticle?.citations && cmsArticle.citations.length > 0)
+      ? cmsArticle.citations
       : fallbackArticle?.citations,
-    content: (sanityArticle?.content && sanityArticle.content.length > 0 && sanityArticle.content[0] !== sanityArticle.title)
-      ? sanityArticle.content
+    content: (cmsArticle?.content && cmsArticle.content.length > 0 && cmsArticle.content[0] !== cmsArticle.title)
+      ? cmsArticle.content
       : fallbackArticle?.content,
   };
 

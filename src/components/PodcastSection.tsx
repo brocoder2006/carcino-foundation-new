@@ -32,7 +32,7 @@ interface Episode {
 export default function PodcastSection({ isLightMode = false }: PodcastSectionProps) {
   const { t } = useLanguage();
   const [activeVideoEpisode, setActiveVideoEpisode] = useState<Episode | null>(null);
-  const [sanityPodcasts, setSanityPodcasts] = useState<Episode[]>([]);
+  const [cmsPodcasts, setCmsPodcasts] = useState<Episode[]>([]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +54,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             externalUrl: doc.external_url,
             hasPlayIcon: true,
           }));
-          setSanityPodcasts(formatted);
+          setCmsPodcasts(formatted);
         }
       } catch (err) {
         console.error("Failed to fetch Django podcasts:", err);
@@ -101,7 +101,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     },
   ];
 
-  const allEpisodes = [...sanityPodcasts, ...episodes];
+  const allEpisodes = [...cmsPodcasts, ...episodes];
 
   // Duplicate for seamless infinite loop marquee animation
   const infiniteEpisodes = [...allEpisodes, ...allEpisodes];
