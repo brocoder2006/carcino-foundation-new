@@ -1,4 +1,5 @@
-const DJANGO_API_URL = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://127.0.0.1:8000";
+const rawApiUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL || "http://127.0.0.1:8000";
+const DJANGO_API_URL = rawApiUrl.replace(/\/+$/, "");
 
 export interface DjangoPost {
   id: string;
