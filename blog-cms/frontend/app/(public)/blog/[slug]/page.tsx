@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PostDetailPageProps) {
     const post = await getPublicPostBySlug(params.slug);
     if (!post) return { title: "Article Not Found" };
     return {
-      title: post.seo_title || `${post.title} | ApexPulse Journal`,
+      title: post.seo_title || `${post.title} | The Carcino Foundation`,
       description: post.seo_description || post.excerpt,
       openGraph: {
         title: post.title,
@@ -73,18 +73,18 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           </Link>
         )}
 
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
           {post.title}
         </h1>
 
         {post.excerpt && (
-          <p className="text-slate-600 text-lg sm:text-xl leading-relaxed font-normal">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal">
             {post.excerpt}
           </p>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-200 text-xs text-slate-500 font-medium">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 text-xs text-slate-500 font-medium">
+          <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
                 {post.author.first_name?.[0] || post.author.username[0].toUpperCase()}
@@ -118,7 +118,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       {/* Cover Image */}
       {post.cover_image && (
-        <div className="relative w-full h-[400px] sm:h-[500px] rounded-3xl overflow-hidden shadow-md">
+        <div className="relative w-full h-[220px] sm:h-[380px] md:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md">
           <Image
             src={post.cover_image}
             alt={post.title}

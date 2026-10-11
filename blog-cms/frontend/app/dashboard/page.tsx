@@ -46,54 +46,54 @@ export default function DashboardOverviewPage() {
         }}
       />
 
-      <div className="p-6 max-w-7xl mx-auto space-y-8">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8">
         {/* Metric Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Posts</p>
-              <h3 className="text-3xl font-black text-slate-900 mt-1">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Total Posts</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 {loading ? "..." : analytics?.total_posts || 0}
               </h3>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-              <FileText className="w-6 h-6" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shrink-0">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-emerald-600">Published</p>
-              <h3 className="text-3xl font-black text-slate-900 mt-1">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600">Published</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 {loading ? "..." : analytics?.published_posts || 0}
               </h3>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-              <CheckCircle className="w-6 h-6" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold shrink-0">
+              <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-amber-600">Drafts</p>
-              <h3 className="text-3xl font-black text-slate-900 mt-1">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-600">Drafts</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 {loading ? "..." : analytics?.draft_posts || 0}
               </h3>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
-              <FileClock className="w-6 h-6" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
+              <FileClock className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-purple-600">Scheduled</p>
-              <h3 className="text-3xl font-black text-slate-900 mt-1">
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-purple-600">Scheduled</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 {loading ? "..." : analytics?.scheduled_posts || 0}
               </h3>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
-              <Clock className="w-6 h-6" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
         </div>

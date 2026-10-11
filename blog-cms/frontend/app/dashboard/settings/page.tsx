@@ -22,7 +22,7 @@ export default function SettingsPage() {
         subtitle="Manage platform parameters, API service credentials, and profile preferences"
       />
 
-      <div className="p-6 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto space-y-6">
         {savedSuccess && (
           <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-xs font-bold">
             Settings updated successfully!

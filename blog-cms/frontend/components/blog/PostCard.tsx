@@ -16,7 +16,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
   if (featured) {
     return (
       <div className="group relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0">
-        <div className="lg:col-span-7 relative h-72 lg:h-auto min-h-[340px] bg-slate-100 overflow-hidden">
+        <div className="lg:col-span-7 relative h-56 sm:h-72 lg:h-auto min-h-[220px] sm:min-h-[340px] bg-slate-100 overflow-hidden">
           {post.cover_image ? (
             <Image
               src={post.cover_image}
@@ -27,23 +27,23 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
               priority
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-black text-4xl">
-              ApexPulse
+            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-black text-2xl sm:text-4xl text-center p-4">
+              The Carcino Foundation
             </div>
           )}
           {post.category && (
             <Link
               href={`/categories/${post.category.slug}`}
-              className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-blue-700 font-semibold text-xs px-3 py-1.5 rounded-full shadow-sm hover:bg-white transition-colors"
+              className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-white/90 backdrop-blur-md text-blue-700 font-semibold text-xs px-3 py-1.5 rounded-full shadow-sm hover:bg-white transition-colors"
             >
               {post.category.name}
             </Link>
           )}
         </div>
 
-        <div className="lg:col-span-5 p-8 flex flex-col justify-between">
+        <div className="lg:col-span-5 p-5 sm:p-8 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-4 text-slate-500 text-xs font-medium mb-3">
+            <div className="flex items-center gap-3 sm:gap-4 text-slate-500 text-xs font-medium mb-2 sm:mb-3">
               <span className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5 text-slate-400" />
                 {formatDate(post.publication_date || post.created_at)}
@@ -55,12 +55,12 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
             </div>
 
             <Link href={`/blog/${post.slug}`}>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors tracking-tight leading-tight mb-4">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors tracking-tight leading-tight mb-3 sm:mb-4">
                 {post.title}
               </h2>
             </Link>
 
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-3 mb-6">
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-3 mb-4 sm:mb-6">
               {post.excerpt}
             </p>
           </div>

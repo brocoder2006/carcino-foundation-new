@@ -17,13 +17,16 @@ import {
   PlusCircle,
   BookOpen,
   Globe,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useSidebar } from "./SidebarContext";
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
+  const { isOpen, close } = useSidebar();
 
   const handleLogout = async () => {
     await logout();
@@ -46,23 +49,36 @@ export const Sidebar: React.FC = () => {
 
   navItems.push({ label: "Settings", href: "/dashboard/settings", icon: Settings });
 
-
-  return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-screen sticky top-0 shrink-0 border-r border-slate-800">
+  const sidebarContent = (
+    <div className="flex flex-col h-full bg-slate-900 text-slate-300">
       {/* Brand Header */}
-      <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-        <Link href="/dashboard" className="flex items-center gap-2.5 text-white font-bold text-lg tracking-tight">
+      <div className="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between">
+        <Link
+          href="/dashboard"
+          onClick={close}
+          className="flex items-center gap-2.5 text-white font-bold text-lg tracking-tight"
+        >
           <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black shadow-md">
             <BookOpen className="w-5 h-5" />
           </div>
           <span>Carcino <span className="text-blue-500 font-medium">CMS</span></span>
         </Link>
+
+        {/* Mobile close button */}
+        <button
+          onClick={close}
+          className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          aria-label="Close navigation"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Quick Action Button */}
       <div className="p-4">
         <Link
           href="/dashboard/posts/new"
+          onClick={close}
           className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 px-4 rounded-xl shadow-md transition-all text-sm"
         >
           <PlusCircle className="w-4 h-4" />
@@ -79,6 +95,7 @@ export const Sidebar: React.FC = () => {
             <Link
               key={item.href}
               href={item.href}
+              onClick={close}
               className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? "bg-blue-600/15 text-blue-400 font-semibold border border-blue-500/20"
@@ -126,6 +143,40 @@ export const Sidebar: React.FC = () => {
           </button>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside className="hidden lg:flex w-64 shrink-0 h-screen sticky top-0 border-r border-slate-800 z-30">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Off-Canvas Drawer */}
+      <div
+        className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          onClick={close}
+          className={`absolute inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity duration-300 ${
+            isOpen ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        />
+
+        {/* Sliding Panel */}
+        <div
+          className={`absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-slate-900 shadow-2xl transition-transform duration-300 ease-out transform ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          {sidebarContent}
+        </div>
+      </div>
+    </>
   );
 };

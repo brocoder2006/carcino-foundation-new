@@ -218,7 +218,7 @@ export default function EditPostPage() {
         subtitle="Update content, review revisions snapshot, or change publication status"
       />
 
-      <div className="p-6 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
         {errorMessage && (
           <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl text-sm font-medium">
             {errorMessage}
@@ -226,8 +226,8 @@ export default function EditPostPage() {
         )}
 
         {/* Action Controls */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4 sticky top-20 z-20">
-          <div className="flex items-center gap-3">
+        <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sticky top-16 sm:top-20 z-10">
+          <div className="flex items-center justify-between sm:justify-start gap-3">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>{autosaveStatus}</span>
@@ -242,11 +242,11 @@ export default function EditPostPage() {
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
             <button
               type="button"
               onClick={() => setIsPreviewOpen(true)}
-              className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-all"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3.5 sm:px-4 py-2.5 rounded-xl transition-all"
             >
               <Eye className="w-4 h-4" /> Preview
             </button>
@@ -255,7 +255,7 @@ export default function EditPostPage() {
               type="button"
               disabled={isSubmitting}
               onClick={() => handleSave("DRAFT")}
-              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all disabled:opacity-50"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-3.5 sm:px-4 py-2.5 rounded-xl transition-all disabled:opacity-50"
             >
               <Save className="w-4 h-4" /> Save Draft
             </button>
@@ -264,7 +264,7 @@ export default function EditPostPage() {
               type="button"
               disabled={isSubmitting}
               onClick={() => handleSave("PUBLISHED")}
-              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 sm:px-5 py-2.5 rounded-xl shadow-md transition-all disabled:opacity-50"
             >
               <Globe className="w-4 h-4" /> {status === "PUBLISHED" ? "Update Published" : "Publish Now"}
             </button>

@@ -130,10 +130,10 @@ export default function DashboardPostsPage() {
         }}
       />
 
-      <div className="p-6 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
         {/* Filter Controls Bar */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
-          <form onSubmit={handleSearchSubmit} className="relative flex-1 min-w-[240px]">
+        <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <form onSubmit={handleSearchSubmit} className="relative flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
             <input
               type="text"
@@ -144,14 +144,14 @@ export default function DashboardPostsPage() {
             />
           </form>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <select
               value={statusFilter}
               onChange={(e) => {
                 setStatusFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 sm:flex-initial bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Statuses</option>
               <option value="DRAFT">Drafts</option>
@@ -165,7 +165,7 @@ export default function DashboardPostsPage() {
                 setCategoryFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 sm:flex-initial bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Categories</option>
               {categories.map((cat) => (
@@ -177,120 +177,209 @@ export default function DashboardPostsPage() {
           </div>
         </div>
 
-        {/* Posts Table */}
+        {/* Posts Container */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
           {loading ? (
             <p className="text-sm text-slate-400 py-16 text-center">Loading posts...</p>
           ) : posts.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    <th className="py-3.5 px-4">Article</th>
-                    <th className="py-3.5 px-4">Category</th>
-                    <th className="py-3.5 px-4">Author</th>
-                    <th className="py-3.5 px-4">Status</th>
-                    <th className="py-3.5 px-4">Updated</th>
-                    <th className="py-3.5 px-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-sm">
-                  {posts.map((post) => (
-                    <tr key={post.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
-                            {post.cover_image ? (
-                              <Image src={post.cover_image} alt={post.title} fill className="object-cover" />
-                            ) : (
-                              <div className="w-full h-full bg-slate-200 text-slate-400 font-bold flex items-center justify-center text-xs">
-                                Doc
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <Link
-                              href={`/dashboard/posts/${post.id}/edit`}
-                              className="font-bold text-slate-900 hover:text-blue-600 transition-colors line-clamp-1 max-w-xs"
-                            >
-                              {post.title}
-                            </Link>
-                            <p className="text-xs text-slate-400 truncate max-w-xs">{post.slug}</p>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="py-3.5 px-4 font-medium text-slate-600">
-                        {post.category ? (
-                          <span className="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">
-                            {post.category.name}
-                          </span>
+            <>
+              {/* Mobile View: Responsive Cards List */}
+              <div className="divide-y divide-slate-100 md:hidden">
+                {posts.map((post) => (
+                  <div key={post.id} className="p-4 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="relative w-14 h-14 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                        {post.cover_image ? (
+                          <Image src={post.cover_image} alt={post.title} fill className="object-cover" />
                         ) : (
-                          <span className="text-slate-400 text-xs">Uncategorized</span>
+                          <div className="w-full h-full bg-slate-200 text-slate-400 font-bold flex items-center justify-center text-xs">
+                            Doc
+                          </div>
                         )}
-                      </td>
+                      </div>
 
-                      <td className="py-3.5 px-4 font-medium text-slate-700">
-                        {post.author.username}
-                      </td>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <span
+                            className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full ${
+                              post.status === "PUBLISHED"
+                                ? "bg-emerald-100 text-emerald-800"
+                                : post.status === "SCHEDULED"
+                                ? "bg-purple-100 text-purple-800"
+                                : "bg-slate-100 text-slate-600"
+                            }`}
+                          >
+                            {post.status}
+                          </span>
+                          {post.category && (
+                            <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                              {post.category.name}
+                            </span>
+                          )}
+                        </div>
 
-                      <td className="py-3.5 px-4">
-                        <span
-                          className={`text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full ${
-                            post.status === "PUBLISHED"
-                              ? "bg-emerald-100 text-emerald-800"
-                              : post.status === "SCHEDULED"
-                              ? "bg-purple-100 text-purple-800"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
-                        >
-                          {post.status}
-                        </span>
-                      </td>
-
-                      <td className="py-3.5 px-4 text-xs text-slate-500 font-medium">
-                        {formatDate(post.updated_at)}
-                      </td>
-
-                      <td className="py-3.5 px-4 text-right space-x-2">
                         <Link
                           href={`/dashboard/posts/${post.id}/edit`}
-                          className="inline-flex items-center gap-1 text-slate-600 hover:text-blue-600 font-semibold text-xs bg-slate-100 hover:bg-blue-50 px-2.5 py-1.5 rounded-lg transition-colors"
+                          className="font-bold text-slate-900 text-sm hover:text-blue-600 transition-colors line-clamp-2 block leading-snug"
                         >
-                          <Edit className="w-3.5 h-3.5" /> Edit
+                          {post.title}
                         </Link>
+                        <p className="text-[11px] text-slate-400 mt-1">
+                          By {post.author.username} • {formatDate(post.updated_at)}
+                        </p>
+                      </div>
+                    </div>
 
-                        <button
-                          onClick={() => handlePublishToggle(post)}
-                          className={`inline-flex items-center gap-1 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition-colors ${
-                            post.status === "PUBLISHED"
-                              ? "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                              : "bg-emerald-600 text-white hover:bg-emerald-700"
-                          }`}
-                        >
-                          {post.status === "PUBLISHED" ? <EyeOff className="w-3.5 h-3.5" /> : <Globe className="w-3.5 h-3.5" />}
-                          {post.status === "PUBLISHED" ? "Unpublish" : "Publish"}
-                        </button>
+                    {/* Touch Action Buttons Row */}
+                    <div className="flex items-center gap-1.5 pt-1 overflow-x-auto">
+                      <Link
+                        href={`/dashboard/posts/${post.id}/edit`}
+                        className="flex-1 min-w-[70px] inline-flex items-center justify-center gap-1 text-slate-700 bg-slate-100 hover:bg-slate-200 font-semibold text-xs py-2 rounded-xl transition-colors"
+                      >
+                        <Edit className="w-3.5 h-3.5" /> Edit
+                      </Link>
 
-                        <button
-                          onClick={() => setScheduleModalPost(post)}
-                          className="inline-flex items-center gap-1 text-purple-700 hover:bg-purple-50 font-semibold text-xs bg-purple-100 px-2.5 py-1.5 rounded-lg transition-colors"
-                        >
-                          <Calendar className="w-3.5 h-3.5" /> Schedule
-                        </button>
+                      <button
+                        onClick={() => handlePublishToggle(post)}
+                        className={`flex-1 min-w-[85px] inline-flex items-center justify-center gap-1 font-semibold text-xs py-2 rounded-xl transition-colors ${
+                          post.status === "PUBLISHED"
+                            ? "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            : "bg-emerald-600 text-white hover:bg-emerald-700"
+                        }`}
+                      >
+                        {post.status === "PUBLISHED" ? <EyeOff className="w-3.5 h-3.5" /> : <Globe className="w-3.5 h-3.5" />}
+                        {post.status === "PUBLISHED" ? "Unpublish" : "Publish"}
+                      </button>
 
-                        <button
-                          onClick={() => setDeleteId(post.id)}
-                          className="inline-flex items-center gap-1 text-red-600 hover:bg-red-50 font-semibold text-xs bg-red-50 px-2.5 py-1.5 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </td>
+                      <button
+                        onClick={() => setScheduleModalPost(post)}
+                        className="inline-flex items-center justify-center gap-1 text-purple-700 bg-purple-50 hover:bg-purple-100 font-semibold text-xs px-2.5 py-2 rounded-xl transition-colors shrink-0"
+                      >
+                        <Calendar className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
+                        onClick={() => setDeleteId(post.id)}
+                        className="inline-flex items-center justify-center text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-xs px-2.5 py-2 rounded-xl transition-colors shrink-0"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop View: Full Table */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      <th className="py-3.5 px-4">Article</th>
+                      <th className="py-3.5 px-4">Category</th>
+                      <th className="py-3.5 px-4">Author</th>
+                      <th className="py-3.5 px-4">Status</th>
+                      <th className="py-3.5 px-4">Updated</th>
+                      <th className="py-3.5 px-4 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-sm">
+                    {posts.map((post) => (
+                      <tr key={post.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="relative w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                              {post.cover_image ? (
+                                <Image src={post.cover_image} alt={post.title} fill className="object-cover" />
+                              ) : (
+                                <div className="w-full h-full bg-slate-200 text-slate-400 font-bold flex items-center justify-center text-xs">
+                                  Doc
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <Link
+                                href={`/dashboard/posts/${post.id}/edit`}
+                                className="font-bold text-slate-900 hover:text-blue-600 transition-colors line-clamp-1 max-w-xs"
+                              >
+                                {post.title}
+                              </Link>
+                              <p className="text-xs text-slate-400 truncate max-w-xs">{post.slug}</p>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td className="py-3.5 px-4 font-medium text-slate-600">
+                          {post.category ? (
+                            <span className="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">
+                              {post.category.name}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 text-xs">Uncategorized</span>
+                          )}
+                        </td>
+
+                        <td className="py-3.5 px-4 font-medium text-slate-700">
+                          {post.author.username}
+                        </td>
+
+                        <td className="py-3.5 px-4">
+                          <span
+                            className={`text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full ${
+                              post.status === "PUBLISHED"
+                                ? "bg-emerald-100 text-emerald-800"
+                                : post.status === "SCHEDULED"
+                                ? "bg-purple-100 text-purple-800"
+                                : "bg-slate-100 text-slate-600"
+                            }`}
+                          >
+                            {post.status}
+                          </span>
+                        </td>
+
+                        <td className="py-3.5 px-4 text-xs text-slate-500 font-medium">
+                          {formatDate(post.updated_at)}
+                        </td>
+
+                        <td className="py-3.5 px-4 text-right space-x-2">
+                          <Link
+                            href={`/dashboard/posts/${post.id}/edit`}
+                            className="inline-flex items-center gap-1 text-slate-600 hover:text-blue-600 font-semibold text-xs bg-slate-100 hover:bg-blue-50 px-2.5 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Edit className="w-3.5 h-3.5" /> Edit
+                          </Link>
+
+                          <button
+                            onClick={() => handlePublishToggle(post)}
+                            className={`inline-flex items-center gap-1 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition-colors ${
+                              post.status === "PUBLISHED"
+                                ? "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                : "bg-emerald-600 text-white hover:bg-emerald-700"
+                            }`}
+                          >
+                            {post.status === "PUBLISHED" ? <EyeOff className="w-3.5 h-3.5" /> : <Globe className="w-3.5 h-3.5" />}
+                            {post.status === "PUBLISHED" ? "Unpublish" : "Publish"}
+                          </button>
+
+                          <button
+                            onClick={() => setScheduleModalPost(post)}
+                            className="inline-flex items-center gap-1 text-purple-700 hover:bg-purple-50 font-semibold text-xs bg-purple-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Calendar className="w-3.5 h-3.5" /> Schedule
+                          </button>
+
+                          <button
+                            onClick={() => setDeleteId(post.id)}
+                            className="inline-flex items-center gap-1 text-red-600 hover:bg-red-50 font-semibold text-xs bg-red-50 px-2.5 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <div className="text-center py-16">
               <p className="text-sm text-slate-400 font-medium">No articles match your search or filter.</p>

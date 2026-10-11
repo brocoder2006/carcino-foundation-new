@@ -89,7 +89,7 @@ export default function TagsPage() {
         }}
       />
 
-      <div className="p-6 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
           {loading ? (
             <p className="text-sm text-slate-400 py-16 text-center">Loading tags...</p>

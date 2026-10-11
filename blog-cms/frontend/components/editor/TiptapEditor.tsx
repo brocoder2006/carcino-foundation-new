@@ -106,7 +106,7 @@ export const TiptapEditor: React.FC<TiptapEditorProps> = ({
   return (
     <div className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all">
       {/* Editor Toolbar */}
-      <div className="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap items-center gap-1">
+      <div className="bg-slate-50 border-b border-slate-200 p-2 flex items-center gap-1 overflow-x-auto scrollbar-none sm:flex-wrap">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
