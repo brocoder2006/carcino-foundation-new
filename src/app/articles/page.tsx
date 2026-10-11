@@ -249,14 +249,10 @@ export default function ArticlesGalleryPage() {
 
       {/* Top Navbar */}
       <header className="flex py-3 px-3 sm:px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0">
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 w-fit group cursor-pointer shrink-0">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 w-fit group cursor-pointer shrink-0" aria-label="Home">
           <div className="rounded-lg bg-[#9875C1] w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
             TCF
           </div>
-          <p className="text-[#FFF] font-winterSolace text-sm sm:text-xl w-fit tracking-tight">
-            <span className="hidden sm:inline">The Carcino Foundation</span>
-            <span className="sm:hidden">Carcino</span>
-          </p>
         </Link>
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-8 w-fit">
@@ -467,15 +463,9 @@ export default function ArticlesGalleryPage() {
                   className={`flex p-8 flex-col justify-between items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-gradient-to-b from-[#0B0B0C] to-[#0B0B0C] w-full min-h-[260px] transition-all duration-400 group hover:-translate-y-1.5 cursor-pointer ${catStyle.glow}`}
                 >
                   <div className="flex justify-between items-center w-full">
-                    {!catStyle.isMedical ? (
-                      <span className={`py-1 px-3.5 rounded-full font-inter text-xs font-semibold tracking-wider ${catStyle.badgeBg}`}>
-                        {art.tag}
-                      </span>
-                    ) : (
-                      <span className="text-xs text-purple-400/80 font-mono font-medium tracking-wide">
-                        ● PURPLE INSIGHT
-                      </span>
-                    )}
+                    <span className={`py-1 px-3.5 rounded-full font-inter text-xs font-semibold tracking-wider ${catStyle.badgeBg}`}>
+                      {art.tag}
+                    </span>
                     <span className="text-[#ACACAC] font-inter text-xs">
                       {art.readTime}
                     </span>
