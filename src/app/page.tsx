@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import EntranceAnimation from "@/components/EntranceAnimation";
 import EditorialHeroSection from "@/components/EditorialHeroSection";
-import OurVisionSection from "@/components/OurVisionSection";
+import WhatWeAreBuilding from "@/components/OurVisionSection";
 import MissionStatementSection from "@/components/MissionStatementSection";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
 import ImpactStatsSection from "@/components/ImpactStatsSection";
@@ -193,11 +194,14 @@ export default function CarcinoFoundationLandingPage() {
 
   return (
     <div
-      className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 overflow-x-hidden ${isLightMode
+      className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 ${isLightMode
         ? "bg-[#ECE9E9] text-[#163B2E]"
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
     >
+      {/* Split-Door Entrance Animation */}
+      <EntranceAnimation />
+
       {/* Specular Background Refraction Orbs - Velorah Specular Ambient Glow */}
       <div
         ref={orb1Ref}
@@ -715,11 +719,11 @@ export default function CarcinoFoundationLandingPage() {
       {/* Infinite Stylish Carousel Ticker Just After Hero */}
       <HeroCarouselSection isLightMode={isLightMode} />
 
-      {/* Our Vision Section Just Beneath Hero Landing */}
-      <OurVisionSection isLightMode={isLightMode} />
+      {/* What We Are Building Section Just Beneath Hero Landing */}
+      <WhatWeAreBuilding />
 
       {/* Mission Statement Section with Scroll Word Color Reveal */}
-      <MissionStatementSection isLightMode={isLightMode} />
+      {/* <MissionStatementSection isLightMode={isLightMode} /> */}
 
       {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
       <ImpactStatsSection isLightMode={isLightMode} />

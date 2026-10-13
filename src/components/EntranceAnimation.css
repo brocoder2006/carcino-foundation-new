@@ -1,0 +1,513 @@
+/* Entrance Animation Scoped Styles */
+
+.entrance-container {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+}
+
+/* Top Header - Strictly "THE CARCINO FOUNDATION", NO EXTRA TEXT */
+.entrance-nav {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 30px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-18px);
+  animation: home-content-in 1s 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: none;
+}
+
+.entrance-nav .wordmark {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  color: #f9f8ed;
+}
+
+/*
+ * Logo Stage underneath split doors
+ */
+.logo-stage {
+  position: fixed;
+  z-index: 998;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 52%, rgb(48 37 60 / 72%), transparent 43%),
+    #0b0910;
+  clip-path: inset(0);
+  place-items: center;
+  isolation: isolate;
+  pointer-events: none;
+  animation: stage-disclose 1.15s 4.45s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.logo-glow {
+  position: absolute;
+  width: min(72vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(161 123 222 / 24%),
+    rgb(108 72 151 / 8%) 43%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0.4);
+  animation: logo-glow-in 1.6s 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.carcino-logo {
+  z-index: 2;
+  width: min(48vw, 420px);
+  max-height: 67svh;
+  object-fit: contain;
+  opacity: 0;
+  filter: blur(18px) saturate(0.8);
+  clip-path: inset(49% 0 49%);
+  transform: scale(0.68) rotate(-4deg);
+  animation: logo-arrival 1.35s 2.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.logo-orbit {
+  position: absolute;
+  border: 1px solid rgb(236 233 233 / 14%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: orbit-in 1.2s 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.logo-orbit::before {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ece9e9;
+  box-shadow: 0 0 18px rgb(236 233 233 / 80%);
+  content: "";
+}
+
+.logo-orbit-outer {
+  width: min(68vw, 690px);
+  aspect-ratio: 1;
+  animation:
+    orbit-in 1.2s 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    orbit-drift 24s 3.85s linear infinite;
+}
+
+.logo-orbit-inner {
+  width: min(55vw, 550px);
+  aspect-ratio: 1;
+  animation:
+    orbit-in 1.2s 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    orbit-drift 18s 4s linear infinite reverse;
+}
+
+/*
+ * Split Door Preloader
+ */
+.entrance {
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    translate 1.05s 0.79s cubic-bezier(0.215, 0.61, 0.355, 1),
+    opacity 0.5s ease-in-out;
+  pointer-events: auto;
+}
+
+.entrance::before,
+.entrance::after {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  width: 100%;
+  background: #30253c;
+  content: "";
+  transition: translate 1.05s 0.79s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.entrance::before {
+  top: 0;
+  height: 50%;
+  translate: 0 0;
+}
+
+.entrance::after {
+  top: 50%;
+  height: 100%;
+}
+
+.entrance-ready {
+  translate: 0 50%;
+}
+
+.entrance-ready::before {
+  translate: 0 -200%;
+}
+
+.entrance-complete {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.entrance-wordmark {
+  --gap: 1px;
+  position: relative;
+  display: grid;
+  width: min(calc(100vw - 32px), 1150px);
+  overflow: hidden !important;
+  contain: paint;
+  color: #ece9e9;
+  place-items: center;
+}
+
+.animated-name {
+  grid-area: 1 / 1;
+  position: relative;
+  width: 100%;
+  overflow: hidden !important;
+  contain: paint;
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.25s linear,
+    transform 0.8s cubic-bezier(0.755, 0.05, 0.855, 0.06);
+}
+
+.mark-line {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(18px, 4.2vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.mark-line-top {
+  position: absolute;
+  top: calc(-100% - var(--gap));
+  left: 0;
+  pointer-events: none;
+}
+
+.mark-line-top .mark-letter {
+  display: inline-block;
+  animation: letter-roll-out 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+
+.mark-line-bottom .mark-letter {
+  display: inline-block;
+  animation: letter-roll 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+
+.mark-space {
+  display: inline-block;
+  width: 0.35em;
+}
+
+.entrance-ready .mark-line-bottom .mark-letter {
+  opacity: 0;
+}
+
+.foundation-initials {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 5vw, 70px);
+  font-size: clamp(34px, 6vw, 78px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(1.45);
+}
+
+.entrance-ready .animated-name {
+  opacity: 0;
+  transform: scale(0.42);
+}
+
+.entrance-ready .foundation-initials {
+  animation: initials-close 0.72s 0.12s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.loader-glyph {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: grid;
+  overflow: clip;
+  margin: -10px;
+  padding: 10px;
+  place-items: center;
+}
+
+.loader-glyph svg {
+  grid-area: 1 / 1;
+  width: 30px;
+  fill: none;
+  stroke: #ece9e9;
+  stroke-width: 2;
+  animation: glyph-pass 3s infinite cubic-bezier(0.5, 0, 0, 1) both;
+}
+
+.loader-glyph svg:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.loader-glyph svg:nth-child(3) {
+  animation-delay: 2s;
+}
+
+.loader-glyph .glyph-fill {
+  fill: #ece9e9;
+  stroke: none;
+}
+
+.replay {
+  position: fixed;
+  z-index: 1000;
+  right: 24px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid rgb(249 248 237 / 38%);
+  border-radius: 999px;
+  color: #f9f8ed;
+  background: rgb(0 0 0 / 35%);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    background 0.25s;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.replay-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.replay:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.replay span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  border-left-color: transparent;
+  border-radius: 50%;
+}
+
+@keyframes letter-roll {
+  0%,
+  45.4545% {
+    translate: 0 calc(100% + 1px);
+  }
+
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes letter-roll-out {
+  0%,
+  45.4545% {
+    translate: 0 calc(100% + 1px);
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 1;
+  }
+
+  100% {
+    translate: 0 0;
+    opacity: 0;
+  }
+}
+
+@keyframes glyph-pass {
+  0% {
+    translate: 140% 0;
+  }
+
+  33.333% {
+    translate: 0 0;
+  }
+
+  66.666%,
+  100% {
+    translate: -140% 0;
+  }
+}
+
+@keyframes initials-close {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.2em;
+    transform: scale(1.4);
+  }
+
+  35%,
+  58% {
+    opacity: 1;
+    letter-spacing: -0.06em;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    letter-spacing: -0.3em;
+    transform: scaleX(0.22) scaleY(0);
+  }
+}
+
+@keyframes logo-arrival {
+  0% {
+    opacity: 0;
+    filter: blur(18px) saturate(0.8);
+    clip-path: inset(49% 0 49%);
+    transform: scale(0.68) rotate(-4deg);
+  }
+
+  42% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0) saturate(1);
+    clip-path: inset(0);
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes logo-glow-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-drift {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@keyframes stage-disclose {
+  0%,
+  24% {
+    opacity: 1;
+    filter: blur(0);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(12px);
+    clip-path: inset(50% 0 50%);
+  }
+}
+
+@keyframes home-content-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .entrance-nav {
+    padding: 18px 20px;
+  }
+
+  .entrance-wordmark {
+    width: calc(100vw - 24px);
+    translate: 2px 0;
+  }
+
+  .mark-line {
+    font-size: clamp(14px, 4.4vw, 24px);
+  }
+
+  .carcino-logo {
+    width: min(72vw, 360px);
+    max-height: 61svh;
+  }
+
+  .logo-orbit-outer {
+    width: 92vw;
+  }
+
+  .logo-orbit-inner {
+    width: 74vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrance,
+  .logo-stage,
+  .entrance-nav {
+    display: none;
+  }
+
+  .mark-letter,
+  .loader-glyph svg,
+  .carcino-logo,
+  .logo-glow,
+  .logo-orbit {
+    animation: none;
+  }
+
+  .replay {
+    display: none;
+  }
+}
