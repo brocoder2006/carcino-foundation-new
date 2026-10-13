@@ -59,7 +59,7 @@ const translations: Record<Language, Record<string, string>> = {
     feat_4_desc: "Explore a curated collection of deep-dive interviews detailing real paths through survivorship and recovery.",
 
     // Podcast Section
-    pod_title: "Podcast",
+    pod_title: "Conversations",
     pod_subtitle: "Compassionate conversations on cancer support, patient stories, caregiving, survivorship, and practical guidance.",
     pod_ep1_title: "Ft. Dr. Jyotirup Goswami",
     pod_ep1_desc: "Insights into Radiation Oncology & Advanced Tumor Therapeutics with Dr. Jyotirup Goswami.",
@@ -135,7 +135,7 @@ const translations: Record<Language, Record<string, string>> = {
     feat_4_desc: "Explora una colección seleccionada de entrevistas detalladas sobre rutas reales de supervivencia y recuperación.",
 
     // Podcast Section
-    pod_title: "Podcast",
+    pod_title: "Conversaciones",
     pod_subtitle: "Conversaciones compasivas sobre apoyo al cáncer, historias de pacientes, cuidado, supervivencia y orientación práctica.",
     pod_ep1_title: "Ft. Dr. Jyotirup Goswami",
     pod_ep1_desc: "Perspectivas sobre Oncología Radioterápica y Terapéutica Tumoral Avanzada con el Dr. Jyotirup Goswami.",
@@ -211,7 +211,7 @@ const translations: Record<Language, Record<string, string>> = {
     feat_4_desc: "Explorez une collection d'interviews détaillant des parcours réels de survie et de rétablissement.",
 
     // Podcast Section
-    pod_title: "Podcast",
+    pod_title: "Conversations",
     pod_subtitle: "Conversations compatissantes sur le soutien du cancer, les histoires de patients, l'aide aux aidants et la survie.",
     pod_ep1_title: "Naviguer dans le Diagnostic",
     pod_ep1_desc: "Un guide compatissant pour les 30 premiers jours après avoir reçu un diagnostic de cancer.",

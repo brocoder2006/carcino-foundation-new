@@ -138,16 +138,6 @@ export default function EntranceAnimation({ onComplete }: EntranceAnimationProps
         </div>
       )}
 
-      {/* Replay Intro Button */}
-      <button
-        className={`replay ${complete ? "replay-visible" : ""}`}
-        type="button"
-        onClick={() => setSequence((value) => value + 1)}
-        aria-label="Replay entrance animation"
-      >
-        <span />
-        Replay intro
-      </button>
     </>
   );
 }
