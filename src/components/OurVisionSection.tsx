@@ -10,13 +10,26 @@ const IMAGES = [
   "/img.jpeg",
 ];
 
-const NOTES = [
+interface NoteItem {
+  text: string;
+  description?: string;
+  top: string;
+  left: string;
+  rotation: string;
+  mobileTop: string;
+  mobileLeft?: string;
+  mobileRight?: string;
+}
+
+const NOTES: NoteItem[] = [
   {
     text: "Cancer Literacy",
     description: "Understand the why. Turning knowledge into earlier action and better outcomes.",
     top: "30%",
     left: "9%",
     rotation: "-3deg",
+    mobileTop: "15%",
+    mobileLeft: "6%",
   },
   {
     text: "Rural Cancer Care Infrastructure.",
@@ -24,6 +37,8 @@ const NOTES = [
     top: "60%",
     left: "27%",
     rotation: "2deg",
+    mobileTop: "30%",
+    mobileRight: "6%",
   },
   {
     text: "Veterinary Cancer Care.",
@@ -31,6 +46,8 @@ const NOTES = [
     top: "34%",
     left: "45%",
     rotation: "-2deg",
+    mobileTop: "45%",
+    mobileLeft: "6%",
   },
   {
     text: "Youth & Medical Community.",
@@ -38,12 +55,16 @@ const NOTES = [
     top: "58%",
     left: "68%",
     rotation: "3deg",
+    mobileTop: "60%",
+    mobileRight: "6%",
   },
   {
     text: "For creatives, from self-doubt to creative sovereignty.",
     top: "24%",
     left: "80%",
     rotation: "-3deg",
+    mobileTop: "74%",
+    mobileLeft: "6%",
   },
 ];
 
@@ -194,9 +215,12 @@ export default function WhatWeAreBuilding() {
           2,
         );
 
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+        const slideOffset = isMobile ? 30 : 80;
+
         note.style.opacity = String(noteProgress);
         note.style.transform = `
-          translate3d(${lerp(80, 0, noteProgress)}px, 0, 0)
+          translate3d(${lerp(slideOffset, 0, noteProgress)}px, 0, 0)
           rotate(${NOTES[index].rotation})
         `;
       });
@@ -264,10 +288,15 @@ export default function WhatWeAreBuilding() {
                 notesRef.current[index] = element;
               }}
               className={styles.note}
-              style={{
-                top: note.top,
-                left: note.left,
-              }}
+              style={
+                {
+                  "--top": note.top,
+                  "--left": note.left,
+                  "--m-top": note.mobileTop,
+                  "--m-left": note.mobileLeft || "auto",
+                  "--m-right": note.mobileRight || "auto",
+                } as React.CSSProperties
+              }
             >
               <p className={styles.noteTitle}>{note.text}</p>
               {note.description && (
@@ -300,7 +329,9 @@ export default function WhatWeAreBuilding() {
                   fill="white"
                 />
 
+                {/* Desktop Text */}
                 <text
+                  className={styles.desktopText}
                   x="500"
                   y="280"
                   textAnchor="middle"
@@ -312,6 +343,35 @@ export default function WhatWeAreBuilding() {
                   lengthAdjust="spacingAndGlyphs"
                 >
                   WHAT WE ARE BUILDING
+                </text>
+
+                {/* Mobile Text: 2 lines fitted precisely within mobile portrait viewport */}
+                <text
+                  className={styles.mobileText}
+                  x="500"
+                  y="240"
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="black"
+                  stroke="black"
+                  strokeWidth="3"
+                >
+                  <tspan
+                    x="500"
+                    dy="-38"
+                    textLength="240"
+                    lengthAdjust="spacingAndGlyphs"
+                  >
+                    WHAT WE
+                  </tspan>
+                  <tspan
+                    x="500"
+                    dy="76"
+                    textLength="250"
+                    lengthAdjust="spacingAndGlyphs"
+                  >
+                    ARE BUILDING
+                  </tspan>
                 </text>
               </mask>
             </defs>
