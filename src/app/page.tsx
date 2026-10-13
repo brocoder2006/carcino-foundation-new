@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
-import DoorEntranceAnimation from "@/components/DoorEntranceAnimation";
 import EditorialHeroSection from "@/components/EditorialHeroSection";
 import OurVisionSection from "@/components/OurVisionSection";
 import MissionStatementSection from "@/components/MissionStatementSection";
@@ -199,8 +198,6 @@ export default function CarcinoFoundationLandingPage() {
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
     >
-      {/* Sliding Door Entrance Loader Animation (Inspired by huyml.co) */}
-      <DoorEntranceAnimation />
       {/* Specular Background Refraction Orbs - Velorah Specular Ambient Glow */}
       <div
         ref={orb1Ref}
