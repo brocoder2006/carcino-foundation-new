@@ -194,7 +194,7 @@ export default function CarcinoFoundationLandingPage() {
 
   return (
     <div
-      className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 ${isLightMode
+      className={`flex flex-col items-center w-full max-w-full min-h-screen relative transition-colors duration-500 overflow-x-clip ${isLightMode
         ? "bg-[#ECE9E9] text-[#163B2E]"
         : "bg-gradient-to-br from-[#1E1727] via-[#30253C] to-[#1B1324] text-[#F8F8F8]"
         }`}
@@ -203,16 +203,18 @@ export default function CarcinoFoundationLandingPage() {
       <EntranceAnimation />
 
       {/* Specular Background Refraction Orbs - Velorah Specular Ambient Glow */}
-      <div
-        ref={orb1Ref}
-        className={`absolute top-[5%] left-[15%] w-[500px] h-[500px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#C27AFF]/25" : "bg-[#9875C1]/30"
-          }`}
-      ></div>
-      <div
-        ref={orb2Ref}
-        className={`absolute top-[30%] right-[10%] w-[450px] h-[450px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#FF7A00]/20" : "bg-[#39C69C]/25"
-          }`}
-      ></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div
+          ref={orb1Ref}
+          className={`absolute top-[5%] left-[15%] w-[500px] h-[500px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#C27AFF]/25" : "bg-[#9875C1]/30"
+            }`}
+        ></div>
+        <div
+          ref={orb2Ref}
+          className={`absolute top-[30%] right-[10%] w-[450px] h-[450px] rounded-full blur-[100px] pointer-events-none transition-all duration-500 will-change-transform ${isLightMode ? "bg-[#FF7A00]/20" : "bg-[#39C69C]/25"
+            }`}
+        ></div>
+      </div>
 
       {/* Hero Full-Screen Ambient Video Layer (Botanical Blooming Flowers for Light Mode + Velorah for Dark Mode) */}
       <div className="absolute top-0 left-0 w-full h-screen overflow-hidden pointer-events-none z-0">
