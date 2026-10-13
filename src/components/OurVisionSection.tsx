@@ -168,29 +168,44 @@ export default function WhatWeAreBuilding() {
        * Text-mask zoom
        *
        * The zoom is constrained to a safe texture size so large screens
-       * do not cause the SVG to break into GPU-rendered fragments.
+       * do not cause the SVG to exceed GPU texture limits or break into fragments.
        */
       const maskProgress = easeIn(
         progressBetween(0.05, 0.55, scrollProgress),
         2.5,
       );
 
-      const maskScale = lerp(1, 13, maskProgress);
-
-      mask.style.transform = `
-        translateZ(0)
-        scale3d(${maskScale}, ${maskScale}, 1)
-      `;
+      const maxDim = Math.max(
+        typeof window !== "undefined" ? window.innerWidth : 1200,
+        typeof window !== "undefined" ? window.innerHeight : 800,
+      );
+      // Keep maximum raster texture dimension well under hardware limits (4800px)
+      const safeMaxZoom = Math.min(5.5, Math.max(3.8, 4800 / maxDim));
+      const maskScale = lerp(1, safeMaxZoom, maskProgress);
 
       /*
        * White field fades away near the end of the mask zoom.
        */
       const maskFade = easeOut(
-        progressBetween(0.4, 0.58, scrollProgress),
+        progressBetween(0.4, 0.56, scrollProgress),
         2,
       );
 
-      mask.style.opacity = String(1 - maskFade);
+      if (scrollProgress >= 0.56) {
+        // Completely unload mask from GPU compositor tree to prevent tile fragmentation
+        mask.style.opacity = "0";
+        mask.style.display = "none";
+        mask.style.visibility = "hidden";
+        mask.style.transform = "none";
+      } else {
+        mask.style.display = "block";
+        mask.style.visibility = "visible";
+        mask.style.opacity = String(1 - maskFade);
+        mask.style.transform =
+          maskProgress > 0
+            ? `translate3d(0, 0, 0) scale(${maskScale})`
+            : "none";
+      }
 
       /*
        * Notes enter sequentially between 58% and 92% of the timeline.
@@ -316,16 +331,16 @@ export default function WhatWeAreBuilding() {
               <mask
                 id="what-we-are-building-mask"
                 maskUnits="userSpaceOnUse"
-                x="-1000"
-                y="-720"
-                width="3000"
-                height="2000"
+                x="-20"
+                y="-20"
+                width="1040"
+                height="600"
               >
                 <rect
-                  x="-1000"
-                  y="-720"
-                  width="3000"
-                  height="2000"
+                  x="-20"
+                  y="-20"
+                  width="1040"
+                  height="600"
                   fill="white"
                 />
 
@@ -377,10 +392,10 @@ export default function WhatWeAreBuilding() {
             </defs>
 
             <rect
-              x="-1000"
-              y="-720"
-              width="3000"
-              height="2000"
+              x="-20"
+              y="-20"
+              width="1040"
+              height="600"
               fill="white"
               mask="url(#what-we-are-building-mask)"
             />

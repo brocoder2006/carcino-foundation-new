@@ -1,0 +1,229 @@
+@font-face {
+  font-family: "Million";
+  src: url("/for-you/Million.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.impact {
+  --cream: #f2e5ca;
+  --green: #1d3b2a;
+  --teal: #156b5b;
+  --orange: #e05333;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 3rem 4vw 8rem;
+  background: var(--cream);
+  color: var(--green);
+  font-family: "Inter Tight", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.impact *,
+.impact *::before,
+.impact *::after {
+  box-sizing: border-box;
+}
+
+.impact::before {
+  position: absolute;
+  top: 18%;
+  right: -10%;
+  width: 35vw;
+  aspect-ratio: 1;
+  border: 1px solid rgb(21 107 91 / 22%);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.impact-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Inter Tight", Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.5rem;
+}
+
+.impact-marker-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.impact-heading {
+  display: grid;
+  min-height: 62vh;
+  align-content: center;
+  grid-template-columns: 1.45fr 0.55fr;
+  gap: 6vw;
+}
+
+.impact-heading h2 {
+  margin: 0;
+  font-size: clamp(4rem, 9vw, 9rem);
+  font-weight: 550;
+  letter-spacing: -0.075em;
+  line-height: 0.78;
+}
+
+.impact-heading h2 span {
+  display: inline-block;
+  padding: 0.08em 0.3em 0.15em;
+  border-radius: 999px;
+  background: var(--teal);
+  color: var(--cream);
+  font-family: "Million", var(--font-syne), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.impact-heading p {
+  align-self: end;
+  max-width: 380px;
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.impact-circles {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0 5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.impact-circle {
+  position: relative;
+  display: flex;
+  aspect-ratio: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 13%;
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--cream);
+  transition:
+    color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.impact-circle:not(:first-child) {
+  margin-left: -7%;
+}
+
+.impact-circle:nth-child(2) {
+  background: var(--teal);
+  transform: translateY(12%);
+}
+
+.impact-circle:nth-child(3) {
+  background: var(--orange);
+  color: var(--green);
+  transform: translateY(-8%);
+}
+
+.impact-circle:nth-child(4) {
+  background: #d4c5a0;
+  color: var(--green);
+  transform: translateY(9%);
+}
+
+.impact-circle:hover {
+  z-index: 2;
+  background: var(--cream);
+  color: var(--green);
+  transform: translateY(-5%) rotate(-3deg);
+}
+
+.impact-circle > span {
+  font-family: "Million", var(--font-syne), sans-serif;
+  font-size: clamp(2.2rem, 4.2vw, 4.5rem);
+  line-height: 0.85;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.impact-circle h3 {
+  margin: 0.7rem 0;
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.impact-circle p {
+  max-width: 230px;
+  margin: 0;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media (max-width: 760px) {
+  .impact {
+    padding: 2rem 5vw 5rem;
+  }
+
+  .impact-heading {
+    min-height: 70vh;
+    grid-template-columns: 1fr;
+  }
+
+  .impact-heading h2 {
+    font-size: 17vw;
+  }
+
+  .impact-heading h2 span {
+    margin-top: 0.12em;
+  }
+
+  .impact-heading p {
+    align-self: start;
+  }
+
+  .impact-circles {
+    grid-template-columns: repeat(2, 1fr);
+    padding-top: 0;
+  }
+
+  .impact-circle:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .impact-circle:nth-child(even) {
+    margin-left: -8%;
+  }
+
+  .impact-circle:nth-child(3),
+  .impact-circle:nth-child(4) {
+    margin-top: -8%;
+  }
+
+  .impact-circle > span {
+    font-size: clamp(1.8rem, 8.5vw, 2.6rem);
+    white-space: nowrap;
+  }
+
+  .impact-circle h3 {
+    margin: 0.35rem 0;
+    font-size: 1rem;
+  }
+
+  .impact-circle p {
+    font-size: 0.68rem;
+  }
+}

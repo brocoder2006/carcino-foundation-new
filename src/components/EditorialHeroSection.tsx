@@ -63,9 +63,9 @@ export default function EditorialHeroSection() {
           </p>
 
           <div className="editorial-title title-back" aria-hidden="true">
-            <span>Know The Why.</span>
-            <span>Find The Gaps.</span>
-            <span>Change The System.</span>
+            <span>Where</span>
+            <span>Cancer Meets</span>
+            <span>Its Questions.</span>
           </div>
 
           <figure className="editorial-portrait">
@@ -80,9 +80,9 @@ export default function EditorialHeroSection() {
           </figure>
 
           <div className="editorial-title editorial-title-front">
-            <span>KNOW THE WHY.</span>
-            <span>FIND THE GAPS.</span>
-            <span>CHANGE THE SYSTEM.</span>
+            <span>WHERE</span>
+            <span>CANCER MEETS</span>
+            <span>ITS QUESTIONS.</span>
           </div>
 
           <p className="editorial-hero-subtext">

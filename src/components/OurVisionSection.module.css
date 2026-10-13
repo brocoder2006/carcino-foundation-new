@@ -62,36 +62,28 @@
   width: 100%;
   height: 100%;
   transform-origin: 50% 50%;
-  backface-visibility: hidden;
-  contain: strict;
   pointer-events: none;
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
-.desktopSvg {
+.mask svg {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
 }
 
-.mobileSvg {
-  display: none;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.mask text {
+.desktopText {
+  display: block;
   font-family: "Arial Black", Arial, Helvetica, sans-serif;
-  font-size: 128px;
+  font-size: 110px;
   font-weight: 900;
   letter-spacing: -0.055em;
 }
 
-.mobileSvgText {
+.mobileText {
+  display: none;
   font-family: "Arial Black", Arial, Helvetica, sans-serif;
-  font-size: 58px;
+  font-size: 64px;
   font-weight: 900;
   letter-spacing: -0.045em;
 }
@@ -253,11 +245,11 @@
     height: 9px;
   }
 
-  .desktopSvg {
+  .desktopText {
     display: none !important;
   }
 
-  .mobileSvg {
+  .mobileText {
     display: block !important;
   }
 

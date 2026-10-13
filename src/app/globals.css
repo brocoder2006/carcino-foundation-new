@@ -51,8 +51,8 @@ body {
 }
 
 body.light {
-  background: linear-gradient(135deg, #9875C1 10%, #ad597e 100%);
-  background-attachment: fixed;
+  background-color: #ECE9E9;
+  background: #ECE9E9;
   color: #163B2E;
 }
 

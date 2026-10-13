@@ -25,7 +25,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
     <section
       className={`w-full py-3 md:py-3.5 mb-0 relative z-20 overflow-hidden border-y transition-colors duration-500 shimmer ${
         isLightMode
-          ? "bg-[#E5F2F0] border-[#CBE6E1] text-[#163B2E]"
+          ? "bg-[#ECE9E9] border-black/10 text-[#163B2E]"
           : "bg-[#0A070D]/90 border-white/10 text-white backdrop-blur-xl"
       }`}
     >
@@ -33,15 +33,15 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
       <div
         className={`absolute left-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
-            ? "bg-gradient-to-r from-[#E5F2F0] to-transparent"
-            : "bg-gradient-to-r from-[#1B1324] to-transparent"
+            ? "bg-gradient-to-r from-[#ECE9E9] to-transparent"
+            : "bg-gradient-to-r from-[#30253C] to-transparent"
         }`}
       />
       <div
         className={`absolute right-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
-            ? "bg-gradient-to-l from-[#E5F2F0] to-transparent"
-            : "bg-gradient-to-l from-[#1B1324] to-transparent"
+            ? "bg-gradient-to-l from-[#ECE9E9] to-transparent"
+            : "bg-gradient-to-l from-[#30253C] to-transparent"
         }`}
       />
 

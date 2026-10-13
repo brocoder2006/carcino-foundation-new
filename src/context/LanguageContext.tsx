@@ -24,9 +24,9 @@ const translations: Record<Language, Record<string, string>> = {
     btn_view_podcasts: "View podcasts",
 
     // Hero
-    hero_headline_1: "Know the Why.",
-    hero_headline_cancer: "Find the Gaps.",
-    hero_headline_2: "Change the System.",
+    hero_headline_1: "Where",
+    hero_headline_cancer: "cancer",
+    hero_headline_2: "meets its questions.",
     hero_headline_everyone: "",
     hero_headline_3: "",
     hero_desc: "From rural cancer care and veterinary oncology to cancer literacy for better detection and outcomes, we turn knowledge into action.",

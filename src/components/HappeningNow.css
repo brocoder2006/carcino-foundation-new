@@ -1,0 +1,351 @@
+@font-face {
+    font-family: "Million";
+    src: url("/for-you/Million.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: "Inter Tight";
+    src: url("/for-you/InterTight.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 100 900;
+}
+
+.for-you {
+    position: relative;
+    min-height: 400vh;
+    padding: 5vmax 4vw 0;
+    overflow: clip;
+    color: #1d3b2a;
+    background: #f2e5ca;
+    font-family: "Inter Tight", Arial, sans-serif;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.for-you *,
+.for-you *::before,
+.for-you *::after {
+    box-sizing: border-box;
+}
+
+.for-you>h1 {
+    position: absolute;
+    top: clamp(1.5rem, 3vh, 2.5rem);
+    left: 0;
+    width: 100%;
+    margin: 0;
+    color: #156b5b;
+    font-family: "Million", var(--font-syne), sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.for-you-list {
+    position: relative;
+    width: min(92%, 1020px);
+    margin: 0 auto;
+    padding-top: clamp(4.5rem, 7vh, 6rem);
+}
+
+.for-you-card {
+    position: sticky;
+    top: 5.5rem;
+    display: flex;
+    width: 100%;
+    min-height: clamp(340px, 44vh, 440px);
+    margin-top: 20vh;
+    overflow: hidden;
+    background: #f2e5ca;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25);
+    transform-origin: center bottom;
+    animation: rotate-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 10%;
+}
+
+.for-you-card:first-child {
+    margin-top: 0;
+}
+
+.for-you-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.for-you-copy,
+.for-you-portrait {
+    flex: 0 0 50%;
+}
+
+.for-you-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem 2.5rem;
+}
+
+.for-you-copy h2,
+.for-you-copy p,
+.for-you-copy a {
+    width: 100%;
+    max-width: 100%;
+}
+
+.for-you-copy h2 {
+    margin: 0;
+    color: #1d3b2a;
+    font-size: clamp(1.75rem, 2.25vw, 2.35rem);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+.for-you-copy p {
+    margin: 1rem 0 0;
+    color: #161514;
+    font-size: clamp(0.88rem, 1vw, 1.02rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+}
+
+.for-you-copy a {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 8%;
+    padding: 0.45rem 0.55rem 0.45rem 1.35rem;
+    border: 1px solid rgb(20 107 90 / 30%);
+    border-radius: 999px;
+    color: #156b5b;
+    background: rgb(20 107 90 / 10%);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        color 200ms ease,
+        background 200ms ease;
+}
+
+.for-you-copy a i {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: #f2e5ca;
+    background: #156b5b;
+    transition:
+        color 200ms ease,
+        background 200ms ease;
+}
+
+.for-you-copy a svg {
+    width: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+}
+
+.for-you-copy a:hover {
+    color: #f2e5ca;
+    background: #156b5b;
+}
+
+.for-you-copy a:hover i {
+    color: #156b5b;
+    background: #f2e5ca;
+}
+
+.for-you-portrait {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    place-items: center;
+    overflow: hidden;
+    background: #1d3b2a;
+    padding: 2rem 1.75rem;
+}
+
+.for-you-portrait a {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 0.85rem 0.65rem 1.45rem;
+    border: 1.5px solid rgba(242, 229, 202, 0.45);
+    border-radius: 999px;
+    color: #f2e5ca;
+    background: rgba(242, 229, 202, 0.12);
+    backdrop-filter: blur(12px);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.for-you-portrait a i {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: #1d3b2a;
+    background: #f2e5ca;
+    transition: all 250ms ease;
+}
+
+.for-you-portrait a svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    transition: transform 250ms ease;
+}
+
+.for-you-portrait a:hover {
+    color: #1d3b2a;
+    background: #f2e5ca;
+    border-color: #f2e5ca;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.for-you-portrait a:hover i {
+    color: #f2e5ca;
+    background: #1d3b2a;
+}
+
+.for-you-portrait a:hover svg {
+    transform: translateX(4px);
+}
+
+.for-you-spacer {
+    height: 100vh;
+}
+
+@keyframes rotate-in {
+    from {
+        transform: translateY(40px) rotate(30deg);
+    }
+
+    to {
+        transform: translateY(0) rotate(0);
+    }
+}
+
+@keyframes shrink-on-scroll {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0.5);
+    }
+}
+
+@media (max-width: 767px) {
+    .for-you {
+        min-height: 420vh;
+        margin-top: 0;
+        padding: 1.5rem 1rem 0;
+    }
+
+    .for-you>h1 {
+        top: 1.25rem;
+        font-size: clamp(1.3rem, 5vw, 1.9rem);
+    }
+
+    .for-you-list {
+        width: 100%;
+        padding-top: 3.75rem;
+    }
+
+    .for-you-card,
+    .for-you-card:nth-child(even) {
+        top: 3.5rem;
+        flex-direction: column;
+        min-height: auto;
+        margin-top: 7vh;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .for-you-card:first-child {
+        margin-top: 3vh;
+    }
+
+    .for-you-copy,
+    .for-you-portrait {
+        flex: none;
+        width: 100%;
+    }
+
+    .for-you-copy {
+        order: 1;
+        justify-content: center;
+        padding: 1.35rem 1.15rem 1rem;
+    }
+
+    .for-you-copy h2 {
+        font-size: clamp(1.35rem, 5vw, 1.7rem);
+    }
+
+    .for-you-copy p {
+        margin-top: 0.5rem;
+        font-size: 0.88rem;
+        line-height: 1.35;
+    }
+
+    .for-you-portrait {
+        order: 2;
+        min-height: 120px;
+        padding: 1.35rem 1.15rem;
+        margin-top: 0;
+    }
+
+    .for-you-portrait a {
+        padding: 0.55rem 0.8rem 0.55rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .for-you-portrait a i {
+        width: 2.1rem;
+        height: 2.1rem;
+    }
+
+    .for-you-spacer {
+        height: 75vh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .for-you-card,
+    .for-you-portrait img {
+        animation: none;
+    }
+}

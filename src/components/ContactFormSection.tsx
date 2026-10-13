@@ -1,10 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FadeInUp from "./FadeInUp";
 
 interface ContactFormSectionProps {
   isLightMode?: boolean;
+}
+
+function TypewriterText({
+  text,
+  speed = 70,
+  delay = 2200,
+}: {
+  text: string;
+  speed?: number;
+  delay?: number;
+}) {
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting && displayText.length < text.length) {
+      timeout = setTimeout(() => {
+        setDisplayText(text.slice(0, displayText.length + 1));
+      }, speed);
+    } else if (!isDeleting && displayText.length === text.length) {
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, delay);
+    } else if (isDeleting && displayText.length > 0) {
+      timeout = setTimeout(() => {
+        setDisplayText(text.slice(0, displayText.length - 1));
+      }, speed / 2);
+    } else if (isDeleting && displayText.length === 0) {
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+      }, 500);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, text, speed, delay]);
+
+  return (
+    <span className="inline-flex items-center">
+      <span>{displayText}</span>
+      <span className="inline-block w-[2px] h-[1.1em] ml-1 bg-current animate-pulse" />
+    </span>
+  );
 }
 
 export default function ContactFormSection({ isLightMode = false }: ContactFormSectionProps) {
@@ -69,8 +113,18 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
     <section id="contact-form" className="py-24 px-6 max-w-4xl mx-auto w-full relative z-10">
       <FadeInUp>
         <div className="flex flex-col items-center text-center mb-12">
-          {/* 
-           */}
+          {/* Typewriter Eyebrow Badge */}
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 text-xs sm:text-sm font-robotoMono font-semibold tracking-wider uppercase border transition-colors ${
+              isLightMode
+                ? "bg-[#163B2E]/10 border-[#163B2E]/20 text-[#163B2E]"
+                : "bg-[#9875C1]/15 border-[#9875C1]/30 text-[#CDA8E8]"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+            <TypewriterText text="Your next idea starts here" speed={75} delay={2400} />
+          </div>
+
           <h2 className={`text-4xl md:text-5xl font-extrabold font-syne tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${
             isLightMode
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C] bg-clip-text text-transparent"

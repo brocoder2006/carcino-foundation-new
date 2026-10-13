@@ -1,16 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import { fetchDjangoPodcasts } from "@/lib/djangoApi";
 import { useLanguage } from "@/context/LanguageContext";
-
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 interface PodcastSectionProps {
   isLightMode?: boolean;
@@ -102,9 +94,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
   ];
 
   const allEpisodes = [...cmsPodcasts, ...episodes];
-
-  // Duplicate for seamless infinite loop marquee animation
-  const infiniteEpisodes = [...allEpisodes, ...allEpisodes];
+  const infiniteEpisodes = allEpisodes;
 
   const handleEpisodeClick = (ep: Episode) => {
     if (ep.externalUrl) {
@@ -131,86 +121,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // 1. Header Reveal Timeline
-      if (headerRef.current) {
-        gsap.fromTo(
-          headerRef.current.children,
-          { opacity: 0, y: 45, scale: 0.96, filter: "blur(8px)" },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.1,
-            stagger: 0.16,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: headerRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
 
-      // 2. Carousel Track & Staggered Cards Reveal
-      if (carouselRef.current && trackRef.current) {
-        const cards = Array.from(trackRef.current.children) as HTMLElement[];
-
-        gsap.fromTo(
-          carouselRef.current,
-          { opacity: 0, y: 60, scale: 0.95, filter: "blur(10px)" },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: carouselRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-
-        gsap.fromTo(
-          cards,
-          { opacity: 0, x: 50, scale: 0.94, filter: "blur(6px)" },
-          {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.85,
-            stagger: 0.12,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: trackRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-
-        cards.forEach((card) => {
-          const handleMouseEnter = () => {
-            gsap.to(card, { y: -8, scale: 1.02, duration: 0.35, ease: "power2.out" });
-          };
-          const handleMouseLeave = () => {
-            gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: "power3.out" });
-          };
-          card.addEventListener("mouseenter", handleMouseEnter);
-          card.addEventListener("mouseleave", handleMouseLeave);
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   const [isDraggingState, setIsDraggingState] = useState(false);
   const isMouseDownRef = useRef(false);
@@ -257,45 +168,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     trackRef.current.scrollLeft = scrollLeftRef.current - walk;
   };
 
-  // Gentle auto-drift loop using IntersectionObserver for maximum performance
-  useEffect(() => {
-    let animFrame: number;
-    let isVisible = false;
-    const track = trackRef.current;
-    if (!track) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    let lastTime = performance.now();
-    const drift = (now: number) => {
-      if (isVisible && !isMouseDownRef.current && !isHoveredRef.current && track) {
-        const delta = (now - lastTime) / 1000;
-        if (delta < 0.1) {
-          track.scrollLeft += 30 * delta;
-          if (track.scrollLeft >= track.scrollWidth / 2) {
-            track.scrollLeft = 0;
-          }
-        }
-      }
-      lastTime = now;
-      animFrame = requestAnimationFrame(drift);
-    };
-
-    animFrame = requestAnimationFrame(drift);
-    return () => {
-      cancelAnimationFrame(animFrame);
-      observer.disconnect();
-    };
-  }, []);
 
   /* Scrollable Marquee Track */
   return (
