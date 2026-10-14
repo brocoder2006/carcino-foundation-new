@@ -94,7 +94,9 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
   ];
 
   const allEpisodes = [...cmsPodcasts, ...episodes];
-  const infiniteEpisodes = allEpisodes;
+  // Repeat cards so the carousel has ample content to scroll horizontally across all viewport sizes
+  const repeatFactor = Math.max(3, Math.ceil(12 / (allEpisodes.length || 1)));
+  const infiniteEpisodes = Array.from({ length: repeatFactor }, () => allEpisodes).flat();
 
   const handleEpisodeClick = (ep: Episode) => {
     if (ep.externalUrl) {
@@ -106,7 +108,19 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
 
   const scrollCarousel = (direction: "prev" | "next") => {
     if (trackRef.current) {
-      const scrollAmount = direction === "next" ? 304 : -304;
+      const cardWidth = 304; // 280px + 24px gap
+      const scrollAmount = direction === "next" ? cardWidth : -cardWidth;
+
+      // Handle edge wrapping smoothly
+      if (direction === "prev" && trackRef.current.scrollLeft <= 20) {
+        trackRef.current.scrollLeft = trackRef.current.scrollWidth / 2;
+      } else if (
+        direction === "next" &&
+        trackRef.current.scrollLeft >= trackRef.current.scrollWidth - trackRef.current.clientWidth - 20
+      ) {
+        trackRef.current.scrollLeft = 0;
+      }
+
       trackRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
@@ -121,14 +135,45 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-
-
   const [isDraggingState, setIsDraggingState] = useState(false);
   const isMouseDownRef = useRef(false);
   const isDraggingRef = useRef(false);
   const isHoveredRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
+
+  // Smooth continuous horizontal auto-drift loop (pauses on hover, drag, or active video modal)
+  useEffect(() => {
+    let animId: number;
+    let lastTime = performance.now();
+
+    const step = (time: number) => {
+      const delta = time - lastTime;
+      lastTime = time;
+
+      if (
+        trackRef.current &&
+        !isHoveredRef.current &&
+        !isMouseDownRef.current &&
+        !activeVideoEpisode
+      ) {
+        // Drift at ~32px per second
+        const pixelsToMove = (32 * delta) / 1000;
+        trackRef.current.scrollLeft += pixelsToMove;
+
+        // Loop seamlessly back to start when halfway through repeated items
+        const maxScroll = trackRef.current.scrollWidth - trackRef.current.clientWidth;
+        if (trackRef.current.scrollLeft >= maxScroll - 20) {
+          trackRef.current.scrollLeft = 0;
+        }
+      }
+
+      animId = requestAnimationFrame(step);
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [activeVideoEpisode]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
@@ -265,6 +310,12 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       {/* Carousel Container */}
       <div
         ref={carouselRef}
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
+        }}
         className="relative w-full max-w-full overflow-hidden py-4 group/carousel"
       >
         {/* Soft edge gradients for seamless appearance */}
@@ -291,6 +342,15 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
           onMouseEnter={() => {
             isHoveredRef.current = true;
           }}
+          onTouchStart={() => {
+            isHoveredRef.current = true;
+          }}
+          onTouchEnd={() => {
+            setTimeout(() => {
+              isHoveredRef.current = false;
+            }, 500);
+          }}
+          style={{ WebkitOverflowScrolling: "touch" }}
           className={`flex items-stretch gap-6 px-6 md:px-16 py-4 overflow-x-auto scrollbar-none select-none active:cursor-grabbing cursor-grab ${
             isDraggingState ? "scroll-auto" : "scroll-smooth"
           }`}
