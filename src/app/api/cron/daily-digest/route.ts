@@ -51,6 +51,20 @@ async function checkAuthorization(request: Request): Promise<boolean> {
     }
   }
 
+  // 4. Check URL query parameters (?secret=..., ?cron_secret=..., ?key=...)
+  if (!candidateSecret) {
+    try {
+      const url = new URL(request.url);
+      candidateSecret =
+        url.searchParams.get("secret")?.trim() ||
+        url.searchParams.get("cron_secret")?.trim() ||
+        url.searchParams.get("key")?.trim() ||
+        null;
+    } catch {
+      // Non-URL request
+    }
+  }
+
   if (!candidateSecret) {
     return false;
   }

@@ -2,7 +2,14 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://xyzcompany.supabase.co";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummykey";
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseAnonKey;
+const rawServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+const isPlaceholderServiceKey =
+  !rawServiceKey ||
+  rawServiceKey.startsWith("your-") ||
+  rawServiceKey.includes("placeholder") ||
+  !rawServiceKey.startsWith("eyJ");
+
+const supabaseServiceKey = isPlaceholderServiceKey ? supabaseAnonKey : rawServiceKey;
 
 export const isSupabaseConfigured =
   Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&

@@ -169,10 +169,22 @@ export async function sendMasterExcelEmail(
   if (isSupabaseConfigured) {
     try {
       // Fetch from contact_submissions
-      const { data: fetchContacts, error: errContacts } = await dbClient
+      let { data: fetchContacts, error: errContacts } = await dbClient
         .from("contact_submissions")
         .select("*")
         .order("created_at", { ascending: true });
+
+      if (errContacts && dbClient !== supabase) {
+        console.warn("dbClient fetchContacts failed, attempting fallback with supabase:", errContacts.message);
+        const fb = await supabase
+          .from("contact_submissions")
+          .select("*")
+          .order("created_at", { ascending: true });
+        if (!fb.error && fb.data) {
+          fetchContacts = fb.data;
+          errContacts = null;
+        }
+      }
 
       if (!errContacts && fetchContacts && fetchContacts.length > 0) {
         fetchContacts.forEach((c: any) => {
@@ -191,10 +203,21 @@ export async function sendMasterExcelEmail(
       }
 
       // Fetch from registrations table if present
-      const { data: fetchRegs, error: errRegs } = await dbClient
+      let { data: fetchRegs, error: errRegs } = await dbClient
         .from("registrations")
         .select("*")
         .order("created_at", { ascending: true });
+
+      if (errRegs && dbClient !== supabase) {
+        const fbR = await supabase
+          .from("registrations")
+          .select("*")
+          .order("created_at", { ascending: true });
+        if (!fbR.error && fbR.data) {
+          fetchRegs = fbR.data;
+          errRegs = null;
+        }
+      }
 
       if (!errRegs && fetchRegs && fetchRegs.length > 0) {
         fetchRegs.forEach((r: any) => {
