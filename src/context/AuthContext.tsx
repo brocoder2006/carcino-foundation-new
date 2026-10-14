@@ -17,6 +17,9 @@ interface AuthContextType {
   signIn: (email: string, pass: string) => Promise<{ success: boolean; error?: string }>;
   signInWithOAuth: (provider?: "google") => Promise<{ success: boolean; error?: string }>;
   resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
+  updatePassword: (newPassword: string) => Promise<{ success: boolean; error?: string }>;
+  isPasswordRecovery: boolean;
+  setIsPasswordRecovery: (isRecovery: boolean) => void;
   signOut: () => Promise<void>;
   markArticleAsRead: (articleId: string, title?: string) => Promise<boolean>;
   isArticleRead: (articleId: string) => boolean;
@@ -32,6 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [readArticles, setReadArticles] = useState<string[]>([]);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   // Initialize session and local storage fallback
   useEffect(() => {
@@ -49,6 +53,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error("Local storage error:", e);
     }
 
+    // Check for password recovery hash in URL
+    if (typeof window !== "undefined" && window.location.hash.includes("type=recovery")) {
+      setIsPasswordRecovery(true);
+    }
+
     // 2. Load Supabase session if configured
     if (isSupabaseConfigured) {
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -64,7 +73,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       });
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          setIsPasswordRecovery(true);
+        }
         if (session?.user) {
           const u: UserProfile = {
             id: session.user.id,
@@ -227,6 +239,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updatePassword = async (newPassword: string) => {
+    if (isSupabaseConfigured) {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      setIsPasswordRecovery(false);
+      if (typeof window !== "undefined" && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+      return { success: true };
+    } else {
+      setIsPasswordRecovery(false);
+      return { success: true };
+    }
+  };
+
   const signOut = async () => {
     if (isSupabaseConfigured) {
       await supabase.auth.signOut();
@@ -287,6 +319,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signIn,
         signInWithOAuth,
         resetPassword,
+        updatePassword,
+        isPasswordRecovery,
+        setIsPasswordRecovery,
         signOut,
         markArticleAsRead,
         isArticleRead,

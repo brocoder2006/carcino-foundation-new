@@ -23,8 +23,9 @@ class LoginView(APIView):
         # Django session login
         django_login(request, user)
 
-        # DRF Token creation
-        token, _ = Token.objects.get_or_create(user=user)
+        # DRF Token rotation: purge any existing token so previous sessions/leaked keys are invalidated
+        Token.objects.filter(user=user).delete()
+        token = Token.objects.create(user=user)
 
         return Response({
             "token": token.key,

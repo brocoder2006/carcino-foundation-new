@@ -26,8 +26,11 @@ export function setAuthToken(token: string | null) {
   if (typeof window !== "undefined") {
     if (token) {
       localStorage.setItem("blog_cms_token", token);
+      const isSecure = window.location.protocol === "https:" ? "; Secure" : "";
+      document.cookie = `blog_cms_token=${encodeURIComponent(token)}; path=/; max-age=2592000; SameSite=Lax${isSecure}`;
     } else {
       localStorage.removeItem("blog_cms_token");
+      document.cookie = "blog_cms_token=; path=/; max-age=0; SameSite=Lax";
     }
   }
 }

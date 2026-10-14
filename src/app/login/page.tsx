@@ -31,6 +31,9 @@ export default function LoginPage() {
     signUp,
     signInWithOAuth,
     resetPassword,
+    updatePassword,
+    isPasswordRecovery,
+    setIsPasswordRecovery,
     signOut,
     isSupabaseConnected,
   } = useAuth();
@@ -38,8 +41,11 @@ export default function LoginPage() {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [isResetMode, setIsResetMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
@@ -121,6 +127,37 @@ export default function LoginPage() {
       }
     } catch (err: any) {
       setErrorMsg(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePasswordUpdate = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (!newPassword || newPassword.length < 6) {
+      setErrorMsg("Password must be at least 6 characters.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setErrorMsg("Passwords do not match.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await updatePassword(newPassword);
+      if (!res.success) {
+        setErrorMsg(res.error || "Failed to update password.");
+      } else {
+        setSuccessMsg("Password updated successfully! Your account is now secured.");
+        setNewPassword("");
+        setConfirmPassword("");
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || "An unexpected error occurred while updating password.");
     } finally {
       setIsLoading(false);
     }
@@ -312,8 +349,143 @@ export default function LoginPage() {
                   </motion.p>
                 </div>
 
-                {/* Logged In View */}
-                {user ? (
+                {/* Password Recovery View */}
+                {isPasswordRecovery ? (
+                  <form onSubmit={handlePasswordUpdate} className="space-y-4 relative z-10">
+                    <div className="text-center mb-2">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium">
+                        <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
+                        <span>Password Recovery</span>
+                      </div>
+                      <p className="text-xs text-zinc-300 mt-2 font-inter">
+                        Enter and confirm your new password below.
+                      </p>
+                    </div>
+
+                    {errorMsg && (
+                      <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-medium text-center font-inter">
+                        {errorMsg}
+                      </div>
+                    )}
+                    {successMsg && (
+                      <div className="p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-medium text-center font-inter">
+                        {successMsg}
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      {/* New Password */}
+                      <motion.div
+                        className={`relative ${focusedInput === "newPassword" ? "z-10" : ""}`}
+                        whileFocus={{ scale: 1.01 }}
+                        whileHover={{ scale: 1.005 }}
+                      >
+                        <div className="relative flex items-center overflow-hidden rounded-xl">
+                          <Lock
+                            className={`absolute left-3 w-4 h-4 transition-all duration-300 ${
+                              focusedInput === "newPassword" ? "text-purple-300" : "text-white/40"
+                            }`}
+                          />
+                          <Input
+                            type={showNewPassword ? "text" : "password"}
+                            required
+                            placeholder="New Password (min. 6 characters)"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            onFocus={() => setFocusedInput("newPassword")}
+                            onBlur={() => setFocusedInput(null)}
+                            className="w-full bg-white/5 border-white/10 focus:border-purple-400 text-white placeholder:text-white/40 h-10 pl-9 pr-10 transition-all"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            className="absolute right-3 text-white/40 hover:text-white cursor-pointer"
+                          >
+                            {showNewPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </motion.div>
+
+                      {/* Confirm New Password */}
+                      <motion.div
+                        className={`relative ${focusedInput === "confirmPassword" ? "z-10" : ""}`}
+                        whileFocus={{ scale: 1.01 }}
+                        whileHover={{ scale: 1.005 }}
+                      >
+                        <div className="relative flex items-center overflow-hidden rounded-xl">
+                          <Lock
+                            className={`absolute left-3 w-4 h-4 transition-all duration-300 ${
+                              focusedInput === "confirmPassword" ? "text-purple-300" : "text-white/40"
+                            }`}
+                          />
+                          <Input
+                            type={showNewPassword ? "text" : "password"}
+                            required
+                            placeholder="Confirm New Password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onFocus={() => setFocusedInput("confirmPassword")}
+                            onBlur={() => setFocusedInput(null)}
+                            className="w-full bg-white/5 border-white/10 focus:border-purple-400 text-white placeholder:text-white/40 h-10 pl-9 pr-10 transition-all"
+                          />
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    {/* Submit Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.015 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full relative group/button mt-4 cursor-pointer"
+                    >
+                      <div className="relative overflow-hidden bg-gradient-to-r from-[#CDA8E8] via-[#39C69C] to-[#CDA8E8] text-[#050505] font-bold h-11 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg">
+                        <AnimatePresence mode="wait">
+                          {isLoading ? (
+                            <motion.div
+                              key="loading"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex items-center justify-center"
+                            >
+                              <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                            </motion.div>
+                          ) : (
+                            <motion.span
+                              key="button-text"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex items-center justify-center gap-1.5 text-sm font-bold font-inter"
+                            >
+                              <span>Update Password</span>
+                              <ArrowRight className="w-4 h-4 group-hover/button:translate-x-1 transition-transform" />
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </motion.button>
+
+                    <div className="text-center text-xs text-white/60 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsPasswordRecovery(false);
+                          setErrorMsg("");
+                          setSuccessMsg("");
+                          if (typeof window !== "undefined" && window.history.replaceState) {
+                            window.history.replaceState(null, "", window.location.pathname);
+                          }
+                        }}
+                        className="text-purple-300 hover:text-white font-medium cursor-pointer"
+                      >
+                        ← Return to Sign in
+                      </button>
+                    </div>
+                  </form>
+                ) : user ? (
                   <div className="relative z-10 flex flex-col items-center text-center space-y-5 py-4">
                     <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
                       <UserCheck className="w-7 h-7" />

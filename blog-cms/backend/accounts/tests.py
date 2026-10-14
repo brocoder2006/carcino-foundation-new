@@ -1,7 +1,10 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from .models import User, UserRole
 
 
@@ -82,3 +85,52 @@ class AccountsModelAndApiTests(TestCase):
         self.client.force_authenticate(user=self.admin_user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_token_rotation_on_login(self):
+        url = reverse("auth-login")
+        # First login
+        res1 = self.client.post(url, {
+            "username_or_email": "authoruser",
+            "password": "authorpassword123",
+        })
+        self.assertEqual(res1.status_code, status.HTTP_200_OK)
+        token1 = res1.data["token"]
+
+        # Second login
+        res2 = self.client.post(url, {
+            "username_or_email": "authoruser",
+            "password": "authorpassword123",
+        })
+        self.assertEqual(res2.status_code, status.HTTP_200_OK)
+        token2 = res2.data["token"]
+
+        # Tokens must be different (rotated)
+        self.assertNotEqual(token1, token2)
+
+        # Old token must no longer exist in DB
+        self.assertFalse(Token.objects.filter(key=token1).exists())
+        self.assertTrue(Token.objects.filter(key=token2).exists())
+
+    def test_token_expiration(self):
+        # Create a fresh token for author
+        token = Token.objects.create(user=self.author_user)
+        url = reverse("auth-me")
+
+        # Active token works
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
+        res = client.get(url)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        # Age the token beyond 7 days
+        Token.objects.filter(key=token.key).update(
+            created=timezone.now() - timedelta(days=8)
+        )
+
+        # Expired token is rejected
+        res_expired = client.get(url)
+        self.assertEqual(res_expired.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn("expired", str(res_expired.data).lower())
+
+        # Expired token has been purged
+        self.assertFalse(Token.objects.filter(key=token.key).exists())
