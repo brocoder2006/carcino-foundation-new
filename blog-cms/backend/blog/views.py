@@ -1,12 +1,16 @@
+import os
+import re
 import urllib.request
 import json
 from rest_framework import generics, permissions, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.throttling import ScopedRateThrottle
 from django.utils import timezone
 from django.db.models import Q, Count
 from django.conf import settings
+from django.core.files.storage import default_storage
 from PIL import Image
 import cloudinary.uploader
 
@@ -43,7 +47,10 @@ def trigger_nextjs_revalidation(path=None, tag=None):
     """Triggers Next.js cache revalidation webhook on publish/unpublish."""
     frontend_origin = getattr(settings, "FRONTEND_ORIGIN", "http://localhost:3000")
     revalidate_url = f"{frontend_origin}/api/revalidate"
-    secret = getattr(settings, "REVALIDATION_SECRET", "carcino-cms-revalidation-secret-2026")
+    secret = getattr(settings, "REVALIDATION_SECRET", "") or os.getenv("REVALIDATION_SECRET", "")
+
+    if not secret:
+        return False
 
     payload = json.dumps({"path": path, "tag": tag}).encode("utf-8")
     req = urllib.request.Request(
@@ -348,14 +355,19 @@ class DashboardAnalyticsView(APIView):
         total_tags = Tag.objects.count()
         total_campaigns = Campaign.objects.count()
         total_podcasts = Podcast.objects.count()
-        total_authors = User.objects.count()
+        
+        if user.is_editor():
+            total_authors = User.objects.count()
+            audit_logs = AuditLogSerializer(AuditLog.objects.all()[:10], many=True).data
+        else:
+            total_authors = 1
+            audit_logs = []
 
         recent_posts = PostListSerializer(posts_qs.order_by("-updated_at")[:5], many=True).data
         recent_revisions = PostRevisionSerializer(
             PostRevision.objects.filter(post__in=posts_qs).order_by("-created_at")[:5],
             many=True
         ).data
-        audit_logs = AuditLogSerializer(AuditLog.objects.all()[:10], many=True).data
 
         return Response({
             "total_posts": total_posts,
@@ -480,10 +492,12 @@ class DashboardPodcastDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-# Media Upload View (Cloudinary with local Pillow validation)
+# Media Upload View (Cloudinary with local Pillow validation & safe storage fallback)
 class MediaUploadView(APIView):
     permission_classes = [IsAuthorOrEditorOrAdmin]
     parser_classes = [MultiPartParser, FormParser]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "uploads"
 
     def post(self, request):
         if "file" not in request.FILES:
@@ -497,9 +511,21 @@ class MediaUploadView(APIView):
         try:
             img = Image.open(image_file)
             img.verify()
+            image_format = (img.format or "").upper()
+            if image_format not in ["JPEG", "JPG", "PNG", "WEBP", "GIF"]:
+                return Response(
+                    {"error": "Unsupported image format. Allowed formats: JPEG, PNG, WEBP, GIF"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             image_file.seek(0)
         except Exception:
             return Response({"error": "Invalid or corrupted image file"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Sanitize filename
+        original_name = os.path.basename(image_file.name or "image.jpg")
+        clean_name = re.sub(r"[^a-zA-Z0-9_.-]", "_", original_name)
+        if len(clean_name) > 100:
+            clean_name = clean_name[-100:]
 
         cloud_name = getattr(settings, "CLOUDINARY_CLOUD_NAME", "")
         api_key = getattr(settings, "CLOUDINARY_API_KEY", "")
@@ -522,19 +548,19 @@ class MediaUploadView(APIView):
             except Exception as e:
                 return Response({"error": f"Cloudinary upload failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            import base64
-            image_bytes = image_file.read()
-            format_name = (img.format or "JPEG").lower()
-            b64_str = base64.b64encode(image_bytes).decode("utf-8")
-            file_url = f"data:image/{format_name};base64,{b64_str}"
+            # Fallback to local default_storage to prevent base64 DB string overflow
+            import uuid
+            unique_prefix = uuid.uuid4().hex[:8]
+            saved_rel_path = default_storage.save(f"uploads/{unique_prefix}_{clean_name}", image_file)
+            file_url = f"/media/{saved_rel_path}"
 
         # Create MediaAsset record
         media_asset = MediaAsset.objects.create(
-            name=image_file.name,
+            name=clean_name,
             file_url=file_url,
             file_size=image_file.size,
             file_type=image_file.content_type or "image",
-            alt_text=request.data.get("alt_text", image_file.name),
+            alt_text=request.data.get("alt_text", clean_name),
         )
 
         return Response({

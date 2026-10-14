@@ -7,11 +7,22 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-headless-blog-cms-dev-key-change-in-prod!")
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
-DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "django-insecure-headless-blog-cms-dev-key-change-in-prod!"
+    else:
+        raise ValueError("CRITICAL: Production SECRET_KEY environment variable is missing!")
 
-ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "*").split(",") if h.strip()]
+allowed_hosts_env = os.getenv("ALLOWED_HOSTS")
+if allowed_hosts_env:
+    ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_env.split(",") if h.strip()]
+elif DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+else:
+    ALLOWED_HOSTS = [".onrender.com"]
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -104,6 +115,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -123,6 +136,16 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "60/minute",
+        "user": "300/minute",
+        "login": "5/minute",
+        "uploads": "20/minute",
+    },
 }
 
 # CORS & CSRF Settings
@@ -133,21 +156,34 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+if frontend_origin:
+    CORS_ALLOWED_ORIGINS.append(frontend_origin.strip().rstrip("/"))
 if os.getenv("CORS_ALLOWED_ORIGINS"):
     CORS_ALLOWED_ORIGINS += [o.strip().rstrip("/") for o in os.getenv("CORS_ALLOWED_ORIGINS").split(",") if o.strip()]
+CORS_ALLOWED_ORIGINS = list(dict.fromkeys(CORS_ALLOWED_ORIGINS))
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+if frontend_origin:
+    CSRF_TRUSTED_ORIGINS.append(frontend_origin.strip().rstrip("/"))
 if os.getenv("CSRF_TRUSTED_ORIGINS"):
     CSRF_TRUSTED_ORIGINS += [o.strip().rstrip("/") for o in os.getenv("CSRF_TRUSTED_ORIGINS").split(",") if o.strip()]
-
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 # Reverse proxy HTTPS header setting for Render
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Production HTTPS, Cookie, and HSTS Security Hardening
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Cloudinary Storage Configuration
 CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
@@ -158,4 +194,8 @@ CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+# Next.js Cache Revalidation Webhook Secret
+REVALIDATION_SECRET = os.getenv("REVALIDATION_SECRET", "")
+
 

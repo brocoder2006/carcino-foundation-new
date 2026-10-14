@@ -7,6 +7,9 @@ def health_check(request):
     return JsonResponse({"status": "ok", "message": "Backend service is healthy"})
 
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path("", health_check, name="health-check-root"),
     path("health/", health_check, name="health-check-slash"),
@@ -16,3 +19,7 @@ urlpatterns = [
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/", include("blog.urls")),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

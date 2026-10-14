@@ -1,13 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
+import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
   const secret = request.headers.get("x-revalidate-secret") || request.nextUrl.searchParams.get("secret");
+  const expectedSecret = process.env.REVALIDATION_SECRET;
 
-  const expectedSecret = process.env.REVALIDATION_SECRET || "carcino-cms-revalidation-secret-2026";
+  if (!expectedSecret || !secret) {
+    return NextResponse.json(
+      { error: "Invalid or missing revalidation secret token" },
+      { status: 401 }
+    );
+  }
 
-  if (secret !== expectedSecret) {
-    return NextResponse.json({ error: "Invalid revalidation secret token" }, { status: 401 });
+  const secretBuf = Buffer.from(secret);
+  const expectedBuf = Buffer.from(expectedSecret);
+
+  if (secretBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(secretBuf, expectedBuf)) {
+    return NextResponse.json(
+      { error: "Invalid or missing revalidation secret token" },
+      { status: 401 }
+    );
   }
 
   try {
@@ -35,13 +48,17 @@ export async function POST(request: NextRequest) {
       now: Date.now(),
     });
   } catch (err: any) {
+    console.error("Cache revalidation error:", err);
     return NextResponse.json(
-      { error: `Cache revalidation failed: ${err.message || err}` },
+      { error: "Cache revalidation failed." },
       { status: 500 }
     );
   }
 }
 
-export async function GET(request: NextRequest) {
-  return POST(request);
+export async function GET() {
+  return NextResponse.json(
+    { error: "Method Not Allowed. Cache revalidation requires POST." },
+    { status: 405 }
+  );
 }

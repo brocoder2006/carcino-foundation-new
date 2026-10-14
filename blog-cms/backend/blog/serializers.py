@@ -197,7 +197,7 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
         tag_names = validated_data.pop("tag_names", [])
 
         user = self.context["request"].user
-        if author_id:
+        if author_id and user.is_editor():
             try:
                 validated_data["author"] = User.objects.get(id=author_id)
             except User.DoesNotExist:
@@ -243,7 +243,7 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
 
         user = self.context["request"].user
 
-        if author_id:
+        if author_id and user.is_editor():
             try:
                 instance.author = User.objects.get(id=author_id)
             except User.DoesNotExist:

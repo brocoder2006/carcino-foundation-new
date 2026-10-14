@@ -402,27 +402,47 @@ export async function sendInstantOwnerNotification(input: {
       auth: { user: smtpUser, pass: smtpPass },
     });
 
+    const escapeHtml = (str?: string) => {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
+    const safeSource = escapeHtml(input.source);
+    const safeFullName = escapeHtml(input.fullName);
+    const safeEmail = escapeHtml(input.email);
+    const safePhone = escapeHtml(input.phone || "N/A");
+    const safeCategory = escapeHtml(input.category || "General");
+    const safeMessage = escapeHtml(input.message || "N/A");
+
+    // Clean CRLF characters to prevent email header injection
+    const cleanHeaderSubject = `[Carcino Alert] New ${safeSource.replace(/[\r\n]/g, "")} Submission: ${safeFullName.replace(/[\r\n]/g, "")}`;
+
     await transporter.sendMail({
       from: `"Carcino Foundation Alert" <${smtpUser}>`,
       to: adminEmail,
-      subject: `[Carcino Alert] New ${input.source} Submission: ${input.fullName}`,
+      subject: cleanHeaderSubject,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0b0b0c; color: #f8f8f8; padding: 32px; border-radius: 16px; max-width: 600px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1);">
           <div style="text-align: center; margin-bottom: 24px;">
             <span style="background-color: rgba(57, 198, 156, 0.15); color: #39C69C; border: 1px solid rgba(57, 198, 156, 0.3); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-block;">
-              NEW ${input.source} SUBMISSION
+              NEW ${safeSource} SUBMISSION
             </span>
-            <h2 style="color: #ffffff; margin-top: 16px;">${input.fullName}</h2>
+            <h2 style="color: #ffffff; margin-top: 16px;">${safeFullName}</h2>
           </div>
           
           <div style="background-color: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0;">
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Source:</strong> ${input.source}</p>
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Full Name:</strong> ${input.fullName}</p>
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Email:</strong> ${input.email}</p>
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Phone:</strong> ${input.phone || "N/A"}</p>
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Category / Type:</strong> ${input.category || "General"}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Source:</strong> ${safeSource}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Full Name:</strong> ${safeFullName}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Email:</strong> ${safeEmail}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Phone:</strong> ${safePhone}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Category / Type:</strong> ${safeCategory}</p>
             <p style="margin: 12px 0 6px 0; color: #d5b0ff;"><strong>Details / Message:</strong></p>
-            <div style="background-color: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; color: #ffffff; white-space: pre-wrap;">${input.message || "N/A"}</div>
+            <div style="background-color: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; color: #ffffff; white-space: pre-wrap;">${safeMessage}</div>
           </div>
         </div>
       `,
