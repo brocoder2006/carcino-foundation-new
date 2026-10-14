@@ -56,6 +56,15 @@ export function getAdminCronPortalHtml(): string {
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
     }
 
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
@@ -65,11 +74,10 @@ export function getAdminCronPortalHtml(): string {
       border: 1px solid rgba(152, 117, 193, 0.3);
       padding: 6px 14px;
       border-radius: 9999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 16px;
     }
 
     .badge-dot {
@@ -78,6 +86,35 @@ export function getAdminCronPortalHtml(): string {
       border-radius: 50%;
       background: #39C69C;
       box-shadow: 0 0 8px #39C69C;
+    }
+
+    .ist-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(57, 198, 156, 0.12);
+      color: #39C69C;
+      border: 1px solid rgba(57, 198, 156, 0.3);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.2px;
+    }
+
+    .ist-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #39C69C;
+      box-shadow: 0 0 6px #39C69C;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
     }
 
     h1 {
@@ -243,9 +280,15 @@ export function getAdminCronPortalHtml(): string {
   <div class="glow-bg"></div>
 
   <div class="container">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      Administrator Reporting Access
+    <div class="header-bar">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Admin Portal
+      </div>
+      <div class="ist-badge">
+        <span class="ist-dot"></span>
+        <span id="liveIstClock">--:--:-- IST</span>
+      </div>
     </div>
 
     <h1>Daily Digest Dispatcher</h1>
@@ -341,8 +384,8 @@ export function getAdminCronPortalHtml(): string {
               <span class="result-val">\${data.totalRegistrations}</span>
             </div>
             <div class="result-row">
-              <span class="result-label">Timestamp (UTC):</span>
-              <span class="result-val">\${new Date(data.timestamp || Date.now()).toUTCString()}</span>
+              <span class="result-label">Delivered Time (IST):</span>
+              <span class="result-val">\${formatIST(data.timestamp || Date.now())}</span>
             </div>
             <p style="margin-top: 10px; font-size: 12px; color: #c9c9d4;">
               \${data.message || 'The updated Master Excel workbook has been emailed to the administrator.'}
@@ -372,6 +415,39 @@ export function getAdminCronPortalHtml(): string {
         btnText.textContent = 'Trigger Master Digest Now';
       }
     });
+
+    // Format ISO or timestamp to Indian Standard Time (IST)
+    function formatIST(isoDate) {
+      const d = isoDate ? new Date(isoDate) : new Date();
+      return d.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      }) + ' IST';
+    }
+
+    // Live Indian Standard Time (IST) Clock
+    function updateLiveISTClock() {
+      const now = new Date();
+      const clockStr = now.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+      const clockEl = document.getElementById('liveIstClock');
+      if (clockEl) {
+        clockEl.textContent = clockStr + ' IST';
+      }
+    }
+    setInterval(updateLiveISTClock, 1000);
+    updateLiveISTClock();
   </script>
 </body>
 </html>`;

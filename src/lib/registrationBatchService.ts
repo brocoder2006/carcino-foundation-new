@@ -331,11 +331,22 @@ export async function sendMasterExcelEmail(
       .toISOString()
       .slice(0, 10)}.xlsx`;
 
+    const istTimestamp = new Date().toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    }) + " (IST)";
+
     await transporter.sendMail({
       from: `"Carcino Foundation Platform" <${smtpUser}>`,
       to: adminEmail,
       subject: `[Daily Digest] Master Registrations Report (${totalRegistrations} Total Records) - Carcino Foundation`,
-      text: `Hello Admin,\n\nAttached is the updated Master Excel spreadsheet containing all ${totalRegistrations} cumulative registrations received to date.\n\nTotal Master Registrations: ${totalRegistrations}\nGenerated At: ${new Date().toUTCString()}\n\nBest regards,\nCarcino Foundation Platform`,
+      text: `Hello Admin,\n\nAttached is the updated Master Excel spreadsheet containing all ${totalRegistrations} cumulative registrations received to date.\n\nTotal Master Registrations: ${totalRegistrations}\nGenerated At: ${istTimestamp}\n\nBest regards,\nCarcino Foundation Platform`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0b0b0c; color: #f8f8f8; padding: 32px; border-radius: 16px; max-width: 650px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1);">
           <div style="text-align: center; margin-bottom: 24px;">
@@ -349,7 +360,7 @@ export async function sendMasterExcelEmail(
           <div style="background-color: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0;">
             <p style="margin: 6px 0; color: #d5b0ff;"><strong>Total Master Registrations:</strong> ${totalRegistrations}</p>
             <p style="margin: 6px 0; color: #d5b0ff;"><strong>Recipient Email:</strong> ${adminEmail}</p>
-            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Generated At:</strong> ${new Date().toUTCString()}</p>
+            <p style="margin: 6px 0; color: #d5b0ff;"><strong>Generated At (IST):</strong> ${istTimestamp}</p>
           </div>
 
           <div style="background-color: rgba(152, 117, 193, 0.1); padding: 16px; border-radius: 12px; border: 1px solid rgba(152, 117, 193, 0.2); text-align: center;">
