@@ -72,7 +72,8 @@ export function renderTiptapNode(node: any): string {
     case "paragraph":
       return `<p class="mb-4 leading-relaxed">${innerHtml}</p>`;
     case "heading":
-      const level = node.attrs?.level || 2;
+      const rawLevel = Number(node.attrs?.level) || 2;
+      const level = Math.max(1, Math.min(6, Math.floor(rawLevel)));
       const headingClasses: Record<number, string> = {
         1: "text-3xl font-extrabold mt-8 mb-4 tracking-tight",
         2: "text-2xl font-bold mt-6 mb-3 tracking-tight",
@@ -114,15 +115,31 @@ function escapeHtml(str: string): string {
 }
 
 function sanitizeUrl(url: string): string {
-  if (!url) return "#";
+  if (!url || typeof url !== "string") return "#";
   const trimmed = url.trim();
-  if (
-    trimmed.startsWith("http://") ||
-    trimmed.startsWith("https://") ||
-    trimmed.startsWith("/") ||
-    trimmed.startsWith("data:image/")
-  ) {
-    return trimmed;
+
+  // Safe relative paths (must not be protocol-relative like //evil.com)
+  if (trimmed.startsWith("/") && !trimmed.startsWith("//")) {
+    return escapeHtml(trimmed);
   }
+
+  // Safe inline base64 images
+  if (trimmed.startsWith("data:image/")) {
+    if (/^data:image\/(?:png|jpeg|jpg|gif|webp|svg\+xml);base64,[A-Za-z0-9+/=]+$/.test(trimmed)) {
+      return escapeHtml(trimmed);
+    }
+    return "#";
+  }
+
+  // Validate absolute URLs strictly with URL constructor
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:" || parsed.protocol === "mailto:") {
+      return escapeHtml(parsed.href);
+    }
+  } catch {
+    return "#";
+  }
+
   return "#";
 }

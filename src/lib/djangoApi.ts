@@ -45,57 +45,57 @@ export interface DjangoPodcast {
   publication_date: string;
 }
 
-export async function fetchDjangoPosts(category?: string, query?: string): Promise<DjangoPost[]> {
+async function safeFetchJson<T>(endpoint: string): Promise<T | null> {
   try {
-    const params = new URLSearchParams();
-    if (category && category !== "All Insights") params.append("category", category);
-    if (query) params.append("q", query);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-    const res = await fetch(`${DJANGO_API_URL}/api/v1/posts/?${params.toString()}`, {
+    const res = await fetch(`${DJANGO_API_URL}${endpoint}`, {
       cache: "no-store",
+      signal: controller.signal,
     });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.results || [];
-  } catch (err) {
-    console.error("Failed to fetch posts from Django API:", err);
-    return [];
-  }
-}
+    clearTimeout(timeoutId);
 
-export async function fetchDjangoPostBySlug(slug: string): Promise<DjangoPost | null> {
-  try {
-    const res = await fetch(`${DJANGO_API_URL}/api/v1/posts/${slug}/`, {
-      cache: "no-store",
-    });
     if (!res.ok) return null;
     return await res.json();
-  } catch (err) {
-    console.error("Failed to fetch post detail from Django API:", err);
+  } catch (err: any) {
+    // Graceful offline fallback: avoid triggering Next.js error overlay when Django backend is not started
+    if (process.env.NODE_ENV === "development") {
+      const isConnectionRefused =
+        err?.message?.includes("Failed to fetch") ||
+        err?.cause?.code === "ECONNREFUSED" ||
+        err?.name === "AbortError";
+      if (!isConnectionRefused) {
+        console.warn(`[Django API] Notice: ${endpoint} unreachable (${err?.message || err})`);
+      }
+    }
     return null;
   }
 }
 
+export async function fetchDjangoPosts(category?: string, query?: string): Promise<DjangoPost[]> {
+  const params = new URLSearchParams();
+  if (category && category !== "All Insights") params.append("category", category);
+  if (query) params.append("q", query);
+
+  const qs = params.toString() ? `?${params.toString()}` : "";
+  const data = await safeFetchJson<any>(`/api/v1/posts/${qs}`);
+  if (!data) return [];
+  return Array.isArray(data) ? data : data.results || [];
+}
+
+export async function fetchDjangoPostBySlug(slug: string): Promise<DjangoPost | null> {
+  return await safeFetchJson<DjangoPost>(`/api/v1/posts/${slug}/`);
+}
+
 export async function fetchDjangoCampaigns(): Promise<DjangoCampaign[]> {
-  try {
-    const res = await fetch(`${DJANGO_API_URL}/api/v1/campaigns/`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.results || [];
-  } catch (err) {
-    console.error("Failed to fetch campaigns from Django API:", err);
-    return [];
-  }
+  const data = await safeFetchJson<any>("/api/v1/campaigns/");
+  if (!data) return [];
+  return Array.isArray(data) ? data : data.results || [];
 }
 
 export async function fetchDjangoPodcasts(): Promise<DjangoPodcast[]> {
-  try {
-    const res = await fetch(`${DJANGO_API_URL}/api/v1/podcasts/`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.results || [];
-  } catch (err) {
-    console.error("Failed to fetch podcasts from Django API:", err);
-    return [];
-  }
+  const data = await safeFetchJson<any>("/api/v1/podcasts/");
+  if (!data) return [];
+  return Array.isArray(data) ? data : data.results || [];
 }

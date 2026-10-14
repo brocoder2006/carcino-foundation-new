@@ -42,8 +42,8 @@ ALTER TABLE public.registrations ENABLE ROW LEVEL SECURITY;
 
 -- Allow public insert via API / RPC functions
 CREATE POLICY "Allow public insert to registrations" ON public.registrations FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow service role full access to batches" ON public.registration_batches FOR ALL USING (true);
-CREATE POLICY "Allow service role full access to registrations" ON public.registrations FOR ALL USING (true);
+CREATE POLICY "Allow service role full access to batches" ON public.registration_batches FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY "Allow service role full access to registrations" ON public.registrations FOR ALL TO service_role USING (true) WITH CHECK (true);
 
 -- 5. Stored Procedure for Atomic Batching
 CREATE OR REPLACE FUNCTION public.submit_registration(
