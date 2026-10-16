@@ -19,11 +19,15 @@
     min-height: 400vh;
     padding: 5vmax 4vw 0;
     overflow: clip;
-    color: #30253C;
-    background: #9F597F;
+    color: #F8F8F8;
+    background:
+        radial-gradient(ellipse 75% 50% at 20% 25%, rgba(159, 89, 127, 0.45) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 55% at 80% 70%, rgba(159, 89, 127, 0.4) 0%, transparent 65%),
+        linear-gradient(180deg, #261335 0%, #4E2456 25%, #9F597F 50%, #4E2456 75%, #261335 100%);
     font-family: "Inter Tight", Arial, sans-serif;
     font-synthesis: none;
     -webkit-font-smoothing: antialiased;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 .for-you *,
@@ -38,7 +42,7 @@
     left: 0;
     width: 100%;
     margin: 0;
-    color: #30253C;
+    color: #FAF5FE;
     font-family: "Million", var(--font-syne), sans-serif;
     font-size: clamp(1.8rem, 3.5vw, 3.2rem);
     font-weight: 800;
@@ -349,4 +353,95 @@
     .for-you-portrait img {
         animation: none;
     }
+}
+
+/* ========================================================
+   LIGHT MODE: Whitish Gradient of Lavender Purple
+   ======================================================== */
+body.light .for-you,
+.for-you.light-mode {
+    background:
+        radial-gradient(ellipse 70% 50% at 20% 20%, rgba(220, 196, 248, 0.45) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 55% at 85% 65%, rgba(205, 168, 232, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 45% at 50% 92%, rgba(235, 218, 252, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FFFFFF 0%, #F6EEFD 20%, #EBDCF8 50%, #E2CEF5 90%, #F8F4FD 100%);
+    color: #2E1640;
+}
+
+body.light .for-you>h1,
+.for-you.light-mode>h1 {
+    color: #2E1640;
+}
+
+body.light .for-you-card,
+.for-you.light-mode .for-you-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 245, 255, 0.95) 100%);
+    border: 1px solid rgba(152, 117, 193, 0.28);
+    box-shadow: 0 20px 50px -12px rgba(46, 22, 64, 0.12), 0 8px 24px -4px rgba(152, 117, 193, 0.1);
+}
+
+body.light .for-you-copy h2,
+.for-you.light-mode .for-you-copy h2 {
+    color: #2E1640;
+}
+
+body.light .for-you-copy p,
+.for-you.light-mode .for-you-copy p {
+    color: #3B2A4A;
+}
+
+body.light .for-you-copy a,
+.for-you.light-mode .for-you-copy a {
+    border: 1px solid rgba(46, 22, 64, 0.25);
+    color: #2E1640;
+    background: rgba(152, 117, 193, 0.12);
+}
+
+body.light .for-you-copy a i,
+.for-you.light-mode .for-you-copy a i {
+    color: #FAF7FE;
+    background: #2E1640;
+}
+
+body.light .for-you-copy a:hover,
+.for-you.light-mode .for-you-copy a:hover {
+    color: #FFFFFF;
+    background: #2E1640;
+}
+
+body.light .for-you-copy a:hover i,
+.for-you.light-mode .for-you-copy a:hover i {
+    color: #2E1640;
+    background: #FAF7FE;
+}
+
+body.light .for-you-portrait,
+.for-you.light-mode .for-you-portrait {
+    background: #2E1640;
+}
+
+body.light .for-you-portrait a,
+.for-you.light-mode .for-you-portrait a {
+    border: 1.5px solid rgba(205, 168, 232, 0.55);
+    background: rgba(205, 168, 232, 0.2);
+    color: #FFFFFF;
+}
+
+body.light .for-you-portrait a i,
+.for-you.light-mode .for-you-portrait a i {
+    color: #2E1640;
+    background: #CDA8E8;
+}
+
+body.light .for-you-portrait a:hover,
+.for-you.light-mode .for-you-portrait a:hover {
+    color: #FFFFFF;
+    background: #9875C1;
+    border-color: #9875C1;
+}
+
+body.light .for-you-portrait a:hover i,
+.for-you.light-mode .for-you-portrait a:hover i {
+    color: #9875C1;
+    background: #FFFFFF;
 }

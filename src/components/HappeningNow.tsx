@@ -70,9 +70,16 @@ function HappeningNowCard({
   );
 }
 
-export default function HappeningNow() {
+interface HappeningNowProps {
+  isLightMode?: boolean;
+}
+
+export default function HappeningNow({ isLightMode = false }: HappeningNowProps) {
   return (
-    <section className="for-you" aria-labelledby="happening-now-title">
+    <section
+      className={`for-you ${isLightMode ? "light-mode" : ""}`}
+      aria-labelledby="happening-now-title"
+    >
       <h1 id="happening-now-title">Happening Now</h1>
 
       <div className="for-you-list">

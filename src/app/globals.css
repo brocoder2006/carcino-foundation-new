@@ -24,9 +24,15 @@ body {
   --font-googleSansFlex: var(--font-syne), sans-serif;
   --font-spaceGrotesk: var(--font-space-grotesk);
   --font-syne: var(--font-syne);
+  --font-horizon: 'Horizon', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .font-winterSolace,
 .font-instrumentSerif,
 .font-googleSansFlex,
@@ -39,6 +45,14 @@ h1, h2, h3, h4, h5, h6,
 
 .font-spaceGrotesk {
   font-family: var(--font-space-grotesk), sans-serif !important;
+}
+
+.font-horizon,
+.font-horizon.headline-textured,
+.font-horizon.headline-accent,
+h1.font-horizon,
+h1 .font-horizon {
+  font-family: 'Horizon', sans-serif !important;
 }
 
 body {

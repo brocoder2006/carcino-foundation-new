@@ -646,7 +646,7 @@ export default function CarcinoFoundationLandingPage() {
       <FounderQuoteSection isLightMode={isLightMode} />
 
       {/* Happening Now Section */}
-      <HappeningNow />
+      <HappeningNow isLightMode={isLightMode} />
 
       {/* Podcast Section Just Beneath Flagship Program Section */}
       <PodcastSection isLightMode={isLightMode} />
