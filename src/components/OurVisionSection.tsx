@@ -58,14 +58,6 @@ const NOTES: NoteItem[] = [
     mobileTop: "60%",
     mobileRight: "6%",
   },
-  {
-    text: "For creatives, from self-doubt to creative sovereignty.",
-    top: "24%",
-    left: "80%",
-    rotation: "-3deg",
-    mobileTop: "74%",
-    mobileLeft: "6%",
-  },
 ];
 
 function clamp(value: number, minimum = 0, maximum = 1) {
@@ -396,7 +388,7 @@ export default function WhatWeAreBuilding() {
               y="-20"
               width="1040"
               height="600"
-              fill="white"
+              fill="#9875C1"
               mask="url(#what-we-are-building-mask)"
             />
           </svg>

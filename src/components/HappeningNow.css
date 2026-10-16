@@ -19,8 +19,8 @@
     min-height: 400vh;
     padding: 5vmax 4vw 0;
     overflow: clip;
-    color: #1d3b2a;
-    background: #f2e5ca;
+    color: #30253C;
+    background: #9F597F;
     font-family: "Inter Tight", Arial, sans-serif;
     font-synthesis: none;
     -webkit-font-smoothing: antialiased;
@@ -38,7 +38,7 @@
     left: 0;
     width: 100%;
     margin: 0;
-    color: #156b5b;
+    color: #30253C;
     font-family: "Million", var(--font-syne), sans-serif;
     font-size: clamp(1.8rem, 3.5vw, 3.2rem);
     font-weight: 800;
@@ -64,9 +64,10 @@
     min-height: clamp(340px, 44vh, 440px);
     margin-top: 20vh;
     overflow: hidden;
-    background: #f2e5ca;
+    background: #9F597F;
+    border: 1px solid rgba(48, 37, 60, 0.2);
     border-radius: 18px;
-    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.35);
     transform-origin: center bottom;
     animation: rotate-in linear both;
     animation-timeline: view();
@@ -102,7 +103,7 @@
 
 .for-you-copy h2 {
     margin: 0;
-    color: #1d3b2a;
+    color: #30253C;
     font-size: clamp(1.75rem, 2.25vw, 2.35rem);
     font-style: normal;
     font-weight: 600;
@@ -113,7 +114,7 @@
 
 .for-you-copy p {
     margin: 1rem 0 0;
-    color: #161514;
+    color: #24172c;
     font-size: clamp(0.88rem, 1vw, 1.02rem);
     font-weight: 500;
     letter-spacing: -0.015em;
@@ -127,10 +128,10 @@
     gap: 1.25rem;
     margin-top: 8%;
     padding: 0.45rem 0.55rem 0.45rem 1.35rem;
-    border: 1px solid rgb(20 107 90 / 30%);
+    border: 1px solid rgba(48, 37, 60, 0.35);
     border-radius: 999px;
-    color: #156b5b;
-    background: rgb(20 107 90 / 10%);
+    color: #30253C;
+    background: rgba(48, 37, 60, 0.12);
     font-size: 1rem;
     font-weight: 500;
     text-decoration: none;
@@ -146,8 +147,8 @@
     flex: 0 0 auto;
     place-items: center;
     border-radius: 50%;
-    color: #f2e5ca;
-    background: #156b5b;
+    color: #9F597F;
+    background: #30253C;
     transition:
         color 200ms ease,
         background 200ms ease;
@@ -163,13 +164,13 @@
 }
 
 .for-you-copy a:hover {
-    color: #f2e5ca;
-    background: #156b5b;
+    color: #9F597F;
+    background: #30253C;
 }
 
 .for-you-copy a:hover i {
-    color: #156b5b;
-    background: #f2e5ca;
+    color: #30253C;
+    background: #9F597F;
 }
 
 .for-you-portrait {
@@ -178,7 +179,7 @@
     min-width: 0;
     place-items: center;
     overflow: hidden;
-    background: #1d3b2a;
+    background: #30253C;
     padding: 2rem 1.75rem;
 }
 
@@ -190,10 +191,10 @@
     align-items: center;
     gap: 1rem;
     padding: 0.65rem 0.85rem 0.65rem 1.45rem;
-    border: 1.5px solid rgba(242, 229, 202, 0.45);
+    border: 1.5px solid rgba(159, 89, 127, 0.55);
     border-radius: 999px;
-    color: #f2e5ca;
-    background: rgba(242, 229, 202, 0.12);
+    color: #ffffff;
+    background: rgba(159, 89, 127, 0.22);
     backdrop-filter: blur(12px);
     font-size: clamp(0.95rem, 1.15vw, 1.15rem);
     font-weight: 600;
@@ -210,8 +211,8 @@
     flex: 0 0 auto;
     place-items: center;
     border-radius: 50%;
-    color: #1d3b2a;
-    background: #f2e5ca;
+    color: #30253C;
+    background: #9F597F;
     transition: all 250ms ease;
 }
 
@@ -227,16 +228,16 @@
 }
 
 .for-you-portrait a:hover {
-    color: #1d3b2a;
-    background: #f2e5ca;
-    border-color: #f2e5ca;
+    color: #ffffff;
+    background: #9F597F;
+    border-color: #9F597F;
     transform: translateY(-2px) scale(1.03);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .for-you-portrait a:hover i {
-    color: #f2e5ca;
-    background: #1d3b2a;
+    color: #9F597F;
+    background: #30253C;
 }
 
 .for-you-portrait a:hover svg {

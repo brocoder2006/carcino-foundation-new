@@ -92,25 +92,28 @@ export default function OurTeamPage() {
       {/* Main Page Container */}
       <main className="flex flex-col items-center justify-center w-full max-w-7xl mx-auto pt-32 pb-24 px-6 md:px-[84px] gap-10 md:gap-14 relative z-10">
         {/* Section Title Header */}
-        <div className="flex flex-col items-center text-center w-full max-w-3xl">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-spaceGrotesk font-bold tracking-tight leading-[1.2em] py-2 overflow-visible" style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}>
+        <div className="flex flex-col items-center text-center w-full max-w-5xl mx-auto">
+          <h1
+            className="text-[clamp(24px,5.6vw,72px)] font-syne font-extrabold tracking-tight leading-[1.2em] py-2 whitespace-nowrap overflow-visible"
+            style={{ fontFamily: "var(--font-syne), sans-serif" }}
+          >
             <span
               className={
                 isLightMode
-                  ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-spaceGrotesk font-bold"
-                  : "headline-textured font-spaceGrotesk font-bold"
+                  ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-syne font-extrabold"
+                  : "headline-textured font-syne font-extrabold"
               }
-              style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}
+              style={{ fontFamily: "var(--font-syne), sans-serif" }}
             >
               People Behind
             </span>{" "}
             <span
               className={
                 isLightMode
-                  ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-spaceGrotesk font-bold"
-                  : "headline-accent font-spaceGrotesk font-bold"
+                  ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-syne font-extrabold"
+                  : "headline-accent font-syne font-extrabold"
               }
-              style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}
+              style={{ fontFamily: "var(--font-syne), sans-serif" }}
             >
               Carcino
             </span>

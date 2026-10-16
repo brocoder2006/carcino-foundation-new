@@ -244,14 +244,11 @@ body.light::before,
 }
 
 .light .headline-textured {
-  background: linear-gradient(135deg,
-      #163B2E 0%,
-      #0B3E4C 50%,
-      #163B2E 100%);
-  background-size: 200% auto;
+  background: #163B2E;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 15px rgba(11, 62, 76, 0.2));
+  -webkit-text-fill-color: #163B2E;
+  color: #163B2E;
+  filter: drop-shadow(0 4px 15px rgba(22, 59, 46, 0.15));
 }
 
 .headline-accent {

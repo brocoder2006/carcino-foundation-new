@@ -134,26 +134,6 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       />
 
       <div>
-        {/* Top Header Badge */}
-        <div className="flex items-center justify-between gap-2 mb-4">
-          <div
-            className="flex py-1 px-3 items-center gap-1.5 rounded-full border w-fit"
-            style={{
-              borderColor: testimonial.badgeColor,
-              backgroundColor: `${testimonial.badgeColor}20`,
-            }}
-          >
-            <span
-              className="font-inter text-[10px] font-bold tracking-wider uppercase"
-              style={{ color: testimonial.badgeColor }}
-            >
-              {testimonial.badge}
-            </span>
-          </div>
-          <span className="font-spaceGrotesk text-[10px] uppercase font-bold tracking-widest opacity-60">
-            RECOGNITION
-          </span>
-        </div>
 
         {/* User Image */}
         <div className="relative mb-4 h-14 w-14 rounded-full overflow-hidden border-2 border-white/20 shadow-md">
@@ -243,8 +223,8 @@ export default function CredibilityTestimonialsSection({
     <section
       id="survivors-section"
       className={`w-full py-20 md:py-28 px-4 sm:px-6 md:px-[84px] flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
-          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
-          : "bg-gradient-to-b from-[#1B1224] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
+          ? "bg-[#ECE9E9] text-[#163B2E]"
+          : "bg-[#9875C1] text-white"
         }`}
     >
       {/* Ambient Orbs (Optimized Blur) */}
@@ -261,14 +241,16 @@ export default function CredibilityTestimonialsSection({
         {/* Header Title */}
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible py-2">
-            <span className={`font-syne text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold bg-clip-text text-transparent inline-block pb-2 ${isLightMode
-                ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
-                : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#C9A867]"
+            <span className={`font-syne text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold inline-block pb-2 ${isLightMode
+                ? "text-[#163B2E]"
+                : "bg-clip-text text-transparent bg-gradient-to-r from-[#FFFFFF] via-[#F8EEF4] to-[#FFFFFF]"
               }`}>
               Beyond Our
             </span>
             <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#F6C656] transform hover:scale-105 transition-transform duration-300 overflow-visible">
-              <span className="font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold text-[#0B0B0C] inline-block pb-1">
+              <span className={`font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold inline-block pb-1 ${
+                isLightMode ? "text-[#163B2E]" : "text-[#0B0B0C]"
+              }`}>
                 Own Words
               </span>
             </div>
@@ -277,7 +259,7 @@ export default function CredibilityTestimonialsSection({
             </span>
           </div>
           <p
-            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
+            className={`font-spaceGrotesk text-base md:text-xl font-light leading-relaxed max-w-[720px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#1E112A] font-medium"
               }`}
           >
             Hear from the clinical leaders, researchers, and supporters who have joined hands with The Carcino Foundation.

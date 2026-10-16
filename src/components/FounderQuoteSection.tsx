@@ -93,8 +93,8 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
       ref={sectionRef}
       className={`w-full py-20 md:py-32 px-6 md:px-[84px] relative z-10 transition-colors duration-500 overflow-hidden flex justify-center items-center ${
         isLightMode
-          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
-          : "bg-gradient-to-b from-[#1B1224] via-[#261A34] to-[#160E21] text-white"
+          ? "bg-[#9875C1] text-white"
+          : "bg-[#30253C] text-white"
       }`}
     >
       {/* Specular Ambient Refraction Glow Orbs (Optimized Blur) */}
@@ -151,7 +151,7 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
 
             <h3
               className={`font-syne text-2xl font-extrabold tracking-wide ${
-                isLightMode ? "text-[#163B2E]" : "text-white"
+                isLightMode ? "text-[#2E1640]" : "text-white"
               }`}
             >
               Rajannya Das
@@ -178,36 +178,13 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
           {/* Subtle Ambient Radial Highlight */}
           <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#CDA8E8]/15 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Decorative Quote Icon Badge */}
-          <div className="flex items-center gap-2 py-1.5 px-4 rounded-full border bg-white/5 border-white/15 mb-6">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={isLightMode ? "#6B21A8" : "#CDA8E8"}
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h4c0 2.5-1 4-3 5.5" />
-              <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h4c0 2.5-1 4-3 5.5" />
-            </svg>
-            <span
-              className={`font-spaceGrotesk text-xs font-bold uppercase tracking-widest ${
-                isLightMode ? "text-[#581C87]" : "text-[#CDA8E8]"
-              }`}
-            >
-              FOUNDER'S WORDS
-            </span>
-          </div>
 
           {/* Main Giant Quote Statement */}
           <blockquote
-            className={`font-winterSolace text-2xl sm:text-4xl md:text-[44px] leading-[1.25em] font-extrabold tracking-tight mb-6 bg-clip-text text-transparent py-2 px-1 overflow-visible inline-block ${
+            className={`font-winterSolace text-2xl sm:text-4xl md:text-[44px] leading-[1.25em] font-extrabold tracking-tight mb-6 py-2 px-1 overflow-visible inline-block ${
               isLightMode
-                ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
-                : "bg-gradient-to-r from-[#FFFFFF] via-[#E2D4F7] to-[#CDA8E8]"
+                ? "text-[#2E1640]"
+                : "bg-clip-text text-transparent bg-gradient-to-r from-[#FFFFFF] via-[#E2D4F7] to-[#CDA8E8]"
             }`}
           >
             “The human spirit was built to outlast despair.”
@@ -215,37 +192,12 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
 
           {/* Extended Message Sub-text */}
           <p
-            className={`font-spaceGrotesk text-base sm:text-lg font-light leading-relaxed mb-8 ${
+            className={`font-spaceGrotesk text-base sm:text-lg font-light leading-relaxed ${
               isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >
             Behind every diagnostic report and treatment journey lies an unwavering capacity for hope, resilience, and community support.
           </p>
-
-          {/* Footer Signature Bar in Syne Font */}
-          <div className="flex flex-wrap items-center justify-between gap-4 w-full pt-6 border-t border-white/10">
-            <div className="flex flex-col items-start">
-              <span
-                className={`font-syne text-lg sm:text-xl font-bold tracking-wide ${
-                  isLightMode ? "text-[#163B2E]" : "text-white"
-                }`}
-              >
-                Rajannya Das
-              </span>
-              <span
-                className={`font-syne text-xs font-semibold tracking-widest uppercase ${
-                  isLightMode ? "text-[#581C87]" : "text-[#CDA8E8]"
-                }`}
-              >
-                Founder &amp; CEO, The Carcino Foundation
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 py-2 px-5 rounded-full bg-[#39C69C] text-black font-syne text-xs font-bold shadow-md hover:scale-105 transition-transform cursor-pointer">
-              <span>Read Message</span>
-              <span>↗</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>

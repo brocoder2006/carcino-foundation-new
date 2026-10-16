@@ -341,22 +341,7 @@ export default function CarcinoFoundationLandingPage() {
                     </p>
                   </button>
                 </div>
-                <div className="flex pr-0.5 flex-col items-start w-fit">
-                  <button
-                    onClick={scrollToVision}
-                    className={`cursor-pointer text-nowrap flex py-2 px-4 justify-center items-center rounded-[999px] transition-all duration-300 w-fit ${activeNavItem === "About" ? "glass-btn-primary" : "glass-nav-item"
-                      }`}
-                  >
-                    <p
-                      className={`font-inter text-sm w-fit ${activeNavItem === "About"
-                        ? "text-[#0C2822] font-bold"
-                        : `font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`
-                        }`}
-                    >
-                      {t("nav_about")}
-                    </p>
-                  </button>
-                </div>
+
                 {/* Standalone Our Team Navigation Button */}
                 <div className="flex pr-0.5 flex-col items-start w-fit">
                   <Link
@@ -502,15 +487,6 @@ export default function CarcinoFoundationLandingPage() {
               Home
             </button>
 
-            <button
-              onClick={scrollToVision}
-              className={`py-3 px-5 rounded-2xl text-left transition-all duration-300 cursor-pointer ${activeNavItem === "About"
-                ? "glass-btn-primary font-bold text-[#0C2822]"
-                : "glass-nav-item font-medium"
-                }`}
-            >
-              About
-            </button>
 
             <Link
               href="/team"
@@ -629,13 +605,13 @@ export default function CarcinoFoundationLandingPage() {
           className="flex flex-col items-center text-center gap-7 w-full max-w-[960px] mx-auto"
         >
           <h1 className="w-full text-center text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
-            <span className="headline-textured inline-block pb-1">
+            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-textured"}`}>
               {t("hero_headline_1")}
             </span>{" "}
-            <span className="headline-purple-accent inline-block pb-1">
+            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-purple-accent"}`}>
               {t("hero_headline_cancer")}
             </span>{" "}
-            <span className="headline-accent inline-block pb-1">
+            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-accent"}`}>
               {t("hero_headline_2")}
             </span>
           </h1>
@@ -658,7 +634,7 @@ export default function CarcinoFoundationLandingPage() {
       {/* <MissionStatementSection isLightMode={isLightMode} /> */}
 
       {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
-      <ImpactStatsSection isLightMode={isLightMode} />
+      {/* <ImpactStatsSection isLightMode={isLightMode} /> */}
 
       {/* Parallax Showcase Section featuring 1.jpeg, 2.jpg, 3.jpg */}
       {/* <ParallaxShowcaseSection isLightMode={isLightMode} /> */}

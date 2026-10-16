@@ -221,8 +221,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       id="podcasts-section"
       ref={sectionRef}
       className={`w-full max-w-full py-16 md:py-20 px-0 flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-x-hidden ${isLightMode
-          ? "bg-gradient-to-br from-[#9875C1] to-[#FCC8DF] text-[#163B2E]"
-          : "bg-gradient-to-b from-[#160E21] via-[#30253C] to-[#1B1224] text-[#F8F8F8]"
+          ? "bg-[#ECE9E9] text-[#163B2E]"
+          : "bg-[#30253C] text-[#F8F8F8]"
         }`}
     >
       {/* Section-Specific Ambient Gradient Blur Orbs (Optimized) */}
@@ -243,10 +243,10 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         ref={headerRef}
         className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
-        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] bg-clip-text text-transparent w-full text-center py-2 overflow-visible ${
+        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] w-full text-center py-2 overflow-visible ${
           isLightMode
-            ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E]"
-            : "bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"
+            ? "text-[#163B2E]"
+            : "bg-clip-text text-transparent bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"
         }`}>
           {t("pod_title")}{" "}
         </h2>
@@ -321,13 +321,13 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         {/* Soft edge gradients for seamless appearance */}
         <div
           className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
-              ? "bg-gradient-to-r from-[#F7F2FA] to-transparent"
+              ? "bg-gradient-to-r from-[#ECE9E9] to-transparent"
               : "bg-gradient-to-r from-[#050505] to-transparent"
             }`}
         ></div>
         <div
           className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
-              ? "bg-gradient-to-l from-[#F7F2FA] to-transparent"
+              ? "bg-gradient-to-l from-[#ECE9E9] to-transparent"
               : "bg-gradient-to-l from-[#050505] to-transparent"
             }`}
         ></div>

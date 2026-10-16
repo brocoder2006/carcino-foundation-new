@@ -110,40 +110,42 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
   };
 
   return (
-    <section id="contact-form" className="py-24 px-6 max-w-4xl mx-auto w-full relative z-10">
-      <FadeInUp>
-        <div className="flex flex-col items-center text-center mb-12">
-          {/* Typewriter Eyebrow Badge */}
-          <div
-            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 text-xs sm:text-sm font-robotoMono font-semibold tracking-wider uppercase border transition-colors ${
-              isLightMode
-                ? "bg-[#163B2E]/10 border-[#163B2E]/20 text-[#163B2E]"
-                : "bg-[#9875C1]/15 border-[#9875C1]/30 text-[#CDA8E8]"
-            }`}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
-            <TypewriterText text="Your next idea starts here" speed={75} delay={2400} />
+    <section
+      id="contact-form"
+      className="w-full py-24 px-4 sm:px-6 relative z-10 transition-colors duration-500 overflow-hidden bg-[#9875C1]"
+    >
+      <div className="max-w-4xl mx-auto w-full">
+        <FadeInUp>
+          <div className="flex flex-col items-center text-center mb-12">
+            {/* Typewriter Eyebrow Badge */}
+            <div
+              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 text-xs sm:text-sm font-robotoMono font-semibold tracking-wider uppercase border transition-colors ${
+                isLightMode
+                  ? "bg-white/15 border-white/30 text-white"
+                  : "bg-[#30253C]/20 border-[#30253C]/40 text-[#30253C]"
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+              <TypewriterText text="Your next idea starts here" speed={75} delay={2400} />
+            </div>
+
+            <h2 className={`text-4xl md:text-5xl font-extrabold font-syne tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${
+              isLightMode ? "text-[#2E1640]" : "text-white"
+            }`}>
+              Get in Touch With Us
+            </h2>
+            <p className={`text-base max-w-xl ${isLightMode ? "text-[#2E1640]/90 font-medium" : "text-[#1E112A] font-medium"}`}>
+              Have questions about clinical research, survivor resources, or partnerships? Send us a message and the foundation owner will receive your details automatically via email with an Excel report attached.
+            </p>
           </div>
 
-          <h2 className={`text-4xl md:text-5xl font-extrabold font-syne tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${
+          {/* Form Container */}
+          <div className={`backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden transition-colors duration-400 ${
             isLightMode
-              ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C] bg-clip-text text-transparent"
-              : "text-white"
+              ? "bg-white/95 border border-purple-200/80 shadow-[0_25px_60px_rgba(0,0,0,0.15)]"
+              : "bg-[#30253C] border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
           }`}>
-            Get in Touch With Us
-          </h2>
-          <p className={`text-base max-w-xl ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"}`}>
-            Have questions about clinical research, survivor resources, or partnerships? Send us a message and the foundation owner will receive your details automatically via email with an Excel report attached.
-          </p>
-        </div>
-
-        {/* Form Container */}
-        <div className={`backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden transition-colors duration-400 ${
-          isLightMode
-            ? "bg-white/85 border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]"
-            : "bg-[#150a21]/90 border border-white/10"
-        }`}>
-          <div className="absolute top-0 right-0 w-60 h-60 bg-[#C27AFF]/15 rounded-full blur-[100px] pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-60 h-60 bg-[#C27AFF]/15 rounded-full blur-[100px] pointer-events-none"></div>
 
           {statusMsg && (
             <div
@@ -267,6 +269,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
           </form>
         </div>
       </FadeInUp>
-    </section>
+    </div>
+  </section>
   );
 }

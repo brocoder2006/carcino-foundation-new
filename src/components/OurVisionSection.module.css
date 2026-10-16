@@ -11,7 +11,7 @@
   width: 100%;
   height: 100svh;
   overflow: hidden;
-  background: #fff;
+  background: #9875C1;
 }
 
 .gallery {
@@ -108,9 +108,10 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 1.3rem 1.3rem 1.5rem;
-  color: #111;
-  background: #f2e6c9;
-  box-shadow: 0 14px 30px rgb(0 0 0 / 22%);
+  color: #F8F8F8;
+  background: #30253C;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 35%);
   font-family: Arial, Helvetica, sans-serif;
   opacity: 0;
   backface-visibility: hidden;
@@ -124,7 +125,7 @@
   font-weight: 700;
   letter-spacing: -0.015em;
   line-height: 1.15;
-  color: #111;
+  color: #CDA8E8;
 }
 
 .noteDesc {
@@ -133,7 +134,7 @@
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: -0.005em;
-  color: rgba(17, 17, 17, 0.82);
+  color: rgba(248, 248, 248, 0.88);
 }
 
 .note::before {
@@ -142,7 +143,7 @@
   left: 1.1rem;
   width: 11px;
   height: 11px;
-  background: #1f3d2b;
+  background: #9875C1;
   content: "";
 }
 

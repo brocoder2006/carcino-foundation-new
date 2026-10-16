@@ -11,6 +11,8 @@ export type TeamMember = {
   color: string;
   description: string;
   imagePosition?: string;
+  imageScale?: number;
+  transformOrigin?: string;
 };
 
 export const teamData: TeamMember[] = [
@@ -42,7 +44,9 @@ export const teamData: TeamMember[] = [
     color: "#F2E066",
     description:
       "Overseeing organizational strategy, operational workflows, and youth community healthcare initiatives worldwide.",
-    imagePosition: "object-top",
+    imagePosition: "object-center",
+    imageScale: 1.65,
+    transformOrigin: "72% 67%",
   },
   {
     name: "Sambit Bhattacharjee",
@@ -117,7 +121,17 @@ export default function Team01({ isLightMode = false, members = teamData }: Team
                     >
                       {/* Person Portrait in Full Vibrant Color on Hover (No Grayscale) */}
                       <img
-                        className={`w-full h-full object-cover ${value.imagePosition || "object-top"} filter brightness-[0.98] group-hover:brightness-105 group-hover:scale-105 transition-all duration-500 ease-out`}
+                        className={`w-full h-full object-cover ${value.imagePosition || "object-top"} filter brightness-[0.98] group-hover:brightness-105 ${
+                          value.imageScale ? "" : "group-hover:scale-105"
+                        } transition-all duration-500 ease-out`}
+                        style={
+                          value.imageScale || value.transformOrigin
+                            ? {
+                                transform: `scale(${isHovered ? (value.imageScale || 1) * 1.05 : value.imageScale || 1})`,
+                                transformOrigin: value.transformOrigin || "center center",
+                              }
+                            : undefined
+                        }
                         src={value.image}
                         alt={value.name}
                       />
@@ -179,8 +193,9 @@ export default function Team01({ isLightMode = false, members = teamData }: Team
                   {/* Name and Role (Always visible, No social icons) */}
                   <div className="w-full flex flex-col items-center justify-center text-center">
                     <h3
-                      className={`text-2xl font-bold font-spaceGrotesk tracking-tight transition-colors ${isLightMode ? "text-[#163B2E]" : "text-white"
+                      className={`text-2xl font-bold font-syne tracking-tight transition-colors ${isLightMode ? "text-[#163B2E]" : "text-white"
                         }`}
+                      style={{ fontFamily: "var(--font-syne), sans-serif" }}
                     >
                       {value.name}
                     </h3>
