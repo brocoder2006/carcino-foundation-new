@@ -274,9 +274,9 @@
 
 @media (max-width: 767px) {
     .for-you {
-        min-height: 420vh;
+        min-height: auto;
         margin-top: 0;
-        padding: 1.5rem 1rem 0;
+        padding: 1.5rem 1rem 2.5rem;
     }
 
     .for-you>h1 {
@@ -345,7 +345,8 @@
     }
 
     .for-you-spacer {
-        height: 75vh;
+        display: none;
+        height: 0;
     }
 }
 
