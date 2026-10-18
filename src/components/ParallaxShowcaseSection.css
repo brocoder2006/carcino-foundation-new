@@ -203,8 +203,11 @@ a {
     font-size: clamp(1.3rem, 2.2vw, 2.2rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    line-height: 1;
+    line-height: 1.1;
     color: #ffffff;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .gallery-card p {
@@ -335,7 +338,11 @@ a {
     }
 
     .gallery-card h2 {
-        font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+        font-size: clamp(0.95rem, 3.8vw, 1.3rem);
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        line-height: 1.15;
     }
 }
 

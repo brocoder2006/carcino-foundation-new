@@ -157,8 +157,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         !isMouseDownRef.current &&
         !activeVideoEpisode
       ) {
-        // Drift at ~32px per second
-        const pixelsToMove = (32 * delta) / 1000;
+        // Drift at ~68px per second (faster automatic scrolling)
+        const pixelsToMove = (68 * delta) / 1000;
         trackRef.current.scrollLeft += pixelsToMove;
 
         // Loop seamlessly back to start when halfway through repeated items
@@ -243,12 +243,12 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         ref={headerRef}
         className="w-full max-w-6xl px-6 mx-auto flex flex-col items-center justify-center gap-6 text-center"
       >
-        <h2 className={`font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-[1.2em] w-full text-center py-2 overflow-visible ${
+        <h2 className={`font-syne font-extrabold text-[clamp(1.75rem,7.5vw,5.25rem)] leading-[1.15em] w-full text-center py-2 overflow-visible tracking-tight break-words hyphens-auto ${
           isLightMode
             ? "text-[#163B2E]"
             : "bg-clip-text text-transparent bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"
         }`}>
-          {t("pod_title")}{" "}
+          {t("pod_title")}
         </h2>
         <div className="flex flex-col items-center justify-center w-full">
           <p
@@ -318,19 +318,6 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
         }}
         className="relative w-full max-w-full overflow-hidden py-4 group/carousel"
       >
-        {/* Soft edge gradients for seamless appearance */}
-        <div
-          className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
-              ? "bg-gradient-to-r from-[#ECE9E9] to-transparent"
-              : "bg-gradient-to-r from-[#050505] to-transparent"
-            }`}
-        ></div>
-        <div
-          className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 z-20 pointer-events-none transition-colors duration-500 ${isLightMode
-              ? "bg-gradient-to-l from-[#ECE9E9] to-transparent"
-              : "bg-gradient-to-l from-[#050505] to-transparent"
-            }`}
-        ></div>
 
         {/* Scrollable & Draggable Track */}
         <div

@@ -226,8 +226,12 @@ export default function LoginPage() {
       {/* Top Fixed Navbar */}
       <header className="flex py-4 px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0 border-b border-white/10">
         <Link href="/" className="flex items-center gap-3 w-fit group cursor-pointer">
-          <div className="rounded-lg bg-[#CDA8E8] w-8 h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
-            TCF
+          <div className="w-7 h-8 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+            <img
+              src="/tcf-ribbon-clean.png"
+              alt="The Carcino Foundation"
+              className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(152,117,193,0.35)]"
+            />
           </div>
           <p className="text-white font-winterSolace text-xl tracking-tight">
             The Carcino Foundation

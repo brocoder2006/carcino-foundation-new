@@ -234,8 +234,12 @@ export default function ArticlesGalleryPage() {
       {/* Top Navbar */}
       <header className="flex py-3 px-3 sm:px-6 md:px-20 justify-between items-center glass-navbar w-full z-50 fixed top-0 left-0 right-0">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 w-fit group cursor-pointer shrink-0" aria-label="Home">
-          <div className="rounded-lg bg-[#9875C1] w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-extrabold text-[#050505] text-xs group-hover:scale-105 transition-transform">
-            TCF
+          <div className="w-7 h-8 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+            <img
+              src="/tcf-ribbon-clean.png"
+              alt="The Carcino Foundation"
+              className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(152,117,193,0.35)]"
+            />
           </div>
         </Link>
         <div className="flex items-center gap-3">
