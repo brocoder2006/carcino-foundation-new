@@ -94,29 +94,15 @@ export default function OurTeamPage() {
         {/* Section Title Header */}
         <div className="flex flex-col items-center text-center w-full max-w-5xl mx-auto">
           <h1
-            className="text-[clamp(24px,5.6vw,72px)] font-syne font-extrabold tracking-tight leading-[1.2em] py-2 whitespace-nowrap overflow-visible"
+            className={`flex flex-col items-center text-center font-syne font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[76px] tracking-tight leading-[1.12] py-2 overflow-visible ${
+              isLightMode
+                ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent"
+                : "headline-textured"
+            }`}
             style={{ fontFamily: "var(--font-syne), sans-serif" }}
           >
-            <span
-              className={
-                isLightMode
-                  ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-syne font-extrabold"
-                  : "headline-textured font-syne font-extrabold"
-              }
-              style={{ fontFamily: "var(--font-syne), sans-serif" }}
-            >
-              People Behind
-            </span>{" "}
-            <span
-              className={
-                isLightMode
-                  ? "bg-gradient-to-r from-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent font-syne font-extrabold"
-                  : "headline-accent font-syne font-extrabold"
-              }
-              style={{ fontFamily: "var(--font-syne), sans-serif" }}
-            >
-              Carcino
-            </span>
+            <span className="block">People</span>
+            <span className="block mt-1 sm:mt-2">Behind Carcino</span>
           </h1>
         </div>
 

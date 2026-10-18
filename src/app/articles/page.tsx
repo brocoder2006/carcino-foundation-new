@@ -16,21 +16,11 @@ import { articlesList } from "@/data/articlesData";
 export default function ArticlesGalleryPage() {
   const { lang, toggleLang, t } = useLanguage();
   const { user } = useAuth();
-  const [activeCategory, setActiveCategory] = useState("All Insights");
   const [cmsArticles, setCmsArticles] = useState<any[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [activeSearchQuery, setActiveSearchQuery] = useState("");
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
-
-  const categories = [
-    "All Insights",
-    "Clinical Care",
-    "Patient Stories",
-    "Caregiving",
-    "Treatment Tech",
-    "Survivorship",
-  ];
 
   const defaultArticles = articlesList.map(art => ({
     id: art.id,
@@ -177,20 +167,14 @@ export default function ArticlesGalleryPage() {
   };
 
   const filteredArticles = allArticlesList.filter((art) => {
-    const matchesCategory =
-      activeCategory === "All Insights" ||
-      art.category.toLowerCase().includes(activeCategory.toLowerCase()) ||
-      activeCategory.toLowerCase().includes(art.category.toLowerCase());
-
     const term = (activeSearchQuery || searchInput).toLowerCase().trim();
+    if (!term) return true;
 
-    const matchesSearch =
-      term === "" ||
+    return (
       art.title.toLowerCase().includes(term) ||
       art.desc.toLowerCase().includes(term) ||
-      art.category.toLowerCase().includes(term);
-
-    return matchesCategory && matchesSearch;
+      art.category.toLowerCase().includes(term)
+    );
   });
 
   const getCategoryStyle = (cat: string) => {
@@ -377,84 +361,30 @@ export default function ArticlesGalleryPage() {
         </div>
 
         {/* Active Search & Category Status Badge */}
-        {(activeSearchQuery || activeCategory !== "All Insights") && (
+        {/* Active Search Filter Badge */}
+        {activeSearchQuery && (
           <div className="flex items-center gap-3 w-full justify-center md:justify-start pt-2">
-            <span className="text-zinc-400 font-inter text-sm">Active Filters:</span>
-            {activeCategory !== "All Insights" && (
-              <span className="py-1 px-3.5 rounded-full bg-[#CDA8E8]/20 border border-[#CDA8E8]/40 text-[#CDA8E8] font-inter text-xs font-semibold flex items-center gap-2">
-                Category: {activeCategory}
-                <button onClick={() => setActiveCategory("All Insights")} className="hover:text-white cursor-pointer">
-                  ✕
-                </button>
-              </span>
-            )}
-            {activeSearchQuery && (
-              <span className="py-1 px-3.5 rounded-full bg-[#39C69C]/20 border border-[#39C69C]/40 text-[#39C69C] font-inter text-xs font-semibold flex items-center gap-2">
-                Query: "{activeSearchQuery}"
-                <button onClick={handleClearSearch} className="hover:text-white cursor-pointer">
-                  ✕
-                </button>
-              </span>
-            )}
+            <span className="text-zinc-400 font-inter text-sm">Active Filter:</span>
+            <span className="py-1 px-3.5 rounded-full bg-[#39C69C]/20 border border-[#39C69C]/40 text-[#39C69C] font-inter text-xs font-semibold flex items-center gap-2">
+              Query: &quot;{activeSearchQuery}&quot;
+              <button onClick={handleClearSearch} className="hover:text-white cursor-pointer">
+                ✕
+              </button>
+            </span>
             <button
-              onClick={() => {
-                setActiveCategory("All Insights");
-                handleClearSearch();
-              }}
+              onClick={handleClearSearch}
               className="text-xs text-zinc-400 hover:text-white underline cursor-pointer ml-2"
             >
-              Reset all
+              Reset search
             </button>
           </div>
         )}
-
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-3 w-full justify-center md:justify-start">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`py-2.5 px-5 rounded-[99px] font-inter text-sm font-medium transition-all duration-300 cursor-pointer ${activeCategory === cat
-                ? "bg-[#F6C656] text-[#050505] font-semibold shadow-md shadow-[#F6C656]/30 scale-105"
-                : "border border-[rgba(255,255,255,0.10)] bg-[#0B0B0C] text-[#E9CDF8] hover:border-[#F6C656] hover:text-[#F6C656] hover:bg-[#F6C656]/10"
-                }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-
 
         {/* Article Grid & Empty Search Results State */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {filteredArticles.map((art, idx) => {
               const catStyle = getCategoryStyle(art.category || art.tag);
-              const blockThemes = [
-                {
-                  bg: "bg-[#E6DEC9]",
-                  tag: "text-[#5C5243]",
-                  title: "text-[#1C2925]",
-                  readTime: "text-[#6E6454]",
-                  desc: "text-[#3D3528]",
-                },
-                {
-                  bg: "bg-[#F2BA36]",
-                  tag: "text-[#4A3600]",
-                  title: "text-[#1C1800]",
-                  readTime: "text-[#594500]",
-                  desc: "text-[#3B2E00]",
-                },
-                {
-                  bg: "bg-[#E05333]",
-                  tag: "text-[#FFD6CC]",
-                  title: "text-white",
-                  readTime: "text-[#FFC2B3]",
-                  desc: "text-[#FFF5F2]",
-                },
-              ];
-              const theme = blockThemes[idx % blockThemes.length];
 
               return (
                 <Link
@@ -462,11 +392,8 @@ export default function ArticlesGalleryPage() {
                   href={`/articles/${art.id}`}
                   className={`flex p-8 flex-col justify-between items-start gap-4 rounded-3xl border border-[rgba(255,255,255,0.10)] bg-gradient-to-b from-[#0B0B0C] to-[#0B0B0C] w-full min-h-[260px] transition-all duration-400 group hover:-translate-y-1.5 cursor-pointer ${catStyle.glow}`}
                 >
-                  <div className="flex justify-between items-center w-full">
-                    <span className={`py-1 px-3.5 rounded-full font-inter text-xs font-semibold tracking-wider ${catStyle.badgeBg}`}>
-                      {art.tag}
-                    </span>
-                    <span className="text-[#ACACAC] font-inter text-xs">
+                  <div className="flex justify-end items-center w-full">
+                    <span className="text-[#ACACAC] font-inter text-xs font-medium">
                       {art.readTime}
                     </span>
                   </div>
@@ -486,19 +413,16 @@ export default function ArticlesGalleryPage() {
               🔍
             </div>
             <h3 className="text-[#FFF] font-instrumentSerif text-2xl font-bold">
-              No articles found matching "{activeSearchQuery || searchInput}"
+              No articles found matching &quot;{activeSearchQuery || searchInput}&quot;
             </h3>
             <p className="text-[#D5B0FF] font-inter text-sm max-w-md">
-              Try refining your search terms or select a different category from above.
+              Try refining your search terms to explore our clinical guides and research reads.
             </p>
             <button
-              onClick={() => {
-                setActiveCategory("All Insights");
-                handleClearSearch();
-              }}
+              onClick={handleClearSearch}
               className="mt-2 py-2.5 px-6 rounded-full bg-[#CDA8E8] text-[#050505] font-inter text-sm font-semibold hover:bg-[#39C69C] transition-colors cursor-pointer"
             >
-              Reset Search & View All
+              Reset Search &amp; View All
             </button>
           </div>
         )}

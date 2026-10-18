@@ -11,60 +11,75 @@ const SQRT_5000 = Math.sqrt(5000);
 const credibilityTestimonials = [
   {
     tempId: 0,
-    testimonial: "Massive shoutout to The Carcino Foundation for allowing me to share my thoughts on cancer treatment today. It was indeed a pleasure to speak to Rajannya Das and her team.",
-    by: "Dr. Soirindhri Banerjee, Senior Clinical Fellow in Oncology",
-    imgSrc: "/podcasts/episode_2_soirindhri_banerjee.jpg",
+    name: "Dr. Soirindhri Banerjee",
+    designation: "Senior Clinical Fellow, Clinical Oncology",
+    testimonial: "Massive shoutout to The Carcino Foundation for allowing me to share my thoughts on cancer treatment today. It was indeed a pleasure to speak to the young bright and talented Rajannya Das and her team.",
+    by: "Dr. Soirindhri Banerjee, Senior Clinical Fellow, Clinical Oncology",
+    imgSrc: "/soirindhri_banerjee_avatar.jpg",
     badge: "CLINICAL ONCOLOGY",
-    badgeColor: "#CDA8E8"
+    badgeColor: "#CDA8E8",
+    externalUrl: "https://oncodaily.com/voices/soirindhri-banerjee-563365"
   },
   {
     tempId: 1,
-    testimonial: "So grateful to Rajannya Das with The Carcino Foundation for the opportunity to speak about these important cancer research topics!",
-    by: "Amelia Corl, Project Manager @ Georgetown University",
-    imgSrc: "/podcasts/episode_3_amelia_corl.jpg",
+    name: "Amelia Corl",
+    designation: "Project Manager @ Georgetown University | Cancer Research",
+    testimonial: "So grateful to Rajannya Das with The Carcino Foundation for the opportunity to speak about these important topics!",
+    by: "Amelia Corl, Project Manager @ Georgetown University | Cancer Research",
+    imgSrc: "/amelia_corl_avatar.jpg",
     badge: "GEORGETOWN UNIV",
     badgeColor: "#F6C656"
   },
   {
     tempId: 2,
-    testimonial: "Just viewed the interview in its entirety. Great insights and excellent dialogue on these very important cancer care topics.",
+    name: "Curtis Corl, MBA, MA",
+    designation: "Chief Marketing Officer",
+    testimonial: "Just viewed it in its entirety. Great insights and the excellent dialogue on these very important topics.",
     by: "Curtis Corl, MBA, MA, Chief Marketing Officer",
-    imgSrc: "/UserPortrait.png",
+    imgSrc: "/curtis_corl.jpg",
     badge: "EXECUTIVE RECOGNITION",
     badgeColor: "#C9A867"
   },
   {
     tempId: 3,
+    name: "Julie Cawoski",
+    designation: "Former Director of Social Care and Volunteers",
     testimonial: "What an insightful and positive interview! Thank you both for sharing it with the world!",
-    by: "Julie Cawoski, Former Director of Social Care & Volunteerism",
-    imgSrc: "/UserPortrait(1).png",
+    by: "Julie Cawoski, Former Director of Social Care and Volunteers",
+    imgSrc: "/julie_cawoski.jpg",
     badge: "SOCIAL CARE",
     badgeColor: "#39C69C"
   },
   {
     tempId: 4,
-    testimonial: "Soirindhri Banerjee Breaks Down the Complexities of Cancer Treatment in an in-depth feature with The Carcino Foundation.",
-    by: "OncoDaily, Global Oncology Publication",
-    imgSrc: "/podcasts/episode_2_soirindhri_banerjee.jpg",
-    badge: "ONCODAILY FEATURE",
-    badgeColor: "#39C69C",
+    name: "Dr. Soirindhri Banerjee",
+    designation: "Senior Clinical Fellow, Clinical Oncology",
+    testimonial: "Massive shoutout to The Carcino Foundation for allowing me to share my thoughts on cancer treatment today. It was indeed a pleasure to speak to the young bright and talented Rajannya Das and her team.",
+    by: "Dr. Soirindhri Banerjee, Senior Clinical Fellow, Clinical Oncology",
+    imgSrc: "/soirindhri_banerjee_avatar.jpg",
+    badge: "CLINICAL ONCOLOGY",
+    badgeColor: "#CDA8E8",
     externalUrl: "https://oncodaily.com/voices/soirindhri-banerjee-563365"
   },
   {
     tempId: 5,
-    testimonial: "Empowering patients with accessible, evidence-based oncology knowledge and youth-led community support.",
-    by: "Clinical Oncology Network",
-    imgSrc: "/UserPortrait.png",
-    badge: "GLOBAL IMPACT",
-    badgeColor: "#CDA8E8"
+    name: "Amelia Corl",
+    designation: "Project Manager @ Georgetown University | Cancer Research",
+    testimonial: "So grateful to Rajannya Das with The Carcino Foundation for the opportunity to speak about these important topics!",
+    by: "Amelia Corl, Project Manager @ Georgetown University | Cancer Research",
+    imgSrc: "/amelia_corl_avatar.jpg",
+    badge: "GEORGETOWN UNIV",
+    badgeColor: "#F6C656"
   },
   {
     tempId: 6,
-    testimonial: "Bridging the critical gap between cutting-edge cancer research and everyday understanding for families worldwide.",
-    by: "Patient Advocacy Group",
-    imgSrc: "/UserPortrait(1).png",
-    badge: "COMMUNITY ADVOCACY",
-    badgeColor: "#F6C656"
+    name: "Curtis Corl, MBA, MA",
+    designation: "Chief Marketing Officer",
+    testimonial: "Just viewed it in its entirety. Great insights and the excellent dialogue on these very important topics.",
+    by: "Curtis Corl, MBA, MA, Chief Marketing Officer",
+    imgSrc: "/curtis_corl.jpg",
+    badge: "EXECUTIVE RECOGNITION",
+    badgeColor: "#C9A867"
   }
 ];
 
@@ -97,7 +112,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
     <div
       onClick={handleClick}
       className={cn(
-        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-7 sm:p-8 transition-all duration-500 ease-in-out select-none flex flex-col justify-between overflow-hidden backdrop-blur-xl group",
+        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-6 sm:p-7 transition-all duration-500 ease-in-out select-none flex flex-col justify-between overflow-hidden backdrop-blur-xl group",
         isCenter
           ? isLightMode
             ? "z-20 bg-[#163B2E] text-white border-[#39C69C] shadow-2xl"
@@ -133,34 +148,49 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         }}
       />
 
-      <div>
-
-        {/* User Image */}
-        <div className="relative mb-4 h-14 w-14 rounded-full overflow-hidden border-2 border-white/20 shadow-md">
-          <img
-            src={testimonial.imgSrc}
-            alt={testimonial.by.split(',')[0]}
-            className="h-full w-full object-cover object-top"
-          />
+      <div className="flex flex-col gap-3.5">
+        {/* Header: Name & Designation (No PFP) */}
+        <div className="flex flex-col min-w-0">
+          <h4 className={cn(
+            "font-syne font-bold text-base sm:text-lg tracking-tight truncate",
+            isCenter
+              ? "text-white"
+              : isLightMode ? "text-[#163B2E]" : "text-[#F8F8F8]"
+          )}>
+            {testimonial.name}
+          </h4>
+          <p className={cn(
+            "font-spaceGrotesk text-xs sm:text-[13px] leading-tight line-clamp-2 mt-1",
+            isCenter
+              ? isLightMode ? "text-white/85 font-medium" : "text-[#CDA8E8] font-medium"
+              : isLightMode ? "text-[#2E1640]/75" : "text-zinc-400"
+          )}>
+            {testimonial.designation}
+          </p>
         </div>
 
         {/* Quote text */}
-        <h3 className={cn(
-          "font-spaceGrotesk text-sm sm:text-base md:text-lg font-medium leading-snug tracking-tight line-clamp-4",
-          isCenter ? "text-white font-semibold" : "text-foreground opacity-90"
+        <p className={cn(
+          "font-spaceGrotesk text-xs sm:text-sm md:text-[14.5px] font-normal leading-relaxed tracking-tight line-clamp-5",
+          isCenter
+            ? "text-white font-medium"
+            : isLightMode ? "text-[#163B2E]/90" : "text-zinc-300"
         )}>
-          &quot;{testimonial.testimonial}&quot;
-        </h3>
+          &ldquo;{testimonial.testimonial}&rdquo;
+        </p>
       </div>
 
-      {/* Author information & Direct Link */}
-      <div className="pt-3 border-t border-white/10 mt-2 flex items-center justify-between gap-2">
-        <p className={cn(
-          "font-spaceGrotesk text-xs sm:text-sm font-bold truncate flex-1",
-          isCenter ? "text-[#F6C656]" : "text-muted-foreground"
+      {/* Footer / Direct Link */}
+      <div className="pt-2.5 border-t border-white/10 mt-1 flex items-center justify-between gap-2">
+        <span className={cn(
+          "font-spaceGrotesk text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5",
+          isCenter
+            ? isLightMode ? "text-[#39C69C]" : "text-[#F6C656]"
+            : isLightMode ? "text-[#163B2E]/60" : "text-zinc-500"
         )}>
-          {testimonial.by}
-        </p>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          Feedback
+        </span>
         {testimonial.externalUrl && (
           <a
             href={testimonial.externalUrl}

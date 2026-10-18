@@ -142,9 +142,6 @@ export default function ArticleDetailPage({
       <main className="max-w-4xl mx-auto px-6 pt-24 pb-16 md:pt-28 md:pb-24 flex-1 z-10 w-full">
         {/* Article Metadata Bar */}
         <div className="flex items-center gap-3 mb-6">
-          <span className="py-1 px-4 rounded-full bg-[#CDA8E8]/20 text-[#CDA8E8] text-xs font-semibold font-inter border border-[#CDA8E8]/30">
-            {article.tag}
-          </span>
           <span className="text-xs text-zinc-400 font-medium">
             {article.readTime}
           </span>
