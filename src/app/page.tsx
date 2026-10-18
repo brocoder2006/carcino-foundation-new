@@ -222,20 +222,12 @@ export default function CarcinoFoundationLandingPage() {
         {/* Mobile View Top Bar (Logo + Theme Toggle + Mobile Menu Trigger) */}
         <div className="flex items-center justify-between w-full md:hidden px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full glass-navbar border border-white/20 pointer-events-auto max-w-full overflow-hidden">
           <div className="flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" onClick={scrollToTop}>
-            <div className="flex items-center justify-center w-6 h-6">
-              <svg
-                width="16"
-                height="24"
-                viewBox="0 0 19 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3.5 h-5"
-              >
-                <path
-                  d="M4.84679 6.37826C4.95465 5.44042 5.09643 4.90454 5.80295 3.89256C7.05911 2.36641 8.01902 2.20498 9.66947 1.92746L9.68572 1.92472C12.0038 1.79156 13.1048 2.94563 13.6554 4.21806C14.2059 5.4905 14.1246 7.72467 13.9596 8.92311C13.7946 10.1216 13.1338 13.2621 9.38143 16.3544C10.4101 16.7243 10.5021 16.6656 11.743 16.8536C12.931 15.5664 13.6099 14.6152 15.3214 12.5333C17.033 10.4514 18.0067 7.56191 18.277 5.78643C18.5471 4.01094 18.6102 1.92472 17.1759 0.415554C15.7416 -1.09362 12.9164 -1.34514 11.178 -1.09362C9.43938 -0.842092 6.39697 0.415554 4.28179 2.14666C2.16655 3.87777 1.1814 5.78643 0.39905 8.36088C-0.383298 10.9353 0.0671754 13.0472 1.03651 15.6848C2.6826 19.149 4.70188 21.4995 6.45492 22.6536C8.20795 23.8077 9.43938 24.4291 11.3663 27.7137C13.7422 23.8817 14.6793 22.4375 16.5095 20.2567C15.3214 18.7771 13.7857 17.939 10.7722 17.5194C7.75884 17.0999 6.78858 16.1079 6.22313 16.0843C5.65777 16.0606 5.00617 16.0547 4.80331 15.9955C4.60054 15.9363 4.54411 15.9279 4.38322 15.5664C4.20956 14.9273 4.38322 13.9981 4.38322 13.8649C4.38322 13.7318 4.10795 13.5542 4.10795 13.3767C4.10795 13.1991 4.20054 13.0936 4.39768 12.9919C4.39768 12.9919 3.94858 12.7404 3.94858 12.5333C3.94858 12.3261 4.15134 11.5419 4.10795 11.3644C4.06447 11.1869 3.03581 10.965 3.2242 10.6098C3.41251 10.2547 4.88233 8.43846 5.06411 8.06498C5.24581 7.69147 4.87242 7.26917 4.84679 6.37826Z"
-                  fill={isLightMode ? "#171717" : "#F8F8F8"}
-                />
-              </svg>
+            <div className="flex items-center justify-center w-6 h-7 sm:w-7 sm:h-8 shrink-0">
+              <img
+                src="/tcf-ribbon-clean.png"
+                alt="The Carcino Foundation Ribbon Logo"
+                className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(152,117,193,0.35)]"
+              />
             </div>
             <span className="font-winterSolace text-sm font-bold tracking-tight">Carcino</span>
           </div>

@@ -253,8 +253,8 @@ export default function CredibilityTestimonialsSection({
     <section
       id="survivors-section"
       className={`w-full py-20 md:py-28 px-4 sm:px-6 md:px-[84px] flex flex-col items-center justify-center gap-10 relative z-10 transition-colors duration-500 overflow-hidden ${isLightMode
-          ? "bg-[#ECE9E9] text-[#163B2E]"
-          : "bg-[#9875C1] text-white"
+        ? "bg-[#ECE9E9] text-[#163B2E]"
+        : "bg-[#9875C1] text-white"
         }`}
     >
       {/* Ambient Orbs (Optimized Blur) */}
@@ -272,20 +272,19 @@ export default function CredibilityTestimonialsSection({
         <div className="flex flex-col items-center gap-4 w-full text-center">
           <div className="w-full flex flex-col md:flex-row items-center justify-center gap-3 overflow-visible py-2">
             <span className={`font-syne text-3xl sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.2em] font-extrabold inline-block pb-2 ${isLightMode
-                ? "text-[#163B2E]"
-                : "bg-clip-text text-transparent bg-gradient-to-r from-[#FFFFFF] via-[#F8EEF4] to-[#FFFFFF]"
+              ? "text-[#163B2E]"
+              : "bg-clip-text text-transparent bg-gradient-to-r from-[#FFFFFF] via-[#F8EEF4] to-[#FFFFFF]"
               }`}>
               Beyond Our
             </span>
             <div className="py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center bg-[#F6C656] transform hover:scale-105 transition-transform duration-300 overflow-visible">
-              <span className={`font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold inline-block pb-1 ${
-                isLightMode ? "text-[#163B2E]" : "text-[#0B0B0C]"
-              }`}>
+              <span className={`font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.2em] font-bold inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "text-[#0B0B0C]"
+                }`}>
                 Own Words
               </span>
             </div>
             <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-[#F6C656] leading-[1.2em] inline-block pb-1">
-              .
+
             </span>
           </div>
           <p
