@@ -119,157 +119,149 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
           <div className="flex flex-col items-center text-center mb-12">
             {/* Typewriter Eyebrow Badge */}
             <div
-              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 text-xs sm:text-sm font-robotoMono font-semibold tracking-wider uppercase border transition-colors ${
-                isLightMode
+              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 text-xs sm:text-sm font-robotoMono font-semibold tracking-wider uppercase border transition-colors ${isLightMode
                   ? "bg-white/15 border-white/30 text-white"
                   : "bg-[#30253C]/20 border-[#30253C]/40 text-[#30253C]"
-              }`}
+                }`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
               <TypewriterText text="Your next idea starts here" speed={75} delay={2400} />
             </div>
 
-            <h2 className={`text-4xl md:text-5xl font-extrabold font-syne tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${
-              isLightMode ? "text-[#2E1640]" : "text-white"
-            }`}>
+            <h2 className={`text-4xl md:text-5xl font-extrabold font-syne tracking-tight mb-4 leading-[1.25em] py-2 overflow-visible ${isLightMode ? "text-[#2E1640]" : "text-white"
+              }`}>
               Get in Touch With Us
             </h2>
             <p className={`text-base max-w-xl ${isLightMode ? "text-[#2E1640]/90 font-medium" : "text-[#1E112A] font-medium"}`}>
-              Have questions about clinical research, survivor resources, or partnerships? Send us a message and the foundation owner will receive your details automatically via email with an Excel report attached.
+              Have questions about clinical research, survivor resources, or partnerships? Send us a message
             </p>
           </div>
 
           {/* Form Container */}
-          <div className={`backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden transition-colors duration-400 ${
-            isLightMode
+          <div className={`backdrop-blur-xl p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden transition-colors duration-400 ${isLightMode
               ? "bg-white/95 border border-purple-200/80 shadow-[0_25px_60px_rgba(0,0,0,0.15)]"
               : "bg-[#30253C] border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
-          }`}>
+            }`}>
             <div className="absolute top-0 right-0 w-60 h-60 bg-[#C27AFF]/15 rounded-full blur-[100px] pointer-events-none"></div>
 
-          {statusMsg && (
-            <div
-              className={`p-4 mb-6 rounded-2xl border text-sm font-medium ${statusMsg.type === "success"
-                ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
-                : "bg-red-500/15 border-red-500/30 text-red-300"
-                }`}
-            >
-              {statusMsg.text}
-            </div>
-          )}
+            {statusMsg && (
+              <div
+                className={`p-4 mb-6 rounded-2xl border text-sm font-medium ${statusMsg.type === "success"
+                  ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
+                  : "bg-red-500/15 border-red-500/30 text-red-300"
+                  }`}
+              >
+                {statusMsg.text}
+              </div>
+            )}
 
-          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
+                    Full Name <span className="text-purple-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    required
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    placeholder="Jane Smith"
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
+                        ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                        : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                      }`}
+                  />
+                </div>
+
+                <div>
+                  <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
+                    Email Address <span className="text-purple-400">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="jane@example.com"
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
+                        ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                        : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                      }`}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+91xxxxxxxx"
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
+                        ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
+                        : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
+                      }`}
+                  />
+                </div>
+
+                <div>
+                  <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
+                    Subject
+                  </label>
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
+                        ? "bg-[#ECE9E9]/80 border border-black/15 text-[#163B2E]"
+                        : "bg-[#120a1c] border border-white/15 text-white"
+                      }`}
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Research & Clinical Data">Research & Clinical Data</option>
+                    <option value="Survivor Support Circle">Survivor Support Circle</option>
+                    <option value="Foundation Partnership">Foundation Partnership</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
                 <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
-                  Full Name <span className="text-purple-400">*</span>
+                  Message <span className="text-purple-400">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="fullName"
+                <textarea
+                  name="message"
                   required
-                  value={formData.fullName}
+                  rows={5}
+                  value={formData.message}
                   onChange={handleChange}
-                  placeholder="Jane Smith"
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
-                    isLightMode
+                  placeholder="Write your message here..."
+                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
                       ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
                       : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
-                  }`}
+                    }`}
                 />
               </div>
 
-              <div>
-                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
-                  Email Address <span className="text-purple-400">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="jane@example.com"
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
-                    isLightMode
-                      ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
-                      : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
-                  }`}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="+91xxxxxxxx"
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
-                    isLightMode
-                      ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
-                      : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
-                  }`}
-                />
-              </div>
-
-              <div>
-                <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
-                  Subject
-                </label>
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
-                    isLightMode
-                      ? "bg-[#ECE9E9]/80 border border-black/15 text-[#163B2E]"
-                      : "bg-[#120a1c] border border-white/15 text-white"
-                  }`}
-                >
-                  <option value="General Inquiry">General Inquiry</option>
-                  <option value="Research & Clinical Data">Research & Clinical Data</option>
-                  <option value="Survivor Support Circle">Survivor Support Circle</option>
-                  <option value="Foundation Partnership">Foundation Partnership</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className={`block text-xs font-semibold mb-2 ${isLightMode ? "text-[#163B2E]" : "text-[#E9CDF8]/90"}`}>
-                Message <span className="text-purple-400">*</span>
-              </label>
-              <textarea
-                name="message"
-                required
-                rows={5}
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Write your message here..."
-                className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${
-                  isLightMode
-                    ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
-                    : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
-                }`}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 rounded-full glass-btn-primary font-bold text-sm text-white cursor-pointer disabled:opacity-50 transition-all shadow-lg hover:scale-[1.01]"
-            >
-              {loading ? "Submitting Registration..." : "Submit Registration"}
-            </button>
-          </form>
-        </div>
-      </FadeInUp>
-    </div>
-  </section>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 rounded-full glass-btn-primary font-bold text-sm text-white cursor-pointer disabled:opacity-50 transition-all shadow-lg hover:scale-[1.01]"
+              >
+                {loading ? "Submitting Registration..." : "Submit Registration"}
+              </button>
+            </form>
+          </div>
+        </FadeInUp>
+      </div>
+    </section>
   );
 }
