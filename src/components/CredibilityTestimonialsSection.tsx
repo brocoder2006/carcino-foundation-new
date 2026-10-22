@@ -21,6 +21,16 @@ const credibilityTestimonials = [
   },
   {
     tempId: 1,
+    name: "Sneha Ganguly",
+    designation: "Clinical Research & Scientific Publishing | Molecular Biology",
+    testimonial: "I recently conducted my second mentoring session with The Carcino Foundation focusing on “Literature Review.” A special thank you to The Carcino Foundation for giving me this rare opportunity to mentor and support young learners in understanding the research process.",
+    by: "Sneha Ganguly, Clinical Research & Scientific Publishing | Molecular Biology",
+    imgSrc: "/sneha_ganguly.jpg",
+    badge: "RESEARCH MENTORSHIP",
+    badgeColor: "#39C69C"
+  },
+  {
+    tempId: 2,
     name: "Amelia Corl",
     designation: "Project Manager @ Georgetown University | Cancer Research",
     testimonial: "So grateful to Rajannya Das with The Carcino Foundation for the opportunity to speak about these important topics!",
@@ -30,7 +40,7 @@ const credibilityTestimonials = [
     badgeColor: "#F6C656"
   },
   {
-    tempId: 2,
+    tempId: 3,
     name: "Curtis Corl, MBA, MA",
     designation: "Chief Marketing Officer",
     testimonial: "Just viewed it in its entirety. Great insights and the excellent dialogue on these very important topics.",
@@ -40,7 +50,17 @@ const credibilityTestimonials = [
     badgeColor: "#C9A867"
   },
   {
-    tempId: 3,
+    tempId: 4,
+    name: "Sneha Ganguly",
+    designation: "Clinical Research & Scientific Publishing | Molecular Biology",
+    testimonial: "I recently conducted my second mentoring session with The Carcino Foundation focusing on “Literature Review.” A special thank you to The Carcino Foundation for giving me this rare opportunity to mentor and support young learners in understanding the research process.",
+    by: "Sneha Ganguly, Clinical Research & Scientific Publishing | Molecular Biology",
+    imgSrc: "/sneha_ganguly.jpg",
+    badge: "RESEARCH MENTORSHIP",
+    badgeColor: "#39C69C"
+  },
+  {
+    tempId: 5,
     name: "Julie Cawoski",
     designation: "Former Director of Social Care and Volunteers",
     testimonial: "What an insightful and positive interview! Thank you both for sharing it with the world!",
@@ -50,7 +70,7 @@ const credibilityTestimonials = [
     badgeColor: "#39C69C"
   },
   {
-    tempId: 4,
+    tempId: 6,
     name: "Dr. Soirindhri Banerjee",
     designation: "Senior Clinical Fellow, Clinical Oncology",
     testimonial: "Massive shoutout to The Carcino Foundation for allowing me to share my thoughts on cancer treatment today. It was indeed a pleasure to speak to the young bright and talented Rajannya Das and her team.",
@@ -59,26 +79,6 @@ const credibilityTestimonials = [
     badge: "CLINICAL ONCOLOGY",
     badgeColor: "#CDA8E8",
     externalUrl: "https://oncodaily.com/voices/soirindhri-banerjee-563365"
-  },
-  {
-    tempId: 5,
-    name: "Amelia Corl",
-    designation: "Project Manager @ Georgetown University | Cancer Research",
-    testimonial: "So grateful to Rajannya Das with The Carcino Foundation for the opportunity to speak about these important topics!",
-    by: "Amelia Corl, Project Manager @ Georgetown University | Cancer Research",
-    imgSrc: "/amelia_corl_avatar.jpg",
-    badge: "GEORGETOWN UNIV",
-    badgeColor: "#F6C656"
-  },
-  {
-    tempId: 6,
-    name: "Curtis Corl, MBA, MA",
-    designation: "Chief Marketing Officer",
-    testimonial: "Just viewed it in its entirety. Great insights and the excellent dialogue on these very important topics.",
-    by: "Curtis Corl, MBA, MA, Chief Marketing Officer",
-    imgSrc: "/curtis_corl.jpg",
-    badge: "EXECUTIVE RECOGNITION",
-    badgeColor: "#C9A867"
   }
 ];
 
