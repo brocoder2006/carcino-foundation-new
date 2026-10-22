@@ -87,7 +87,7 @@ export default function OurTeamPage() {
           <h1
             className={`flex flex-col items-center text-center font-syne font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[76px] tracking-tight leading-[1.12] py-2 overflow-visible ${
               isLightMode
-                ? "bg-gradient-to-r from-[#163B2E] via-[#0B3E4C] to-[#163B2E] bg-clip-text text-transparent"
+                ? "bg-gradient-to-r from-[#6B21A8] via-[#9875C1] to-[#7B4BB4] bg-clip-text text-transparent drop-shadow-[0_4px_16px_rgba(152,117,193,0.25)]"
                 : "headline-textured"
             }`}
             style={{ fontFamily: "var(--font-syne), sans-serif" }}
