@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import Team01 from "@/components/ui/team-01";
 import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
@@ -11,7 +10,6 @@ import VolunteerModal from "@/components/VolunteerModal";
 import FooterSection from "@/components/FooterSection";
 
 export default function OurTeamPage() {
-  const { lang, toggleLang } = useLanguage();
   const { user, setIsAuthModalOpen } = useAuth();
   const [isLightMode, setIsLightMode] = useState(false);
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
@@ -69,13 +67,6 @@ export default function OurTeamPage() {
             ) : (
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F8F8F8" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
             )}
-          </button>
-
-          <button
-            onClick={toggleLang}
-            className="flex items-center justify-center px-2 sm:px-3.5 h-7 sm:h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 transition-all font-spaceGrotesk text-xs font-bold gap-1 shrink-0"
-          >
-            <span>{lang}</span>
           </button>
 
           <GetInvolvedDropdown

@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface FooterSectionProps {
   isLightMode?: boolean;
 }
 
 export default function FooterSection({ isLightMode = false }: FooterSectionProps) {
-  const { t } = useLanguage();
   return (
     <footer
       className={`w-full py-16 md:py-24 px-6 md:px-[84px] border-t transition-colors duration-500 relative z-10 overflow-hidden ${isLightMode
@@ -143,7 +141,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
             {/* Contact Details */}
             <div className="flex flex-col items-start lg:items-end gap-1 font-googleSansFlex">
               <span className="font-inter text-xs font-extrabold tracking-widest text-[#CDA8E8] uppercase">
-                {t("foot_contact")}
+                CONTACT
               </span>
               <a
                 href="mailto:carcinofoundation.contact@gmail.com"
@@ -177,14 +175,14 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
             className={`font-googleSansFlex text-base hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
               }`}
           >
-            {t("foot_tribute")}
+            Our Tribute
           </Link>
         </div>
 
         {/* Bottom Section: Legal & Copyright */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-white/10 font-googleSansFlex text-sm">
           <p className={isLightMode ? "text-zinc-600" : "text-[#D5B0FF]/80"}>
-            {t("foot_rights")}
+            All Rights Reserved. © 2026 The Carcino Foundation.
           </p>
 
           <div className="flex items-center gap-6">
@@ -195,7 +193,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               className={`hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                 }`}
             >
-              {t("foot_privacy")}
+              Privacy Policy
             </Link>
             <Link
               href="/terms"
@@ -204,7 +202,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
               className={`hover:underline transition-colors ${isLightMode ? "text-[#2E1640]" : "text-[#D5B0FF]"
                 }`}
             >
-              {t("foot_terms")}
+              Terms of Service
             </Link>
           </div>
         </div>

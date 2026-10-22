@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { fetchDjangoPosts } from "@/lib/djangoApi";
-import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
 import PartnershipModal from "@/components/PartnershipModal";
@@ -12,9 +11,7 @@ import VolunteerModal from "@/components/VolunteerModal";
 import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 import { articlesList } from "@/data/articlesData";
 
-
 export default function ArticlesGalleryPage() {
-  const { lang, toggleLang, t } = useLanguage();
   const { user } = useAuth();
   const [cmsArticles, setCmsArticles] = useState<any[]>([]);
   const [searchInput, setSearchInput] = useState("");
@@ -245,10 +242,10 @@ export default function ArticlesGalleryPage() {
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-8 w-fit">
             <Link href="/" className="text-[#FFF] font-inter text-sm font-medium w-fit hover:text-[#CDA8E8] transition-colors">
-              {t("nav_home")}
+              Home
             </Link>
             <Link href="/articles" className="text-[#CDA8E8] font-inter text-sm font-semibold w-fit border-b border-[#CDA8E8]">
-              {t("nav_articles")}
+              Articles
             </Link>
             <Link href="/blogs" className="text-[#D5B0FF] font-inter text-sm font-medium w-fit hover:text-white transition-colors">
               Perspective &amp; Blogs
@@ -265,29 +262,6 @@ export default function ArticlesGalleryPage() {
         </div>
 
 
-        {/* Language Toggle Button */}
-        <button
-          onClick={toggleLang}
-          aria-label="Change language"
-          title="Change language"
-          className="flex items-center justify-center py-2 px-3.5 rounded-[20px] border border-[rgba(255,255,255,0.15)] bg-[#0B0B0C] hover:border-[#CDA8E8] font-inter text-xs font-bold gap-1.5 shrink-0 cursor-pointer transition-all text-white"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
-          </svg>
-          <span>{lang}</span>
-        </button>
       </header>
 
       {/* Main Content Area */}

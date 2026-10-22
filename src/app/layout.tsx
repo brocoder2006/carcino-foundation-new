@@ -54,7 +54,6 @@ export const metadata: Metadata = {
   description: "Carcino Foundation helps people navigate the emotional and practical realities of cancer.",
 };
 
-import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 
@@ -71,10 +70,8 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning className="antialiased min-h-screen bg-[#0B0B0C]">
         <AuthProvider>
-          <LanguageProvider>
-            {children}
-            <AuthModal />
-          </LanguageProvider>
+          {children}
+          <AuthModal />
         </AuthProvider>
       </body>
     </html>

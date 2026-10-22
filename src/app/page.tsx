@@ -18,7 +18,6 @@ import FooterSection from "@/components/FooterSection";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
 import BranchedMenu from "@/components/BranchedMenu";
 import { Book02Icon, UserGroupIcon, Music01Icon } from "@hugeicons/core-free-icons";
-import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
@@ -28,7 +27,6 @@ import { useRouter } from "next/navigation";
 
 export default function CarcinoFoundationLandingPage() {
   const router = useRouter();
-  const { lang, toggleLang, t } = useLanguage();
   const { user, setIsAuthModalOpen } = useAuth();
   const [isLightMode, setIsLightMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -255,17 +253,6 @@ export default function CarcinoFoundationLandingPage() {
               )}
             </button>
 
-            {/* Mobile Language Toggle */}
-            <button
-              onClick={toggleLang}
-              aria-label="Change language"
-              className="px-2 h-7 sm:h-8 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-xs font-bold transition-all cursor-pointer gap-1 shrink-0"
-            >
-              <span className={isLightMode ? "text-[#171717]" : "text-white"}>
-                {lang}
-              </span>
-            </button>
-
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
@@ -310,7 +297,7 @@ export default function CarcinoFoundationLandingPage() {
                         : `font-medium ${isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}`
                         }`}
                     >
-                      {t("nav_home")}
+                      Home
                     </p>
                   </button>
                 </div>
@@ -387,32 +374,6 @@ export default function CarcinoFoundationLandingPage() {
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
             )}
-          </button>
-
-          {/* Desktop Language Toggle Button */}
-          <button
-            onClick={toggleLang}
-            aria-label="Change language"
-            title="Change language"
-            className="flex items-center justify-center px-3.5 h-10 rounded-full glass-navbar cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 font-inter text-xs font-bold gap-1.5 shrink-0"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={isLightMode ? "#171717" : "#F8F8F8"}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            <span className={isLightMode ? "text-[#171717]" : "text-[#F8F8F8]"}>
-              {lang}
-            </span>
           </button>
 
           {/* User Account & Get Involved Dropdown Button */}
@@ -579,20 +540,20 @@ export default function CarcinoFoundationLandingPage() {
         >
           <h1 className="w-full text-center text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
             <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-textured"}`}>
-              {t("hero_headline_1")}
+              Where
             </span>{" "}
             <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-purple-accent"}`}>
-              {t("hero_headline_cancer")}
+              cancer
             </span>{" "}
             <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-accent"}`}>
-              {t("hero_headline_2")}
+              meets its questions.
             </span>
           </h1>
           <p
             className={`font-robotoMono text-center text-lg md:text-xl leading-[1.55em] w-full max-w-[780px] mx-auto transition-colors duration-400 ${isLightMode ? "text-[#163B2E]/80" : "text-[#E9CDF8]"
               }`}
           >
-            {t("hero_desc")}
+            From rural cancer care and veterinary oncology to cancer literacy for better detection and outcomes, we turn knowledge into action.
           </p>
         </div>
       </main>

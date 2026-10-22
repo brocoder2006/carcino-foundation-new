@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 
 const SQRT_5000 = Math.sqrt(5000);
 
@@ -216,7 +215,6 @@ interface CredibilityTestimonialsSectionProps {
 export default function CredibilityTestimonialsSection({
   isLightMode = false,
 }: CredibilityTestimonialsSectionProps) {
-  const { t } = useLanguage();
   const [cardSize, setCardSize] = useState(365);
   const [testimonialsList, setTestimonialsList] = useState(credibilityTestimonials);
 

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { fetchDjangoPodcasts } from "@/lib/djangoApi";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface PodcastSectionProps {
   isLightMode?: boolean;
@@ -22,7 +21,6 @@ interface Episode {
 }
 
 export default function PodcastSection({ isLightMode = false }: PodcastSectionProps) {
-  const { t } = useLanguage();
   const [activeVideoEpisode, setActiveVideoEpisode] = useState<Episode | null>(null);
   const [cmsPodcasts, setCmsPodcasts] = useState<Episode[]>([]);
 
@@ -61,8 +59,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     {
       id: "ep1",
       code: "TCF 001",
-      title: t("pod_ep1_title"),
-      desc: t("pod_ep1_desc"),
+      title: "Ft. Dr. Jyotirup Goswami",
+      desc: "Insights into Radiation Oncology & Advanced Tumor Therapeutics with Dr. Jyotirup Goswami.",
       cover: "/podcasts/episode_1_jyotirup_goswami.jpg",
       hasPlayIcon: true,
       videoUrl: "https://www.youtube.com/watch?v=6WDD_M63yHE",
@@ -72,8 +70,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     {
       id: "ep2",
       code: "TCF 002",
-      title: t("pod_ep2_title"),
-      desc: t("pod_ep2_desc"),
+      title: "Ft. Dr. Soirindhri Banerjee",
+      desc: "Clinical Care & Patient Advocacy Pathways with Dr. Soirindhri Banerjee.",
       cover: "/podcasts/episode_2_soirindhri_banerjee.jpg",
       hasPlayIcon: true,
       videoUrl: "https://www.youtube.com/watch?v=ySNu4Mq91HQ",
@@ -83,8 +81,8 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
     {
       id: "ep3",
       code: "TCF 003",
-      title: t("pod_ep3_title"),
-      desc: t("pod_ep3_desc"),
+      title: "Ft. Amelia Corl",
+      desc: "Youth Cancer Leadership & Community Empowerment with Amelia Corl.",
       cover: "/podcasts/episode_3_amelia_corl.jpg",
       hasPlayIcon: true,
       videoUrl: "https://www.youtube.com/watch?v=q_Uzxgolr-A",
@@ -248,14 +246,14 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
             ? "text-[#163B2E]"
             : "bg-clip-text text-transparent bg-gradient-to-r from-[#C08A6E] via-[#B3A9C6] to-[#9DAE8B]"
         }`}>
-          {t("pod_title")}
+          Conversations
         </h2>
         <div className="flex flex-col items-center justify-center w-full">
           <p
             className={`font-googleSansFlex text-base md:text-lg leading-7 w-full max-w-[480px] text-center ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
               }`}
           >
-            {t("pod_subtitle")}
+            Compassionate conversations on cancer support, patient stories, caregiving, survivorship, and practical guidance.
           </p>
         </div>
 

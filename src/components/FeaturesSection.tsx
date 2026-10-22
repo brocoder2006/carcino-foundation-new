@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLanguage } from "@/context/LanguageContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +13,6 @@ interface FeaturesSectionProps {
 }
 
 export default function FeaturesSection({ isLightMode = false }: FeaturesSectionProps) {
-  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -22,9 +20,9 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
   const features = [
     {
       id: "trusted-care",
-      badge: t("feat_1_badge"),
-      title: t("feat_1_title"),
-      desc: t("feat_1_desc"),
+      badge: "TCF TRUSTED CARE",
+      title: "Compassionate Support",
+      desc: "Connect directly with verified clinical experts and oncology networks specializing in carcinoid care.",
       img: "/CoverImage.png",
       icon: (
         <svg
@@ -46,9 +44,9 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
     },
     {
       id: "treatment-nav",
-      badge: t("feat_2_badge"),
-      title: t("feat_2_title"),
-      desc: t("feat_2_desc"),
+      badge: "TCF TREATMENT NAV",
+      title: "Diagnosis Guidance",
+      desc: "A step-by-step, interactive navigator designed to demystify the critical first 30 days after your diagnosis.",
       img: "/CoverImage(1).png",
       icon: (
         <svg
@@ -77,9 +75,9 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
     },
     {
       id: "connection",
-      badge: t("feat_3_badge"),
-      title: t("feat_3_title"),
-      desc: t("feat_3_desc"),
+      badge: "TCF CONNECTION",
+      title: "Community Spaces",
+      desc: "Join safe, moderated peer discussion groups to share experiences with patients and caregivers who understand.",
       img: "/CoverImage(2).png",
       icon: (
         <svg
@@ -101,9 +99,9 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
     },
     {
       id: "voices",
-      badge: t("feat_4_badge"),
-      title: t("feat_4_title"),
-      desc: t("feat_4_desc"),
+      badge: "TCF VOICES",
+      title: "Survivor Stories",
+      desc: "Explore a curated collection of deep-dive interviews detailing real paths through survivorship and recovery.",
       img: "/CoverImage(3).png",
       icon: (
         <svg
@@ -234,7 +232,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
       {/* Header Container */}
       <div ref={headerRef} className="flex flex-col items-center gap-4 w-full text-center max-w-5xl mx-auto">
         <h2 className="font-syne font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-[84px] leading-tight bg-[linear-gradient(91deg,#C08A6E_0.02%,#B3A9C6_29.99%,#9DAE8B_54.96%,#C9A867_79.93%)] bg-clip-text text-transparent w-full text-center tracking-[-0.0356em] capitalize pb-1">
-          {t("feat_title")}
+          features
         </h2>
         <div className="flex flex-col items-center w-full">
           <p
@@ -242,7 +240,7 @@ export default function FeaturesSection({ isLightMode = false }: FeaturesSection
               isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
             }`}
           >
-            {t("feat_subtitle")}
+            Compassionate resources, clinical pathways, and real patient networks built to support you at every milestone of your journey.
           </p>
         </div>
       </div>

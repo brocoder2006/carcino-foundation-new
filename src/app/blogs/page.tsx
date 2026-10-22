@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import FooterSection from "@/components/FooterSection";
 import PartnershipModal from "@/components/PartnershipModal";
@@ -10,7 +9,6 @@ import VolunteerModal from "@/components/VolunteerModal";
 import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 
 export default function Carcinoblogssection() {
-  const { t } = useLanguage();
   const { user } = useAuth();
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
@@ -40,10 +38,10 @@ export default function Carcinoblogssection() {
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-8 w-fit font-inter text-sm">
             <Link href="/" className="text-zinc-300 hover:text-white transition-colors font-medium">
-              {t("nav_home")}
+              Home
             </Link>
             <Link href="/articles" className="text-zinc-300 hover:text-white transition-colors font-medium">
-              {t("nav_articles")}
+              Articles
             </Link>
             <Link href="/blogs" className="text-[#CDA8E8] font-semibold border-b border-[#CDA8E8]">
               Perspective &amp; Blogs

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLanguage } from "@/context/LanguageContext";
 import { articlesList, ArticleItem } from "@/data/articlesData";
 
 if (typeof window !== "undefined") {
@@ -16,7 +15,6 @@ interface ArticlesSectionProps {
 }
 
 export default function ArticlesSection({ isLightMode = false }: ArticlesSectionProps) {
-  const { t } = useLanguage();
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(0);
   const [claps, setClaps] = useState<Record<string, number>>({
     "cancer-screening": 52,
@@ -127,13 +125,13 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
               ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]"
               : "bg-gradient-to-r from-[#F6C656] via-[#CDA8E8] to-[#39C69C]"
             }`}>
-            {t("art_title_1")}
+            Cancer Knowledge
           </span>
           <div className={`py-2 md:py-3.5 px-6 md:px-10 rounded-full shadow-lg flex items-center justify-center ${isLightMode ? "bg-gradient-to-r from-[#163B2E] to-[#0B3E4C]" : "bg-[#F6C656]"
             }`}>
             <span className={`font-syne text-2xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.1em] font-extrabold ${isLightMode ? "text-white" : "text-[#0B0B0C]"
               }`}>
-              {t("art_title_2")}
+              Hub
             </span>
           </div>
           <span className="font-inter text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-bold text-[#F6C656] leading-[1.15em] inline-block">
@@ -145,7 +143,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           className={`font-inter text-base md:text-lg max-w-2xl text-center leading-relaxed ${isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]/90"
             }`}
         >
-          {t("art_subtitle")}
+          Clear, accessible reads that break down cancer, science, and the questions that matter. We turn complex information into something everyone can understand, engage with, and learn from.
         </p>
 
         {/* Article Switcher Pills */}

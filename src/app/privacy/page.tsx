@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
 import FooterSection from "@/components/FooterSection";
 
 export default function PrivacyPolicyPage() {
-  const { t } = useLanguage();
 
   return (
     <div className="flex flex-col items-center bg-gradient-to-b from-[#1E1727] via-[#30253C] to-[#160E21] min-w-full min-h-screen text-white overflow-x-hidden relative">
