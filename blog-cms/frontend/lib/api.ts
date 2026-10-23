@@ -27,7 +27,8 @@ export function setAuthToken(token: string | null) {
     if (token) {
       localStorage.setItem("blog_cms_token", token);
       const isSecure = window.location.protocol === "https:" ? "; Secure" : "";
-      document.cookie = `blog_cms_token=${encodeURIComponent(token)}; path=/; max-age=2592000; SameSite=Lax${isSecure}`;
+      // 7 days token expiration lifetime (604800 seconds) matching backend TOKEN_EXPIRE_DAYS
+      document.cookie = `blog_cms_token=${encodeURIComponent(token)}; path=/; max-age=604800; SameSite=Lax${isSecure}`;
     } else {
       localStorage.removeItem("blog_cms_token");
       document.cookie = "blog_cms_token=; path=/; max-age=0; SameSite=Lax";
@@ -174,6 +175,21 @@ export async function logoutApi(): Promise<void> {
 
 export async function getCurrentUser(): Promise<User> {
   return apiFetch<User>("/api/v1/accounts/me/");
+}
+
+export async function changePasswordApi(data: {
+  old_password: string;
+  new_password: string;
+  confirm_new_password: string;
+}): Promise<{ message: string; token: string }> {
+  const res = await apiFetch<{ message: string; token: string }>("/api/v1/accounts/change-password/", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+  if (res.token) {
+    setAuthToken(res.token);
+  }
+  return res;
 }
 
 export async function getUsersApi(): Promise<PaginatedResponse<User> | User[]> {

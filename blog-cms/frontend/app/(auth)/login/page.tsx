@@ -8,8 +8,8 @@ import { loginApi, setAuthToken } from "@/lib/api";
 import { BookOpen, LogIn, Lock, User as UserIcon, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState("admin");
-  const [password, setPassword] = useState("admin123");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -38,11 +38,6 @@ export default function LoginPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const setQuickCreds = (u: string, p: string) => {
-    setUsernameOrEmail(u);
-    setPassword(p);
   };
 
   return (
@@ -76,10 +71,11 @@ export default function LoginPage() {
               <input
                 type="text"
                 required
+                autoComplete="username"
                 value={usernameOrEmail}
                 onChange={(e) => setUsernameOrEmail(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="admin or user@example.com"
+                placeholder="Username or registered email"
               />
             </div>
           </div>
@@ -93,6 +89,7 @@ export default function LoginPage() {
               <input
                 type="password"
                 required
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -110,34 +107,6 @@ export default function LoginPage() {
             <span>{isSubmitting ? "Authenticating..." : "Sign In to Dashboard"}</span>
           </button>
         </form>
-
-        {/* Demo Seed Credentials Box */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
-          <p className="text-xs font-bold text-slate-700 uppercase tracking-wider">Quick Demo Logins:</p>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => setQuickCreds("admin", "admin123")}
-              className="bg-white border border-slate-200 text-slate-800 text-[11px] font-semibold py-1.5 px-2 rounded-lg hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
-            >
-              Admin
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuickCreds("editor", "editor123")}
-              className="bg-white border border-slate-200 text-slate-800 text-[11px] font-semibold py-1.5 px-2 rounded-lg hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
-            >
-              Editor
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuickCreds("author", "author123")}
-              className="bg-white border border-slate-200 text-slate-800 text-[11px] font-semibold py-1.5 px-2 rounded-lg hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
-            >
-              Author
-            </button>
-          </div>
-        </div>
 
         <div className="text-center pt-2">
           <Link href="/" className="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">
