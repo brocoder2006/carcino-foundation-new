@@ -11,6 +11,7 @@ from .permissions import IsAdminUserRole, IsEditorOrAdmin
 
 
 class LoginView(APIView):
+    authentication_classes = []
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "login"

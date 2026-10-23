@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
-import { loginApi } from "@/lib/api";
+import { loginApi, setAuthToken } from "@/lib/api";
 import { BookOpen, LogIn, Lock, User as UserIcon, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
@@ -15,6 +15,11 @@ export default function LoginPage() {
 
   const { refreshUser } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    // Automatically purge any stale or expired token when accessing the login page
+    setAuthToken(null);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

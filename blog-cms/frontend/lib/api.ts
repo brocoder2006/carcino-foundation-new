@@ -34,9 +34,9 @@ export function setAuthToken(token: string | null) {
     }
   }
 }
-
 async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const token = getAuthToken();
+  const isAuthLogin = endpoint.includes("/accounts/login/");
+  const token = isAuthLogin ? null : getAuthToken();
   const headers: Record<string, string> = {
     ...(options.headers as Record<string, string>),
   };
@@ -57,6 +57,9 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
   });
 
   if (!response.ok) {
+    if (response.status === 401 && !isAuthLogin) {
+      setAuthToken(null);
+    }
     let errorMessage = `API Error ${response.status}: ${response.statusText}`;
     try {
       const errorData = await response.json();
@@ -152,6 +155,7 @@ export async function searchPublicPosts(q: string): Promise<PaginatedResponse<Po
 // ==========================================
 
 export async function loginApi(credentials: { username_or_email: string; password: string }): Promise<{ token: string; user: User }> {
+  setAuthToken(null);
   const data = await apiFetch<{ token: string; user: User }>("/api/v1/accounts/login/", {
     method: "POST",
     body: JSON.stringify(credentials),
