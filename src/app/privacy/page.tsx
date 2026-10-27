@@ -38,9 +38,6 @@ export default function PrivacyPolicyPage() {
       <main className="flex pt-32 pb-20 px-6 flex-col items-center w-full max-w-4xl mx-auto relative z-10">
         {/* Title Header */}
         <div className="flex flex-col items-center text-center gap-4 mb-14 w-full">
-          <span className="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-[#E9CDF8] inline-block">
-            LEGAL DOCUMENTATION
-          </span>
           <h1 className="text-4xl md:text-6xl font-bold font-winterSolace text-white tracking-tight">
             Privacy Policy
           </h1>
@@ -49,8 +46,8 @@ export default function PrivacyPolicyPage() {
           </p>
         </div>
 
-        {/* Content Box */}
-        <div className="w-full bg-[#120a1c]/80 backdrop-blur-xl border border-white/10 p-8 md:p-14 rounded-3xl shadow-2xl flex flex-col gap-10 text-[#E9CDF8]/90 font-inter text-base leading-relaxed">
+        {/* Content Box - Free State */}
+        <div className="w-full flex flex-col gap-10 text-[#E9CDF8]/90 font-inter text-base leading-relaxed">
           
           {/* Statement */}
           <section className="space-y-4">
@@ -73,28 +70,19 @@ export default function PrivacyPolicyPage() {
             <p>
               This statement applies to all information collected by The Carcino Foundation through our &quot;Services,&quot; which include:
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-              <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex flex-col gap-2">
-                <span className="text-sm font-bold text-white">Direct Communications</span>
-                <p className="text-xs text-[#E9CDF8]/80 leading-normal">
-                  Any information shared via electronic, written, or oral communication.
-                </p>
-              </div>
-              <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex flex-col gap-2">
-                <span className="text-sm font-bold text-white">Digital Services</span>
-                <p className="text-xs text-[#E9CDF8]/80 leading-normal">
-                  Data collected through our website, including interactions with integrated Artificial Intelligence (AI) technologies.
-                </p>
-              </div>
-              <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex flex-col gap-2">
-                <span className="text-sm font-bold text-white">Offline & Third-Party Data</span>
-                <p className="text-xs text-[#E9CDF8]/80 leading-normal">
-                  Information gathered through offline interactions or received from authorized third parties.
-                </p>
-              </div>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#9875C1]/15 border border-[#9875C1]/30 text-xs text-[#E9CDF8]">
-              <strong>Your Consent:</strong> By accessing our Services or providing your personal information to us, you acknowledge and agree to the practices outlined in this Privacy Statement.
+            <ul className="list-disc pl-6 space-y-3 my-2">
+              <li>
+                <strong className="text-white">Direct Communications:</strong> Any information shared via electronic, written, or oral communication.
+              </li>
+              <li>
+                <strong className="text-white">Digital Services:</strong> Data collected through our website, including interactions with integrated Artificial Intelligence (AI) technologies.
+              </li>
+              <li>
+                <strong className="text-white">Offline & Third-Party Data:</strong> Information gathered through offline interactions or received from authorized third parties.
+              </li>
+            </ul>
+            <div className="text-sm text-[#E9CDF8] pl-4 border-l-2 border-[#9875C1]/50 mt-2">
+              <strong className="text-white">Your Consent:</strong> By accessing our Services or providing your personal information to us, you acknowledge and agree to the practices outlined in this Privacy Statement.
             </div>
           </section>
 
@@ -146,21 +134,21 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-bold font-winterSolace text-[#9875C1]">
               Categories of Data
             </h2>
-            <ul className="space-y-3">
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Contact Information:</strong> Such as your name, email address, mailing address, and phone number.
+            <ul className="list-disc pl-6 space-y-2">
+              <li>
+                <strong className="text-white">Contact Information:</strong> Such as your name, email address, mailing address, and phone number.
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Demographic Information:</strong> Basic details that help us understand our community (e.g., age or location).
+              <li>
+                <strong className="text-white">Demographic Information:</strong> Basic details that help us understand our community (e.g., age or location).
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Health Information:</strong> Information regarding your relationship to cancer, shared voluntarily to help us provide relevant resources.
+              <li>
+                <strong className="text-white">Health Information:</strong> Information regarding your relationship to cancer, shared voluntarily to help us provide relevant resources.
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Employment Information:</strong> Professional history and qualifications (relevant to staff and volunteers).
+              <li>
+                <strong className="text-white">Employment Information:</strong> Professional history and qualifications (relevant to staff and volunteers).
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Internet Activity:</strong> Data collected through cookies and tracking technologies regarding how you use our site (unless you choose to opt-out).
+              <li>
+                <strong className="text-white">Internet Activity:</strong> Data collected through cookies and tracking technologies regarding how you use our site (unless you choose to opt-out).
               </li>
             </ul>
           </section>
@@ -209,24 +197,24 @@ export default function PrivacyPolicyPage() {
               How We Collect Information
             </h2>
             <p>We collect data through several primary channels:</p>
-            <ul className="space-y-3">
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Site Use & Public Forums:</strong> Information provided via our website. <em>(Note: Information posted in public forums becomes public. Please use caution when sharing personal details.)</em>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>
+                <strong className="text-white">Site Use & Public Forums:</strong> Information provided via our website. <em>(Note: Information posted in public forums becomes public. Please use caution when sharing personal details.)</em>
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Event Registration:</strong> When registering for events, you may share your relationship to cancer (e.g., survivor or caregiver) to help us tailor your experience.
+              <li>
+                <strong className="text-white">Event Registration:</strong> When registering for events, you may share your relationship to cancer (e.g., survivor or caregiver) to help us tailor your experience.
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Employment & Volunteering:</strong> We collect work history and may conduct background checks depending on the role. Generally, collected through our Sign Up forms on the Site.
+              <li>
+                <strong className="text-white">Employment & Volunteering:</strong> We collect work history and may conduct background checks depending on the role. Generally, collected through our Sign Up forms on the Site.
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Third-Party Partnerships:</strong> We receive information from partners during fundraising campaigns or promotions. This may include donor reports (name, contact info, and donation amount).
+              <li>
+                <strong className="text-white">Third-Party Partnerships:</strong> We receive information from partners during fundraising campaigns or promotions. This may include donor reports (name, contact info, and donation amount).
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Healthcare provider for campaigns and underprivilege support:</strong> We will require your educational qualification, contact information, employment status, demographic status and/or business contact information through online platforms like Gmail, Whatsapp. For organisational data documentation only.
+              <li>
+                <strong className="text-white">Healthcare provider for campaigns and underprivilege support:</strong> We will require your educational qualification, contact information, employment status, demographic status and/or business contact information through online platforms like Gmail, Whatsapp. For organisational data documentation only.
               </li>
-              <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Collaborations:</strong> If you partner with The Carcino Foundation to provide services, or help us with our mission, we may collect business information, employer and contact information. If it is necessary for purposes of paying you for services provided, we may also collect bank information, employer, identification number, etc.
+              <li>
+                <strong className="text-white">Collaborations:</strong> If you partner with The Carcino Foundation to provide services, or help us with our mission, we may collect business information, employer and contact information. If it is necessary for purposes of paying you for services provided, we may also collect bank information, employer, identification number, etc.
               </li>
             </ul>
             <p className="text-xs text-[#E9CDF8]/80 font-medium italic pt-2">
@@ -268,19 +256,19 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-white">Essential cookies that are stored:</h3>
-              <ul className="space-y-3">
-                <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <strong className="text-white block mb-1">JWT Auth Cookie:</strong> Personal data, as in, name, profile picture (optional), email address, date of birth, username, phone number, description (optional) and encrypted password data is stored when you sign up to the website. An option is provided to have a private account where the jwt auth cookie won&apos;t be exposed.
+              <ul className="list-disc pl-6 space-y-2">
+                <li>
+                  <strong className="text-white">JWT Auth Cookie:</strong> Personal data, as in, name, profile picture (optional), email address, date of birth, username, phone number, description (optional) and encrypted password data is stored when you sign up to the website. An option is provided to have a private account where the jwt auth cookie won&apos;t be exposed.
                 </li>
-                <li className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <strong className="text-white block mb-1">Google OAuth:</strong> Signing up through Google limits the data storage to openid, email and profile (including image and name).
+                <li>
+                  <strong className="text-white">Google OAuth:</strong> Signing up through Google limits the data storage to openid, email and profile (including image and name).
                 </li>
               </ul>
 
               <h3 className="text-lg font-bold text-white pt-2">3rd party cookie that is stored:</h3>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <strong className="text-white block mb-1">Google Analytics (GA4):</strong> Through this, data related to site access, device type, language and accessibility setting of the device, pages visited, buttons clicked, time spent, referrers clicked and traffic source used to enter the website, e.g. social media, direct link, or some other campaigns etc. is taken.
-              </div>
+              <p>
+                <strong className="text-white">Google Analytics (GA4):</strong> Through this, data related to site access, device type, language and accessibility setting of the device, pages visited, buttons clicked, time spent, referrers clicked and traffic source used to enter the website, e.g. social media, direct link, or some other campaigns etc. is taken.
+              </p>
               <p className="text-xs text-purple-300 font-semibold italic">
                 No sensitive personal health data is tracked through cookies without explicit consent.
               </p>
@@ -322,11 +310,11 @@ export default function PrivacyPolicyPage() {
           </section>
 
           {/* Contact Us */}
-          <section className="space-y-4 p-6 md:p-8 rounded-2xl bg-[#9875C1]/10 border border-[#9875C1]/30">
-            <h2 className="text-2xl font-bold font-winterSolace text-white">
+          <section className="space-y-4 pt-4 border-t border-white/10">
+            <h2 className="text-2xl font-bold font-winterSolace text-[#9875C1]">
               Contact Us
             </h2>
-            <p className="text-sm">
+            <p>
               If you have any queries about our privacy policy, or if you wish to update/correct your personal profile or change your communication preferences, please contact us at:
             </p>
             <div className="flex flex-col sm:flex-row gap-6 pt-2 text-sm font-semibold">

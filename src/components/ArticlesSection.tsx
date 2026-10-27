@@ -174,7 +174,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           }`}
       >
         {/* Article Headline */}
-        <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-[1.25] mb-4">
+        <h2 className="font-spaceGrotesk text-3xl md:text-5xl font-bold tracking-tight leading-[1.25] mb-4">
           {currentArticle.title}
         </h2>
 
@@ -191,7 +191,9 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm font-inter">The Carcino Foundation</span>
+                <span className={`font-semibold text-sm font-inter ${isLightMode ? "text-[#163B2E]" : "text-white"}`}>
+                  The Carcino Foundation
+                </span>
                 <button
                   onClick={() => setIsFollowing(!isFollowing)}
                   className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${isFollowing
@@ -221,7 +223,7 @@ export default function ArticlesSection({ isLightMode = false }: ArticlesSection
           {currentArticle.sections &&
             currentArticle.sections.map((sec, secIdx) => (
               <div key={secIdx} className="flex flex-col gap-3 mt-4 pt-4 border-t border-zinc-500/10">
-                <h3 className="font-horizon text-xl md:text-2xl font-bold text-emerald-400">
+                <h3 className="font-spaceGrotesk text-xl md:text-2xl font-bold text-emerald-400">
                   {sec.heading}
                 </h3>
                 {sec.content.map((p, itemIdx) => (

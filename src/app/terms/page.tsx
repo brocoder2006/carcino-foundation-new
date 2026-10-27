@@ -37,9 +37,6 @@ export default function TermsOfServicePage() {
       <main className="flex pt-32 pb-20 px-6 flex-col items-center w-full max-w-4xl mx-auto relative z-10">
         {/* Title Header */}
         <div className="flex flex-col items-center text-center gap-4 mb-14 w-full">
-          <span className="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-[#E9CDF8] inline-block">
-            LEGAL AGREEMENT
-          </span>
           <h1 className="text-4xl md:text-6xl font-bold font-winterSolace text-white tracking-tight">
             Terms of Service
           </h1>
@@ -48,15 +45,15 @@ export default function TermsOfServicePage() {
           </p>
         </div>
 
-        {/* Content Box */}
-        <div className="w-full bg-[#120a1c]/80 backdrop-blur-xl border border-white/10 p-8 md:p-14 rounded-3xl shadow-2xl flex flex-col gap-10 text-[#E9CDF8]/90 font-inter text-base leading-relaxed">
+        {/* Content Box - Free State */}
+        <div className="w-full flex flex-col gap-10 text-[#E9CDF8]/90 font-inter text-base leading-relaxed">
           
           <p className="text-lg text-white font-medium">
             Welcome to The Carcino Foundation. By accessing or using our website, you agree to comply with and be bound by the following terms and conditions.
           </p>
 
           {/* Section 1 */}
-          <section className="space-y-3 pt-4 border-t border-white/10">
+          <section className="space-y-3 pt-6 border-t border-white/10">
             <h2 className="text-2xl font-bold font-winterSolace text-[#9875C1]">
               1. Acceptance of Terms
             </h2>
@@ -66,14 +63,14 @@ export default function TermsOfServicePage() {
           </section>
 
           {/* Section 2 */}
-          <section className="space-y-4 pt-4 border-t border-white/10">
+          <section className="space-y-4 pt-6 border-t border-white/10">
             <h2 className="text-2xl font-bold font-winterSolace text-[#9875C1]">
               2. Medical Disclaimer
             </h2>
             <p>
               The content on this website is for informational and educational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment.
             </p>
-            <div className="space-y-3 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-sm">
+            <div className="space-y-2 text-amber-200/90 text-sm pl-4 border-l-2 border-amber-400/40">
               <p>
                 • Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
               </p>

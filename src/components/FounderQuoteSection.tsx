@@ -167,7 +167,7 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
         {/* Asymmetric Card 2: Right Main Quote & Message Card */}
         <div
           ref={rightCardRef}
-          className={`lg:col-span-8 flex flex-col items-start justify-between p-8 sm:p-12 rounded-tr-[56px] rounded-bl-[56px] rounded-tl-[20px] rounded-br-[20px] border backdrop-blur-2xl relative overflow-hidden transition-all duration-500 shadow-2xl transform lg:translate-y-4 rotate-1 ${
+          className={`lg:col-span-8 flex flex-col items-start justify-center p-8 sm:p-12 rounded-tr-[56px] rounded-bl-[56px] rounded-tl-[20px] rounded-br-[20px] border backdrop-blur-2xl relative overflow-hidden transition-all duration-500 shadow-2xl transform lg:translate-y-4 rotate-1 ${
             isLightMode
               ? "bg-white/85 border-purple-200/80 shadow-[0_25px_60px_rgba(152,117,193,0.2)] hover:border-[#F6C656]"
               : "bg-[#0B0B0C]/90 border-white/15 shadow-[0_30px_90px_rgba(0,0,0,0.6)] hover:border-[#CDA8E8]/70"
@@ -179,7 +179,7 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
 
           {/* Main Giant Quote Statement */}
           <blockquote
-            className={`font-winterSolace text-2xl sm:text-4xl md:text-[44px] leading-[1.25em] font-extrabold tracking-tight mb-6 py-2 px-1 overflow-visible inline-block ${
+            className={`font-winterSolace text-2xl sm:text-4xl md:text-[44px] leading-[1.25em] font-extrabold tracking-tight py-2 px-1 overflow-visible inline-block ${
               isLightMode
                 ? "text-[#2E1640]"
                 : "bg-clip-text text-transparent bg-gradient-to-r from-[#FFFFFF] via-[#E2D4F7] to-[#CDA8E8]"
@@ -187,15 +187,6 @@ export default function FounderQuoteSection({ isLightMode = false }: FounderQuot
           >
             “The human spirit was built to outlast despair.”
           </blockquote>
-
-          {/* Extended Message Sub-text */}
-          <p
-            className={`font-spaceGrotesk text-base sm:text-lg font-light leading-relaxed ${
-              isLightMode ? "text-[#2E1640]" : "text-[#E9CDF8]"
-            }`}
-          >
-            Behind every diagnostic report and treatment journey lies an unwavering capacity for hope, resilience, and community support.
-          </p>
         </div>
       </div>
     </section>

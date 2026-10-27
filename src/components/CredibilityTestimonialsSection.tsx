@@ -41,6 +41,16 @@ const credibilityTestimonials = [
   },
   {
     tempId: 3,
+    name: "Dr. Aruni Ghose",
+    designation: "Medical Oncologist & Clinical Researcher",
+    testimonial: "Solid questions. Didn’t see that coming from you or your team. Left me awestruck.",
+    by: "Dr. Aruni Ghose, Medical Oncologist & Clinical Researcher",
+    imgSrc: "/tcf-ribbon-clean.png",
+    badge: "MEDICAL ONCOLOGY",
+    badgeColor: "#CDA8E8"
+  },
+  {
+    tempId: 4,
     name: "Curtis Corl, MBA, MA",
     designation: "Chief Marketing Officer",
     testimonial: "Just viewed it in its entirety. Great insights and the excellent dialogue on these very important topics.",
@@ -48,16 +58,6 @@ const credibilityTestimonials = [
     imgSrc: "/curtis_corl.jpg",
     badge: "EXECUTIVE RECOGNITION",
     badgeColor: "#C9A867"
-  },
-  {
-    tempId: 4,
-    name: "Sneha Ganguly",
-    designation: "Clinical Research & Scientific Publishing | Molecular Biology",
-    testimonial: "I recently conducted my second mentoring session with The Carcino Foundation focusing on “Literature Review.” A special thank you to The Carcino Foundation for giving me this rare opportunity to mentor and support young learners in understanding the research process.",
-    by: "Sneha Ganguly, Clinical Research & Scientific Publishing | Molecular Biology",
-    imgSrc: "/sneha_ganguly.jpg",
-    badge: "RESEARCH MENTORSHIP",
-    badgeColor: "#39C69C"
   },
   {
     tempId: 5,
@@ -68,17 +68,6 @@ const credibilityTestimonials = [
     imgSrc: "/julie_cawoski.jpg",
     badge: "SOCIAL CARE",
     badgeColor: "#39C69C"
-  },
-  {
-    tempId: 6,
-    name: "Dr. Soirindhri Banerjee",
-    designation: "Senior Clinical Fellow, Clinical Oncology",
-    testimonial: "Massive shoutout to The Carcino Foundation for allowing me to share my thoughts on cancer treatment today. It was indeed a pleasure to speak to the young bright and talented Rajannya Das and her team.",
-    by: "Dr. Soirindhri Banerjee, Senior Clinical Fellow, Clinical Oncology",
-    imgSrc: "/soirindhri_banerjee_avatar.jpg",
-    badge: "CLINICAL ONCOLOGY",
-    badgeColor: "#CDA8E8",
-    externalUrl: "https://oncodaily.com/voices/soirindhri-banerjee-563365"
   }
 ];
 

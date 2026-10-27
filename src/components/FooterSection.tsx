@@ -57,7 +57,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
                 rel="noopener noreferrer"
                 aria-label="X (Twitter)"
                 title="X (Twitter)"
-                className={`p-3 rounded-full border transition-all duration-300 hover:scale-110 ${isLightMode
+                className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${isLightMode
                     ? "border-purple-300 bg-white/70 hover:bg-[#CDA8E8] text-[#581C87]"
                     : "border-[#D5B0FF]/30 bg-white/5 hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF]"
                   }`}
@@ -74,7 +74,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
                 rel="noopener noreferrer"
                 aria-label="Instagram"
                 title="Instagram"
-                className={`p-3 rounded-full border transition-all duration-300 hover:scale-110 ${isLightMode
+                className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${isLightMode
                     ? "border-purple-300 bg-white/70 hover:bg-[#CDA8E8] text-[#581C87]"
                     : "border-[#D5B0FF]/30 bg-white/5 hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF]"
                   }`}
@@ -93,13 +93,13 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 title="LinkedIn"
-                className={`p-3 rounded-full border transition-all duration-300 hover:scale-110 ${isLightMode
+                className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${isLightMode
                     ? "border-purple-300 bg-white/70 hover:bg-[#CDA8E8] text-[#581C87]"
                     : "border-[#D5B0FF]/30 bg-white/5 hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF]"
                   }`}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H3.67V10.9h2.79M5.07 6.56a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z" />
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z" />
                 </svg>
               </a>
 
@@ -110,7 +110,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
                 rel="noopener noreferrer"
                 aria-label="Medium"
                 title="Medium"
-                className={`p-3 rounded-full border transition-all duration-300 hover:scale-110 ${isLightMode
+                className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${isLightMode
                     ? "border-purple-300 bg-white/70 hover:bg-[#CDA8E8] text-[#581C87]"
                     : "border-[#D5B0FF]/30 bg-white/5 hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF]"
                   }`}
@@ -127,7 +127,7 @@ export default function FooterSection({ isLightMode = false }: FooterSectionProp
                 rel="noopener noreferrer"
                 aria-label="YouTube"
                 title="YouTube"
-                className={`p-3 rounded-full border transition-all duration-300 hover:scale-110 ${isLightMode
+                className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${isLightMode
                     ? "border-purple-300 bg-white/70 hover:bg-[#CDA8E8] text-[#581C87]"
                     : "border-[#D5B0FF]/30 bg-white/5 hover:bg-[#D5B0FF] hover:text-[#050505] text-[#D5B0FF]"
                   }`}

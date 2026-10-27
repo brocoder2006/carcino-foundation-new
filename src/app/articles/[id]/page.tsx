@@ -54,10 +54,10 @@ export default function ArticleDetailPage({
             readTime: doc.read_time || "5 min read",
             date: doc.publication_date
               ? new Date(doc.publication_date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })
               : "Oct 10, 2026",
             desc: doc.excerpt || "",
             author: doc.author?.username || "Carcino Research Team",
@@ -152,7 +152,7 @@ export default function ArticleDetailPage({
         </div>
 
         {/* Title */}
-        <h1 className="font-horizon text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.2] mb-6 tracking-tight bg-gradient-to-r from-white via-[#E9CDF8] to-[#CDA8E8] bg-clip-text text-transparent">
+        <h1 className="font-spaceGrotesk text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.2] mb-6 tracking-tight bg-gradient-to-r from-white via-[#E9CDF8] to-[#CDA8E8] bg-clip-text text-transparent">
           {article.title}
         </h1>
 
@@ -168,8 +168,8 @@ export default function ArticleDetailPage({
                 <button
                   onClick={() => setIsFollowing(!isFollowing)}
                   className={`py-0.5 px-3 rounded-full text-xs font-semibold font-inter transition-all cursor-pointer ${isFollowing
-                      ? "bg-emerald-500 text-black font-bold"
-                      : "border border-emerald-500/60 text-emerald-400 hover:bg-emerald-500/20"
+                    ? "bg-emerald-500 text-black font-bold"
+                    : "border border-emerald-500/60 text-emerald-400 hover:bg-emerald-500/20"
                     }`}
                 >
                   {isFollowing ? "Following" : "Follow"}
@@ -194,7 +194,7 @@ export default function ArticleDetailPage({
             <div className="flex flex-col gap-10 mt-6 pt-6">
               {article.sections.map((section, sIdx) => (
                 <section key={sIdx} className="flex flex-col gap-4">
-                  <h2 className="font-horizon text-2xl md:text-3xl font-bold text-white tracking-tight pb-3 border-b border-white/10 mt-4">
+                  <h2 className="font-spaceGrotesk text-2xl md:text-3xl font-bold text-white tracking-tight pb-3 border-b border-white/10 mt-4">
                     {section.heading}
                   </h2>
                   <div className="flex flex-col gap-4 text-base md:text-lg text-zinc-300 leading-relaxed">
@@ -213,7 +213,7 @@ export default function ArticleDetailPage({
         {/* FAQs Section */}
         {article.faqs && article.faqs.length > 0 && (
           <section className="mt-16 pt-10 border-t border-white/15">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-horizon">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-spaceGrotesk">
               Frequently Asked Questions (FAQs)
             </h3>
             <div className="flex flex-col gap-4">
