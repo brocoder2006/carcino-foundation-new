@@ -167,7 +167,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                     required
                     value={formData.fullName}
                     onChange={handleChange}
-                    placeholder="Jane Smith"
+                    placeholder="Debjani"
                     className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
                         ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
                         : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
@@ -185,7 +185,7 @@ export default function ContactFormSection({ isLightMode = false }: ContactFormS
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="jane@example.com"
+                    placeholder="debjani@example.com"
                     className={`w-full px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:border-purple-400 transition-colors ${isLightMode
                         ? "bg-[#ECE9E9]/60 border border-black/15 text-[#163B2E] placeholder-gray-500"
                         : "bg-white/5 border border-white/15 text-white placeholder-gray-500"
