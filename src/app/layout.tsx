@@ -49,9 +49,68 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thecarcinofoundation.org";
+
 export const metadata: Metadata = {
-  title: "Carcino Foundation - Breaking Down Cancer for Everyone",
-  description: "Carcino Foundation helps people navigate the emotional and practical realities of cancer.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "The Carcino Foundation - Breaking Down Cancer for Everyone",
+    template: "%s | The Carcino Foundation",
+  },
+  description:
+    "From rural cancer care infrastructure and veterinary oncology to youth-driven cancer literacy, The Carcino Foundation turns knowledge into early detection and action.",
+  keywords: [
+    "Carcino Foundation",
+    "The Carcino Foundation",
+    "Cancer Literacy",
+    "Oncology",
+    "Rural Cancer Care",
+    "Veterinary Oncology",
+    "FinFlare 2025",
+    "Cancer Awareness",
+    "Early Cancer Detection",
+  ],
+  authors: [{ name: "The Carcino Foundation" }],
+  creator: "The Carcino Foundation",
+  publisher: "The Carcino Foundation",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    title: "The Carcino Foundation - Breaking Down Cancer for Everyone",
+    description:
+      "Turning knowledge into action: rural cancer care, veterinary oncology, and cancer literacy for earlier detection.",
+    siteName: "The Carcino Foundation",
+    images: [
+      {
+        url: "/tcf-ribbon-clean.png",
+        width: 1200,
+        height: 630,
+        alt: "The Carcino Foundation",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Carcino Foundation",
+    description: "Breaking Down Cancer for Everyone.",
+    creator: "@carcinoofficial",
+    images: ["/tcf-ribbon-clean.png"],
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 import { AuthProvider } from "@/context/AuthContext";
