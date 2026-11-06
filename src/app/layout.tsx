@@ -49,7 +49,9 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thecarcinofoundation.org";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://carcinofoundationofficial.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -62,13 +64,18 @@ export const metadata: Metadata = {
   keywords: [
     "Carcino Foundation",
     "The Carcino Foundation",
+    "carcinofoundationofficial.org",
     "Cancer Literacy",
     "Oncology",
+    "Cancer Support Foundation",
+    "Cancer Awareness and Guidance",
+    "Early Cancer Detection",
     "Rural Cancer Care",
     "Veterinary Oncology",
     "FinFlare 2025",
-    "Cancer Awareness",
-    "Early Cancer Detection",
+    "Cancer Patient Navigation",
+    "Oncology Emotional Support",
+    "Cancer Education Resources",
   ],
   authors: [{ name: "The Carcino Foundation" }],
   creator: "The Carcino Foundation",
