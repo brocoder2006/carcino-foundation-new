@@ -583,7 +583,7 @@ export default function CarcinoFoundationLandingPage() {
       <FounderQuoteSection isLightMode={isLightMode} />
 
       {/* Visual Showcase Gallery */}
-      <AnimatedGallery />
+      <AnimatedGallery isLightMode={isLightMode} />
 
       {/* Happening Now Section */}
       <HappeningNow isLightMode={isLightMode} />

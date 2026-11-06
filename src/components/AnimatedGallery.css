@@ -33,6 +33,26 @@ body.ag-locked {
 
 /* Hero */
 
+.ag-title {
+  position: absolute;
+  top: clamp(1.5rem, 3vh, 2.5rem);
+  left: 0;
+  width: 100%;
+  margin: 0;
+  color: #FAF5FE;
+  font-family: "Million", var(--font-syne), sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
 .ag-hero {
   position: relative;
   height: 100svh;
@@ -460,6 +480,11 @@ body.ag-locked {
 /* Mobile */
 
 @media (max-width: 760px) {
+  .ag-title {
+    top: 1.25rem;
+    font-size: clamp(1.3rem, 5vw, 1.9rem);
+  }
+
   .ag-hero-frame {
     inset: -1.5%;
   }

@@ -60,7 +60,7 @@ export default function GalleryPage() {
 
       {/* Main Animated Gallery */}
       <div className="w-full">
-        <AnimatedGallery />
+        <AnimatedGallery isLightMode={isLightMode} />
       </div>
 
       {/* Footer Section */}

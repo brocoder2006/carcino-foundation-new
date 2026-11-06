@@ -23,21 +23,23 @@ export type GalleryImage = {
 };
 
 type AnimatedGalleryProps = {
+  title?: string;
   images?: [GalleryImage, GalleryImage, GalleryImage] | GalleryImage[];
+  isLightMode?: boolean;
 };
 
 const DEFAULT_IMAGES: [GalleryImage, GalleryImage, GalleryImage] = [
   {
-    src: "/gallery/gallery-1.jpg",
-    alt: "The Carcino Foundation team and youth delegates at FinFlare 2025 in the auditorium",
+    src: "/gallery/gallery-2.jpg",
+    alt: "FinFlare 2025 Grand Finale banner at South City International School",
   },
   {
     src: "/gallery/gallery-3.jpg",
     alt: "Carcino Foundation student organizers celebrating together",
   },
   {
-    src: "/gallery/gallery-2.jpg",
-    alt: "FinFlare 2025 Grand Finale banner at South City International School",
+    src: "/gallery/gallery-1.jpg",
+    alt: "The Carcino Foundation team and youth delegates at FinFlare 2025 in the auditorium",
   },
 ];
 
@@ -70,7 +72,9 @@ function ExpandIcon() {
 }
 
 export default function AnimatedGallery({
+  title = "FINFLARE 2025",
   images = DEFAULT_IMAGES,
+  isLightMode = false,
 }: AnimatedGalleryProps) {
   const [activeImage, setActiveImage] = useState<number | null>(null);
 
@@ -167,6 +171,21 @@ export default function AnimatedGallery({
             duration: 2.2,
           },
           0,
+        )
+        .fromTo(
+          ".ag-title",
+          {
+            autoAlpha: 0,
+            y: -24,
+            filter: "blur(6px)",
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+          },
+          0.3,
         )
         .fromTo(
           [".ag-hero-expand", ".ag-scroll-cue"],
@@ -340,8 +359,10 @@ export default function AnimatedGallery({
   const img3 = galleryImages[3] || galleryImages[0];
 
   return (
-    <section className="ag-gallery w-full" ref={galleryRef} id="gallery-section">
+    <section className={`ag-gallery w-full ${isLightMode ? "ag-light" : ""}`} ref={galleryRef} id="gallery-section">
       <section className="ag-hero" ref={heroRef}>
+        <h1 className="ag-title">{title}</h1>
+
         <div className="ag-hero-frame">
           <img
             src={img0.src}
