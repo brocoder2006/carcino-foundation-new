@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Roboto_Mono, Instrument_Serif, Space_Grotesk, Syne } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -135,6 +136,35 @@ export default function RootLayout({
       className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${spaceGrotesk.variable} ${syne.variable}`}
     >
       <body suppressHydrationWarning className="antialiased min-h-screen bg-[#0B0B0C]">
+        {/* Google Tag Manager (noscript fallback) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KCNN2WGJ"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
+        {/* Google Tag Manager & gtag */}
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-KCNN2WGJ');
+
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            `,
+          }}
+        />
+
         <AuthProvider>
           {children}
           <AuthModal />
