@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import BranchedMenu from "./BranchedMenu";
-import { Book02Icon, UserGroupIcon, Music01Icon } from "@hugeicons/core-free-icons";
+import { Book02Icon, UserGroupIcon, Music01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 
 interface EditorialMenuPopoverProps {
   isLightMode?: boolean;
@@ -54,11 +54,24 @@ export default function EditorialMenuPopover({
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (value === "gallery") {
+      if (setActiveNavItem) setActiveNavItem("Gallery");
+      const section = document.getElementById("gallery-section");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      } else {
+        router.push("/gallery");
+      }
     }
   };
 
   const isEditorialActive =
-    activeNavItem === "Team" || activeNavItem === "Articles" || activeNavItem === "Perspective" || activeNavItem === "Survivors" || activeNavItem === "Podcasts";
+    activeNavItem === "Team" ||
+    activeNavItem === "Articles" ||
+    activeNavItem === "Perspective" ||
+    activeNavItem === "Survivors" ||
+    activeNavItem === "Podcasts" ||
+    activeNavItem === "Gallery";
 
   return (
     <div ref={containerRef} className="relative inline-block text-left">
@@ -112,6 +125,7 @@ export default function EditorialMenuPopover({
                   { value: "blogs", label: "Carcino Perspective", icon: Book02Icon },
                   { value: "survivors", label: "Survivor Stories", icon: UserGroupIcon },
                   { value: "podcasts", label: "Podcast Episodes", icon: Music01Icon },
+                  { value: "gallery", label: "Moments & Gallery", icon: Image01Icon },
                 ],
               },
             ]}

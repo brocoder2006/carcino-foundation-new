@@ -17,7 +17,8 @@ import ContactFormSection from "@/components/ContactFormSection";
 import FooterSection from "@/components/FooterSection";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
 import BranchedMenu from "@/components/BranchedMenu";
-import { Book02Icon, UserGroupIcon, Music01Icon } from "@hugeicons/core-free-icons";
+import AnimatedGallery from "@/components/AnimatedGallery";
+import { Book02Icon, UserGroupIcon, Music01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 import { useAuth } from "@/context/AuthContext";
 import PartnershipModal from "@/components/PartnershipModal";
 import VolunteerModal from "@/components/VolunteerModal";
@@ -446,6 +447,7 @@ export default function CarcinoFoundationLandingPage() {
                       { value: "articles", label: "Articles & Blogs", icon: Book02Icon },
                       { value: "survivors", label: "Survivor Stories", icon: UserGroupIcon },
                       { value: "podcasts", label: "Podcast Episodes", icon: Music01Icon },
+                      { value: "gallery", label: "Moments & Gallery", icon: Image01Icon },
                     ],
                   },
                 ]}
@@ -468,6 +470,10 @@ export default function CarcinoFoundationLandingPage() {
                   } else if (value === "podcasts") {
                     setActiveNavItem("Podcasts");
                     const section = document.getElementById("podcasts-section");
+                    if (section) section.scrollIntoView({ behavior: "smooth" });
+                  } else if (value === "gallery") {
+                    setActiveNavItem("Gallery");
+                    const section = document.getElementById("gallery-section");
                     if (section) section.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
@@ -570,14 +576,14 @@ export default function CarcinoFoundationLandingPage() {
       {/* Impact Stats Section (People Screened, Villages Reached, etc.) */}
       {/* <ImpactStatsSection isLightMode={isLightMode} /> */}
 
-      {/* Parallax Showcase Section featuring 1.jpeg, 2.jpg, 3.jpg */}
-      {/* <ParallaxShowcaseSection isLightMode={isLightMode} /> */}
-
       {/* Credibility & Testimonials Section (trusted paths) */}
       <CredibilityTestimonialsSection isLightMode={isLightMode} />
 
       {/* Founder's Quote Glassmorphic Section */}
       <FounderQuoteSection isLightMode={isLightMode} />
+
+      {/* Visual Showcase Gallery */}
+      <AnimatedGallery />
 
       {/* Happening Now Section */}
       <HappeningNow isLightMode={isLightMode} />
