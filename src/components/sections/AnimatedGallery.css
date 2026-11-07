@@ -106,24 +106,16 @@ body.ff-locked {
   left: 50%;
   width: max-content;
   max-width: calc(100% - 2rem);
-  padding: clamp(1rem, 2.2vw, 2.2rem) clamp(1.4rem, 3.6vw, 3.6rem);
+  padding: 0;
   transform: translate(-50%, -50%);
   color: #fff;
   text-align: center;
   text-shadow: 0 0.18em 0.8em rgba(0, 0, 0, 0.8), 0 0.05em 0.2em rgba(0, 0, 0, 0.95);
   pointer-events: none;
-  background: rgba(8, 10, 8, 0.42);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .ff-gallery--light .ff-collage-title {
-  background: rgba(255, 255, 255, 0.65);
-  color: #111;
-  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.8);
-  border-color: rgba(0, 0, 0, 0.15);
+  color: #fff;
 }
 
 .ff-collage-title h1 {
@@ -138,14 +130,15 @@ body.ff-locked {
 }
 
 .ff-collage-title p {
-  margin: clamp(0.7rem, 1.2vw, 1.2rem) 0 0;
+  margin: clamp(0.6rem, 1vw, 1rem) 0 0;
   color: #CDA8E8;
   font-family: "Million", var(--font-syne), sans-serif;
-  font-size: clamp(0.95rem, 1.4vw, 1.45rem);
+  font-size: clamp(1.25rem, 2.2vw, 2.4rem);
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
+  line-height: 1.1;
   text-transform: uppercase;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
 }
 
 .ff-gallery--light .ff-collage-title p {
@@ -410,13 +403,14 @@ body.ff-locked {
 
 /* Mobile */
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .ff-collection {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: 80svh 48svh;
-    gap: 0.8rem;
+    grid-template-rows: 48vh 26vh;
+    gap: 0;
     min-height: auto;
-    padding: 0.8rem;
+    height: 74vh;
+    padding: 0;
   }
 
   .ff-orb {
@@ -427,34 +421,48 @@ body.ff-locked {
   .ff-photo-main {
     grid-column: 1 / 3;
     grid-row: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--ff-border);
   }
 
   .ff-photo-top {
     grid-column: 1;
     grid-row: 2;
+    border-right: 1px solid var(--ff-border);
+    border-bottom: none;
   }
 
   .ff-photo-bottom {
     grid-column: 2;
     grid-row: 2;
+    border-right: none;
+    border-bottom: none;
   }
 
   .ff-collage-title {
-    top: 60%;
-    width: calc(100% - 2.4rem);
-    padding: 1.4rem 0.8rem 1.25rem;
+    top: 36%;
+    width: calc(100% - 2rem);
+    padding: 0;
   }
 
   .ff-collage-title h1 {
     font-size: clamp(1.5rem, 7.5vw, 2.4rem);
     letter-spacing: -0.02em;
     line-height: 0.95;
+    white-space: normal;
   }
 
   .ff-collage-title p {
-    font-size: clamp(0.75rem, 3.8vw, 1.05rem);
-    letter-spacing: 0.12em;
+    font-size: clamp(0.95rem, 4.2vw, 1.35rem);
+    letter-spacing: 0.14em;
     margin-top: 0.5rem;
+  }
+
+  .ff-photo-badge {
+    top: 0.75rem;
+    left: 0.75rem;
+    font-size: 0.65rem;
+    padding: 0.18rem 0.5rem;
   }
 
   .ff-viewer {
