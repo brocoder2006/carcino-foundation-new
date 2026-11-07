@@ -32,6 +32,18 @@ const winterSolace = localFont({
   variable: "--font-winter-solace",
 });
 
+const comico = localFont({
+  src: [
+    {
+      path: "../fonts/Comico-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-comico",
+  display: "swap",
+});
+
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   weight: ["400"],
@@ -133,7 +145,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${robotoMono.variable} ${spaceGrotesk.variable} ${syne.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${winterSolace.variable} ${comico.variable} ${robotoMono.variable} ${spaceGrotesk.variable} ${syne.variable}`}
     >
       <body suppressHydrationWarning className="antialiased min-h-screen bg-[#0B0B0C]">
         {/* Google Tag Manager (noscript fallback) */}

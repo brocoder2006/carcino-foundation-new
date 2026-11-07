@@ -8,6 +8,24 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Comico';
+  src: url('/fonts/Comico-Regular.woff2') format('woff2'),
+       url('/fonts/Comico-Regular.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Comico-Regular';
+  src: url('/fonts/Comico-Regular.woff2') format('woff2'),
+       url('/fonts/Comico-Regular.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
@@ -33,6 +51,7 @@ body {
   --font-spaceGrotesk: var(--font-space-grotesk);
   --font-syne: var(--font-syne);
   --font-horizon: 'Horizon', sans-serif;
+  --font-comico: var(--font-comico), 'Comico', 'Comico-Regular', sans-serif;
 }
 
 h1,

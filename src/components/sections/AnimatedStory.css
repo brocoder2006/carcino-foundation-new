@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Comico-Regular';
+  src: url('/fonts/Comico-Regular.woff2') format('woff2'),
+       url('/fonts/Comico-Regular.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 .animated-story {
   width: 100%;
   height: 100%;
@@ -6,6 +15,7 @@
   overflow: hidden;
   background: #0b0b0c;
   position: relative;
+  font-family: var(--font-comico), 'Comico-Regular', 'Comico', sans-serif;
 }
 
 .animated-story__stage {
@@ -81,8 +91,8 @@
 .animated-story__title {
   display: flex;
   flex-direction: column;
-  font-family: var(--font-syne), var(--font-winter-solace), sans-serif;
-  font-weight: 800;
+  font-family: var(--font-comico), 'Comico-Regular', 'Comico', sans-serif;
+  font-weight: 400;
 }
 
 .animated-story__line {
