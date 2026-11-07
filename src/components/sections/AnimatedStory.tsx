@@ -13,17 +13,17 @@ const defaultSlides: StorySlide[] = [
   {
     id: 1,
     image: "/assets/story-1.webp",
-    lines: ["CANCER WAS NEVER JUST", "ABOUT CANCER."],
+    lines: ["Cancer was never just", "about cancer."],
   },
   {
     id: 2,
     image: "/assets/story-2.webp",
-    lines: ["SO, WE STARTED", "ASKING WHY."],
+    lines: ["So, we started", "asking why."],
   },
   {
     id: 3,
     image: "/assets/story-3.webp",
-    lines: ["BECAUSE", "NO ONE", "CHANGES", "THE", "SYSTEM", "ALONE."],
+    lines: ["Because", "no one", "changes", "the", "system", "alone."],
   },
 ];
 
@@ -51,9 +51,8 @@ export default function AnimatedStory({
       aria-label="Animated story"
     >
       <button
-        className={`animated-story__stage ${
-          isPlaying ? "" : "animated-story__stage--paused"
-        }`}
+        className={`animated-story__stage ${isPlaying ? "" : "animated-story__stage--paused"
+          }`}
         type="button"
         onClick={() => setIsPlaying((playing) => !playing)}
         aria-label={isPlaying ? "Pause animation" : "Play animation"}
@@ -64,6 +63,13 @@ export default function AnimatedStory({
               key={`${slide.image}-${index}`}
               className={`animated-story__slide animated-story__slide--${slide.id}`}
             >
+              {/* Ambient blurred backdrop for mobile/portrait screen coverage */}
+              <img
+                className="animated-story__ambient"
+                src={slide.image}
+                alt=""
+                aria-hidden="true"
+              />
               <span className="animated-story__card">
                 <img
                   className="animated-story__image"
@@ -88,9 +94,8 @@ export default function AnimatedStory({
         </span>
 
         <span
-          className={`animated-story__play ${
-            isPlaying ? "" : "animated-story__play--visible"
-          }`}
+          className={`animated-story__play ${isPlaying ? "" : "animated-story__play--visible"
+            }`}
           aria-hidden="true"
         >
           <svg viewBox="0 0 24 24">

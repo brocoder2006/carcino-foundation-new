@@ -47,12 +47,17 @@
   will-change: opacity;
 }
 
+.animated-story__ambient {
+  display: none;
+}
+
 .animated-story__card {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  container-type: inline-size;
 }
 
 .animated-story__image {
@@ -68,10 +73,6 @@
 /* Base text overlay */
 .animated-story__overlay {
   position: absolute;
-  inset: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
   z-index: 2;
   box-sizing: border-box;
@@ -82,80 +83,118 @@
   flex-direction: column;
   font-family: var(--font-syne), var(--font-winter-solace), sans-serif;
   font-weight: 800;
-  text-transform: uppercase;
 }
 
 .animated-story__line {
   display: block;
-  white-space: nowrap;
 }
 
-/* Slide 1 Styling */
+/* Slide 1: Middle Light-Grey Band */
 .animated-story__slide--1 {
   background: #ded2d7;
   animation-delay: -0.15s;
 }
 
 .animated-story__overlay--1 {
+  top: 18.2%;
+  left: 0;
+  width: 100%;
+  height: 43.7%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 7.5%;
+  padding: 0 4%;
 }
 
 .animated-story__title--1 {
   align-items: center;
+  justify-content: center;
   text-align: center;
+  width: 100%;
   color: #3e244d;
   font-size: clamp(1.2rem, 3.8vw, 3.5rem);
+  font-size: clamp(1.2rem, 3.8cqi, 3.5rem);
   line-height: 1.16;
   letter-spacing: -0.015em;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.35);
 }
 
-/* Slide 2 Styling */
+.animated-story__title--1 .animated-story__line {
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
+
+/* Slide 2: In the centre of slide 2 */
 .animated-story__slide--2 {
   background: #c6b2bd;
   animation-delay: 1.05s;
 }
 
 .animated-story__overlay--2 {
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-top: 17%;
-  padding-left: 7%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4% 4%;
 }
 
 .animated-story__title--2 {
   align-items: center;
+  justify-content: center;
   text-align: center;
+  width: 100%;
   color: #351c44;
-  font-size: clamp(1.1rem, 3.2vw, 3.1rem);
-  line-height: 1.2;
+  font-size: clamp(1.2rem, 3.8vw, 3.5rem);
+  font-size: clamp(1.2rem, 3.8cqi, 3.5rem);
+  line-height: 1.16;
   letter-spacing: -0.015em;
-  width: 38%;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.35);
 }
 
-/* Slide 3 Styling */
+.animated-story__title--2 .animated-story__line {
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
+
+/* Slide 3: Right Solid Purple Column (56.6% to 100%) */
 .animated-story__slide--3 {
   background: #a97d91;
   animation-delay: 2.25s;
 }
 
 .animated-story__overlay--3 {
+  top: 0;
+  left: 56.6%;
+  width: 43.4%;
+  height: 100%;
+  display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 5.5%;
+  justify-content: center;
+  padding: 0 5%;
 }
 
 .animated-story__title--3 {
   align-items: flex-start;
+  justify-content: center;
   text-align: left;
+  width: 100%;
   color: #ffffff;
-  font-size: clamp(1.05rem, 3.1vw, 2.9rem);
+  font-size: clamp(0.95rem, 2.9vw, 2.9rem);
+  font-size: clamp(0.95rem, 2.9cqi, 2.9rem);
   line-height: 1.22;
   letter-spacing: 0.01em;
-  width: 36%;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+.animated-story__title--3 .animated-story__line {
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
 }
 
 .animated-story__stage--paused .animated-story__slide {
@@ -178,24 +217,43 @@
   }
 }
 
-/* Mobile & Portrait screens: contain image and card so it is NEVER cut off */
+/* Mobile & Portrait screens: contain image and card so whole content is NEVER cut off */
 @media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
   .animated-story__slide {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 64px 14px 54px;
+    /* Safe padding so card is centered between top header and bottom carousel */
+    padding: calc(56px + env(safe-area-inset-top, 0px)) 12px calc(52px + env(safe-area-inset-bottom, 0px));
     box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .animated-story__ambient {
+    display: block;
+    position: absolute;
+    inset: -15%;
+    width: 130%;
+    height: 130%;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(36px) brightness(0.65);
+    opacity: 0.85;
+    transform: scale(1.1);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .animated-story__card {
     position: relative;
+    z-index: 1;
     width: 100%;
     aspect-ratio: 1024 / 640;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 120px);
     border-radius: 16px;
     box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45);
     overflow: hidden;
+    container-type: inline-size;
   }
 
   .animated-story__image {
@@ -204,18 +262,85 @@
     object-fit: cover;
   }
 
+  /* Slide 1 mobile: centered in the middle light grey band */
+  .animated-story__overlay--1 {
+    top: 18.2%;
+    left: 0;
+    width: 100%;
+    height: 43.7%;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
   .animated-story__title--1 {
-    font-size: clamp(0.78rem, 3.4vw, 1.4rem);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(0.78rem, 3.7cqi, 1.45rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    width: 100%;
+  }
+
+  .animated-story__title--1 .animated-story__line {
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  /* Slide 2 mobile: strictly center-aligned inside mauve area */
+  .animated-story__overlay--2 {
+    top: 0;
+    left: 0;
+    width: 43%;
+    height: 61.6%;
+    align-items: center;
+    justify-content: center;
+    padding: 4%;
   }
 
   .animated-story__title--2 {
-    font-size: clamp(0.72rem, 3vw, 1.25rem);
-    width: 42%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(0.72rem, 3.1cqi, 1.3rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    width: 100%;
+  }
+
+  .animated-story__title--2 .animated-story__line {
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  /* Slide 3 mobile: vertically centered & left-aligned in right purple column */
+  .animated-story__overlay--3 {
+    top: 0;
+    left: 56.6%;
+    width: 43.4%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6%;
   }
 
   .animated-story__title--3 {
-    font-size: clamp(0.68rem, 2.8vw, 1.2rem);
-    width: 38%;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    font-size: clamp(0.66rem, 2.6cqi, 1.15rem);
+    line-height: 1.22;
+    letter-spacing: 0.01em;
+    width: 100%;
+  }
+
+  .animated-story__title--3 .animated-story__line {
+    text-align: left;
+    width: 100%;
+    white-space: nowrap;
   }
 }
 
