@@ -1,9 +1,35 @@
-// Web Audio API procedural mechanical typewriter sound synthesizer
+// Dragon Studio keyboard typing sound effect controller
+// File: /sounds/dragon-studio-keyboard-typing-sound-effect-335503.mp3
 
 class TypewriterAudio {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
-  private noiseBuffer: AudioBuffer | null = null;
+  private audioBuffer: AudioBuffer | null = null;
+  private currentSource: AudioBufferSourceNode | null = null;
+  private gainNode: GainNode | null = null;
+  private isTyping: boolean = false;
+  private isLoaded: boolean = false;
+  private isLoading: boolean = false;
+  private fallbackAudio: HTMLAudioElement | null = null;
+
+  constructor() {
+    if (typeof window !== "undefined") {
+      this.initFallback();
+    }
+  }
+
+  private initFallback() {
+    if (this.fallbackAudio) return;
+    try {
+      const audio = new Audio("/sounds/dragon-studio-keyboard-typing-sound-effect-335503.mp3");
+      audio.loop = true;
+      audio.volume = 0.65;
+      audio.preload = "auto";
+      this.fallbackAudio = audio;
+    } catch {
+      // Ignore
+    }
+  }
 
   private init(): boolean {
     if (typeof window === "undefined") return false;
@@ -11,39 +37,54 @@ class TypewriterAudio {
       const AudioCtx =
         window.AudioContext ||
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtx) return false;
-      this.ctx = new AudioCtx();
-      this.createNoiseBuffer();
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
     }
     if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume().catch(() => {});
+      this.ctx.resume().catch(() => { });
+    }
+    if (!this.isLoaded && !this.isLoading) {
+      this.loadAudio();
     }
     return true;
   }
 
-  private createNoiseBuffer() {
-    if (!this.ctx) return;
-    const sampleRate = this.ctx.sampleRate;
-    const bufferSize = Math.floor(sampleRate * 0.08);
-    const buffer = this.ctx.createBuffer(1, bufferSize, sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sampleRate * 0.025));
+  private async loadAudio() {
+    if (this.isLoading || this.isLoaded || !this.ctx) return;
+    this.isLoading = true;
+    try {
+      const res = await fetch("/sounds/dragon-studio-keyboard-typing-sound-effect-335503.mp3");
+      const arrayBuffer = await res.arrayBuffer();
+      if (!this.ctx) return;
+      this.audioBuffer = await this.ctx.decodeAudioData(arrayBuffer);
+      this.isLoaded = true;
+      if (this.isTyping && !this.isMuted) {
+        this.startTyping();
+      }
+    } catch {
+      // Fallback audio handles playback
+    } finally {
+      this.isLoading = false;
     }
-    this.noiseBuffer = buffer;
   }
 
   public resume() {
     this.init();
     if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume().catch(() => {});
+      this.ctx.resume().catch(() => { });
     }
   }
 
   public setMuted(muted: boolean) {
     this.isMuted = muted;
-    if (!muted) {
+    if (muted) {
+      this.stopTyping();
+    } else {
       this.resume();
+      if (this.isTyping) {
+        this.startTyping();
+      }
     }
   }
 
@@ -52,115 +93,101 @@ class TypewriterAudio {
   }
 
   public toggleMute(): boolean {
-    this.isMuted = !this.isMuted;
-    if (!this.isMuted) {
-      this.resume();
-    }
+    this.setMuted(!this.isMuted);
     return this.isMuted;
   }
 
-  public playKeystroke(isSpace: boolean = false) {
+  public startTyping() {
+    this.isTyping = true;
     if (this.isMuted) return;
-    if (!this.init()) return;
-    if (!this.ctx || this.ctx.state !== "running" || !this.noiseBuffer) return;
+    this.init();
 
-    try {
-      const now = this.ctx.currentTime;
-      const jitter = 0.88 + Math.random() * 0.24;
+    // 1. Primary: Web Audio API buffer source
+    if (this.ctx && this.ctx.state === "running" && this.audioBuffer) {
+      if (this.currentSource) return; // already active
 
-      // 1. Mechanical strike noise through resonant bandpass filter
-      const noiseSource = this.ctx.createBufferSource();
-      noiseSource.buffer = this.noiseBuffer;
-
-      const bandpass = this.ctx.createBiquadFilter();
-      bandpass.type = "bandpass";
-      bandpass.frequency.setValueAtTime((isSpace ? 1200 : 2800) * jitter, now);
-      bandpass.Q.setValueAtTime(isSpace ? 2.0 : 4.0, now);
-
-      const noiseGain = this.ctx.createGain();
-      const peakVolume = (isSpace ? 0.07 : 0.11) * (0.9 + Math.random() * 0.2);
-      noiseGain.gain.setValueAtTime(peakVolume, now);
-      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + (isSpace ? 0.04 : 0.03));
-
-      noiseSource.connect(bandpass);
-      bandpass.connect(noiseGain);
-      noiseGain.connect(this.ctx.destination);
-
-      noiseSource.start(now);
-      noiseSource.stop(now + 0.045);
-
-      // 2. High metallic click transient (paper impact)
-      if (!isSpace) {
-        const clickOsc = this.ctx.createOscillator();
-        const clickGain = this.ctx.createGain();
-        clickOsc.type = "triangle";
-        clickOsc.frequency.setValueAtTime(3200 * jitter, now);
-        clickOsc.frequency.exponentialRampToValueAtTime(1600 * jitter, now + 0.015);
-
-        clickGain.gain.setValueAtTime(0.06, now);
-        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
-
-        clickOsc.connect(clickGain);
-        clickGain.connect(this.ctx.destination);
-
-        clickOsc.start(now);
-        clickOsc.stop(now + 0.02);
+      if (this.fallbackAudio && !this.fallbackAudio.paused) {
+        this.fallbackAudio.pause();
       }
 
-      // 3. Chassis body thud (hollow resonance)
-      const thudOsc = this.ctx.createOscillator();
-      const thudGain = this.ctx.createGain();
-      thudOsc.type = "sine";
-      const thudFreq = (isSpace ? 160 : 220) * jitter;
-      thudOsc.frequency.setValueAtTime(thudFreq, now);
-      thudOsc.frequency.exponentialRampToValueAtTime(thudFreq * 0.6, now + 0.035);
+      try {
+        const now = this.ctx.currentTime;
+        const source = this.ctx.createBufferSource();
+        source.buffer = this.audioBuffer;
+        source.loop = true;
+        // Start loop at 0.44s to skip the leading silence
+        source.loopStart = 0.44;
+        source.loopEnd = Math.max(0.44, this.audioBuffer.duration - 0.2);
 
-      thudGain.gain.setValueAtTime(isSpace ? 0.08 : 0.06, now);
-      thudGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.65, now + 0.03);
 
-      thudOsc.connect(thudGain);
-      thudGain.connect(this.ctx.destination);
+        source.connect(gain);
+        gain.connect(this.ctx.destination);
 
-      thudOsc.start(now);
-      thudOsc.stop(now + 0.04);
-    } catch {
-      // Audio errors fail silently
+        // Start playback at 0.44s for instant first keystroke sound
+        source.start(now, 0.44);
+        this.currentSource = source;
+        this.gainNode = gain;
+        return;
+      } catch {
+        // Fall through to fallback
+      }
+    }
+
+    // 2. Fallback: HTML5 Audio
+    if (this.fallbackAudio) {
+      if (this.fallbackAudio.currentTime < 0.44) {
+        this.fallbackAudio.currentTime = 0.44;
+      }
+      this.fallbackAudio.play().catch(() => { });
     }
   }
 
-  public playBell() {
-    if (this.isMuted) return;
-    if (!this.init()) return;
-    if (!this.ctx || this.ctx.state !== "running") return;
+  public stopTyping() {
+    this.isTyping = false;
 
-    try {
-      const now = this.ctx.currentTime;
-      const osc1 = this.ctx.createOscillator();
-      const osc2 = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
+    // Stop Web Audio source with gentle micro-fade
+    if (this.ctx && this.currentSource && this.gainNode) {
+      try {
+        const now = this.ctx.currentTime;
+        const source = this.currentSource;
+        const gain = this.gainNode;
+        this.currentSource = null;
+        this.gainNode = null;
 
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(2480, now);
+        gain.gain.setValueAtTime(gain.gain.value, now);
+        gain.gain.linearRampToValueAtTime(0.0001, now + 0.04);
 
-      osc2.type = "sine";
-      osc2.frequency.setValueAtTime(4960, now);
-
-      gain.gain.setValueAtTime(0.1, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-
-      osc1.connect(gain);
-      osc2.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc1.start(now);
-      osc2.start(now);
-      osc1.stop(now + 0.5);
-      osc2.stop(now + 0.5);
-    } catch {
-      // Audio errors fail silently
+        setTimeout(() => {
+          try {
+            source.stop();
+            source.disconnect();
+            gain.disconnect();
+          } catch { }
+        }, 50);
+      } catch {
+        this.currentSource = null;
+        this.gainNode = null;
+      }
     }
+
+    // Stop fallback Audio
+    if (this.fallbackAudio && !this.fallbackAudio.paused) {
+      this.fallbackAudio.pause();
+      this.fallbackAudio.currentTime = 0.44;
+    }
+  }
+
+  // Compatibility helpers
+  public playKeystroke() {
+    this.startTyping();
+  }
+
+  public playBell() {
+    // No-op or optional subtle bell chime
   }
 }
 
 export const typewriterAudio = new TypewriterAudio();
-

@@ -24,6 +24,7 @@ export type GalleryImage = {
 
 type AnimatedGalleryProps = {
   title?: string;
+  subtext?: string;
   images?: [GalleryImage, GalleryImage, GalleryImage] | GalleryImage[];
   isLightMode?: boolean;
 };
@@ -73,6 +74,7 @@ function ExpandIcon() {
 
 export default function AnimatedGallery({
   title = "FINFLARE 2025",
+  subtext = "Social Impact Partner",
   images = DEFAULT_IMAGES,
   isLightMode = false,
 }: AnimatedGalleryProps) {
@@ -173,7 +175,7 @@ export default function AnimatedGallery({
           0,
         )
         .fromTo(
-          ".ag-title",
+          [".ag-title", ".ag-subtext"],
           {
             autoAlpha: 0,
             y: -24,
@@ -184,6 +186,7 @@ export default function AnimatedGallery({
             y: 0,
             filter: "blur(0px)",
             duration: 1,
+            stagger: 0.1,
           },
           0.3,
         )
@@ -361,7 +364,10 @@ export default function AnimatedGallery({
   return (
     <section className={`ag-gallery w-full ${isLightMode ? "ag-light" : ""}`} ref={galleryRef} id="gallery-section">
       <section className="ag-hero" ref={heroRef}>
-        <h1 className="ag-title">{title}</h1>
+        <div className="ag-header-wrapper">
+          <h1 className="ag-title">{title}</h1>
+          {subtext && <p className="ag-subtext">{subtext}</p>}
+        </div>
 
         <div className="ag-hero-frame">
           <img

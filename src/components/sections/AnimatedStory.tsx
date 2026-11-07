@@ -51,13 +51,6 @@ export default function AnimatedStory({
   const [isInView, setIsInView] = useState(true);
   const isInViewRef = useRef(true);
 
-  // Tracks the last character for which audio has played to ensure 1:1 frame-accurate sync
-  const prevCharRef = useRef<{ slide: number; line: number; char: number }>({
-    slide: -1,
-    line: -1,
-    char: -1,
-  });
-
   // Allow passing raw image URLs array as fallback
   const resolvedSlides: StorySlide[] =
     images && images.length > 0
@@ -83,6 +76,7 @@ export default function AnimatedStory({
         mq.removeEventListener("change", handler);
         window.removeEventListener("pointerdown", unlockAudio);
         window.removeEventListener("keydown", unlockAudio);
+        typewriterAudio.stopTyping();
       };
     }
   }, []);
@@ -96,6 +90,9 @@ export default function AnimatedStory({
       const isVisible = window.scrollY <= 120 && rect.bottom > window.innerHeight * 0.4;
       isInViewRef.current = isVisible;
       setIsInView(isVisible);
+      if (!isVisible) {
+        typewriterAudio.stopTyping();
+      }
     };
 
     checkVisibility();
@@ -110,6 +107,9 @@ export default function AnimatedStory({
             entry.isIntersecting && entry.intersectionRatio >= 0.35 && window.scrollY <= 120;
           isInViewRef.current = isVisible;
           setIsInView(isVisible);
+          if (!isVisible) {
+            typewriterAudio.stopTyping();
+          }
         },
         { threshold: [0, 0.25, 0.35, 0.5, 0.75] }
       );
@@ -123,42 +123,12 @@ export default function AnimatedStory({
     };
   }, []);
 
-  // Frame-accurate sound sync: plays keystroke sound at the exact instant each character appears on screen
+  // Stop audio immediately when paused or muted
   useEffect(() => {
-    if (!isMounted || !isPlaying || !isInView) return;
-
-    const currentSlide = resolvedSlides[activeSlideIndex];
-    if (!currentSlide || !currentSlide.lines) return;
-
-    const currentLine = currentSlide.lines[currentLineIndex] ?? "";
-
-    // Trigger sound only when a new character has just rendered in the DOM
-    if (
-      currentCharIndex > 0 &&
-      currentCharIndex <= currentLine.length &&
-      (prevCharRef.current.slide !== activeSlideIndex ||
-        prevCharRef.current.line !== currentLineIndex ||
-        prevCharRef.current.char !== currentCharIndex)
-    ) {
-      prevCharRef.current = {
-        slide: activeSlideIndex,
-        line: currentLineIndex,
-        char: currentCharIndex,
-      };
-
-      const char = currentLine[currentCharIndex - 1] || "";
-      const isSpace = char === " ";
-      typewriterAudio.playKeystroke(isSpace);
+    if (!isInView || !isPlaying || isMuted) {
+      typewriterAudio.stopTyping();
     }
-  }, [
-    activeSlideIndex,
-    currentLineIndex,
-    currentCharIndex,
-    isPlaying,
-    isMounted,
-    isInView,
-    resolvedSlides,
-  ]);
+  }, [isInView, isPlaying, isMuted]);
 
   // Typewriter progression timer loop
   useEffect(() => {
@@ -166,6 +136,7 @@ export default function AnimatedStory({
 
     const currentSlide = resolvedSlides[activeSlideIndex];
     if (!currentSlide || !currentSlide.lines || currentSlide.lines.length === 0) {
+      typewriterAudio.stopTyping();
       const timer = setTimeout(() => {
         setActiveSlideIndex((prev) => (prev + 1) % resolvedSlides.length);
         setCurrentLineIndex(0);
@@ -176,6 +147,7 @@ export default function AnimatedStory({
 
     // If reduced motion is requested, cycle slides normally without typewriter
     if (prefersReducedMotion) {
+      typewriterAudio.stopTyping();
       const timer = setTimeout(() => {
         setActiveSlideIndex((prev) => (prev + 1) % resolvedSlides.length);
       }, 4000);
@@ -187,6 +159,10 @@ export default function AnimatedStory({
 
     // 1. Still typing characters in the active line
     if (currentCharIndex < currentLine.length) {
+      if (isInView && isPlaying && !isMuted) {
+        typewriterAudio.startTyping();
+      }
+
       // Opening breath before first character of slide (180ms)
       // Brief pause before first character of a new line (160ms)
       // Normal typing speed between characters (42ms)
@@ -212,12 +188,8 @@ export default function AnimatedStory({
       return () => clearTimeout(timer);
     }
 
-    // 3. All lines in this slide finished typing - hold, ring bell, and transition to next slide!
-    const bellTimer = setTimeout(() => {
-      if (isInViewRef.current) {
-        typewriterAudio.playBell();
-      }
-    }, 100);
+    // 3. All lines in this slide finished typing - stop audio, hold, and transition!
+    typewriterAudio.stopTyping();
 
     const holdDuration = lines.length > 3 ? 900 : 700;
     const transitionTimer = setTimeout(() => {
@@ -227,7 +199,6 @@ export default function AnimatedStory({
     }, holdDuration);
 
     return () => {
-      clearTimeout(bellTimer);
       clearTimeout(transitionTimer);
     };
   }, [
@@ -236,6 +207,8 @@ export default function AnimatedStory({
     activeSlideIndex,
     currentLineIndex,
     currentCharIndex,
+    isInView,
+    isMuted,
     prefersReducedMotion,
     resolvedSlides,
   ]);
@@ -253,9 +226,8 @@ export default function AnimatedStory({
       aria-label="Animated story"
     >
       <button
-        className={`animated-story__stage ${
-          isPlaying ? "" : "animated-story__stage--paused"
-        }`}
+        className={`animated-story__stage ${isPlaying ? "" : "animated-story__stage--paused"
+          }`}
         type="button"
         onClick={() => {
           typewriterAudio.resume();
@@ -270,9 +242,8 @@ export default function AnimatedStory({
             return (
               <span
                 key={`${slide.image}-${slideIndex}`}
-                className={`animated-story__slide animated-story__slide--${slide.id} ${
-                  isActive ? "animated-story__slide--active" : ""
-                }`}
+                className={`animated-story__slide animated-story__slide--${slide.id} ${isActive ? "animated-story__slide--active" : ""
+                  }`}
               >
                 {/* Ambient blurred backdrop for mobile/portrait screen coverage */}
                 <img
@@ -357,9 +328,8 @@ export default function AnimatedStory({
 
         {/* Play/Pause Indicator Center Icon */}
         <span
-          className={`animated-story__play ${
-            isPlaying ? "" : "animated-story__play--visible"
-          }`}
+          className={`animated-story__play ${isPlaying ? "" : "animated-story__play--visible"
+            }`}
           aria-hidden="true"
         >
           <svg viewBox="0 0 24 24">
@@ -371,9 +341,8 @@ export default function AnimatedStory({
       {/* Typewriter Audio Sound Toggle Pill */}
       <button
         type="button"
-        className={`animated-story__sound-toggle ${
-          isMuted ? "animated-story__sound-toggle--muted" : ""
-        }`}
+        className={`animated-story__sound-toggle ${isMuted ? "animated-story__sound-toggle--muted" : ""
+          }`}
         onClick={handleToggleMute}
         aria-label={isMuted ? "Unmute typewriter sound" : "Mute typewriter sound"}
         title={isMuted ? "Unmute typewriter sound" : "Mute typewriter sound"}

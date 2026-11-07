@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const SQRT_5000 = Math.sqrt(5000);
 
@@ -169,17 +168,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       </div>
 
       {/* Footer / Direct Link */}
-      <div className="pt-2.5 border-t border-white/10 mt-1 flex items-center justify-between gap-2">
-        <span className={cn(
-          "font-spaceGrotesk text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5",
-          isCenter
-            ? isLightMode ? "text-[#39C69C]" : "text-[#F6C656]"
-            : isLightMode ? "text-[#163B2E]/60" : "text-zinc-500"
-        )}>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          Feedback
-        </span>
-        {testimonial.externalUrl && (
+      {testimonial.externalUrl && (
+        <div className="pt-2.5 border-t border-white/10 mt-1 flex items-center justify-end">
           <a
             href={testimonial.externalUrl}
             target="_blank"
@@ -191,8 +181,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           >
             Read Feature ↗
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -227,8 +217,16 @@ export default function CredibilityTestimonialsSection({
 
   useEffect(() => {
     const updateSize = () => {
-      const { matches } = window.matchMedia("(min-width: 640px)");
-      setCardSize(matches ? 365 : 290);
+      const width = window.innerWidth;
+      if (width < 640) {
+        setCardSize(280);
+      } else if (width < 1024) {
+        setCardSize(330);
+      } else if (width < 1280) {
+        setCardSize(310);
+      } else {
+        setCardSize(350);
+      }
     };
 
     updateSize();
@@ -282,55 +280,144 @@ export default function CredibilityTestimonialsSection({
           </p>
         </div>
 
-        {/* Staggered Testimonial Cards Carousel Container */}
-        <div
-          className="relative w-full overflow-hidden"
-          style={{
-            height: 600,
-          }}
-        >
-          {testimonialsList.map((testimonial, index) => {
-            const position = testimonialsList.length % 2
-              ? index - (testimonialsList.length + 1) / 2
-              : index - testimonialsList.length / 2;
-            return (
-              <TestimonialCard
-                key={testimonial.tempId}
-                testimonial={testimonial}
-                handleMove={handleMove}
-                position={position}
-                cardSize={cardSize}
-                isLightMode={isLightMode}
+        {/* Content Layout: Featured Press Coverage to the Left + Testimonial Tabs Carousel to the Right */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-center gap-8 lg:gap-8 xl:gap-10 w-full mt-2">
+          {/* Featured Press Spotlight (Left of Tabs) */}
+          <div className="w-full max-w-[420px] lg:w-[350px] xl:w-[390px] shrink-0 flex flex-col justify-center">
+            <a
+              href="https://oncodaily.com/voices/soirindhri-banerjee-563365"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Read OncoDaily feature on Dr. Soirindhri Banerjee and The Carcino Foundation"
+              className={cn(
+                "group relative flex flex-col justify-between rounded-3xl border-2 p-5 sm:p-6 transition-all duration-300 backdrop-blur-xl overflow-hidden shadow-xl hover:-translate-y-1 hover:shadow-2xl h-full",
+                isLightMode
+                  ? "bg-white text-[#163B2E] border-[#163B2E]/20 hover:border-[#39C69C]"
+                  : "bg-gradient-to-b from-[#2A1F3D]/95 via-[#1E1428]/95 to-[#150D1C]/95 text-white border-[#CDA8E8]/40 hover:border-[#CDA8E8] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+              )}
+            >
+              {/* Corner accent glow */}
+              <div
+                className="absolute top-0 right-0 w-32 h-32 pointer-events-none opacity-20"
+                style={{
+                  background: isLightMode
+                    ? "radial-gradient(circle at top right, #39C69C, transparent 70%)"
+                    : "radial-gradient(circle at top right, #CDA8E8, transparent 70%)"
+                }}
               />
-            );
-          })}
 
-          {/* Nav Controls */}
-          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-3 z-30">
-            <button
-              onClick={() => handleMove(-1)}
-              className={cn(
-                "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-2xl transition-all rounded-full border-2 shadow-lg hover:scale-110",
+              {/* Header Badges */}
+              <div className="flex items-center justify-between gap-2 pb-3 border-b border-black/10 dark:border-white/10">
+                <span className={cn(
+                  "font-spaceGrotesk text-xs font-bold tracking-wider uppercase",
+                  isLightMode ? "text-[#163B2E]" : "text-white"
+                )}>
+                  OncoDaily Spotlight
+                </span>
+                <span className={cn(
+                  "font-spaceGrotesk text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-colors flex items-center gap-1",
+                  isLightMode
+                    ? "border-[#163B2E]/20 text-[#163B2E]/80 group-hover:border-[#39C69C] group-hover:text-[#163B2E]"
+                    : "border-[#CDA8E8]/30 text-[#CDA8E8] group-hover:border-[#CDA8E8] group-hover:text-white"
+                )}>
+                  oncodaily.com <ExternalLink className="w-3 h-3 inline-block" />
+                </span>
+              </div>
+
+              {/* Image Preview Container */}
+              <div className="my-3.5 relative rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 shadow-md group-hover:shadow-lg transition-all duration-300 bg-white">
+                <img
+                  src="/oncodaily_feature.jpg"
+                  alt="OncoDaily Feature: Soirindhri Banerjee Breaks Down the Complexities of Cancer Treatment – The Carcino Foundation"
+                  className="w-full h-[220px] sm:h-[250px] object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
+                />
+                {/* Subtle gradient overlay at bottom of image */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-[11px] font-spaceGrotesk font-medium">
+                  <span className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md">
+                    Voices • 1 Min Read
+                  </span>
+                </div>
+              </div>
+
+              {/* Editorial Copy */}
+              <div className="flex flex-col gap-1.5 flex-1">
+                <h4 className={cn(
+                  "font-syne font-bold text-base sm:text-lg leading-snug line-clamp-2 transition-colors",
+                  isLightMode
+                    ? "text-[#163B2E] group-hover:text-[#39C69C]"
+                    : "text-white group-hover:text-[#CDA8E8]"
+                )}>
+                  Soirindhri Banerjee Breaks Down the Complexities of Cancer Treatment
+                </h4>
+                <p className={cn(
+                  "font-spaceGrotesk text-xs sm:text-[13px] leading-relaxed line-clamp-2 mt-1",
+                  isLightMode ? "text-[#2E1640]/75" : "text-zinc-300"
+                )}>
+                  The Carcino Foundation featured on international oncology media OncoDaily, exploring precision oncology, treatment nuances, and clinical pathways.
+                </p>
+              </div>
+
+              {/* CTA Button */}
+              <div className={cn(
+                "mt-4 w-full py-2.5 px-4 rounded-xl font-syne font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 shadow-md",
                 isLightMode
-                  ? "bg-white text-[#163B2E] border-[#163B2E] hover:bg-[#163B2E] hover:text-white"
-                  : "bg-[#1B1224] text-[#CDA8E8] border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-[#1B1224]"
-              )}
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7" />
-            </button>
-            <button
-              onClick={() => handleMove(1)}
-              className={cn(
-                "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-2xl transition-all rounded-full border-2 shadow-lg hover:scale-110",
-                isLightMode
-                  ? "bg-white text-[#163B2E] border-[#163B2E] hover:bg-[#163B2E] hover:text-white"
-                  : "bg-[#1B1224] text-[#CDA8E8] border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-[#1B1224]"
-              )}
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
-            </button>
+                  ? "bg-[#163B2E] text-white group-hover:bg-[#39C69C] group-hover:text-[#163B2E]"
+                  : "bg-[#CDA8E8] text-[#1B1224] group-hover:bg-white group-hover:text-[#1B1224]"
+              )}>
+                <span>Read Feature on OncoDaily</span>
+                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
+            </a>
+          </div>
+
+          {/* Staggered Testimonial Cards Carousel Container ("Tabs") */}
+          <div
+            className="relative flex-1 w-full min-h-[560px] lg:min-h-[580px] h-[580px] overflow-hidden"
+          >
+            {testimonialsList.map((testimonial, index) => {
+              const position = testimonialsList.length % 2
+                ? index - (testimonialsList.length + 1) / 2
+                : index - testimonialsList.length / 2;
+              return (
+                <TestimonialCard
+                  key={testimonial.tempId}
+                  testimonial={testimonial}
+                  handleMove={handleMove}
+                  position={position}
+                  cardSize={cardSize}
+                  isLightMode={isLightMode}
+                />
+              );
+            })}
+
+            {/* Nav Controls */}
+            <div className="absolute bottom-4 sm:bottom-6 left-1/2 flex -translate-x-1/2 gap-3 z-30">
+              <button
+                onClick={() => handleMove(-1)}
+                className={cn(
+                  "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-2xl transition-all rounded-full border-2 shadow-lg hover:scale-110",
+                  isLightMode
+                    ? "bg-white text-[#163B2E] border-[#163B2E] hover:bg-[#163B2E] hover:text-white"
+                    : "bg-[#1B1224] text-[#CDA8E8] border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-[#1B1224]"
+                )}
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7" />
+              </button>
+              <button
+                onClick={() => handleMove(1)}
+                className={cn(
+                  "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-2xl transition-all rounded-full border-2 shadow-lg hover:scale-110",
+                  isLightMode
+                    ? "bg-white text-[#163B2E] border-[#163B2E] hover:bg-[#163B2E] hover:text-white"
+                    : "bg-[#1B1224] text-[#CDA8E8] border-[#CDA8E8] hover:bg-[#CDA8E8] hover:text-[#1B1224]"
+                )}
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

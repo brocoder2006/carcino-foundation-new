@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Comico-Regular';
   src: url('/fonts/Comico-Regular.woff2') format('woff2'),
-       url('/fonts/Comico-Regular.woff') format('woff');
+    url('/fonts/Comico-Regular.woff') format('woff');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -121,9 +121,12 @@
 }
 
 @keyframes animated-story-cursor-blink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
@@ -273,7 +276,8 @@
 }
 
 /* Mobile & Portrait screens: contain image and card so whole content is NEVER cut off */
-@media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
+@media (max-width: 768px),
+(orientation: portrait) and (max-width: 1024px) {
   .animated-story__slide {
     display: flex;
     align-items: center;
