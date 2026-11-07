@@ -12,17 +12,17 @@ type StorySlide = {
 const defaultSlides: StorySlide[] = [
   {
     id: 1,
-    image: "/assets/story-bg-1.webp",
+    image: "/assets/story-1.webp",
     lines: ["CANCER WAS NEVER JUST", "ABOUT CANCER."],
   },
   {
     id: 2,
-    image: "/assets/story-bg-2.webp",
+    image: "/assets/story-2.webp",
     lines: ["SO, WE STARTED", "ASKING WHY."],
   },
   {
     id: 3,
-    image: "/assets/story-bg-3.webp",
+    image: "/assets/story-3.webp",
     lines: ["BECAUSE", "NO ONE", "CHANGES", "THE", "SYSTEM", "ALONE."],
   },
 ];
