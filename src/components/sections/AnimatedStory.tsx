@@ -3,22 +3,47 @@
 import { useState } from "react";
 import "./AnimatedStory.css";
 
+type StorySlide = {
+  id: number;
+  image: string;
+  lines: string[];
+};
+
+const defaultSlides: StorySlide[] = [
+  {
+    id: 1,
+    image: "/assets/story-bg-1.webp",
+    lines: ["CANCER WAS NEVER JUST", "ABOUT CANCER."],
+  },
+  {
+    id: 2,
+    image: "/assets/story-bg-2.webp",
+    lines: ["SO, WE STARTED", "ASKING WHY."],
+  },
+  {
+    id: 3,
+    image: "/assets/story-bg-3.webp",
+    lines: ["BECAUSE", "NO ONE", "CHANGES", "THE", "SYSTEM", "ALONE."],
+  },
+];
+
 type AnimatedStoryProps = {
+  slides?: StorySlide[];
   images?: string[];
   className?: string;
 };
 
-const defaultImages = [
-  "/assets/story-bg-1.webp",
-  "/assets/story-bg-2.webp",
-  "/assets/story-bg-3.webp",
-];
-
 export default function AnimatedStory({
-  images = defaultImages,
+  slides = defaultSlides,
+  images,
   className = "",
 }: AnimatedStoryProps) {
   const [isPlaying, setIsPlaying] = useState(true);
+
+  // Allow passing raw image URLs array as fallback
+  const resolvedSlides: StorySlide[] = images && images.length > 0
+    ? images.map((src, idx) => defaultSlides[idx] || { id: idx + 1, image: src, lines: [] })
+    : slides;
 
   return (
     <section
@@ -34,28 +59,30 @@ export default function AnimatedStory({
         aria-label={isPlaying ? "Pause animation" : "Play animation"}
       >
         <span className="animated-story__slides" aria-hidden="true">
-          {images.map((source, index) => (
+          {resolvedSlides.map((slide, index) => (
             <span
-              key={`${source}-${index}`}
-              className={`animated-story__slide animated-story__slide--${
-                index + 1
-              }`}
+              key={`${slide.image}-${index}`}
+              className={`animated-story__slide animated-story__slide--${slide.id}`}
             >
-              {/* Mobile Ambient Blurred Backdrop: fills full 100vh viewport softly so no cutoff */}
-              <img
-                className="animated-story__slide-bg"
-                src={source}
-                alt=""
-                fetchPriority={index === 0 ? "high" : "auto"}
-                aria-hidden="true"
-              />
-              {/* Main Crisp Foreground Image: contained on mobile to prevent cutoff, cover on desktop */}
-              <img
-                className="animated-story__slide-fg"
-                src={source}
-                alt=""
-                fetchPriority={index === 0 ? "high" : "auto"}
-              />
+              <span className="animated-story__card">
+                <img
+                  className="animated-story__image"
+                  src={slide.image}
+                  alt=""
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+                {slide.lines && slide.lines.length > 0 && (
+                  <span className={`animated-story__overlay animated-story__overlay--${slide.id}`}>
+                    <span className={`animated-story__title animated-story__title--${slide.id}`}>
+                      {slide.lines.map((line, lIdx) => (
+                        <span key={lIdx} className="animated-story__line">
+                          {line}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                )}
+              </span>
             </span>
           ))}
         </span>

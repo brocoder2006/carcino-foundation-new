@@ -109,15 +109,6 @@ export default function WhatWeAreBuilding() {
       }
 
       const sectionRect = section.getBoundingClientRect();
-
-      // Skip expensive DOM style updates when section is offscreen
-      if (
-        sectionRect.bottom < -150 ||
-        sectionRect.top > window.innerHeight + 150
-      ) {
-        return;
-      }
-
       const scrollDistance = section.offsetHeight - window.innerHeight;
 
       if (scrollDistance <= 0) {

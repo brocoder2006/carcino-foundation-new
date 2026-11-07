@@ -66,9 +66,22 @@ export default function EntranceAnimation({ onComplete }: EntranceAnimationProps
   const [preloaderComplete, setPreloaderComplete] = useState(false);
   const [complete, setComplete] = useState(false);
 
+  const finish = () => {
+    try {
+      sessionStorage.setItem("tcf_seen_intro", "1");
+    } catch {}
+    setComplete(true);
+    document.body.style.overflow = "";
+    if (onComplete) onComplete();
+  };
+
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      Boolean(sessionStorage.getItem("tcf_seen_intro"))
+    ) {
       setComplete(true);
+      document.body.style.overflow = "";
       if (onComplete) onComplete();
       return;
     }
@@ -78,21 +91,25 @@ export default function EntranceAnimation({ onComplete }: EntranceAnimationProps
     setComplete(false);
     document.body.style.overflow = "hidden";
 
-    const readyTimer = window.setTimeout(() => setReady(true), 1700);
+    const readyTimer = window.setTimeout(() => setReady(true), 1200);
     const preloaderTimer = window.setTimeout(
       () => setPreloaderComplete(true),
-      3600
+      2500
     );
-    const completeTimer = window.setTimeout(() => {
-      setComplete(true);
-      document.body.style.overflow = "";
-      if (onComplete) onComplete();
-    }, 5700);
+    const completeTimer = window.setTimeout(finish, 3800);
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === " " || e.key === "Enter") {
+        finish();
+      }
+    };
+    window.addEventListener("keydown", handleKey);
 
     return () => {
       window.clearTimeout(readyTimer);
       window.clearTimeout(preloaderTimer);
       window.clearTimeout(completeTimer);
+      window.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
     };
   }, [sequence, onComplete]);
@@ -100,7 +117,7 @@ export default function EntranceAnimation({ onComplete }: EntranceAnimationProps
   return (
     <>
       {!complete && (
-        <div key={sequence} className="entrance-container">
+        <div key={sequence} className="entrance-container" onClick={finish}>
           {/* Top Header - ONLY "THE CARCINO FOUNDATION", NO EXTRA TEXT */}
           <header className="entrance-nav" aria-label="Top Brand Header">
             <Wordmark />

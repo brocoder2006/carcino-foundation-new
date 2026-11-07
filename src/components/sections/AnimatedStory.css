@@ -5,6 +5,7 @@
   min-height: 100dvh;
   overflow: hidden;
   background: #0b0b0c;
+  position: relative;
 }
 
 .animated-story__stage {
@@ -46,33 +47,115 @@
   will-change: opacity;
 }
 
-/* Desktop default: edge-to-edge cover */
-.animated-story__slide-bg {
-  display: none;
-}
-
-.animated-story__slide-fg {
+.animated-story__card {
+  position: relative;
+  display: block;
   width: 100%;
   height: 100%;
-  padding: 0;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+  overflow: hidden;
 }
 
+.animated-story__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Base text overlay */
+.animated-story__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.animated-story__title {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-syne), var(--font-winter-solace), sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.animated-story__line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Slide 1 Styling */
 .animated-story__slide--1 {
   background: #ded2d7;
   animation-delay: -0.15s;
 }
 
+.animated-story__overlay--1 {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 7.5%;
+}
+
+.animated-story__title--1 {
+  align-items: center;
+  text-align: center;
+  color: #3e244d;
+  font-size: clamp(1.2rem, 3.8vw, 3.5rem);
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.35);
+}
+
+/* Slide 2 Styling */
 .animated-story__slide--2 {
   background: #c6b2bd;
   animation-delay: 1.05s;
 }
 
+.animated-story__overlay--2 {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 17%;
+  padding-left: 7%;
+}
+
+.animated-story__title--2 {
+  align-items: center;
+  text-align: center;
+  color: #351c44;
+  font-size: clamp(1.1rem, 3.2vw, 3.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  width: 38%;
+}
+
+/* Slide 3 Styling */
 .animated-story__slide--3 {
   background: #a97d91;
   animation-delay: 2.25s;
+}
+
+.animated-story__overlay--3 {
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5.5%;
+}
+
+.animated-story__title--3 {
+  align-items: flex-start;
+  text-align: left;
+  color: #ffffff;
+  font-size: clamp(1.05rem, 3.1vw, 2.9rem);
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+  width: 36%;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
 }
 
 .animated-story__stage--paused .animated-story__slide {
@@ -95,45 +178,50 @@
   }
 }
 
-/* Mobile & Portrait screens: contain foreground image so it is NEVER cut off */
+/* Mobile & Portrait screens: contain image and card so it is NEVER cut off */
 @media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
   .animated-story__slide {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 64px 14px 54px;
+    box-sizing: border-box;
+  }
+
+  .animated-story__card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1024 / 640;
+    max-height: calc(100vh - 120px);
+    border-radius: 16px;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45);
     overflow: hidden;
   }
 
-  .animated-story__slide-bg {
-    display: block;
-    position: absolute;
-    inset: -15%;
-    width: 130%;
-    height: 130%;
-    object-fit: cover;
-    object-position: center;
-    filter: blur(28px) brightness(0.65);
-    opacity: 0.85;
-    transform: scale(1.1);
-    pointer-events: none;
-  }
-
-  .animated-story__slide-fg {
-    position: relative;
-    z-index: 1;
+  .animated-story__image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center;
-    /* Safe padding prevents overlap with fixed top bar and bottom carousel */
-    padding: 4.75rem 0.85rem 3.5rem;
-    filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.5));
+    object-fit: cover;
+  }
+
+  .animated-story__title--1 {
+    font-size: clamp(0.78rem, 3.4vw, 1.4rem);
+  }
+
+  .animated-story__title--2 {
+    font-size: clamp(0.72rem, 3vw, 1.25rem);
+    width: 42%;
+  }
+
+  .animated-story__title--3 {
+    font-size: clamp(0.68rem, 2.8vw, 1.2rem);
+    width: 38%;
   }
 }
 
 .animated-story__play {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 50%;
   left: 50%;
   display: grid;
