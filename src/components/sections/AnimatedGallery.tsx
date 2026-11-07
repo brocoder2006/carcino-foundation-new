@@ -22,16 +22,19 @@ export type GalleryImage = {
 
 const photos = [
   {
-    src: typeof heroPhoto === "string" ? heroPhoto : heroPhoto.src,
-    alt: "FinFlare installation at South City International School",
-  },
-  {
     src: typeof auditoriumPhoto === "string" ? auditoriumPhoto : auditoriumPhoto.src,
-    alt: "Students seated together in the auditorium",
+    alt: "Students seated together in the auditorium at South City International School",
+    tag: "01",
   },
   {
     src: typeof selfiePhoto === "string" ? selfiePhoto : selfiePhoto.src,
-    alt: "Friends taking a group selfie at FinFlare",
+    alt: "Students taking a group selfie at FinFlare",
+    tag: "02",
+  },
+  {
+    src: typeof heroPhoto === "string" ? heroPhoto : heroPhoto.src,
+    alt: "FinFlare installation and stage at South City International School",
+    tag: "03",
   },
 ];
 
@@ -103,6 +106,7 @@ export default function AnimateGallery({
 
     const collection = collectionRef.current;
     const context = gsap.context(() => {
+      // 1. Text reveal when scrolled into view
       gsap.fromTo(
         ".ff-collage-title > *",
         {
@@ -116,79 +120,75 @@ export default function AnimateGallery({
           letterSpacing: "0.04em",
           duration: 1.2,
           stagger: 0.16,
-          delay: 0.75,
           ease: "power4.out",
+          scrollTrigger: {
+            trigger: collection,
+            start: "top 75%",
+          },
         },
       );
 
+      // 2. Sections Entrance: Reveal into the 3-part layout
       const photoSettings = [
         {
-          selector: ".ff-photo-main",
-          from: "inset(0% 100% 0% 0%)",
-          rotation: 0,
-          y: -35,
-        },
-        {
           selector: ".ff-photo-top",
-          from: "inset(100% 0% 0% 0%)",
-          rotation: 0,
-          y: -65,
+          from: "inset(0% 0% 100% 0%)",
         },
         {
           selector: ".ff-photo-bottom",
-          from: "inset(0% 0% 100% 0%)",
-          rotation: 0,
-          y: -40,
+          from: "inset(100% 0% 0% 0%)",
+        },
+        {
+          selector: ".ff-photo-main",
+          from: "inset(0% 0% 0% 100%)",
         },
       ];
 
-      photoSettings.forEach(({ selector, from, rotation, y }, index) => {
+      photoSettings.forEach(({ selector, from }, index) => {
         const photo = gsap.utils.toArray<HTMLElement>(selector)[0];
         if (!photo) return;
 
         gsap.fromTo(
           photo,
-          { clipPath: from, y: 120, rotation },
+          { clipPath: from, opacity: 0.7 },
           {
             clipPath: "inset(0% 0% 0% 0%)",
-            y: 0,
-            duration: 1.5,
-            ease: "power4.inOut",
-            delay: 0.12 + index * 0.14,
-          },
-        );
-
-        gsap.fromTo(
-          photo.querySelector("img"),
-          { scale: 1.22 },
-          {
-            scale: 1,
-            ease: "none",
+            opacity: 1,
+            duration: 1.4,
+            ease: "power3.inOut",
+            delay: 0.1 + index * 0.12,
             scrollTrigger: {
-              trigger: photo,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.4,
+              trigger: collection,
+              start: "top 80%",
             },
           },
         );
 
-        gsap.to(photo, {
-          y,
-          ease: "none",
-          scrollTrigger: {
-            trigger: photo,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.6,
-          },
-        });
+        // Internal Image Scale & Drift Parallax (containers stay firmly locked together with 0 gap)
+        const img = photo.querySelector("img");
+        if (img) {
+          gsap.fromTo(
+            img,
+            { scale: 1.15, yPercent: -4 },
+            {
+              scale: 1.02,
+              yPercent: 4,
+              ease: "none",
+              scrollTrigger: {
+                trigger: collection,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.4,
+              },
+            },
+          );
+        }
       });
 
       gsap.to(".ff-orb-one", {
-        xPercent: -48,
-        yPercent: 70,
-        rotation: 70,
+        xPercent: -40,
+        yPercent: 60,
+        rotation: 60,
         ease: "none",
         scrollTrigger: {
           trigger: collection,
@@ -199,9 +199,9 @@ export default function AnimateGallery({
       });
 
       gsap.to(".ff-orb-two", {
-        xPercent: 55,
-        yPercent: -45,
-        scale: 1.35,
+        xPercent: 50,
+        yPercent: -40,
+        scale: 1.3,
         ease: "none",
         scrollTrigger: {
           trigger: collection,
@@ -212,21 +212,23 @@ export default function AnimateGallery({
       });
     }, galleryRef);
 
-    const moveX = gsap.quickTo(".ff-collection .ff-photo", "x", {
-      duration: 1.4,
+    // Interactive pointer movement: gently shift the images inside the frame
+    const moveImgX = gsap.quickTo(".ff-photo img", "x", {
+      duration: 1.2,
       ease: "power3.out",
     });
-    const moveY = gsap.quickTo(".ff-collection .ff-photo", "yPercent", {
-      duration: 1.4,
+    const moveImgY = gsap.quickTo(".ff-photo img", "y", {
+      duration: 1.2,
       ease: "power3.out",
     });
 
     const handlePointerMove = (event: PointerEvent) => {
       if (window.innerWidth < 800) return;
-      const x = event.clientX / window.innerWidth - 0.5;
-      const y = event.clientY / window.innerHeight - 0.5;
-      moveX(x * 18);
-      moveY(y * 2.5);
+      const rect = collection.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      moveImgX(x * 14);
+      moveImgY(y * 10);
     };
 
     collection.addEventListener("pointermove", handlePointerMove);
@@ -250,32 +252,38 @@ export default function AnimateGallery({
           <p>social impact partner</p>
         </div>
 
+        {/* Section 1: Top-Left */}
         <button
-          className="ff-photo ff-photo-main"
+          className="ff-photo ff-photo-top"
           type="button"
           onClick={() => setActive(0)}
-          aria-label="Open first photograph"
+          aria-label="Open auditorium photograph (Section 1)"
         >
+          <span className="ff-photo-badge">01</span>
           <img src={photos[0].src} alt={photos[0].alt} />
           <span className="ff-photo-glow" />
         </button>
 
+        {/* Section 2: Bottom-Left */}
         <button
-          className="ff-photo ff-photo-top"
+          className="ff-photo ff-photo-bottom"
           type="button"
           onClick={() => setActive(1)}
-          aria-label="Open auditorium photograph"
+          aria-label="Open group photograph (Section 2)"
         >
+          <span className="ff-photo-badge">02</span>
           <img src={photos[1].src} alt={photos[1].alt} />
           <span className="ff-photo-glow" />
         </button>
 
+        {/* Section 3: Right (Full Height) */}
         <button
-          className="ff-photo ff-photo-bottom"
+          className="ff-photo ff-photo-main"
           type="button"
           onClick={() => setActive(2)}
-          aria-label="Open group photograph"
+          aria-label="Open FinFlare venue photograph (Section 3)"
         >
+          <span className="ff-photo-badge">03</span>
           <img src={photos[2].src} alt={photos[2].alt} />
           <span className="ff-photo-glow" />
         </button>
