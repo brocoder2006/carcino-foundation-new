@@ -8,6 +8,7 @@ import "./AnimatedStory.css";
 type StorySlide = {
   id: number;
   image: string;
+  mobileImage?: string;
   lines: string[];
 };
 
@@ -15,16 +16,19 @@ const defaultSlides: StorySlide[] = [
   {
     id: 1,
     image: "/assets/story-1.webp",
+    mobileImage: "/assets/story-1-mobile.webp",
     lines: ["Cancer was never just", "about cancer."],
   },
   {
     id: 2,
     image: "/assets/story-2.webp",
+    mobileImage: "/assets/story-2-mobile.webp",
     lines: ["So, we started", "asking why."],
   },
   {
     id: 3,
     image: "/assets/story-3.webp",
+    mobileImage: "/assets/story-3-mobile.webp",
     lines: ["Because", "no one", "changes", "the", "system", "alone."],
   },
 ];
@@ -253,12 +257,20 @@ export default function AnimatedStory({
                   aria-hidden="true"
                 />
                 <span className="animated-story__card">
-                  <img
-                    className="animated-story__image"
-                    src={slide.image}
-                    alt=""
-                    fetchPriority={slideIndex === 0 ? "high" : "auto"}
-                  />
+                  <picture className="animated-story__picture">
+                    {slide.mobileImage && (
+                      <source
+                        media="(max-width: 768px), (orientation: portrait) and (max-width: 1024px)"
+                        srcSet={slide.mobileImage}
+                      />
+                    )}
+                    <img
+                      className="animated-story__image"
+                      src={slide.image}
+                      alt=""
+                      fetchPriority={slideIndex === 0 ? "high" : "auto"}
+                    />
+                  </picture>
                   {slide.lines && slide.lines.length > 0 && (
                     <span
                       className={`animated-story__overlay animated-story__overlay--${slide.id}`}
