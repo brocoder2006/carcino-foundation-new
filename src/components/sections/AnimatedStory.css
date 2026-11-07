@@ -101,7 +101,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--font-comico), 'Comico-Regular', 'Comico', sans-serif;
-  font-weight: 400;
+  font-weight: 800;
 }
 
 .animated-story__line {
@@ -161,8 +161,8 @@
   text-align: center;
   width: 100%;
   color: #3e244d;
-  font-size: clamp(1.2rem, 3.8vw, 3.5rem);
-  font-size: clamp(1.2rem, 3.8cqi, 3.5rem);
+  font-size: clamp(1.5rem, 4.75vw, 4.38rem);
+  font-size: clamp(1.5rem, 4.75cqi, 4.38rem);
   line-height: 1.16;
   letter-spacing: -0.015em;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.35);
@@ -196,8 +196,8 @@
   text-align: center;
   width: 100%;
   color: #351c44;
-  font-size: clamp(1.2rem, 3.8vw, 3.5rem);
-  font-size: clamp(1.2rem, 3.8cqi, 3.5rem);
+  font-size: clamp(1.5rem, 4.75vw, 4.38rem);
+  font-size: clamp(1.5rem, 4.75cqi, 4.38rem);
   line-height: 1.16;
   letter-spacing: -0.015em;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.35);
@@ -231,8 +231,8 @@
   text-align: left;
   width: 100%;
   color: #ffffff;
-  font-size: clamp(0.95rem, 2.9vw, 2.9rem);
-  font-size: clamp(0.95rem, 2.9cqi, 2.9rem);
+  font-size: clamp(1.2rem, 3.63vw, 3.63rem);
+  font-size: clamp(1.2rem, 3.63cqi, 3.63rem);
   line-height: 1.22;
   letter-spacing: 0.01em;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
@@ -309,6 +309,13 @@
     object-fit: cover;
   }
 
+  /* Slide 2: Keep full background graphic properly visible and anchored to upper portion */
+  .animated-story__slide--2 .animated-story__image {
+    object-fit: cover;
+    object-position: center top;
+    transform: none;
+  }
+
   /* Slide 1 mobile: centered in the middle light grey band */
   .animated-story__overlay--1 {
     top: 18.2%;
@@ -324,7 +331,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(0.78rem, 3.7cqi, 1.45rem);
+    font-size: clamp(1.3rem, 5.75cqi, 2.44rem);
+    font-weight: 800;
     line-height: 1.15;
     letter-spacing: -0.015em;
     width: 100%;
@@ -336,25 +344,27 @@
     white-space: nowrap;
   }
 
-  /* Slide 2 mobile: strictly center-aligned inside mauve area */
+  /* Slide 2 mobile: framed inside the mauve area with the full background graphic visible */
   .animated-story__overlay--2 {
     top: 0;
     left: 0;
-    width: 43%;
-    height: 61.6%;
+    width: 46%;
+    height: 70%;
     align-items: center;
     justify-content: center;
-    padding: 4%;
+    padding: 0 2%;
   }
 
   .animated-story__title--2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(0.72rem, 3.1cqi, 1.3rem);
-    line-height: 1.2;
+    font-size: clamp(1.15rem, 5.25cqi, 1.94rem);
+    font-weight: 800;
+    line-height: 1.18;
     letter-spacing: -0.015em;
     width: 100%;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.4);
   }
 
   .animated-story__title--2 .animated-story__line {
@@ -378,7 +388,8 @@
     align-items: flex-start;
     justify-content: center;
     text-align: left;
-    font-size: clamp(0.66rem, 2.6cqi, 1.15rem);
+    font-size: clamp(1.13rem, 4.75cqi, 2.0rem);
+    font-weight: 800;
     line-height: 1.22;
     letter-spacing: 0.01em;
     width: 100%;
