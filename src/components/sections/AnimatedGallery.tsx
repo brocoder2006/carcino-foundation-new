@@ -1,13 +1,11 @@
 "use client";
 
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import heroPhoto from "./assets/gallery/finflare-venue.jpg";
+import auditoriumPhoto from "./assets/gallery/auditorium-team.jpg";
+import selfiePhoto from "./assets/gallery/team-selfie.jpg";
 import "./AnimatedGallery.css";
 
 if (typeof window !== "undefined") {
@@ -22,41 +20,34 @@ export type GalleryImage = {
   alt?: string;
 };
 
-type AnimatedGalleryProps = {
-  title?: string;
-  subtext?: string;
-  images?: [GalleryImage, GalleryImage, GalleryImage] | GalleryImage[];
-  isLightMode?: boolean;
-};
-
-const DEFAULT_IMAGES: [GalleryImage, GalleryImage, GalleryImage] = [
+const photos = [
   {
-    src: "/gallery/gallery-2.jpg",
-    alt: "FinFlare 2025 Grand Finale banner at South City International School",
+    src: typeof heroPhoto === "string" ? heroPhoto : heroPhoto.src,
+    alt: "FinFlare installation at South City International School",
   },
   {
-    src: "/gallery/gallery-3.jpg",
-    alt: "Carcino Foundation student organizers celebrating together",
+    src: typeof auditoriumPhoto === "string" ? auditoriumPhoto : auditoriumPhoto.src,
+    alt: "Students seated together in the auditorium",
   },
   {
-    src: "/gallery/gallery-1.jpg",
-    alt: "The Carcino Foundation team and youth delegates at FinFlare 2025 in the auditorium",
+    src: typeof selfiePhoto === "string" ? selfiePhoto : selfiePhoto.src,
+    alt: "Friends taking a group selfie at FinFlare",
   },
 ];
 
-function ArrowIcon({ reverse = false }: { reverse?: boolean }) {
+function Arrow({ reverse = false }: { reverse?: boolean }) {
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 32 32"
-      className={reverse ? "ag-reverse" : ""}
+      className={reverse ? "ff-reverse" : ""}
     >
       <path d="M4 16h23M19 8l8 8-8 8" />
     </svg>
   );
 }
 
-function CloseIcon() {
+function Close() {
   return (
     <svg aria-hidden="true" viewBox="0 0 32 32">
       <path d="M7 7l18 18M25 7 7 25" />
@@ -64,236 +55,137 @@ function CloseIcon() {
   );
 }
 
-function ExpandIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 32 32">
-      <path d="M12 5H5v7M20 5h7v7M12 27H5v-7M20 27h7v-7" />
-    </svg>
-  );
-}
+type AnimateGalleryProps = {
+  isLightMode?: boolean;
+};
 
-export default function AnimatedGallery({
-  title = "FINFLARE 2025",
-  subtext = "Social Impact Partner",
-  images = DEFAULT_IMAGES,
+export default function AnimateGallery({
   isLightMode = false,
-}: AnimatedGalleryProps) {
-  const [activeImage, setActiveImage] = useState<number | null>(null);
-
+}: AnimateGalleryProps = {}) {
+  const [active, setActive] = useState<number | null>(null);
   const galleryRef = useRef<HTMLElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
   const collectionRef = useRef<HTMLElement>(null);
 
-  const galleryImages = images && images.length >= 3 ? images : DEFAULT_IMAGES;
+  const next = () =>
+    setActive((current) => (current === null ? 0 : (current + 1) % photos.length));
 
-  const nextImage = () => {
-    setActiveImage((current) =>
-      current === null ? 0 : (current + 1) % galleryImages.length,
+  const previous = () =>
+    setActive((current) =>
+      current === null ? photos.length - 1 : (current - 1 + photos.length) % photos.length,
     );
-  };
-
-  const previousImage = () => {
-    setActiveImage((current) =>
-      current === null
-        ? galleryImages.length - 1
-        : (current - 1 + galleryImages.length) % galleryImages.length,
-    );
-  };
 
   useEffect(() => {
-    if (activeImage === null) return;
+    if (active === null) return;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveImage(null);
-      if (event.key === "ArrowRight") nextImage();
-      if (event.key === "ArrowLeft") previousImage();
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActive(null);
+      if (event.key === "ArrowRight") next();
+      if (event.key === "ArrowLeft") previous();
     };
 
-    document.body.classList.add("ag-locked");
-    window.addEventListener("keydown", handleKeyDown);
+    document.body.classList.add("ff-locked");
+    window.addEventListener("keydown", handleKey);
 
     return () => {
-      document.body.classList.remove("ag-locked");
-      window.removeEventListener("keydown", handleKeyDown);
+      document.body.classList.remove("ff-locked");
+      window.removeEventListener("keydown", handleKey);
     };
-  }, [activeImage, galleryImages.length]);
+  }, [active]);
 
   useIsomorphicLayoutEffect(() => {
     if (
       !galleryRef.current ||
-      !heroRef.current ||
-      !collectionRef.current
-    ) {
-      return;
-    }
-
-    if (
+      !collectionRef.current ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
       return;
     }
 
     const collection = collectionRef.current;
-    const hero = heroRef.current;
-
     const context = gsap.context(() => {
-      const entrance = gsap.timeline({
-        defaults: {
+      gsap.fromTo(
+        ".ff-collage-title > *",
+        {
+          autoAlpha: 0,
+          y: 28,
+          letterSpacing: "0.22em",
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          letterSpacing: "0.04em",
+          duration: 1.2,
+          stagger: 0.16,
+          delay: 0.75,
           ease: "power4.out",
         },
-        scrollTrigger: {
-          trigger: hero,
-          start: "top 80%",
-          once: true,
-        },
-      });
+      );
 
-      entrance
-        .fromTo(
-          ".ag-hero-frame",
-          {
-            clipPath: "inset(9% 8%)",
-            scale: 1.12,
-            filter: "blur(10px)",
-          },
-          {
-            clipPath: "inset(0% 0%)",
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.8,
-          },
-        )
-        .fromTo(
-          ".ag-hero-frame img",
-          {
-            scale: 1.18,
-          },
-          {
-            scale: 1.04,
-            duration: 2.2,
-          },
-          0,
-        )
-        .fromTo(
-          [".ag-title", ".ag-subtext"],
-          {
-            autoAlpha: 0,
-            y: -24,
-            filter: "blur(6px)",
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 1,
-            stagger: 0.1,
-          },
-          0.3,
-        )
-        .fromTo(
-          [".ag-hero-expand", ".ag-scroll-cue"],
-          {
-            autoAlpha: 0,
-            y: 24,
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.15,
-          },
-          1,
-        );
-
-      gsap.to(".ag-hero-frame img", {
-        yPercent: 18,
-        scale: 1.13,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-
-      gsap.to(".ag-hero-shade", {
-        opacity: 0.2,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom 15%",
-          scrub: true,
-        },
-      });
-
-      const frames = [
+      const photoSettings = [
         {
-          selector: ".ag-photo-one",
-          clip: "inset(0% 100% 0% 0%)",
-          rotation: -1.2,
+          selector: ".ff-photo-main",
+          from: "inset(0% 100% 0% 0%)",
+          rotation: 0,
+          y: -35,
         },
         {
-          selector: ".ag-photo-two",
-          clip: "inset(100% 0% 0% 0%)",
-          rotation: 2.4,
+          selector: ".ff-photo-top",
+          from: "inset(100% 0% 0% 0%)",
+          rotation: 0,
+          y: -65,
         },
         {
-          selector: ".ag-photo-three",
-          clip: "inset(0% 0% 100% 0%)",
-          rotation: -3.6,
+          selector: ".ff-photo-bottom",
+          from: "inset(0% 0% 100% 0%)",
+          rotation: 0,
+          y: -40,
         },
       ];
 
-      frames.forEach(({ selector, clip, rotation }) => {
-        const element =
-          galleryRef.current?.querySelector<HTMLElement>(selector);
-
-        if (!element) return;
+      photoSettings.forEach(({ selector, from, rotation, y }, index) => {
+        const photo = gsap.utils.toArray<HTMLElement>(selector)[0];
+        if (!photo) return;
 
         gsap.fromTo(
-          element,
-          {
-            clipPath: clip,
-            y: 120,
-            rotation,
-          },
+          photo,
+          { clipPath: from, y: 120, rotation },
           {
             clipPath: "inset(0% 0% 0% 0%)",
             y: 0,
+            duration: 1.5,
             ease: "power4.inOut",
+            delay: 0.12 + index * 0.14,
+          },
+        );
+
+        gsap.fromTo(
+          photo.querySelector("img"),
+          { scale: 1.22 },
+          {
+            scale: 1,
+            ease: "none",
             scrollTrigger: {
-              trigger: element,
-              start: "top 92%",
-              end: "top 38%",
-              scrub: 1,
+              trigger: photo,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.4,
             },
           },
         );
 
-        const img = element.querySelector("img");
-        if (img) {
-          gsap.fromTo(
-            img,
-            {
-              scale: 1.22,
-            },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: element,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1.4,
-              },
-            },
-          );
-        }
+        gsap.to(photo, {
+          y,
+          ease: "none",
+          scrollTrigger: {
+            trigger: photo,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.6,
+          },
+        });
       });
 
-      gsap.to(".ag-orb-one", {
+      gsap.to(".ff-orb-one", {
         xPercent: -48,
         yPercent: 70,
         rotation: 70,
@@ -306,7 +198,7 @@ export default function AnimatedGallery({
         },
       });
 
-      gsap.to(".ag-orb-two", {
+      gsap.to(".ff-orb-two", {
         xPercent: 55,
         yPercent: -45,
         scale: 1.35,
@@ -320,202 +212,125 @@ export default function AnimatedGallery({
       });
     }, galleryRef);
 
-    const photos = collection.querySelectorAll<HTMLElement>(".ag-photo");
-    const moveX = gsap.quickTo(photos, "x", {
+    const moveX = gsap.quickTo(".ff-collection .ff-photo", "x", {
       duration: 1.4,
       ease: "power3.out",
     });
-
-    const moveY = gsap.quickTo(photos, "yPercent", {
+    const moveY = gsap.quickTo(".ff-collection .ff-photo", "yPercent", {
       duration: 1.4,
       ease: "power3.out",
     });
 
     const handlePointerMove = (event: PointerEvent) => {
       if (window.innerWidth < 800) return;
-
       const x = event.clientX / window.innerWidth - 0.5;
       const y = event.clientY / window.innerHeight - 0.5;
-
       moveX(x * 18);
       moveY(y * 2.5);
     };
 
-    collection.addEventListener(
-      "pointermove",
-      handlePointerMove,
-    );
+    collection.addEventListener("pointermove", handlePointerMove);
 
     return () => {
-      collection.removeEventListener(
-        "pointermove",
-        handlePointerMove,
-      );
-
+      collection.removeEventListener("pointermove", handlePointerMove);
       context.revert();
     };
   }, []);
 
-  const img0 = galleryImages[0];
-  const img1 = galleryImages[1];
-  const img2 = galleryImages[2];
-  const img3 = galleryImages[3] || galleryImages[0];
-
   return (
-    <section className={`ag-gallery w-full ${isLightMode ? "ag-light" : ""}`} ref={galleryRef} id="gallery-section">
-      <section className="ag-hero" ref={heroRef}>
-        <div className="ag-header-wrapper">
-          <h1 className="ag-title">{title}</h1>
-          {subtext && <p className="ag-subtext">{subtext}</p>}
+    <main
+      className={`ff-gallery ${isLightMode ? "ff-gallery--light" : ""}`}
+      ref={galleryRef}
+    >
+      <section className="ff-collection" id="collection" ref={collectionRef}>
+        <div className="ff-orb ff-orb-one" />
+        <div className="ff-orb ff-orb-two" />
+        <div className="ff-collage-title">
+          <h1>FINFLARE 2025</h1>
+          <p>social impact partner</p>
         </div>
-
-        <div className="ag-hero-frame">
-          <img
-            src={img0.src}
-            alt={img0.alt ?? ""}
-          />
-        </div>
-
-        <div className="ag-hero-shade" />
 
         <button
-          className="ag-expand ag-hero-expand"
+          className="ff-photo ff-photo-main"
           type="button"
-          onClick={() => setActiveImage(0)}
+          onClick={() => setActive(0)}
           aria-label="Open first photograph"
         >
-          <ExpandIcon />
-        </button>
-
-        <a
-          className="ag-scroll-cue"
-          href="#animated-gallery-images"
-          aria-label="View more photographs"
-          onClick={(e) => {
-            e.preventDefault();
-            collectionRef.current?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <span />
-        </a>
-      </section>
-
-      <section
-        className="ag-collection"
-        id="animated-gallery-images"
-        ref={collectionRef}
-      >
-        <div className="ag-orb ag-orb-one" />
-        <div className="ag-orb ag-orb-two" />
-
-        <button
-          className="ag-photo ag-photo-one"
-          type="button"
-          onClick={() => setActiveImage(1)}
-          aria-label="Open second photograph"
-        >
-          <img
-            src={img1.src}
-            alt={img1.alt ?? ""}
-          />
-
-          <span className="ag-photo-glow" />
-
-          <span className="ag-expand">
-            <ExpandIcon />
-          </span>
+          <img src={photos[0].src} alt={photos[0].alt} />
+          <span className="ff-photo-glow" />
         </button>
 
         <button
-          className="ag-photo ag-photo-two"
+          className="ff-photo ff-photo-top"
           type="button"
-          onClick={() => setActiveImage(2)}
-          aria-label="Open third photograph"
+          onClick={() => setActive(1)}
+          aria-label="Open auditorium photograph"
         >
-          <img
-            src={img2.src}
-            alt={img2.alt ?? ""}
-          />
-
-          <span className="ag-photo-glow" />
-
-          <span className="ag-expand">
-            <ExpandIcon />
-          </span>
+          <img src={photos[1].src} alt={photos[1].alt} />
+          <span className="ff-photo-glow" />
         </button>
 
         <button
-          className="ag-photo ag-photo-three"
+          className="ff-photo ff-photo-bottom"
           type="button"
-          onClick={() => setActiveImage(galleryImages[3] ? 3 : 0)}
-          aria-label={`Open ${galleryImages[3] ? "fourth" : "first"} photograph`}
+          onClick={() => setActive(2)}
+          aria-label="Open group photograph"
         >
-          <img src={img3.src} alt={img3.alt ?? ""} />
-
-          <span className="ag-photo-glow" />
-
-          <span className="ag-expand">
-            <ExpandIcon />
-          </span>
+          <img src={photos[2].src} alt={photos[2].alt} />
+          <span className="ff-photo-glow" />
         </button>
       </section>
 
-      {activeImage !== null && (
+      {active !== null && (
         <div
-          className="ag-viewer"
+          className="ff-viewer"
           role="dialog"
           aria-modal="true"
           aria-label="Image viewer"
         >
-          <div className="ag-viewer-wash" />
-
+          <div className="ff-viewer-wash" />
           <img
-            key={activeImage}
-            className="ag-viewer-image"
-            src={galleryImages[activeImage].src}
-            alt={galleryImages[activeImage].alt ?? ""}
+            key={active}
+            className="ff-viewer-image"
+            src={photos[active].src}
+            alt={photos[active].alt}
           />
-
           <button
-            className="ag-viewer-close"
+            className="ff-viewer-close"
             type="button"
-            onClick={() => setActiveImage(null)}
+            onClick={() => setActive(null)}
             aria-label="Close viewer"
           >
-            <CloseIcon />
+            <Close />
           </button>
-
           <button
-            className="ag-viewer-arrow ag-viewer-arrow-left"
+            className="ff-viewer-arrow ff-viewer-arrow-left"
             type="button"
-            onClick={previousImage}
+            onClick={previous}
             aria-label="Previous photograph"
           >
-            <ArrowIcon reverse />
+            <Arrow reverse />
           </button>
-
           <button
-            className="ag-viewer-arrow ag-viewer-arrow-right"
+            className="ff-viewer-arrow ff-viewer-arrow-right"
             type="button"
-            onClick={nextImage}
+            onClick={next}
             aria-label="Next photograph"
           >
-            <ArrowIcon />
+            <Arrow />
           </button>
-
-          <div className="ag-viewer-dots" aria-hidden="true">
-            {galleryImages.map((image, index) => (
+          <div className="ff-viewer-dots" aria-hidden="true">
+            {photos.map((photo, index) => (
               <span
-                key={`${image.src}-${index}`}
-                className={
-                  index === activeImage ? "ag-active" : ""
-                }
+                className={index === active ? "ff-active" : ""}
+                key={photo.src}
               />
             ))}
           </div>
         </div>
       )}
-    </section>
+    </main>
   );
 }
 
+export { AnimateGallery as AnimatedGallery };

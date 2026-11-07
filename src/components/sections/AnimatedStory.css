@@ -283,12 +283,17 @@
   }
 }
 
-/* Mobile & Portrait screens: full-screen native portrait story with custom portrait artwork */
+/* Mobile & Portrait screens: full-screen native portrait story with custom portrait artwork - ZERO CUTOFF */
 @media (max-width: 768px),
 (orientation: portrait) and (max-width: 1024px) {
   .animated-story__slide {
-    display: block;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: calc(56px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px));
+    padding-left: 0;
+    padding-right: 0;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -303,11 +308,37 @@
     position: relative;
     width: 100%;
     height: 100%;
-    aspect-ratio: unset;
-    max-height: none;
+    max-width: 100%;
+    max-height: 100%;
     border-radius: 0;
     box-shadow: none;
     overflow: hidden;
+    container-type: inline-size;
+  }
+
+  .animated-story__slide--1 {
+    background: #d4d2d3;
+    background: linear-gradient(to bottom, #412e50 0%, #412e50 22%, #d4d2d3 22%, #d4d2d3 78%, #e6d9d4 78%, #e6d9d4 100%);
+  }
+
+  .animated-story__slide--2 {
+    background: #d1ccce;
+  }
+
+  .animated-story__slide--3 {
+    background: linear-gradient(to right, #cdcbcc 0%, #cdcbcc 50%, #894e6d 50%, #894e6d 100%);
+  }
+
+  .animated-story__slide--1 .animated-story__card {
+    aspect-ratio: 602 / 1024;
+  }
+
+  .animated-story__slide--2 .animated-story__card {
+    aspect-ratio: 566 / 1024;
+  }
+
+  .animated-story__slide--3 .animated-story__card {
+    aspect-ratio: 555 / 1024;
   }
 
   .animated-story__picture {
@@ -323,27 +354,27 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center bottom;
+    object-fit: contain;
+    object-position: center;
   }
 
   /* Slide 1 mobile: centered in the open light-grey canvas between top purple bar and healthcare illustrations */
   .animated-story__overlay--1 {
-    top: 20%;
+    top: 22%;
     left: 0;
     width: 100%;
     height: 56%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 7%;
+    padding: 0 6%;
   }
 
   .animated-story__title--1 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(1.5rem, 6.5vw, 2.35rem);
+    font-size: clamp(1.4rem, 6.2cqi, 2.35rem);
     font-weight: 800;
     line-height: 1.18;
     letter-spacing: -0.015em;
@@ -360,27 +391,27 @@
 
   /* Slide 2 mobile: framed in the spacious upper canvas above the bottom pet tiles and left of the right pet column */
   .animated-story__slide--2 .animated-story__image {
-    object-fit: cover;
-    object-position: center bottom;
+    object-fit: contain;
+    object-position: center;
     transform: none;
   }
 
   .animated-story__overlay--2 {
-    top: 14%;
+    top: 10%;
     left: 0;
     width: 100%;
-    height: 38%;
+    height: 34%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 8%;
+    padding: 0 6%;
   }
 
   .animated-story__title--2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: clamp(1.6rem, 7vw, 2.55rem);
+    font-size: clamp(1.5rem, 6.8cqi, 2.5rem);
     font-weight: 800;
     line-height: 1.18;
     letter-spacing: -0.015em;
@@ -397,7 +428,7 @@
 
   /* Slide 3 mobile: vertically centered in the solid plum/purple right column above the video call illustration */
   .animated-story__overlay--3 {
-    top: 7%;
+    top: 6%;
     left: 50%;
     width: 50%;
     height: 46%;
@@ -411,7 +442,7 @@
     align-items: flex-start;
     justify-content: center;
     text-align: left;
-    font-size: clamp(1.12rem, 4.8vw, 1.8rem);
+    font-size: clamp(1.08rem, 4.8cqi, 1.8rem);
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: 0.01em;
