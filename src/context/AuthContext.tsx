@@ -2,31 +2,9 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import type { UserProfile, AuthContextType } from "@/types";
 
-interface UserProfile {
-  id: string;
-  email: string;
-  fullName?: string;
-}
-
-interface AuthContextType {
-  user: UserProfile | null;
-  loading: boolean;
-  readArticles: string[];
-  signUp: (email: string, pass: string, fullName: string) => Promise<{ success: boolean; error?: string; requiresEmailConfirmation?: boolean }>;
-  signIn: (email: string, pass: string) => Promise<{ success: boolean; error?: string }>;
-  signInWithOAuth: (provider?: "google") => Promise<{ success: boolean; error?: string }>;
-  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
-  updatePassword: (newPassword: string) => Promise<{ success: boolean; error?: string }>;
-  isPasswordRecovery: boolean;
-  setIsPasswordRecovery: (isRecovery: boolean) => void;
-  signOut: () => Promise<void>;
-  markArticleAsRead: (articleId: string, title?: string) => Promise<boolean>;
-  isArticleRead: (articleId: string) => boolean;
-  isAuthModalOpen: boolean;
-  setIsAuthModalOpen: (open: boolean) => void;
-  isSupabaseConnected: boolean;
-}
+export type { UserProfile, AuthContextType };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -36,6 +14,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [readArticles, setReadArticles] = useState<string[]>([]);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
+
+  // Fetch user read articles from Supabase PostgreSQL
+  const fetchReadArticlesFromSupabase = async (userId: string) => {
+    if (!isSupabaseConfigured) return;
+    try {
+      const { data, error } = await supabase
+        .from("user_read_articles")
+        .select("article_id")
+        .eq("user_id", userId);
+
+      if (!error && data) {
+        const ids = data.map((item: { article_id: string }) => item.article_id);
+        setReadArticles(ids);
+        localStorage.setItem("carcino_read_articles", JSON.stringify(ids));
+      }
+    } catch (err) {
+      console.error("Failed to fetch read articles:", err);
+    }
+  };
 
   // Initialize session and local storage fallback
   useEffect(() => {
@@ -96,25 +93,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, []);
-
-  // Fetch user read articles from Supabase PostgreSQL
-  const fetchReadArticlesFromSupabase = async (userId: string) => {
-    if (!isSupabaseConfigured) return;
-    try {
-      const { data, error } = await supabase
-        .from("user_read_articles")
-        .select("article_id")
-        .eq("user_id", userId);
-
-      if (!error && data) {
-        const ids = data.map((item: { article_id: string }) => item.article_id);
-        setReadArticles(ids);
-        localStorage.setItem("carcino_read_articles", JSON.stringify(ids));
-      }
-    } catch (err) {
-      console.error("Failed to fetch read articles:", err);
-    }
-  };
 
   const signUp = async (email: string, pass: string, fullName: string) => {
     if (isSupabaseConfigured) {

@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-mo
 import { Mail, Lock, Eye, EyeOff, ArrowRight, UserCheck, Check, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
-import FooterSection from "@/components/FooterSection";
+import { FooterSection } from "@/components";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (

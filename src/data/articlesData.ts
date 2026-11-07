@@ -1,22 +1,6 @@
-export interface ArticleItem {
-  id: string;
-  numericId?: number;
-  category: string;
-  tag: string;
-  title: string;
-  readTime: string;
-  date: string;
-  desc: string;
-  author: string;
-  cover?: string;
-  sections?: {
-    heading: string;
-    content: string[];
-  }[];
-  content: string[];
-  faqs?: { question: string; answer: string }[];
-  citations?: { name: string; url: string }[];
-}
+import type { ArticleItem } from "@/types";
+
+export type { ArticleItem };
 
 export const articlesList: ArticleItem[] = [
   {

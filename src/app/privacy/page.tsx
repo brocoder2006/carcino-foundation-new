@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import FooterSection from "@/components/FooterSection";
+import { FooterSection } from "@/components";
 
 export default function PrivacyPolicyPage() {
 

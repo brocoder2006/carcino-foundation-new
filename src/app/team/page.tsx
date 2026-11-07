@@ -3,11 +3,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import Team01 from "@/components/ui/team-01";
-import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
-import PartnershipModal from "@/components/PartnershipModal";
-import VolunteerModal from "@/components/VolunteerModal";
-import FooterSection from "@/components/FooterSection";
+import {
+  Team01,
+  GetInvolvedDropdown,
+  PartnershipModal,
+  VolunteerModal,
+  FooterSection,
+} from "@/components";
 
 export default function OurTeamPage() {
   const { user, setIsAuthModalOpen } = useAuth();

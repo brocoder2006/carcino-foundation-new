@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import AnimatedGallery from "@/components/AnimatedGallery";
-import FooterSection from "@/components/FooterSection";
-import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
+import {
+  AnimatedGallery,
+  FooterSection,
+  GetInvolvedDropdown,
+  PartnershipModal,
+  VolunteerModal,
+} from "@/components";
 import { useAuth } from "@/context/AuthContext";
-import PartnershipModal from "@/components/PartnershipModal";
-import VolunteerModal from "@/components/VolunteerModal";
 
 export default function GalleryPage() {
   const { user, setIsAuthModalOpen } = useAuth();

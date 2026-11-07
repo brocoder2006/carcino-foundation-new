@@ -122,7 +122,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/context/AuthContext";
-import AuthModal from "@/components/AuthModal";
+import { AuthModal } from "@/components";
 
 export default function RootLayout({
   children,

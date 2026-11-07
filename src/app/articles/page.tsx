@@ -5,10 +5,12 @@ import Link from "next/link";
 import gsap from "gsap";
 import { fetchDjangoPosts } from "@/lib/djangoApi";
 import { useAuth } from "@/context/AuthContext";
-import EditorialMenuPopover from "@/components/EditorialMenuPopover";
-import PartnershipModal from "@/components/PartnershipModal";
-import VolunteerModal from "@/components/VolunteerModal";
-import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
+import {
+  EditorialMenuPopover,
+  PartnershipModal,
+  VolunteerModal,
+  GetInvolvedDropdown,
+} from "@/components";
 import { articlesList } from "@/data/articlesData";
 
 export default function ArticlesGalleryPage() {

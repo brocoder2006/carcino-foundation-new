@@ -2,28 +2,30 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
-import EntranceAnimation from "@/components/EntranceAnimation";
-import EditorialHeroSection from "@/components/EditorialHeroSection";
-import WhatWeAreBuilding from "@/components/OurVisionSection";
-import MissionStatementSection from "@/components/MissionStatementSection";
-import HeroCarouselSection from "@/components/HeroCarouselSection";
-import ImpactStatsSection from "@/components/ImpactStatsSection";
-import ParallaxShowcaseSection from "@/components/ParallaxShowcaseSection";
-import CredibilityTestimonialsSection from "@/components/CredibilityTestimonialsSection";
-import FounderQuoteSection from "@/components/FounderQuoteSection";
-import HappeningNow from "@/components/HappeningNow";
-import PodcastSection from "@/components/PodcastSection";
-import ContactFormSection from "@/components/ContactFormSection";
-import FooterSection from "@/components/FooterSection";
-import EditorialMenuPopover from "@/components/EditorialMenuPopover";
-import BranchedMenu from "@/components/BranchedMenu";
-import AnimatedGallery from "@/components/AnimatedGallery";
-import AnimatedStory from "@/components/AnimatedStory";
+import {
+  EntranceAnimation,
+  EditorialHeroSection,
+  WhatWeAreBuilding,
+  MissionStatementSection,
+  HeroCarouselSection,
+  ImpactStatsSection,
+  ParallaxShowcaseSection,
+  CredibilityTestimonialsSection,
+  FounderQuoteSection,
+  HappeningNow,
+  PodcastSection,
+  ContactFormSection,
+  FooterSection,
+  EditorialMenuPopover,
+  BranchedMenu,
+  AnimatedGallery,
+  AnimatedStory,
+  PartnershipModal,
+  VolunteerModal,
+  GetInvolvedDropdown,
+} from "@/components";
 import { Book02Icon, UserGroupIcon, Music01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 import { useAuth } from "@/context/AuthContext";
-import PartnershipModal from "@/components/PartnershipModal";
-import VolunteerModal from "@/components/VolunteerModal";
-import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

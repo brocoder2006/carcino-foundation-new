@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import FooterSection from "@/components/FooterSection";
-import PartnershipModal from "@/components/PartnershipModal";
-import VolunteerModal from "@/components/VolunteerModal";
-import GetInvolvedDropdown from "@/components/GetInvolvedDropdown";
+import {
+  FooterSection,
+  PartnershipModal,
+  VolunteerModal,
+  GetInvolvedDropdown,
+} from "@/components";
 
 export default function Carcinoblogssection() {
   const { user } = useAuth();
