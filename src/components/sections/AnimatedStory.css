@@ -179,32 +179,12 @@
   background: #c6b2bd;
 }
 
-/* Desktop: Zoom out Slide 2 so the full image and composition are visible without vertical cropping */
-@media (min-width: 769px) and (orientation: landscape), (min-width: 1025px) {
-  .animated-story__slide--2 .animated-story__ambient {
-    display: block;
-    position: absolute;
-    inset: -15%;
-    width: 130%;
-    height: 130%;
-    object-fit: cover;
-    object-position: center;
-    filter: blur(52px) brightness(0.65);
-    opacity: 0.85;
-    transform: scale(1.1);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .animated-story__slide--2 .animated-story__card {
-    position: relative;
-    z-index: 1;
-    transform: scale(0.86);
-    transform-origin: center center;
-    border-radius: 16px;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
-    overflow: hidden;
-  }
+/* Desktop: crop the upper portion of the second image while keeping the bottom fully visible without cutoff */
+.animated-story__slide--2 .animated-story__image {
+  object-fit: cover;
+  object-position: center bottom;
+  transform: scale(1.12);
+  transform-origin: center bottom;
 }
 
 .animated-story__overlay--2 {
@@ -215,7 +195,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4% 4%;
+  padding: 0 4% 5%;
 }
 
 .animated-story__title--2 {
