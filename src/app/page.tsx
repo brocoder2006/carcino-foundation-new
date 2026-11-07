@@ -84,8 +84,8 @@ export default function CarcinoFoundationLandingPage() {
       if (navRef.current) {
         tl.fromTo(
           navRef.current,
-          { opacity: 0, y: -40, filter: "blur(10px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.1, ease: "power3.out" },
+          { opacity: 0, y: -24 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
           0.1
         );
       }
@@ -94,58 +94,15 @@ export default function CarcinoFoundationLandingPage() {
       if (heroRef.current) {
         tl.fromTo(
           heroRef.current.children,
-          { opacity: 0, y: 50, scale: 0.95, filter: "blur(8px)" },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 1.2,
-            stagger: 0.18,
+            duration: 0.9,
             ease: "power3.out",
           },
-          0.3
+          0.2
         );
-      }
-
-      // 4. Real-time Hero Parallax Scroll Effect
-      if (heroSectionRef.current) {
-        if (heroRef.current) {
-          gsap.to(heroRef.current, {
-            y: -75,
-            ease: "none",
-            scrollTrigger: {
-              trigger: heroSectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
-          });
-        }
-        if (heroVideoRef.current) {
-          gsap.to(heroVideoRef.current, {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-              trigger: heroSectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
-          });
-        }
-        if (heroLightVideoRef.current) {
-          gsap.to(heroLightVideoRef.current, {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-              trigger: heroSectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
-          });
-        }
       }
     });
 

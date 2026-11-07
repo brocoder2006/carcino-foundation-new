@@ -59,10 +59,10 @@ carcino-foundation-new/
 
 ---
 
-## 🧩 Component Development Conventions
+## 🧩 Component Development & Import Conventions
 
 ### 1. Barrel Imports via `@/components`
-All components can now be imported cleanly from `@/components`:
+All components can be imported cleanly from `@/components`:
 
 ```typescript
 import { 
@@ -74,13 +74,23 @@ import {
 } from "@/components";
 ```
 
-*(Direct sub-folder imports like `@/components/sections/AnimatedStory` and backward-compatible `@/components/AnimatedStory` are both fully supported).*
+### 2. Direct Subdomain Path Aliases
+Dedicated `tsconfig.json` path aliases allow direct, unambiguous imports without navigating relative paths:
 
-### 2. Category Organization
-- **`sections/`**: Self-contained visual segments that form pages. Each section keeps any co-located stylesheet (`.css` / `.module.css`) inside its folder or side-by-side with the component.
-- **`modals/`**: Accessible interactive overlays triggered by user actions (forms, dialogs, auth).
-- **`navigation/`**: Floating bars, mobile drawers, and popovers.
-- **`ui/`**: Low-level building blocks designed for high reuse across different sections.
+```typescript
+import WhatWeAreBuilding from "@/sections/OurVisionSection";
+import PartnershipModal from "@/modals/PartnershipModal";
+import Team01 from "@/ui/team-01";
+import { useScroll, useMediaQuery } from "@/hooks";
+import { siteConfig } from "@/config";
+import type { TeamMember, DjangoPost } from "@/types";
+```
+
+### 3. Category Organization
+- **`src/components/sections/`**: Self-contained visual segments that form pages. Each section keeps its co-located stylesheet (`.css` / `.module.css`) alongside the component.
+- **`src/components/modals/`**: Accessible interactive overlays triggered by user actions (forms, dialogs, auth).
+- **`src/components/navigation/`**: Floating bars, mobile drawers, and popovers.
+- **`src/components/ui/`**: Low-level building blocks designed for high reuse across different sections.
 
 ---
 
@@ -89,7 +99,7 @@ import {
 Avoid declaring duplicated interfaces inside page files. Instead, import from `@/types`:
 
 ```typescript
-import type { ArticleItem, UserProfile, DjangoPost } from "@/types";
+import type { ArticleItem, UserProfile, DjangoPost, TeamMember } from "@/types";
 ```
 
 To add new types:
@@ -103,6 +113,8 @@ To add new types:
 | Command | Description |
 | :--- | :--- |
 | `npm run dev` | Starts local Next.js development server at `http://localhost:3000`. |
-| `npx tsc --noEmit` | Runs full static TypeScript type-checking across all files. |
-| `npm run build` | Builds the optimized production bundle. |
+| `npm run typecheck` | Runs full static TypeScript type-checking across all files (`tsc --noEmit`). |
 | `npm run lint` | Runs ESLint validation. |
+| `npm run lint:fix` | Runs ESLint and automatically fixes fixable formatting and rule issues. |
+| `npm run build` | Builds the optimized production bundle. |
+| `npm run clean` | Cleans `.next` cache and stale TypeScript build info. |

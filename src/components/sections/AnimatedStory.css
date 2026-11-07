@@ -41,11 +41,23 @@
 
 .animated-story__slide {
   padding: 0;
-  object-fit: cover;
-  object-position: center;
   opacity: 0;
   animation: animated-story-cycle 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
   will-change: opacity;
+}
+
+/* Desktop default: edge-to-edge cover */
+.animated-story__slide-bg {
+  display: none;
+}
+
+.animated-story__slide-fg {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .animated-story__slide--1 {
@@ -80,6 +92,42 @@
   35%,
   100% {
     opacity: 0;
+  }
+}
+
+/* Mobile & Portrait screens: contain foreground image so it is NEVER cut off */
+@media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
+  .animated-story__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .animated-story__slide-bg {
+    display: block;
+    position: absolute;
+    inset: -15%;
+    width: 130%;
+    height: 130%;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(28px) brightness(0.65);
+    opacity: 0.85;
+    transform: scale(1.1);
+    pointer-events: none;
+  }
+
+  .animated-story__slide-fg {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    /* Safe padding prevents overlap with fixed top bar and bottom carousel */
+    padding: 4.75rem 0.85rem 3.5rem;
+    filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.5));
   }
 }
 

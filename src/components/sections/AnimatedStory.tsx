@@ -35,15 +35,28 @@ export default function AnimatedStory({
       >
         <span className="animated-story__slides" aria-hidden="true">
           {images.map((source, index) => (
-            <img
+            <span
               key={`${source}-${index}`}
               className={`animated-story__slide animated-story__slide--${
                 index + 1
               }`}
-              src={source}
-              alt=""
-              fetchPriority={index === 0 ? "high" : "auto"}
-            />
+            >
+              {/* Mobile Ambient Blurred Backdrop: fills full 100vh viewport softly so no cutoff */}
+              <img
+                className="animated-story__slide-bg"
+                src={source}
+                alt=""
+                fetchPriority={index === 0 ? "high" : "auto"}
+                aria-hidden="true"
+              />
+              {/* Main Crisp Foreground Image: contained on mobile to prevent cutoff, cover on desktop */}
+              <img
+                className="animated-story__slide-fg"
+                src={source}
+                alt=""
+                fetchPriority={index === 0 ? "high" : "auto"}
+              />
+            </span>
           ))}
         </span>
 
