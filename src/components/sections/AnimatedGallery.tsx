@@ -157,6 +157,7 @@ export default function AnimateGallery({
             duration: 1.4,
             ease: "power3.inOut",
             delay: 0.1 + index * 0.12,
+            clearProps: "clipPath",
             scrollTrigger: {
               trigger: collection,
               start: "top 80%",
