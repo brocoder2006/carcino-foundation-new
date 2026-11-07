@@ -125,8 +125,8 @@ export default function LoginPage() {
           setSuccessMsg("Logged in successfully!");
         }
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -156,8 +156,8 @@ export default function LoginPage() {
         setNewPassword("");
         setConfirmPassword("");
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred while updating password.");
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred while updating password.");
     } finally {
       setIsLoading(false);
     }
@@ -173,8 +173,8 @@ export default function LoginPage() {
         setErrorMsg(res.error || "Failed to sign in with Google.");
         setSuccessMsg("");
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || "OAuth login failed.");
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "OAuth login failed.");
       setSuccessMsg("");
     } finally {
       setIsLoading(false);

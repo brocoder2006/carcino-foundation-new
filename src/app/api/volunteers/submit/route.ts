@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       success: true,
       message: "Thank you for joining TCF as a volunteer! Your application has been registered and emailed to our team.",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Volunteer API Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to submit volunteer application." },

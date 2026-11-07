@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       emailSent: result.emailSent,
       message: result.message || "Registration successful! Your application has been saved and the updated Master Excel sheet was emailed to the admin.",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Opportunity Register API route error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to process opportunity registration." },

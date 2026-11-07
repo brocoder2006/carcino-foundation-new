@@ -76,7 +76,7 @@ export function isValidEmail(email: string): boolean {
 /**
  * Sanitizes and bounds input strings to prevent memory exhaustion / payload flooding.
  */
-export function sanitizeBoundedString(val: any, maxLength: number = 500): string {
+export function sanitizeBoundedString(val: unknown, maxLength: number = 500): string {
   if (val === null || val === undefined) return "";
   const str = String(val).trim();
   return str.slice(0, maxLength);

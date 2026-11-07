@@ -13,7 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function GalleryPage() {
   const { user, setIsAuthModalOpen } = useAuth();
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode] = useState(false);
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
 

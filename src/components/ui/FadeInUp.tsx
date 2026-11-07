@@ -13,20 +13,23 @@ export default function FadeInUp({ children, delay = 0, className = "" }: FadeIn
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          if (ref.current) observer.unobserve(ref.current);
+          observer.unobserve(el);
         }
       },
       { threshold: 0.1 }
     );
 
-    if (ref.current) observer.observe(ref.current);
+    observer.observe(el);
 
     return () => {
-      if (ref.current) observer.unobserve(ref.current);
+      observer.unobserve(el);
     };
   }, []);
 

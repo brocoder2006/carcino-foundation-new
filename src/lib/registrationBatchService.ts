@@ -10,7 +10,7 @@ export interface RegistrationInput {
   opportunityTitle?: string;
   category?: string;
   message?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   idempotencyKey?: string;
 }
 
@@ -40,7 +40,7 @@ interface StoredRegistration {
   created_at: string;
 }
 
-let memoryRegistrations: StoredRegistration[] = [];
+const memoryRegistrations: StoredRegistration[] = [];
 
 /**
  * Saves incoming registration to database (or memory) in the background.
@@ -187,17 +187,18 @@ export async function sendMasterExcelEmail(
       }
 
       if (!errContacts && fetchContacts && fetchContacts.length > 0) {
-        fetchContacts.forEach((c: any) => {
+        fetchContacts.forEach((c: Record<string, unknown>) => {
+          const subject = typeof c.subject === "string" ? c.subject : "";
           allRegistrations.push({
-            id: c.id,
-            source: c.subject?.includes("OPPORTUNITY") ? "OPPORTUNITY" : "CONTACT",
-            full_name: c.full_name || "N/A",
-            email: c.email || "N/A",
-            phone: c.phone || "N/A",
-            opportunity_title: c.subject || "General Inquiry",
-            category: c.subject || "General",
-            message: c.message || "N/A",
-            created_at: c.created_at || new Date().toISOString(),
+            id: String(c.id || ""),
+            source: subject.includes("OPPORTUNITY") ? "OPPORTUNITY" : "CONTACT",
+            full_name: String(c.full_name || "N/A"),
+            email: String(c.email || "N/A"),
+            phone: String(c.phone || "N/A"),
+            opportunity_title: subject || "General Inquiry",
+            category: subject || "General",
+            message: String(c.message || "N/A"),
+            created_at: String(c.created_at || new Date().toISOString()),
           });
         });
       }
@@ -220,22 +221,22 @@ export async function sendMasterExcelEmail(
       }
 
       if (!errRegs && fetchRegs && fetchRegs.length > 0) {
-        fetchRegs.forEach((r: any) => {
+        fetchRegs.forEach((r: Record<string, unknown>) => {
           // Avoid duplicate entries if recorded in both tables
           const alreadyExists = allRegistrations.some(
             (existing) => existing.email === r.email && existing.full_name === r.full_name
           );
           if (!alreadyExists) {
             allRegistrations.push({
-              id: r.id,
-              source: r.source || "REGISTRATION",
-              full_name: r.full_name || "N/A",
-              email: r.email || "N/A",
-              phone: r.phone || "N/A",
-              opportunity_title: r.opportunity_title || "General",
-              category: r.category || "General",
-              message: r.message || "N/A",
-              created_at: r.created_at || new Date().toISOString(),
+              id: String(r.id || ""),
+              source: String(r.source || "REGISTRATION"),
+              full_name: String(r.full_name || "N/A"),
+              email: String(r.email || "N/A"),
+              phone: String(r.phone || "N/A"),
+              opportunity_title: String(r.opportunity_title || "General"),
+              category: String(r.category || "General"),
+              message: String(r.message || "N/A"),
+              created_at: String(r.created_at || new Date().toISOString()),
             });
           }
         });
@@ -391,12 +392,12 @@ export async function sendMasterExcelEmail(
       totalRegistrations,
       message: `Master Excel report (${totalRegistrations} total records) successfully emailed to ${adminEmail}.`,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error generating or emailing Master Excel digest:", err);
     return {
       success: false,
       totalRegistrations,
-      message: err.message || "Failed to generate or email Master Excel digest.",
+      message: (err instanceof Error ? err.message : null) || "Failed to generate or email Master Excel digest.",
     };
   }
 }
@@ -411,7 +412,7 @@ export async function sendInstantOwnerNotification(input: {
   phone?: string;
   category?: string;
   message?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }) {
   const adminEmail =
     process.env.ADMIN_EMAIL ||

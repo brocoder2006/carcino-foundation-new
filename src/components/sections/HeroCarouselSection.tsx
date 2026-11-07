@@ -4,6 +4,7 @@ import React from "react";
 
 interface HeroCarouselSectionProps {
   isLightMode?: boolean;
+  className?: string;
 }
 
 const marqueeItems = [
@@ -17,31 +18,34 @@ const marqueeItems = [
   "COMMUNITY EMPOWERMENT",
 ];
 
-export default function HeroCarouselSection({ isLightMode = false }: HeroCarouselSectionProps) {
+export default function HeroCarouselSection({
+  isLightMode = false,
+  className = "",
+}: HeroCarouselSectionProps) {
   // Triple array for continuous seamless infinite scroll loop
   const infiniteItems = [...marqueeItems, ...marqueeItems, ...marqueeItems];
 
   return (
     <section
-      className={`w-full py-3 md:py-3.5 mb-0 relative z-20 overflow-hidden border-y transition-colors duration-500 shimmer ${
+      className={`w-full py-2.5 sm:py-3 md:py-3.5 mb-0 relative z-20 overflow-hidden border-y transition-colors duration-500 shimmer ${
         isLightMode
-          ? "bg-[#ECE9E9] border-black/10 text-[#163B2E]"
-          : "bg-[#30253C] border-white/10 text-white backdrop-blur-xl"
-      }`}
+          ? "bg-[#ECE9E9]/90 backdrop-blur-xl border-black/10 text-black"
+          : "bg-white/45 backdrop-blur-xl border-black/15 text-black"
+      } ${className}`}
     >
       {/* Left and Right Soft Edge Fade Overlays */}
       <div
         className={`absolute left-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
             ? "bg-gradient-to-r from-[#ECE9E9] to-transparent"
-            : "bg-gradient-to-r from-[#30253C] to-transparent"
+            : "bg-gradient-to-r from-white/70 to-transparent"
         }`}
       />
       <div
         className={`absolute right-0 top-0 bottom-0 w-20 md:w-40 z-20 pointer-events-none transition-all duration-500 ${
           isLightMode
             ? "bg-gradient-to-l from-[#ECE9E9] to-transparent"
-            : "bg-gradient-to-l from-[#30253C] to-transparent"
+            : "bg-gradient-to-l from-white/70 to-transparent"
         }`}
       />
 
@@ -56,9 +60,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className={`shrink-0 transition-transform duration-300 hover:scale-125 ${
-                isLightMode ? "text-[#0D7A5F]" : "text-[#CDA8E8]"
-              }`}
+              className="shrink-0 transition-transform duration-300 hover:scale-125 text-black/75"
             >
               <path
                 d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"
@@ -68,11 +70,7 @@ export default function HeroCarouselSection({ isLightMode = false }: HeroCarouse
 
             {/* Marquee Text Item */}
             <span
-              className={`font-inter text-base sm:text-lg md:text-xl font-extrabold tracking-[0.13em] uppercase transition-colors duration-300 ${
-                isLightMode
-                  ? "text-[#163B2E] hover:text-[#0D7A5F]"
-                  : "text-white hover:text-[#CDA8E8]"
-              }`}
+              className="font-inter text-base sm:text-lg md:text-xl font-extrabold tracking-[0.13em] uppercase transition-colors duration-300 text-black hover:text-black/75"
             >
               {item}
             </span>

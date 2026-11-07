@@ -9,9 +9,25 @@ export type { UserProfile, AuthContextType };
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const storedUser = localStorage.getItem("carcino_demo_user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
-  const [readArticles, setReadArticles] = useState<string[]>([]);
+  const [readArticles, setReadArticles] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const storedRead = localStorage.getItem("carcino_read_articles");
+      return storedRead ? JSON.parse(storedRead) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
@@ -34,22 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Initialize session and local storage fallback
+  // Initialize session and auth state listener
   useEffect(() => {
-    // 1. Load local read articles storage
-    try {
-      const storedRead = localStorage.getItem("carcino_read_articles");
-      if (storedRead) {
-        setReadArticles(JSON.parse(storedRead));
-      }
-      const storedUser = localStorage.getItem("carcino_demo_user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (e) {
-      console.error("Local storage error:", e);
-    }
-
     // Check for password recovery hash in URL
     if (typeof window !== "undefined" && window.location.hash.includes("type=recovery")) {
       setIsPasswordRecovery(true);
@@ -172,7 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isSupabaseConfigured) {
       const redirectUrl = typeof window !== "undefined" ? window.location.origin : undefined;
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
+        provider,
         options: {
           redirectTo: redirectUrl,
         },

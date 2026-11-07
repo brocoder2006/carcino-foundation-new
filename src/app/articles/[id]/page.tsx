@@ -15,12 +15,10 @@ export default function ArticleDetailPage({
   const rawId = resolvedParams.id;
   const numericId = parseInt(rawId, 10);
 
-  const { isArticleRead, markArticleAsRead, user } = useAuth();
+  const { isArticleRead, markArticleAsRead } = useAuth();
   const [cmsArticle, setCmsArticle] = useState<ArticleItem | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [claps, setClaps] = useState(64);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -34,9 +32,9 @@ export default function ArticleDetailPage({
           if (typeof doc.content === "string") {
             extractedContent = [doc.content];
           } else if (doc.content?.content && Array.isArray(doc.content.content)) {
-            extractedContent = doc.content.content.map((block: any) => {
+            extractedContent = doc.content.content.map((block: { content?: Array<{ text?: string }>; text?: string }) => {
               if (block.content && Array.isArray(block.content)) {
-                return block.content.map((child: any) => child.text || "").join("");
+                return block.content.map((child: { text?: string }) => child.text || "").join("");
               }
               return block.text || "";
             }).filter(Boolean);
@@ -177,6 +175,40 @@ export default function ArticleDetailPage({
               </div>
               <p className="text-xs text-zinc-400 font-inter">Carcino Research &amp; Clinical Advisory</p>
             </div>
+          </div>
+
+          {/* Article Engagement & Utility Actions */}
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => markArticleAsRead(article.id, article.title)}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium font-inter transition-all flex items-center gap-1.5 cursor-pointer ${
+                isArticleRead(article.id)
+                  ? "bg-purple-500/25 text-[#CDA8E8] border border-[#CDA8E8]/50"
+                  : "bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10"
+              }`}
+              title="Toggle read status"
+            >
+              <span>{isArticleRead(article.id) ? "✓ Completed" : "Mark as Read"}</span>
+            </button>
+            <button
+              onClick={handleShare}
+              className="px-3.5 py-1.5 rounded-full text-xs font-medium font-inter bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10 transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Share article link"
+            >
+              <span>{copiedLink ? "Link Copied!" : "Share"}</span>
+            </button>
+            <button
+              onClick={() => setIsBookmarked(!isBookmarked)}
+              className={`p-1.5 px-2.5 rounded-full text-xs border transition-all cursor-pointer ${
+                isBookmarked
+                  ? "bg-amber-400/20 border-amber-400/60 text-amber-300 font-bold"
+                  : "border-white/10 text-zinc-400 hover:text-white bg-white/5"
+              }`}
+              title={isBookmarked ? "Saved to bookmarks" : "Bookmark this article"}
+              aria-label="Bookmark"
+            >
+              {isBookmarked ? "★ Saved" : "☆ Save"}
+            </button>
           </div>
         </div>
 

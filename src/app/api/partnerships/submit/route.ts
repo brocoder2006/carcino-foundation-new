@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       success: true,
       message: "Thank you for reaching out! Your partnership inquiry has been registered and emailed to our team.",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Partnership API Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to submit partnership request." },

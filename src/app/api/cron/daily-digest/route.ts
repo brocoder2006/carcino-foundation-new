@@ -103,7 +103,7 @@ export async function GET(request: Request) {
       message: result.message,
       timestamp: new Date().toISOString(),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Daily digest cron error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to execute daily digest cron." },
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
       message: result.message,
       timestamp: new Date().toISOString(),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Daily digest cron error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to execute daily digest cron." },

@@ -4,24 +4,34 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { fetchDjangoPosts } from "@/lib/djangoApi";
+import type { DjangoPost } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import {
-  EditorialMenuPopover,
   PartnershipModal,
   VolunteerModal,
   GetInvolvedDropdown,
 } from "@/components";
 import { articlesList } from "@/data/articlesData";
 
+interface ArticleCardItem {
+  id: string;
+  category: string;
+  tag: string;
+  readTime: string;
+  title: string;
+  desc: string;
+  cover?: string;
+}
+
 export default function ArticlesGalleryPage() {
   const { user } = useAuth();
-  const [cmsArticles, setCmsArticles] = useState<any[]>([]);
+  const [cmsArticles, setCmsArticles] = useState<ArticleCardItem[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [activeSearchQuery, setActiveSearchQuery] = useState("");
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
 
-  const defaultArticles = articlesList.map(art => ({
+  const defaultArticles: ArticleCardItem[] = articlesList.map(art => ({
     id: art.id,
     category: art.category.toUpperCase(),
     tag: art.tag.toUpperCase(),
@@ -36,7 +46,7 @@ export default function ArticlesGalleryPage() {
       try {
         const docs = await fetchDjangoPosts();
         if (docs && Array.isArray(docs) && docs.length > 0) {
-          const formatted = docs.map((doc: any) => ({
+          const formatted: ArticleCardItem[] = docs.map((doc: DjangoPost) => ({
             id: doc.slug || doc.id,
             category: (doc.category?.name || "CLINICAL CARE").toUpperCase(),
             tag: (doc.category?.name || "CLINICAL CARE").toUpperCase(),
@@ -363,7 +373,7 @@ export default function ArticlesGalleryPage() {
         {/* Article Grid & Empty Search Results State */}
         {filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {filteredArticles.map((art, idx) => {
+            {filteredArticles.map((art) => {
               const catStyle = getCategoryStyle(art.category || art.tag);
 
               return (

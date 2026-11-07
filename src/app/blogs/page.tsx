@@ -145,7 +145,7 @@ export default function Carcinoblogssection() {
                   Understanding NET Pathology
                 </p>
                 <p className="line-clamp-3 overflow-hidden text-[#D5B0FF] text-ellipsis font-googleSansFlex text-sm font-light leading-[21px] w-full tracking-[0.0129em]">
-                  A patient's clear guide to deciphering Ki-67 indexes, tumor
+                  A patient&apos;s clear guide to deciphering Ki-67 indexes, tumor
                   grading, and specialized pathology reports.
                 </p>
               </div>

@@ -4,11 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import {
   EntranceAnimation,
-  EditorialHeroSection,
   WhatWeAreBuilding,
-  MissionStatementSection,
   HeroCarouselSection,
-  ImpactStatsSection,
   ParallaxShowcaseSection,
   CredibilityTestimonialsSection,
   FounderQuoteSection,
@@ -546,10 +543,12 @@ export default function CarcinoFoundationLandingPage() {
         <div ref={heroRef} className="w-full h-full">
           <AnimatedStory className="w-full h-full min-h-screen min-h-[100dvh]" />
         </div>
-      </main>
 
-      {/* Infinite Stylish Carousel Ticker Just After Hero */}
-      <HeroCarouselSection isLightMode={isLightMode} />
+        {/* Infinite Stylish Carousel Ticker Overlaid at Bottom of Fullscreen Hero */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-auto">
+          <HeroCarouselSection isLightMode={isLightMode} />
+        </div>
+      </main>
 
       {/* What We Are Building Section Just Beneath Hero Landing */}
       <WhatWeAreBuilding />

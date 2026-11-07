@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       emailSent: result.emailSent,
       message: result.message || "Thank you for getting in touch with us! Your response has been recorded. Our team will soon contact you.",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Contact API route error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to process contact submission." },
