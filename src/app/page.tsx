@@ -18,6 +18,7 @@ import FooterSection from "@/components/FooterSection";
 import EditorialMenuPopover from "@/components/EditorialMenuPopover";
 import BranchedMenu from "@/components/BranchedMenu";
 import AnimatedGallery from "@/components/AnimatedGallery";
+import AnimatedStory from "@/components/AnimatedStory";
 import { Book02Icon, UserGroupIcon, Music01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 import { useAuth } from "@/context/AuthContext";
 import PartnershipModal from "@/components/PartnershipModal";
@@ -535,32 +536,13 @@ export default function CarcinoFoundationLandingPage() {
         </div>
       )}
 
-      {/* Main Hero Section */}
+      {/* Main Hero Section - Animated Story Fullscreen */}
       <main
         ref={heroSectionRef}
-        className="flex pt-28 md:pt-36 pr-6 md:pr-12 pb-20 md:pb-28 pl-6 md:pl-12 items-center justify-center w-full max-w-5xl mx-auto z-10 relative"
+        className="relative w-full h-screen min-h-screen min-h-[100dvh] overflow-hidden z-10"
       >
-        <div
-          ref={heroRef}
-          className="flex flex-col items-center text-center gap-7 w-full max-w-[960px] mx-auto"
-        >
-          <h1 className="w-full text-center text-3xl sm:text-5xl md:text-6xl lg:text-[68px] font-winterSolace font-bold tracking-tight leading-[1.2] py-2 overflow-visible">
-            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-textured"}`}>
-              Where
-            </span>{" "}
-            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-purple-accent"}`}>
-              cancer
-            </span>{" "}
-            <span className={`inline-block pb-1 ${isLightMode ? "text-[#163B2E]" : "headline-accent"}`}>
-              meets its questions.
-            </span>
-          </h1>
-          <p
-            className={`font-robotoMono text-center text-lg md:text-xl leading-[1.55em] w-full max-w-[780px] mx-auto transition-colors duration-400 ${isLightMode ? "text-[#163B2E]/80" : "text-[#E9CDF8]"
-              }`}
-          >
-            From rural cancer care and veterinary oncology to cancer literacy for better detection and outcomes, we turn knowledge into action.
-          </p>
+        <div ref={heroRef} className="w-full h-full">
+          <AnimatedStory className="w-full h-full min-h-screen min-h-[100dvh]" />
         </div>
       </main>
 
