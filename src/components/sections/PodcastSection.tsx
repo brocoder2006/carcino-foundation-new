@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { fetchDjangoPodcasts } from "@/lib/djangoApi";
+import type { DjangoPodcast } from "@/types";
 
 interface PodcastSectionProps {
   isLightMode?: boolean;
@@ -34,7 +35,7 @@ export default function PodcastSection({ isLightMode = false }: PodcastSectionPr
       try {
         const docs = await fetchDjangoPodcasts();
         if (docs && Array.isArray(docs) && docs.length > 0) {
-          const formatted = docs.map((doc: any) => ({
+          const formatted = docs.map((doc: DjangoPodcast) => ({
             id: doc.id,
             code: doc.code || "TCF PODCAST",
             title: doc.title || "Untitled Episode",

@@ -6,7 +6,6 @@ import {
   EntranceAnimation,
   WhatWeAreBuilding,
   HeroCarouselSection,
-  ParallaxShowcaseSection,
   CredibilityTestimonialsSection,
   FounderQuoteSection,
   HappeningNow,
@@ -32,7 +31,6 @@ export default function CarcinoFoundationLandingPage() {
   const [isLightMode, setIsLightMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState("Home");
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -40,19 +38,6 @@ export default function CarcinoFoundationLandingPage() {
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroLightVideoRef = useRef<HTMLVideoElement>(null);
   const navRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (isLightMode) {
@@ -166,24 +151,6 @@ export default function CarcinoFoundationLandingPage() {
 
     return () => ctx.revert();
   }, []);
-
-  const scrollToVision = () => {
-    setIsMobileMenuOpen(false);
-    setActiveNavItem("About");
-    const section = document.getElementById("vision-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const scrollToPodcasts = () => {
-    setIsMobileMenuOpen(false);
-    setActiveNavItem("Podcasts");
-    const section = document.getElementById("podcasts-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const scrollToTop = () => {
     setIsMobileMenuOpen(false);

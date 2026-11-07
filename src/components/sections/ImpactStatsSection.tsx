@@ -110,7 +110,7 @@ export default function ImpactStatsSection({
   }, []);
 
   return (
-    <section className="impact" id="impact-section" ref={sectionRef}>
+    <section className={`impact ${isLightMode ? "light" : ""}`} id="impact-section" ref={sectionRef}>
       <Marker>Measured Through The Work</Marker>
 
       <div className="impact-heading">

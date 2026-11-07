@@ -44,24 +44,23 @@
   object-fit: cover;
   object-position: center;
   opacity: 0;
-  transform: scale(1.04);
-  animation: animated-story-cycle 5.4s cubic-bezier(0.45, 0, 0.2, 1) infinite both;
-  will-change: opacity, transform;
+  animation: animated-story-cycle 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  will-change: opacity;
 }
 
 .animated-story__slide--1 {
   background: #ded2d7;
-  animation-delay: -0.225s;
+  animation-delay: -0.15s;
 }
 
 .animated-story__slide--2 {
   background: #c6b2bd;
-  animation-delay: 1.575s;
+  animation-delay: 1.05s;
 }
 
 .animated-story__slide--3 {
   background: #a97d91;
-  animation-delay: 3.375s;
+  animation-delay: 2.25s;
 }
 
 .animated-story__stage--paused .animated-story__slide {
@@ -71,22 +70,16 @@
 @keyframes animated-story-cycle {
   0% {
     opacity: 0;
-    transform: scale(1.04);
   }
 
-  5%,
+  4%,
   29% {
     opacity: 1;
   }
 
-  37%,
+  35%,
   100% {
     opacity: 0;
-  }
-
-  37%,
-  100% {
-    transform: scale(1);
   }
 }
 
@@ -124,7 +117,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animated-story__slide {
-    animation-duration: 10.8s;
+    animation-duration: 7.2s;
   }
 
   .animated-story__play {

@@ -29,7 +29,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.location.hash.includes("type=recovery");
+  });
 
   // Fetch user read articles from Supabase PostgreSQL
   const fetchReadArticlesFromSupabase = async (userId: string) => {
@@ -52,12 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize session and auth state listener
   useEffect(() => {
-    // Check for password recovery hash in URL
-    if (typeof window !== "undefined" && window.location.hash.includes("type=recovery")) {
-      setIsPasswordRecovery(true);
-    }
-
-    // 2. Load Supabase session if configured
+    // 1. Load Supabase session if configured
     if (isSupabaseConfigured) {
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (session?.user) {
