@@ -245,9 +245,9 @@
 }
 
 .animated-story__title--3 {
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  text-align: left;
+  text-align: center;
   width: 100%;
   color: #ffffff;
   font-size: clamp(1.2rem, 3.63vw, 3.63rem);
@@ -258,7 +258,7 @@
 }
 
 .animated-story__title--3 .animated-story__line {
-  text-align: left;
+  text-align: center;
   width: 100%;
   white-space: nowrap;
 }
