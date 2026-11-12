@@ -1,0 +1,54 @@
+# The Carcino Foundation
+
+> The Carcino Foundation is a youth-driven non-profit healthcare initiative advancing early cancer detection, community cancer literacy, rural diagnostic care, and veterinary oncology support.
+
+The Carcino Foundation (TCF) demystifies complex oncology knowledge for patients, caregivers, and underserved populations worldwide. Operating across educational outreach, scientific synthesis, and grassroots health campaigns, the foundation turns oncology insights into actionable early detection.
+
+- Website: https://carcinofoundationofficial.org
+- Official Name: The Carcino Foundation
+- Alternate Names: Carcino Foundation, TCF, Carcino Foundation Official
+- Primary Focus Areas: Early Cancer Screening, Oncology Literacy, Rural Cancer Infrastructure, Veterinary Oncology, Youth Healthcare Leadership
+- Target Audience: Patients, families, caregivers, medical students, educators, and pet owners navigating oncology
+
+## Core Sections & Directives
+
+- [Home](https://carcinofoundationofficial.org/): Foundation overview, mission pillars, live initiatives, and community impact.
+- [Cancer Literacy Articles](https://carcinofoundationofficial.org/articles): 30+ medically reviewed clinical guides explaining cancer staging, symptoms, biomarkers, and therapies in patient-accessible language.
+- [Perspectives & Blogs](https://carcinofoundationofficial.org/blogs): Investigative stories, op-eds, oncology breakthroughs, and healthcare systems analysis.
+- [Our Team & Leadership](https://carcinofoundationofficial.org/team): Leadership bios, founders, scientific advisors, youth leaders, and medical contributors.
+- [Impact Gallery](https://carcinofoundationofficial.org/gallery): Field documentation, high school & university symposiums (including FinFlare 2025), and rural health camps.
+- [Privacy Policy](https://carcinofoundationofficial.org/privacy): Foundation data governance, user privacy policies, and security practices.
+- [Terms of Service](https://carcinofoundationofficial.org/terms): Terms governing use of Carcino Foundation educational materials.
+
+## Key Cancer Literacy Resources
+
+- [Pre-Symptomatic Cancer Detection](https://carcinofoundationofficial.org/articles/cancer-screening): How volatile organic compounds (VOCs), liquid biopsies, and multi-cancer early detection (MCED) identify malignancy before physical symptoms appear.
+- [Breast Cancer](https://carcinofoundationofficial.org/articles/breast-cancer): Screening protocols, mammography, BRCA genetic testing, hormonal receptors (ER/PR/HER2), and targeted therapy.
+- [Lung Cancer](https://carcinofoundationofficial.org/articles/lung-cancer): Non-small cell vs small cell classifications, low-dose CT screenings, and immunotherapy advancements.
+- [Colorectal Cancer](https://carcinofoundationofficial.org/articles/colon-cancer): Early colonoscopy guidelines, polyp detection, and lifestyle prevention strategies.
+- [Cervical Cancer & HPV](https://carcinofoundationofficial.org/articles/cervical-cancer): HPV vaccination protocols, Pap smears, liquid-based cytology, and global eradication efforts.
+- [Pediatric Oncology](https://carcinofoundationofficial.org/articles/childhood-cancer): Recognizing rare childhood malignancies, leukemia/lymphoma diagnostics, and supportive care.
+- [Pancreatic Cancer](https://carcinofoundationofficial.org/articles/pancreatic-cancer): Risk factors, early warning signs, adenocarcinoma genetics, and surgical considerations.
+- [Brain Tumors & Neuro-Oncology](https://carcinofoundationofficial.org/articles/brain-cancer): Glioblastoma, astrocytoma, intracranial pressure symptoms, neuro-imaging, and multimodal therapy.
+- [Melanoma & Skin Cancer](https://carcinofoundationofficial.org/articles/melanoma): ABCDE dermatological guidelines, dermoscopy, and immune checkpoint inhibitor breakthroughs.
+- [Multiple Myeloma](https://carcinofoundationofficial.org/articles/myeloma): Plasma cell disorders, CRAB criteria (calcium, renal, anemia, bone), and modern stem cell transplantation.
+
+## Pillars & Programs
+
+1. **Cancer Literacy**: Translating medical jargon into clear, compassionate, and actionable information to reduce fear and foster patient agency.
+2. **Rural Diagnostic Camps**: Organizing community screening drives, mobile testing, and healthcare volunteer networks in medically underserved areas.
+3. **Veterinary Oncology Support**: Providing educational playbooks, palliative resources, and emotional guidance for families facing pet cancer.
+4. **Youth-Led Innovation**: Engaging high school and university students across India and internationally to spearhead health initiatives (such as FinFlare 2025).
+
+## Contact & Social Channels
+
+- Contact Email: carcinofoundation.contact@gmail.com / thecarcinofoundation@gmail.com
+- Instagram: https://instagram.com/thecarcinofoundation
+- LinkedIn: https://linkedin.com/company/thecarcinofoundation
+- YouTube: https://youtube.com/@carcinofoundation
+- Medium: https://medium.com/@thecarcinofoundation
+
+## Full Context & Complete Directory
+
+- [Full LLM Knowledge Base](https://carcinofoundationofficial.org/llms-full.txt): Complete directory of all 30 cancer guides, organizational charter, FAQs, and citations for AI engines.
+

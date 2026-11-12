@@ -9,7 +9,20 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        allow: ["/", "/llms.txt", "/llms-full.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: [
+          "GPTBot",
+          "ClaudeBot",
+          "PerplexityBot",
+          "Google-Extended",
+          "Applebot-Extended",
+          "CCBot",
+          "anthropic-ai",
+        ],
+        allow: ["/", "/llms.txt", "/llms-full.txt"],
         disallow: ["/api/", "/_next/"],
       },
     ],
